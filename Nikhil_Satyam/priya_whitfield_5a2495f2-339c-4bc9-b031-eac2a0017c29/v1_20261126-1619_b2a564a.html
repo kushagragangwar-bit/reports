@@ -1,0 +1,1009 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: priya_whitfield_5a2495f2 (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</code></span>
+<span><span class="k">Tasker</span>Nikhil Satyam</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>b2a564afd</code> (manual, range <code>099f9db52..b2a564afd</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 11:05:29 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>4</span>
+<span><span class="k">Conflicts</span>3</span>
+<span><span class="k">Vision</span>68.52% → 63.04%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 4 flag(s); 3 conflicts (DL6, DL5 x2), 2 disagreements (DL1 R11/R12 -&gt; checklist right; vision definition -&gt; checklist right), 6 agree, 1 one-sided (neo J1 R27), fix plan 8 steps (0 rerun), vision 68.52-&gt;63.04%, score 44.44-&gt;52.17%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: priya_whitfield_5a2495f2</h1>
+<p class="sub">obsidian-infinity-stage-1 099f9db52..b2a564afd (manual)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>36</b><span>rubrics</span></div><div class="stat"><b>44.4</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>14/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>11/1/1</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>3/1/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>36/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/1/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 14 failed criteria across 1 task(s): <b>14 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 1 failure(s) and 1 warning(s). Tier 2.5 flagged 1 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 36 criteria: 36 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 13 candidate(s) on 1 task(s): 0 leak(s), 1 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending.</p>
+
+<h3>Issue log</h3><p class='muted'>No <code>issues.json</code> was supplied. Write one (see report_format.md) and re-run.</p>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>E8_change_diff</code></td><td><span class="b b-fail">fail</span></td><td class='muted'>UNEXPECTED: data/environment/artifacts/inputs/files/home/Movies/doc19.xlsx</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>E11_visual_leak_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>L58 IN_BY_RULE 15 minutes: 1 readable copy (prompt 1)</td></tr></table></details><details><summary>Tier 2.5 findings (1)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R27 loose wording (A5): &quot;Priya&#x27;s calendars, the P.Whit Studio calendar included, holding at least one event&quot; can be read as a scope note or as a requirement that the event sit on P.Whit Studio, and the grader already read it the second way. Proposed: &quot;Acros...</td><td class='muted'>rubric.json:238: &quot;The agent leaves Priya&#x27;s calendars, the P.Whit Studio calendar included, holding at least one event for the Redlight session with DT on Friday March 27, every one of which starts at 7:30 PM.&quot;</td></tr></table></details><details><summary>Visual leak candidates (13: 0 leak, 1 declared, 0 guessable)</summary><table><tr><th>task</th><th>lock</th><th>token</th><th>verdict</th><th>file</th><th>note</th></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>IN_BY_RULE</code></td><td>15 minutes</td><td><code>coincidence</code></td><td class='muted'>prompt.txt</td><td>Different fact: the T17 prompt gives the drive time to the clinic, not the shop arrival rule. It is also given at T17, after R6 (T4) and R19 (T11) are graded. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>TAPER_PRICE</code></td><td>$20</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/MEMORY.md</td><td>The $20 is a BeatStars subscription cost, unrelated to haircut prices. No readable text gives the taper price (the Square catalog gives 2200, a trap). Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>FLYER_DATE</code></td><td>March 26</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-calendar-api/events.json</td><td>Same date, different event: a barbershop shift, not the showcase. No calendar event, email (msg-226 only names the file) or other text ties the showcase to March 26. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/gmail-api/drafts.json</td><td>Beat-lease price, not a haircut price. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/gmail-api/messages.json</td><td>The beat named Skin Fade, listed in TRUTH L7 as an out-of-scope look-alike. The token matches the haircut price, but the text states a beat lease. An agent would have to confuse the beat with the service, so this does not give the haircut price. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-api/messages.json</td><td>Beat licensing rate card. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/MEMORY.md</td><td>A pay range and beat tiers; neither names the skin fade price. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/SOUL.md</td><td>The $25 belongs to the BeatStars listing in a tone example; the skin fade in that sentence has no price. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/servicenow-api/change_request.json</td><td>Beat licensing tiers. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/whatsapp-api/templates.json</td><td>Beat lease template. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/zendesk-api/comments.json</td><td>A refund for the beat lease. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>MAURICE_SKIN_FADE</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/zendesk-api/tickets.json</td><td>The beat named Skin Fade (TRUTH L7 look-alike), not the haircut service. Not a finding.</td></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>(no lock) R35</code></td><td>a painting</td><td><code>declared_route</code></td><td class='muted'>prompt.txt</td><td>Placed as text. R35&#x27;s value comes from the user&#x27;s own T8 instruction, which TRUTH declares as FLYER_STYLE (L84, file:prompts.json#T8) and FLYER_SKYLINE_MEDIUM (L86, which names criterion R35). It is an instruction-following check on a produced artifact, not a fact read from a card. E11 lists it only because the criterion names a .png. Nothing to remove; not a leak finding.</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 sil_auth_lapse_tokens: could not check (calendly-api/oauth_tokens: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29'><td>priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29</td><td class='n'>20</td><td class='n'>36</td><td class='n'>44.44</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 14</td><td>11/1/1</td><td><span class="b b-warn">J1</span></td><td>36/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>4 flags across items [1, 4, 5]: R11/R12 coupled wording (minor), R23 5-&gt;3 and R18/R24/R20 3-&gt;1 after confirm+silent swap (design), R6 partial HEARTBEAT text route (minor); vision 68.5% (63.0% after reweights)</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag bad">FLAG</span></td><td>C1.1</td><td>Checked all positive and penalty pairs. R28 vs R7 is a false claim of completion, which is not a pair. R4/R26, R8/R26, R17/R24/R27, R18/R25, R19/R20 and R21/R22 grade different facts or different uncoupled outputs. The only coupling found is R11/R12 inside the same T7 reply.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>All 36 criteria grade one fact each. In the &#x27;at least one ..., every one of which gives X&#x27; pattern, both parts are one value. In R27, &#x27;the P.Whit Studio calendar included&#x27; only sets the scope. R15 &#x27;lime lettering on a dark background&#x27; is the card&#x27;s single instruction.</td></tr><tr><td>3</td><td>Turns name the file/target changed</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The only graded file output is night_flyer.png, which T8 names. The calendar updates (R4, R26, R27) are named by target and day in T2 and T19 (&#x27;my calendar&#x27;, &#x27;the 27th&#x27;), not with a vague &#x27;everywhere&#x27;. Calendly cancels are named in T3 and T5.</td></tr><tr><td>4</td><td>Lower weight after confirm + silent change</td><td><span class="qc-tag bad">FLAG</span></td><td>C4.1, C4.2</td><td>Four criteria sit one tier too high: in each, an earlier turn read out the value, a filesystem swap of the same card overwrote it, and a later turn asks again. R8, R17, R19, R21, R25, R26 and R27 are already at 1. R22 has no confirming turn: T1 asks only for the crew name.</td></tr><tr><td>5</td><td>Visual answer leaked in text</td><td><span class="qc-tag bad">FLAG</span></td><td>C5.1</td><td>I searched all seed text, persona, emails, HTML, inject JSON and filenames for each image-graded value. The card emails msg-222 to msg-226 give filenames only. Studio B, evt-034 7:00 PM, evt-035 9-5 and the Square prices are stale traps. One partial route is for R6.</td></tr><tr><td>6</td><td>Scripted messages assume expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>There are no loud messages. The silent family texts are noise, the sev-2012 reschedule is client-side, and the re-issued cards (&#x27;THE FRIDAY SLOT WE ARE HOLDING FOR YOU&#x27;, &#x27;Card re-issued March 20&#x27;) read correctly whatever the agent did earlier.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Sends, calendar and Calendly use state_change. Reply content (R2, R3, R6, R9-R12, R28, R33, R34) uses final_answer. Flyer criteria R13-R16 and R35 use produced_artifact.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion grades the method. R26/R27 grade start times and R30 grades deletion as an outcome. The persona one-sentence rule is graded on the visible reply (R3, R10, R12).</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>TRUTH has a step for every turn T0-T19, and every criterion R1-R36 is cited. Values recomputed: 3:00 PM, 6:45 PM, $18, 10:15 AM, 6:00 PM, 6:50 PM, 7:20 PM, 8:30 PM, Studio A, $43. They match the cards, the mutations and the live page (LI Marina Rocks -&gt; LII Reed Waddle).</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>37/54 = 68.5% with R6 excluded (text route) and R16/R35 excluded (values given in the T8 prompt). After the C4 reweights it is 29/46 = 63.0%, still well above 30%.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every tool return matches the seed or mutation. The stage 4 sev-2012 move shows at T18 (2026-04-04T15:00Z). The agent never re-opened a card after a swap, so its stale values are its own failure, not an environment mismatch. Missing evt-017 came from listing only the primary calendar.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>rubric.json has no T&lt;n&gt; or &#x27;turn&#x27; references. Criteria anchor on topic and date.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C1.1"><div><strong>C1.1</strong> · item 1 One value penalized twice
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R11, R12
+ <span class="qc-k" style="margin-left:.6rem">turns</span>T7 (Day 2, 13:10, Marcus&#x27;s price card / taper and lineup price)</div>
+<p style="margin:.4rem 0">R12 is meant to grade form only (one sentence). But it says &#x27;gives the price of a taper and lineup&#x27;, with a definite article that points at the true $20. A reply that states the Square decoy $22 in one sentence fails R11, and a strict grader could also fail R12 for not giving &#x27;the price&#x27;. One wrong value would then be charged twice in the same reply. In this run both passed, so no verdict changed.</p><div class="ev"><span class="qc-k">rubric.json R11</span><code>The response to the question about Marcus&#x27;s price card gives $20 as the price of a taper and lineup.</code></div><div class="ev"><span class="qc-k">rubric.json R12</span><code>The response to the question about Marcus&#x27;s price card gives the price of a taper and lineup in one sentence, whatever form the booking prices beside it take.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Value Lock TAPER_SQUARE</span><code>TAPER_SQUARE = &quot;Taper + Lineup price_amount 2200&quot;  # type: stale</code></div>
+<div><span class="qc-k">Fix plan</span>Keep R11 as is. Reword R12 against the reply&#x27;s own value so it grades form only: &#x27;The response to the question about Marcus&#x27;s price card states the taper and lineup price it gives, whatever that amount is, in a single sentence, whatever form the booking prices beside it take.&#x27; Update TRUTH.md TAPER_REPLY_FORM to the same wording. Both criteria stay atomic and self-contained.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier CONFIRMED this as a wording risk. I re-read R11/R12 and the report.json R12 justification. The R12 pass in this run means the double charge is latent, not realized.</div></div><div class="qc-flag" id="C4.1"><div><strong>C4.1</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R23
+ <span class="qc-k" style="margin-left:.6rem">turns</span>T8 (Day 3, 07:20, flyer + read the show lines), T15 (Day 6, 07:15, Zoe / showcase start time)</div>
+<p style="margin:.4rem 0">T8 asks for the show lines off DT&#x27;s card, and the expected and actual reply gives 8:00 PM - 10:00 PM. Stage 4 silently overwrites dt_flyer_card.png between T14 and T15 (8:30 PM - 10:30 PM). T15 asks the start time again. R23 is 5 / critically_important.</p><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 9 (T8)</span><code>Then read Priya the card&#x27;s lines about the show: ATL OPEN MIC SHOWCASE, Producers &amp; Rappers Night (R34), Thursday, March 26, 8:00 PM - 10:00 PM, we&#x27;re on the bill</code></div><div class="ev"><span class="qc-k">inject/stage4/mutations.json applies_between_turns / fs_s4_show_card</span><code>&quot;applies_between_turns&quot;: [&quot;T14&quot;, &quot;T15&quot;] ... &quot;dst&quot;: &quot;/workspace/home/home/Pictures/dt_flyer_card.png&quot;</code></div><div class="ev"><span class="qc-k">rubric.json R23</span><code>every one of which gives 8:30 PM as that time.&quot;, ... &quot;importance&quot;: &quot;critically_important&quot;, &quot;score&quot;: 5</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json T8 reply</span><code>- **8:00–10:00 PM**</code></div>
+<div><span class="qc-k">Fix plan</span>rubric.json R23: score 5 -&gt; 3 and importance critically_important -&gt; important. No wording change, so it stays atomic and self-contained.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier CONFIRMED this. I checked prompt T8/T15, the stage4 timing, both card images (8:00 vs 8:30) and the T8 reply.</div></div><div class="qc-flag" id="C4.2"><div><strong>C4.2</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R18, R24, R20
+ <span class="qc-k" style="margin-left:.6rem">turns</span>T7 (Day 2, 13:10, prices per booking on the 28th) -&gt; T10 (Day 3, 17:40, kids cut price to Zoe), T6 (Day 2, 12:50, read Redlight card) -&gt; T16 (Day 6, 07:40, room to DT), T4 (Day 1, 17:40, read hours card) -&gt; T12 (Day 5, 07:40, closing time to mom)</div>
+<p style="margin:.4rem 0">In each case an earlier turn reads out the card value, a later stage silently overwrites the card at the same path, and a later turn asks again, while the criterion stays at 3. Kids cut: $15 is read at T7, stage 2 changes it to $18 right after T7, and R18 grades it. Room: Studio B is read at T6, stage 2 changes it to Studio A, and R24 grades it. Close: 5:00 PM is read at T4, stage 3 changes it to 6:00 PM, and R20 grades it.</p><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 8 (T7)</span><code>$25 for Maurice Hill&#x27;s skin fade (R33) and $15 for Brandon Hayes&#x27;s kids cut</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 7 (T6)</span><code>read out what is on it in one sentence: Friday March 27, 8:00 PM - 11:30 PM, Studio B</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 5 (T4)</span><code>read it out: Crown &amp; Blade, Saturday March 28, chairs open 9:00 AM - 5:00 PM</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json applies_between_turns</span><code>&quot;applies_between_turns&quot;: [&quot;T7&quot;, &quot;T8&quot;]</code></div><div class="ev"><span class="qc-k">inject/stage3/mutations.json applies_between_turns</span><code>&quot;applies_between_turns&quot;: [&quot;T10&quot;, &quot;T11&quot;]</code></div><div class="ev"><span class="qc-k">rubric.json R18 / R24 / R20</span><code>&quot;score&quot;: 3 (each)</code></div>
+<div><span class="qc-k">Fix plan</span>rubric.json: R18 3 -&gt; 1, R24 3 -&gt; 1, R20 3 -&gt; 1. Importance stays important. No wording change.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier CONFIRMED K3/K4/K5 and REJECTED K6 (R22). I checked each seed/inject card pair and the T4/T6/T7 replies in output.json (5:00 PM, Studio B, kids $15).</div></div><div class="qc-flag" id="C5.1"><div><strong>C5.1</strong> · item 5 Visual answer leaked in text
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">needs rerun</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R6
+ <span class="qc-k" style="margin-left:.6rem">turns</span>T4 (Day 1, 17:40, read Marcus&#x27;s hours card)</div>
+<p style="margin:.4rem 0">R6 grades the hours card&#x27;s note &#x27;Be in the shop 15 minutes before&#x27; at T4, before the stage 3 swap. Persona HEARTBEAT states the same rule in text (chairs 9-5, arrive by 8:45), and the grader accepts the meaning (&#x27;15 minutes early, so by 8:45&#x27;). An agent could pass R6 without opening the image.</p><div class="ev"><span class="qc-k">data/environment/persona/HEARTBEAT.md line 14</span><code>**Saturday, 8:30 AM**: Full day at Crown &amp; Blade (9:00 AM to 5:00 PM). Arrive by 8:45 for setup.</code></div><div class="ev"><span class="qc-k">rubric.json R6</span><code>gives the card&#x27;s note &quot;Be in the shop 15 minutes before&quot;.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/report.json R6</span><code>this conveys the same meaning as the card&#x27;s note &#x27;Be in the shop 15 minutes before.&#x27; Grading meaning, not exact wording.</code></div>
+<div><span class="qc-k">Fix plan</span>Remove &#x27;Arrive by 8:45 for setup.&#x27; from persona/HEARTBEAT.md, so the card is the only source of the 15-minute rule.</div><div><span class="qc-k">No-rerun fallback</span>Count R6 as text-routed (excluded from the vision share, as done here), and reword R6 to require the card&#x27;s own phrasing &#x27;Be in the shop 15 minutes before&#x27; (case/punctuation aside) instead of an 8:45 paraphrase.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The sweep verifier found this. I confirmed the HEARTBEAT line by grep and the R6 meaning-based grading in report.json. The leak is partial and R6 is worth only 1 point.</div></div>
+<h3>Vision share <span class="qc-tag ok">68.5%</span></h3>
+<p>37 of 54 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R2</td><td>1</td><td>Pictures/dt_openmic_card.png</td><td>Kay Dunn appears only on the crew card</td></tr><tr><td>R4</td><td>3</td><td>Documents/clinic_slot_card.png</td><td>Friday March 27 held slot appears only on the card; msg-223 gives no date</td></tr><tr><td>R8</td><td>1</td><td>inject/stage1/files/clinic_slot_card.png</td><td>3:15 PM appears only on the re-issued card</td></tr><tr><td>R9</td><td>1</td><td>Documents/redlight_session_card.png</td><td>&#x27;Load in through the back door&#x27; appears only on the card</td></tr><tr><td>R11</td><td>1</td><td>Documents/shop_prices.png</td><td>$20 appears only on the card (Square 2200 is stale)</td></tr><tr><td>R13</td><td>3</td><td>Pictures/dt_flyer_card.png -&gt; night_flyer.png</td><td>Show name appears only on the card; graded on the generated image</td></tr><tr><td>R14</td><td>1</td><td>Pictures/dt_flyer_card.png -&gt; night_flyer.png</td><td>Show date March 26 appears only on the card</td></tr><tr><td>R15</td><td>1</td><td>Pictures/dt_flyer_card.png -&gt; night_flyer.png</td><td>&#x27;lettering lime on dark&#x27; appears only on the card</td></tr><tr><td>R17</td><td>1</td><td>inject/stage2/files/redlight_session_card.png</td><td>7:30 PM appears only on the re-issued card</td></tr><tr><td>R18</td><td>3</td><td>inject/stage2/files/shop_prices.png</td><td>$18 kids cut appears only on the redone card</td></tr><tr><td>R19</td><td>1</td><td>inject/stage3/files/shop_hours_card.png</td><td>10:30 AM open appears only on the redone card</td></tr><tr><td>R20</td><td>3</td><td>inject/stage3/files/shop_hours_card.png</td><td>6:00 PM close appears only on the redone card</td></tr><tr><td>R21</td><td>1</td><td>inject/stage3/files/dt_openmic_card.png</td><td>7:20 PM slot appears only on the redone card</td></tr><tr><td>R22</td><td>3</td><td>inject/stage3/files/dt_openmic_card.png</td><td>7:20 PM slot appears only on the redone card</td></tr><tr><td>R23</td><td>5</td><td>inject/stage4/files/dt_flyer_card.png</td><td>8:30 PM appears only on the redone showcase card</td></tr><tr><td>R24</td><td>3</td><td>inject/stage2/files/redlight_session_card.png</td><td>Studio A appears only on the re-issued card; all text says Studio B</td></tr><tr><td>R25</td><td>1</td><td>inject/stage2/files/shop_prices.png</td><td>The $25 and $18 prices are image-only</td></tr><tr><td>R26</td><td>1</td><td>inject/stage1/files/clinic_slot_card.png</td><td>3:15 PM appears only on the re-issued card</td></tr><tr><td>R27</td><td>1</td><td>inject/stage2/files/redlight_session_card.png</td><td>7:30 PM appears only on the re-issued card</td></tr><tr><td>R33</td><td>1</td><td>Documents/shop_prices.png</td><td>$25 skin fade appears only on the card</td></tr><tr><td>R34</td><td>1</td><td>Pictures/dt_flyer_card.png</td><td>&#x27;Producers &amp; Rappers Night&#x27; appears only on the card</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (4)</summary><ul><li>item 4: R22 (Zoe slot 7:20 PM, score 3) should drop a tier because T1 opened the crew card showing 7:00 PM. <span class='qc-k'>dismissed:</span>T1 asks only &#x27;who&#x27;s on the crew list right after dt?&#x27; and TRUTH Step 2 expects only Kay Dunn. No turn asks for or confirms the slot time before stage 3; the agent volunteered 7:00 PM unprompted.</li><li>item 3: T19 &#x27;make sure the 27th is right on my calendar and fix anything that&#x27;s off&#x27; is too vague for R26/R27. <span class='qc-k'>dismissed:</span>No file is graded. T19 names the target (Priya&#x27;s calendar) and the scope (the 27th), and the only events that day are the dentist event and evt-017, which R26/R27 grade.</li><li>item 1: R18 ($18 to Zoe) and R25 ($43 to Denise) double-charge the kids cut price. <span class='qc-k'>dismissed:</span>Same value in two outputs that no turn couples (T10 vs T18). R25 also independently tests the sev-2012 move, so it is not a pair under the definition.</li><li>item 1: R28 (false &#x27;canceled&#x27; claim) pairs with R7 (Tyrese canceled). <span class='qc-k'>dismissed:</span>R28 is a false claim of completion that can fire on its own (e.g. claimed at T5 while the booking was still active), so it is excluded from pairs by definition.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>3 conflicts (DL6, DL5 x2), 2 disagreements (DL1 R11/R12 -&gt; checklist right; vision definition -&gt; checklist right), 6 agree, 1 one-sided (neo J1 R27), fix plan 8 steps (0 rerun), vision 68.52-&gt;63.04%, score 44.44-&gt;52.17%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">68.52% → 63.04%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">44.44% → 52.17%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>DL6</td><td>visual_leaks.json (IN_BY_RULE: only &#x27;15 minutes&#x27; token checked, verdict coincidence; HEARTBEAT 8:45 not a candidate), visual_leak_prompt trap rule (stale text that catches a later criterion = keep)</td><td>C5.1</td><td>R6, R19, R20</td><td><div><span class=qc-k>neo-qc</span>No leak for R6: the only &#x27;15 minutes&#x27; text hit is the T17 clinic drive time. neo-qc&#x27;s trap rule keeps stale text that catches a model that does not re-read a re-issued card.</div><div><span class=qc-k>checklist</span>HEARTBEAT.md line 14 (&#x27;9:00 AM to 5:00 PM. Arrive by 8:45 for setup.&#x27;) gives the R6 answer by meaning at T4, and the grader accepted a meaning match. Fix: delete &#x27;Arrive by 8:45 for setup.&#x27; (rerun), fallback reword R6.</div><div><span class=qc-k>loop</span>The checklist&#x27;s primary fix deletes the HEARTBEAT text (data edit = rerun, E8 UNEXPECTED, checklist 11 until rerun). That same text is the stale value SAT_IN_ORIG (8:45 AM) and the old 9:00-5:00 hours after stage 3 swaps the card to 10:30 AM-6:00 PM, i.e. the trap for R19 (10:15 AM) and R20 (6:00 PM). Deleting it removes the trap, which neo-qc&#x27;s visual-leak rule says to keep; keeping it leaves checklist 5 open.</div><div><span class=qc-k>resolution</span>Checklist is right that R6 has a text route at T4 (neo-qc only token-matched &#x27;15 minutes&#x27; and missed the 8:45 route), but its primary fix is wrong under tie-break rule 6 / DL6: when the text leaks an earlier criterion and traps a later one, fix the earlier criterion with option 2 and keep the text. Reword R6 to grade the card-only form of the rule (the 15-minute lead time in the card&#x27;s terms, not a bare clock time), keep HEARTBEAT as is, and note the trap in TRUTH. No rerun.</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>DL5</td><td>tier25 A7 (narrow: only after a user sign-off, first stage) silent, neo_checks E3 (critically_important iff |score| = 5)</td><td>C4.1</td><td>R23</td><td><div><span class=qc-k>neo-qc</span>Silent. A7 fires only after a user sign-off (&#x27;send it&#x27;, &#x27;that reads right&#x27;); T8 is a read-out, not an approval, so R23 stays 5. E3 requires critically_important exactly when |score| = 5.</div><div><span class=qc-k>checklist</span>T8 read out 8:00 PM-10:00 PM, stage 4 silently overwrites dt_flyer_card.png between T14 and T15 (8:30 PM), T15 asks again: R23 goes one tier down, 5 -&gt; 3.</div><div><span class=qc-k>loop</span>Lowering R23 to 3 while leaving importance critically_important fails E3; it also lowers vision share because R23 is picture-only.</div><div><span class=qc-k>resolution</span>Checklist&#x27;s broad rule is the bar (guide DL5 scope note; tie-break rule 5). R23 score 5 -&gt; 3 and importance -&gt; important in the same edit, so E3 passes. Vision stays well above 30%.</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>DL5</td><td>double_charge.json same_source R17/R24/R27 &#x27;already R24 at 3 ... no change&#x27;, same_source R19/R20 &#x27;already R20 at 3&#x27;, chain R18 -&gt; R25 (first_charge R18), tier25 A7 silent</td><td>C4.2</td><td>R18, R24, R20</td><td><div><span class=qc-k>neo-qc</span>Same-source groups and chains already follow &#x27;one at full, rest at 1&#x27;, with R24, R20 and R18 as the full-weight members; no change. A7 does not apply (no sign-off).</div><div><span class=qc-k>checklist</span>Each value was read out at an earlier turn (kids $15 at T7, Studio B at T6, close 5:00 PM at T4), then silently overwritten by a card swap, then asked again: R18, R24, R20 3 -&gt; 1.</div><div><span class=qc-k>loop</span>The double-charge &#x27;keep&#x27; side keeps R18/R24/R20 at 3 as the full member; the checklist lowers exactly those. Lowering them leaves every member of each group at 1, which a double-charge reviewer could question (&#x27;asked output has no weight&#x27;) and pushes the score up.</div><div><span class=qc-k>resolution</span>Tie-break rule 5: a post-confirm silent-change criterion is the member that gets lowered. Same-source groups are not pairs (rule 4), so all-at-1 is not a double-charge finding. R18, R24, R20 3 -&gt; 1, importance stays important (E3 fine). Score rises 44.44 -&gt; 52.17; no target set.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL1</td><td>double_charge.json considered_not_pairs R11/R12</td><td>C1.1</td><td>R11, R12</td><td><div><span class=qc-k>neo-qc</span>Not a pair: R12 (one-sentence form) can fail with $20 right, and can pass with a wrong price.</div><div><span class=qc-k>checklist</span>R12&#x27;s &#x27;gives the price of a taper and lineup&#x27; (definite article) lets a strict grader fail R12 when the reply gives the Square decoy $22, so one wrong value is charged twice in the same reply. Latent; both passed in this run.</div><div><span class=qc-k>resolution</span>Checklist is right on the wording: neo-qc&#x27;s independence holds only for the intended reading, and the text allows the strict one. Per tie-break rules 1-2 the fix is same-output relative wording, never a merge: reword R12 to grade the price the reply itself gives. This keeps both atomic (no A3 hit), R12 carries no $ value (no E4/E10 change), and makes neo-qc&#x27;s not-a-pair claim true by the text.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>vision</td><td>extras.json vision_pct 74.07 (40/54), Tier 1.5 E15 72% (39/54, R26 as text)</td><td>item 10 (PASS, 68.5%)</td><td>R6, R16, R35, R26</td><td><div><span class=qc-k>neo-qc</span>Vision 74.07% counting R6, R16, R35 as picture criteria; E15 gives 72% counting R26 as text.</div><div><span class=qc-k>checklist</span>68.5% (37/54): R6 excluded for the HEARTBEAT text route, R16/R35 excluded because their values come from the T8 prompt text; R26 counted (3:15 PM is card-only).</div><div><span class=qc-k>resolution</span>Tie-break rule 10 (no text route) sides with the checklist: R16/R35 values are given in T8&#x27;s text and R6 has a text route at T4; R26&#x27;s 3:15 PM exists only on inject/stage1 clinic_slot_card.png. Recomputed 68.52% before, 63.04% after. All readings stay above 30%, so no plan change.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>gap</td><td>audit_report_tier25.json J1 warn R27 (A5 loose wording)</td><td></td><td>R27</td><td><div><span class=qc-k>neo-qc</span>&#x27;the P.Whit Studio calendar included&#x27; can read as a scope note or a placement requirement; the grader read it the second way. Optional reword proposed. QC_SUMMARY dismissed it as not changing any outcome.</div><div><span class=qc-k>checklist</span>Silent (item 2 PASS: the clause only sets the scope). Would object to neo-qc&#x27;s proposed wording, which joins two clauses with &#x27;and&#x27; (checklist 2 compound risk) and drops the literal lock text SESSION_CAL_MUTATED (E4).</div><div><span class=qc-k>resolution</span>Optional reword that moves the scope to the front and keeps the &#x27;at least one ..., every one of which&#x27; single-value pattern and the exact lock literal: passes A5, checklist 2 and E4. Run fails under both readings, so no verdict change.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json considered_not_pairs R7/R28</td><td>item 1 rejected R28/R7</td><td>R7, R28</td><td><div><span class=qc-k>neo-qc</span>R28 is a false-completion penalty; never a pair.</div><div><span class=qc-k>checklist</span>R28 can fire on its own; not a pair.</div><div><span class=qc-k>resolution</span>Both apply tie-break rule 3. Keep R28 at -3.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>double_charge.json considered_not_pairs R18/R25, R21/R22, R4/R26</td><td>item 1 rejected R18/R25, item 1 note</td><td>R18, R25, R21, R22, R4, R26</td><td><div><span class=qc-k>neo-qc</span>Uncoupled outputs / different facts; not pairs.</div><div><span class=qc-k>checklist</span>Same: same value in two outputs no turn couples.</div><div><span class=qc-k>resolution</span>Tie-break rule 4. No change.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR4</td><td>E8 UNEXPECTED dismissed (full rerun), E9 pass</td><td>item 11 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>E8 changes (prompt.txt T17, doc19.xlsx) are covered by a full rerun; E9 passes.</div><div><span class=qc-k>checklist</span>Every tool return matches the seed or mutation.</div><div><span class=qc-k>resolution</span>Run matches the delivered environment. The plan adds no data/inject/prompt edits, so it cannot reopen this.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>extras.json turn_refs [] (E13 clean)</td><td>item 12 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No turn numbers in criteria.</div><div><span class=qc-k>checklist</span>No T&lt;n&gt;/turn references.</div><div><span class=qc-k>resolution</span>The R6/R12/R27 rewords in this plan add no turn numbers; they anchor on topic.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR2</td><td>extras.json unconditional_scripted_messages []</td><td>item 6 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No loud messages; silent inserts are noise.</div><div><span class=qc-k>checklist</span>Re-issued cards read correctly whatever the agent did.</div><div><span class=qc-k>resolution</span>Nothing to fix.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>TB2</td><td>truth_coverage.json 0 gaps, J2 pass</td><td>item 9 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>36 criteria, 20 turns covered.</div><div><span class=qc-k>checklist</span>Every turn T0-T19 has a step; R1-R36 cited.</div><div><span class=qc-k>resolution</span>Keep coverage; TRUTH edits in step 6 must not add &#x27;not graded&#x27; or old-number wording.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>All four surviving checklist flags are fixed in rubric.json/TRUTH.md/report.json only. The C5.1 rerun proposal (delete &#x27;Arrive by 8:45 for setup.&#x27; from persona/HEARTBEAT.md) is NOT queued: that text is the stale trap for R19/R20 (DL6). Rerun batch is empty. No phase-2 fact/premise edits and no phase-3 splits are needed (checklist 2 PASS, no A3 hits).</td><td>R6, R12, R18, R20, R23, R24</td><td>C1.1, C4.1, C4.2, C5.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>visual route (DL6)</td><td>rubric.json R6 criterion -&gt; &#x27;The response to the request to pull up Marcus&#x27;s hours card gives the card&#x27;s note &quot;Be in the shop 15 minutes before&quot; as a lead time of 15 minutes before the chairs open (wording aside), not only as an arrival clock time.&#x27; Score 1, importance important unchanged. IN_BY_RULE literal stays in the text (E4). HEARTBEAT.md untouched. Mirror the text in report.json R6 (justification unchanged: the T4 reply says &#x27;in the shop 15 minutes early&#x27;).</td><td>R6</td><td>C5.1, visual_leaks.json IN_BY_RULE</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>weight pass 1 (silent after sign-off)</td><td>rubric.json: R23 score 5 -&gt; 3 and importance critically_important -&gt; important (same edit, E3); R18 3 -&gt; 1, R24 3 -&gt; 1, R20 3 -&gt; 1 (importance stays important). Mirror scores/importance in report.json rubric rows and pass_summary.json; recompute final_reward = rubric_weights_percentage = 52.17.</td><td>R23, R18, R24, R20</td><td>C4.1, C4.2</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-5.48</td><td>7.73</td></tr><tr><td>4</td><td>weight pass 2 (double charge)</td><td>rubric.json R12 criterion -&gt; &#x27;The response to the question about Marcus&#x27;s price card states the taper and lineup price it gives, whatever that amount is, in a single sentence, whatever form the booking prices beside it take.&#x27; (same-output relative wording, no merge; score 3 unchanged). R11 unchanged at 1. After step 3 the same-source groups R17/R24/R27, R19/R20 and chain R18-&gt;R25 are all at 1: not pairs (rule 4), no further reweight. Mirror R12 text in report.json.</td><td>R11, R12</td><td>C1.1, double_charge.json considered_not_pairs R11/R12</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>recompute vision % and score</td><td>Vision 68.52% -&gt; 63.04% (29/46; 65.22% if reworded R6 is counted as picture-only). Score 44.44% -&gt; 52.17% (24/46). No score target set and vision &gt;= 30%, so no pair swap.</td><td></td><td>checklist item 10, extras.json vision</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>6</td><td>turn anchors, targets, process wording</td><td>Optional neo-qc J1 A5 fix: rubric.json R27 -&gt; &#x27;Across all of Priya&#x27;s calendars (the P.Whit Studio calendar included), the agent leaves at least one event for the Redlight session with DT on Friday March 27, every one of which starts at 7:30 PM.&#x27; (keeps the SESSION_CAL_MUTATED literal and one value; no &#x27;and&#x27;). Mirror in report.json (fail unchanged). No turn numbers added; targets unchanged (R6/R12 final_answer, R27 state_change); no process criteria.</td><td>R27</td><td>audit_report_tier25.json J1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>TRUTH.md sync</td><td>TRUTH.md: TAPER_REPLY_FORM -&gt; &quot;states the taper and lineup price it gives, whatever that amount is, in a single sentence&quot; (type graded-positive; literal is in R12). Step 5 (T4): add &#x27;HEARTBEAT.md &quot;Arrive by 8:45 for setup&quot; and &quot;9:00 AM to 5:00 PM&quot; are stale after the hours card is redone; they catch R19 and R20.&#x27; Step 8: R12 phrasing per new text. IN_BY_RULE, SESSION_CAL_MUTATED unchanged. No R-number changes (TB1), no &#x27;not graded&#x27; (TB2), no history words in report justifications (TB3), lock types unchanged (TB4). Weight reasoning (post-confirm silent change) goes in section 7 only.</td><td>R6, R12, R19, R20, R27</td><td>C1.1, C5.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>re-run both checks</td><td>Re-run neo-qc Tier 1.5 (E1/E3/E4/E6/E10/E12), Tier 2.5, TRUTH coverage and double charge, and the checklist agent, both with the shared tie-break rules. Expect: C1.1/C4.1/C4.2/C5.1 closed, E3 clean on R23, E4 clean on TAPER_REPLY_FORM/IN_BY_RULE/SESSION_CAL_MUTATED. QC re-check only; no task rerun.</td><td>R6, R12, R18, R20, R23, R24, R27</td><td>C1.1, C4.1, C4.2, C5.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+
+<p class="qc-k">Verdict: NOT ACCEPTABLE, 4 checklist flags survive reconciliation (C1.1, C4.1, C4.2, C5.1); all are rubric/TRUTH fixes, no rerun needed; vision stays 63.04%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: priya_whitfield_5a2495f2 (099f9db52..b2a564afd, manual)</h3>
+<p><strong>Verdict: ACCEPTABLE.</strong> Kept issues: 0 blocking, 0 design, 0 grader, 0 minor. Score 44.44% (1 run, claude-opus-5.5).</p>
+<h4>Counts per tier</h4>
+<ul>
+<li>Step 0 gate: exit 0, 0 HARD findings (1 informational: the Dockerfile and mock fleet match the harness).</li>
+<li>Tier 1: pass 20, warn 1, skip 4, fail 0. Tier 1.5: pass 11, warn 1 (E11), fail 1 (E8), info 2 (E5, E12). E9 passed.</li>
+<li>Tier 2: 5/5 pass (A, B, C, D, N3). Tier 2.5: J2/J3/J4 pass, J1 warn (R27 wording).</li>
+<li>TRUTH coverage: 0 gaps (36 criteria, 20 turns, 1 file). Visual leaks: 13 candidates, 0 leaks, 0 guessable (12 coincidences, 1 declared_route that is not a finding). Double charge: 0 pairs, 6 same-source groups, 4 chains.</li>
+<li>Tier 3 all-criteria: 36 agree, 0 dispute, 0 unverifiable.</li>
+<li>Tier 3 attribution: 14 failures. By cause: model 14, rubric 0, judge 0, task 0, false_pass 0.</li>
+<li>R3 and R10 broke the persona&#x27;s one-sentence rule.</li>
+<li>R8 and R17-R27 reused card values the run read before the stage 1-4 re-issues; the run never re-opened the cards. I checked the inject PNGs and they carry the new values.</li>
+</ul>
+<h4>Leads dismissed as false positives</h4>
+<ul>
+<li><strong>D2 / E8 UNEXPECTED</strong> (prompt.txt, data/instruction.md, doc19.xlsx, run_1 output.json/usage.json/night_flyer.png): this is a full rerun.</li>
+<li>T17 dropped &quot;on friday the 27th&quot;. The rerun&#x27;s output.json carries the new T17 text.</li>
+<li>doc19.xlsx changed &quot;Skin fade&quot; from 25 to 23 (weekly totals updated to match), which removes a text copy of the picture-graded $25 (TRUTH lists SKINFADE_LOG=23 as stale). The run listed the file but never opened it.</li>
+<li>The inject files and mutations are unchanged.</li>
+<li><strong>D1 / visual leak R35 &quot;painting&quot;</strong>: this is the user&#x27;s own style instruction for a generated image, not a fact read from a picture. There is nothing to remove.</li>
+<li><strong>E11 candidates</strong> (&quot;15 minutes&quot;, &quot;$20&quot;, &quot;March 26&quot;, &quot;$25&quot;): all are different facts with the same characters (drive time, BeatStars fee, the shift event evt-036, beat leases). The cards&#x27; values exist only in the images.</li>
+<li><strong>Tier 1 warn</strong>: the silent calendly mutations &quot;could not check&quot; because the service did not import, a checker limitation. Tier 3 confirmed the run saw sev-2012 moved to Apr 4 after the fire.</li>
+<li><strong>E5 info</strong>: the decoy WhatsApp/seen timestamps are unasked by design. The J3 note that sil_sev2012_resched is asked and graded by R25 is correct, so no gap.</li>
+<li><strong>Tier 2.5 J1 warn on R27</strong> (&quot;Priya&#x27;s calendars, the P.Whit Studio calendar included&quot;): the natural reading is sound. Every Redlight event on 27 March, the Studio one included, must start at 7:30 PM, so leaving evt-017 at 8:00 PM fails.</li>
+<li>This run fails under both readings: evt-017 stayed at 8:00 PM, plus a duplicate 8:00 PM event on the primary calendar.</li>
+<li>It does not change any graded outcome. An optional rewording is noted in the Tier 2.5 sidecar.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs in criteria: none (E13 clean).</li>
+<li>Vision share: 74.07% (40/54 positive weight, 24 rows); E15 gives 72% (39/54, R26 counted as text). Both are well over the 30% floor.</li>
+<li>Unconditional scripted messages: none.</li>
+</ul>
+<h4>Changes since the last version</h4>
+<ul>
+<li>R1 and R27 reworded.</li>
+<li>R16 split into R16 and R35.</li>
+<li>R26 weight lowered from 3 to 1.</li>
+<li>R36 added (an Instagram DM penalty, backed by the TOOLS.md &quot;she replies herself&quot; rule).</li>
+<li>J4: nothing dropped unsafely.</li>
+</ul>
+<h4>Delivery</h4>
+<p>Nothing blocks delivery. The low score comes from sound criteria the model missed (stale card values after re-issue), not from a task defect.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 0 item(s))</summary><pre>[]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Checked all positive and penalty pairs. R28 vs R7 is a false claim of completion, which is not a pair. R4/R26, R8/R26, R17/R24/R27, R18/R25, R19/R20 and R21/R22 grade different facts or different uncoupled outputs. The only coupling found is R11/R12 inside the same T7 reply.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C1.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R11&quot;,
+            &quot;R12&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;T7 (Day 2, 13:10, Marcus&#x27;s price card / taper and lineup price)&quot;
+          ],
+          &quot;problem&quot;: &quot;R12 is meant to grade form only (one sentence). But it says &#x27;gives the price of a taper and lineup&#x27;, with a definite article that points at the true $20. A reply that states the Square decoy $22 in one sentence fails R11, and a strict grader could also fail R12 for not giving &#x27;the price&#x27;. One wrong value would then be charged twice in the same reply. In this run both passed, so no verdict changed.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R11&quot;,
+              &quot;quote&quot;: &quot;The response to the question about Marcus&#x27;s price card gives $20 as the price of a taper and lineup.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R12&quot;,
+              &quot;quote&quot;: &quot;The response to the question about Marcus&#x27;s price card gives the price of a taper and lineup in one sentence, whatever form the booking prices beside it take.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Value Lock TAPER_SQUARE&quot;,
+              &quot;quote&quot;: &quot;TAPER_SQUARE = \&quot;Taper + Lineup price_amount 2200\&quot;  # type: stale&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Keep R11 as is. Reword R12 against the reply&#x27;s own value so it grades form only: &#x27;The response to the question about Marcus&#x27;s price card states the taper and lineup price it gives, whatever that amount is, in a single sentence, whatever form the booking prices beside it take.&#x27; Update TRUTH.md TAPER_REPLY_FORM to the same wording. Both criteria stay atomic and self-contained.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;The verifier CONFIRMED this as a wording risk. I re-read R11/R12 and the report.json R12 justification. The R12 pass in this run means the double charge is latent, not realized.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;All 36 criteria grade one fact each. In the &#x27;at least one ..., every one of which gives X&#x27; pattern, both parts are one value. In R27, &#x27;the P.Whit Studio calendar included&#x27; only sets the scope. R15 &#x27;lime lettering on a dark background&#x27; is the card&#x27;s single instruction.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turns name the file/target changed&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The only graded file output is night_flyer.png, which T8 names. The calendar updates (R4, R26, R27) are named by target and day in T2 and T19 (&#x27;my calendar&#x27;, &#x27;the 27th&#x27;), not with a vague &#x27;everywhere&#x27;. Calendly cancels are named in T3 and T5.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after confirm + silent change&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Four criteria sit one tier too high: in each, an earlier turn read out the value, a filesystem swap of the same card overwrote it, and a later turn asks again. R8, R17, R19, R21, R25, R26 and R27 are already at 1. R22 has no confirming turn: T1 asks only for the crew name.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C4.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R23&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;T8 (Day 3, 07:20, flyer + read the show lines)&quot;,
+            &quot;T15 (Day 6, 07:15, Zoe / showcase start time)&quot;
+          ],
+          &quot;problem&quot;: &quot;T8 asks for the show lines off DT&#x27;s card, and the expected and actual reply gives 8:00 PM - 10:00 PM. Stage 4 silently overwrites dt_flyer_card.png between T14 and T15 (8:30 PM - 10:30 PM). T15 asks the start time again. R23 is 5 / critically_important.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 9 (T8)&quot;,
+              &quot;quote&quot;: &quot;Then read Priya the card&#x27;s lines about the show: ATL OPEN MIC SHOWCASE, Producers &amp; Rappers Night (R34), Thursday, March 26, 8:00 PM - 10:00 PM, we&#x27;re on the bill&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;applies_between_turns / fs_s4_show_card&quot;,
+              &quot;quote&quot;: &quot;\&quot;applies_between_turns\&quot;: [\&quot;T14\&quot;, \&quot;T15\&quot;] ... \&quot;dst\&quot;: \&quot;/workspace/home/home/Pictures/dt_flyer_card.png\&quot;&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R23&quot;,
+              &quot;quote&quot;: &quot;every one of which gives 8:30 PM as that time.\&quot;, ... \&quot;importance\&quot;: \&quot;critically_important\&quot;, \&quot;score\&quot;: 5&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;T8 reply&quot;,
+              &quot;quote&quot;: &quot;- **8:00–10:00 PM**&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;rubric.json R23: score 5 -&gt; 3 and importance critically_important -&gt; important. No wording change, so it stays atomic and self-contained.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The verifier CONFIRMED this. I checked prompt T8/T15, the stage4 timing, both card images (8:00 vs 8:30) and the T8 reply.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.2&quot;,
+          &quot;criteria&quot;: [
+            &quot;R18&quot;,
+            &quot;R24&quot;,
+            &quot;R20&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;T7 (Day 2, 13:10, prices per booking on the 28th) -&gt; T10 (Day 3, 17:40, kids cut price to Zoe)&quot;,
+            &quot;T6 (Day 2, 12:50, read Redlight card) -&gt; T16 (Day 6, 07:40, room to DT)&quot;,
+            &quot;T4 (Day 1, 17:40, read hours card) -&gt; T12 (Day 5, 07:40, closing time to mom)&quot;
+          ],
+          &quot;problem&quot;: &quot;In each case an earlier turn reads out the card value, a later stage silently overwrites the card at the same path, and a later turn asks again, while the criterion stays at 3. Kids cut: $15 is read at T7, stage 2 changes it to $18 right after T7, and R18 grades it. Room: Studio B is read at T6, stage 2 changes it to Studio A, and R24 grades it. Close: 5:00 PM is read at T4, stage 3 changes it to 6:00 PM, and R20 grades it.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 8 (T7)&quot;,
+              &quot;quote&quot;: &quot;$25 for Maurice Hill&#x27;s skin fade (R33) and $15 for Brandon Hayes&#x27;s kids cut&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 7 (T6)&quot;,
+              &quot;quote&quot;: &quot;read out what is on it in one sentence: Friday March 27, 8:00 PM - 11:30 PM, Studio B&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 5 (T4)&quot;,
+              &quot;quote&quot;: &quot;read it out: Crown &amp; Blade, Saturday March 28, chairs open 9:00 AM - 5:00 PM&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;applies_between_turns&quot;,
+              &quot;quote&quot;: &quot;\&quot;applies_between_turns\&quot;: [\&quot;T7\&quot;, \&quot;T8\&quot;]&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage3/mutations.json&quot;,
+              &quot;where&quot;: &quot;applies_between_turns&quot;,
+              &quot;quote&quot;: &quot;\&quot;applies_between_turns\&quot;: [\&quot;T10\&quot;, \&quot;T11\&quot;]&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R18 / R24 / R20&quot;,
+              &quot;quote&quot;: &quot;\&quot;score\&quot;: 3 (each)&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;rubric.json: R18 3 -&gt; 1, R24 3 -&gt; 1, R20 3 -&gt; 1. Importance stays important. No wording change.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The verifier CONFIRMED K3/K4/K5 and REJECTED K6 (R22). I checked each seed/inject card pair and the T4/T6/T7 replies in output.json (5:00 PM, Studio B, kids $15).&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Visual answer leaked in text&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;I searched all seed text, persona, emails, HTML, inject JSON and filenames for each image-graded value. The card emails msg-222 to msg-226 give filenames only. Studio B, evt-034 7:00 PM, evt-035 9-5 and the Square prices are stale traps. One partial route is for R6.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C5.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R6&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;T4 (Day 1, 17:40, read Marcus&#x27;s hours card)&quot;
+          ],
+          &quot;problem&quot;: &quot;R6 grades the hours card&#x27;s note &#x27;Be in the shop 15 minutes before&#x27; at T4, before the stage 3 swap. Persona HEARTBEAT states the same rule in text (chairs 9-5, arrive by 8:45), and the grader accepts the meaning (&#x27;15 minutes early, so by 8:45&#x27;). An agent could pass R6 without opening the image.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;data/environment/persona/HEARTBEAT.md&quot;,
+              &quot;where&quot;: &quot;line 14&quot;,
+              &quot;quote&quot;: &quot;**Saturday, 8:30 AM**: Full day at Crown &amp; Blade (9:00 AM to 5:00 PM). Arrive by 8:45 for setup.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R6&quot;,
+              &quot;quote&quot;: &quot;gives the card&#x27;s note \&quot;Be in the shop 15 minutes before\&quot;.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/report.json&quot;,
+              &quot;where&quot;: &quot;R6&quot;,
+              &quot;quote&quot;: &quot;this conveys the same meaning as the card&#x27;s note &#x27;Be in the shop 15 minutes before.&#x27; Grading meaning, not exact wording.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Remove &#x27;Arrive by 8:45 for setup.&#x27; from persona/HEARTBEAT.md, so the card is the only source of the 15-minute rule.&quot;,
+          &quot;fix_class&quot;: &quot;rerun&quot;,
+          &quot;no_rerun_fallback&quot;: &quot;Count R6 as text-routed (excluded from the vision share, as done here), and reword R6 to require the card&#x27;s own phrasing &#x27;Be in the shop 15 minutes before&#x27; (case/punctuation aside) instead of an 8:45 paraphrase.&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;The sweep verifier found this. I confirmed the HEARTBEAT line by grep and the R6 meaning-based grading in report.json. The leak is partial and R6 is worth only 1 point.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;There are no loud messages. The silent family texts are noise, the sev-2012 reschedule is client-side, and the re-issued cards (&#x27;THE FRIDAY SLOT WE ARE HOLDING FOR YOU&#x27;, &#x27;Card re-issued March 20&#x27;) read correctly whatever the agent did earlier.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Sends, calendar and Calendly use state_change. Reply content (R2, R3, R6, R9-R12, R28, R33, R34) uses final_answer. Flyer criteria R13-R16 and R35 use produced_artifact.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion grades the method. R26/R27 grade start times and R30 grades deletion as an outcome. The persona one-sentence rule is graded on the visible reply (R3, R10, R12).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;TRUTH has a step for every turn T0-T19, and every criterion R1-R36 is cited. Values recomputed: 3:00 PM, 6:45 PM, $18, 10:15 AM, 6:00 PM, 6:50 PM, 7:20 PM, 8:30 PM, Studio A, $43. They match the cards, the mutations and the live page (LI Marina Rocks -&gt; LII Reed Waddle).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;37/54 = 68.5% with R6 excluded (text route) and R16/R35 excluded (values given in the T8 prompt). After the C4 reweights it is 29/46 = 63.0%, still well above 30%.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every tool return matches the seed or mutation. The stage 4 sev-2012 move shows at T18 (2026-04-04T15:00Z). The agent never re-opened a card after a swap, so its stale values are its own failure, not an environment mismatch. Missing evt-017 came from listing only the primary calendar.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;rubric.json has no T&lt;n&gt; or &#x27;turn&#x27; references. Criteria anchor on topic and date.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R22 (Zoe slot 7:20 PM, score 3) should drop a tier because T1 opened the crew card showing 7:00 PM.&quot;,
+      &quot;why&quot;: &quot;T1 asks only &#x27;who&#x27;s on the crew list right after dt?&#x27; and TRUTH Step 2 expects only Kay Dunn. No turn asks for or confirms the slot time before stage 3; the agent volunteered 7:00 PM unprompted.&quot;
+    },
+    {
+      &quot;item&quot;: 3,
+      &quot;claim&quot;: &quot;T19 &#x27;make sure the 27th is right on my calendar and fix anything that&#x27;s off&#x27; is too vague for R26/R27.&quot;,
+      &quot;why&quot;: &quot;No file is graded. T19 names the target (Priya&#x27;s calendar) and the scope (the 27th), and the only events that day are the dentist event and evt-017, which R26/R27 grade.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R18 ($18 to Zoe) and R25 ($43 to Denise) double-charge the kids cut price.&quot;,
+      &quot;why&quot;: &quot;Same value in two outputs that no turn couples (T10 vs T18). R25 also independently tests the sev-2012 move, so it is not a pair under the definition.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R28 (false &#x27;canceled&#x27; claim) pairs with R7 (Tyrese canceled).&quot;,
+      &quot;why&quot;: &quot;R28 is a false claim of completion that can fire on its own (e.g. claimed at T5 while the booking was still active), so it is excluded from pairs by definition.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 68.5,
+    &quot;vision_weight&quot;: 37,
+    &quot;positive_weight&quot;: 54,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/dt_openmic_card.png&quot;,
+        &quot;why&quot;: &quot;Kay Dunn appears only on the crew card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/clinic_slot_card.png&quot;,
+        &quot;why&quot;: &quot;Friday March 27 held slot appears only on the card; msg-223 gives no date&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage1/files/clinic_slot_card.png&quot;,
+        &quot;why&quot;: &quot;3:15 PM appears only on the re-issued card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/redlight_session_card.png&quot;,
+        &quot;why&quot;: &quot;&#x27;Load in through the back door&#x27; appears only on the card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/shop_prices.png&quot;,
+        &quot;why&quot;: &quot;$20 appears only on the card (Square 2200 is stale)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/dt_flyer_card.png -&gt; night_flyer.png&quot;,
+        &quot;why&quot;: &quot;Show name appears only on the card; graded on the generated image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/dt_flyer_card.png -&gt; night_flyer.png&quot;,
+        &quot;why&quot;: &quot;Show date March 26 appears only on the card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/dt_flyer_card.png -&gt; night_flyer.png&quot;,
+        &quot;why&quot;: &quot;&#x27;lettering lime on dark&#x27; appears only on the card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage2/files/redlight_session_card.png&quot;,
+        &quot;why&quot;: &quot;7:30 PM appears only on the re-issued card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/shop_prices.png&quot;,
+        &quot;why&quot;: &quot;$18 kids cut appears only on the redone card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage3/files/shop_hours_card.png&quot;,
+        &quot;why&quot;: &quot;10:30 AM open appears only on the redone card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage3/files/shop_hours_card.png&quot;,
+        &quot;why&quot;: &quot;6:00 PM close appears only on the redone card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage3/files/dt_openmic_card.png&quot;,
+        &quot;why&quot;: &quot;7:20 PM slot appears only on the redone card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage3/files/dt_openmic_card.png&quot;,
+        &quot;why&quot;: &quot;7:20 PM slot appears only on the redone card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage4/files/dt_flyer_card.png&quot;,
+        &quot;why&quot;: &quot;8:30 PM appears only on the redone showcase card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/redlight_session_card.png&quot;,
+        &quot;why&quot;: &quot;Studio A appears only on the re-issued card; all text says Studio B&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage2/files/shop_prices.png&quot;,
+        &quot;why&quot;: &quot;The $25 and $18 prices are image-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage1/files/clinic_slot_card.png&quot;,
+        &quot;why&quot;: &quot;3:15 PM appears only on the re-issued card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage2/files/redlight_session_card.png&quot;,
+        &quot;why&quot;: &quot;7:30 PM appears only on the re-issued card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/shop_prices.png&quot;,
+        &quot;why&quot;: &quot;$25 skin fade appears only on the card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R34&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/dt_flyer_card.png&quot;,
+        &quot;why&quot;: &quot;&#x27;Producers &amp; Rappers Night&#x27; appears only on the card&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;why&quot;: &quot;Reed Waddle is in the HTML text and on the live page&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;why&quot;: &quot;One-sentence form rule&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;why&quot;: &quot;Calendly and Gmail text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;why&quot;: &quot;Partial text route: HEARTBEAT &#x27;Arrive by 8:45 for setup&#x27; with 9-5 (see C5.1)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;why&quot;: &quot;Calendly text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;why&quot;: &quot;One-sentence form rule&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;why&quot;: &quot;One-sentence form rule&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;why&quot;: &quot;Skyline at night is given in the T8 prompt text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R35&quot;,
+        &quot;why&quot;: &quot;Painting medium is given in the T8 prompt text&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;4 flags across items [1, 4, 5]: R11/R12 coupled wording (minor), R23 5-&gt;3 and R18/R24/R20 3-&gt;1 after confirm+silent swap (design), R6 partial HEARTBEAT text route (minor); vision 68.5% (63.0% after reweights)&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json (IN_BY_RULE: only &#x27;15 minutes&#x27; token checked, verdict coincidence; HEARTBEAT 8:45 not a candidate)&quot;,
+        &quot;visual_leak_prompt trap rule (stale text that catches a later criterion = keep)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C5.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No leak for R6: the only &#x27;15 minutes&#x27; text hit is the T17 clinic drive time. neo-qc&#x27;s trap rule keeps stale text that catches a model that does not re-read a re-issued card.&quot;,
+      &quot;checklist_says&quot;: &quot;HEARTBEAT.md line 14 (&#x27;9:00 AM to 5:00 PM. Arrive by 8:45 for setup.&#x27;) gives the R6 answer by meaning at T4, and the grader accepted a meaning match. Fix: delete &#x27;Arrive by 8:45 for setup.&#x27; (rerun), fallback reword R6.&quot;,
+      &quot;loop&quot;: &quot;The checklist&#x27;s primary fix deletes the HEARTBEAT text (data edit = rerun, E8 UNEXPECTED, checklist 11 until rerun). That same text is the stale value SAT_IN_ORIG (8:45 AM) and the old 9:00-5:00 hours after stage 3 swaps the card to 10:30 AM-6:00 PM, i.e. the trap for R19 (10:15 AM) and R20 (6:00 PM). Deleting it removes the trap, which neo-qc&#x27;s visual-leak rule says to keep; keeping it leaves checklist 5 open.&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right that R6 has a text route at T4 (neo-qc only token-matched &#x27;15 minutes&#x27; and missed the 8:45 route), but its primary fix is wrong under tie-break rule 6 / DL6: when the text leaks an earlier criterion and traps a later one, fix the earlier criterion with option 2 and keep the text. Reword R6 to grade the card-only form of the rule (the 15-minute lead time in the card&#x27;s terms, not a bare clock time), keep HEARTBEAT as is, and note the trap in TRUTH. No rerun.&quot;,
+      &quot;evidence&quot;: &quot;persona/HEARTBEAT.md:14 &#x27;Full day at Crown &amp; Blade (9:00 AM to 5:00 PM). Arrive by 8:45 for setup.&#x27;; TRUTH.md:60 &#x27;SAT_IN_ORIG = \&quot;8:45 AM\&quot;  # type: stale&#x27;; report.json R6 &#x27;Grading meaning, not exact wording&#x27;; report.json R19 \&quot;says &#x27;I gotta be in the shop by 8:45 AM&#x27;\&quot; (trap fired); inject/stage3 applies_between_turns [T10, T11].&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;tier25 A7 (narrow: only after a user sign-off, first stage) silent&quot;,
+        &quot;neo_checks E3 (critically_important iff |score| = 5)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R23&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent. A7 fires only after a user sign-off (&#x27;send it&#x27;, &#x27;that reads right&#x27;); T8 is a read-out, not an approval, so R23 stays 5. E3 requires critically_important exactly when |score| = 5.&quot;,
+      &quot;checklist_says&quot;: &quot;T8 read out 8:00 PM-10:00 PM, stage 4 silently overwrites dt_flyer_card.png between T14 and T15 (8:30 PM), T15 asks again: R23 goes one tier down, 5 -&gt; 3.&quot;,
+      &quot;loop&quot;: &quot;Lowering R23 to 3 while leaving importance critically_important fails E3; it also lowers vision share because R23 is picture-only.&quot;,
+      &quot;resolution&quot;: &quot;Checklist&#x27;s broad rule is the bar (guide DL5 scope note; tie-break rule 5). R23 score 5 -&gt; 3 and importance -&gt; important in the same edit, so E3 passes. Vision stays well above 30%.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R23 score 5 critically_important; inject/stage4/mutations.json applies_between_turns [T14, T15]; TRUTH.md Step 16 &#x27;moved the show from 8:00 PM - 10:00 PM to 8:30 PM - 10:30 PM&#x27;; tier25_prompt.md:66 &#x27;When the FIRST stage after a user sign-off&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json same_source R17/R24/R27 &#x27;already R24 at 3 ... no change&#x27;&quot;,
+        &quot;same_source R19/R20 &#x27;already R20 at 3&#x27;&quot;,
+        &quot;chain R18 -&gt; R25 (first_charge R18)&quot;,
+        &quot;tier25 A7 silent&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.2&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R18&quot;,
+        &quot;R24&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Same-source groups and chains already follow &#x27;one at full, rest at 1&#x27;, with R24, R20 and R18 as the full-weight members; no change. A7 does not apply (no sign-off).&quot;,
+      &quot;checklist_says&quot;: &quot;Each value was read out at an earlier turn (kids $15 at T7, Studio B at T6, close 5:00 PM at T4), then silently overwritten by a card swap, then asked again: R18, R24, R20 3 -&gt; 1.&quot;,
+      &quot;loop&quot;: &quot;The double-charge &#x27;keep&#x27; side keeps R18/R24/R20 at 3 as the full member; the checklist lowers exactly those. Lowering them leaves every member of each group at 1, which a double-charge reviewer could question (&#x27;asked output has no weight&#x27;) and pushes the score up.&quot;,
+      &quot;resolution&quot;: &quot;Tie-break rule 5: a post-confirm silent-change criterion is the member that gets lowered. Same-source groups are not pairs (rule 4), so all-at-1 is not a double-charge finding. R18, R24, R20 3 -&gt; 1, importance stays important (E3 fine). Score rises 44.44 -&gt; 52.17; no target set.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage2 applies_between_turns [T7, T8]; inject/stage3 [T10, T11]; TRUTH.md Step 8 &#x27;$15 for Brandon Hayes&#x27;s kids cut&#x27;, Step 7 &#x27;Studio B&#x27;, Step 5 &#x27;chairs open 9:00 AM - 5:00 PM&#x27;; prompt.txt T10 &#x27;whatsapp zoe what it&#x27;ll cost him&#x27;, T12 &#x27;what time the chairs close&#x27;, T16 &#x27;which room&#x27;; double_charge.json same_source suggestions.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json considered_not_pairs R11/R12&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C1.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R11&quot;,
+        &quot;R12&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Not a pair: R12 (one-sentence form) can fail with $20 right, and can pass with a wrong price.&quot;,
+      &quot;checklist_says&quot;: &quot;R12&#x27;s &#x27;gives the price of a taper and lineup&#x27; (definite article) lets a strict grader fail R12 when the reply gives the Square decoy $22, so one wrong value is charged twice in the same reply. Latent; both passed in this run.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right on the wording: neo-qc&#x27;s independence holds only for the intended reading, and the text allows the strict one. Per tie-break rules 1-2 the fix is same-output relative wording, never a merge: reword R12 to grade the price the reply itself gives. This keeps both atomic (no A3 hit), R12 carries no $ value (no E4/E10 change), and makes neo-qc&#x27;s not-a-pair claim true by the text.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R12 &#x27;gives the price of a taper and lineup in one sentence&#x27;; TRUTH.md:115 &#x27;TAPER_SQUARE = \&quot;Taper + Lineup price_amount 2200\&quot;  # type: stale&#x27;; TRUTH.md:80 TAPER_REPLY_FORM lock.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 74.07 (40/54)&quot;,
+        &quot;Tier 1.5 E15 72% (39/54, R26 as text)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 (PASS, 68.5%)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R16&quot;,
+        &quot;R35&quot;,
+        &quot;R26&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision 74.07% counting R6, R16, R35 as picture criteria; E15 gives 72% counting R26 as text.&quot;,
+      &quot;checklist_says&quot;: &quot;68.5% (37/54): R6 excluded for the HEARTBEAT text route, R16/R35 excluded because their values come from the T8 prompt text; R26 counted (3:15 PM is card-only).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Tie-break rule 10 (no text route) sides with the checklist: R16/R35 values are given in T8&#x27;s text and R6 has a text route at T4; R26&#x27;s 3:15 PM exists only on inject/stage1 clinic_slot_card.png. Recomputed 68.52% before, 63.04% after. All readings stay above 30%, so no plan change.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt:33 &#x27;a painting of the atlanta skyline at night&#x27;; HEARTBEAT.md:14; extras.json notes &#x27;R26 value 3:15 PM exists only on inject/stage1/files/clinic_slot_card.png&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 warn R27 (A5 loose wording)&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R27&quot;
+      ],
+      &quot;neo_says&quot;: &quot;&#x27;the P.Whit Studio calendar included&#x27; can read as a scope note or a placement requirement; the grader read it the second way. Optional reword proposed. QC_SUMMARY dismissed it as not changing any outcome.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent (item 2 PASS: the clause only sets the scope). Would object to neo-qc&#x27;s proposed wording, which joins two clauses with &#x27;and&#x27; (checklist 2 compound risk) and drops the literal lock text SESSION_CAL_MUTATED (E4).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Optional reword that moves the scope to the front and keeps the &#x27;at least one ..., every one of which&#x27; single-value pattern and the exact lock literal: passes A5, checklist 2 and E4. Run fails under both readings, so no verdict change.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R27; TRUTH.md:122 SESSION_CAL_MUTATED = &#x27;event for the Redlight session with DT on Friday March 27, every one of which starts at 7:30 PM&#x27;; report.json R27 fail (evt-017 left at 8:00 PM).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json considered_not_pairs R7/R28&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 rejected R28/R7&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R28&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R28 is a false-completion penalty; never a pair.&quot;,
+      &quot;checklist_says&quot;: &quot;R28 can fire on its own; not a pair.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both apply tie-break rule 3. Keep R28 at -3.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R28 &#x27;says the booking is canceled while that booking is still active&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json considered_not_pairs R18/R25, R21/R22, R4/R26&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 rejected R18/R25&quot;,
+        &quot;item 1 note&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R18&quot;,
+        &quot;R25&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R4&quot;,
+        &quot;R26&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Uncoupled outputs / different facts; not pairs.&quot;,
+      &quot;checklist_says&quot;: &quot;Same: same value in two outputs no turn couples.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Tie-break rule 4. No change.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json summary &#x27;no turn couples two outputs: every WhatsApp turn is a separate ask&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E8 UNEXPECTED dismissed (full rerun)&quot;,
+        &quot;E9 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 11 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;E8 changes (prompt.txt T17, doc19.xlsx) are covered by a full rerun; E9 passes.&quot;,
+      &quot;checklist_says&quot;: &quot;Every tool return matches the seed or mutation.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Run matches the delivered environment. The plan adds no data/inject/prompt edits, so it cannot reopen this.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;D2 / E8 UNEXPECTED ... this is a full rerun&#x27;; checklist item 11 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs [] (E13 clean)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No turn numbers in criteria.&quot;,
+      &quot;checklist_says&quot;: &quot;No T&lt;n&gt;/turn references.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The R6/R12/R27 rewords in this plan add no turn numbers; they anchor on topic.&quot;,
+      &quot;evidence&quot;: &quot;extras.json &#x27;turn_refs&#x27;: [].&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json unconditional_scripted_messages []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 6 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No loud messages; silent inserts are noise.&quot;,
+      &quot;checklist_says&quot;: &quot;Re-issued cards read correctly whatever the agent did.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Nothing to fix.&quot;,
+      &quot;evidence&quot;: &quot;extras.json notes &#x27;every stage has loud=[]&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json 0 gaps&quot;,
+        &quot;J2 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;36 criteria, 20 turns covered.&quot;,
+      &quot;checklist_says&quot;: &quot;Every turn T0-T19 has a step; R1-R36 cited.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Keep coverage; TRUTH edits in step 6 must not add &#x27;not graded&#x27; or old-number wording.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;TRUTH coverage: 0 gaps (36 criteria, 20 turns, 1 file)&#x27;.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;All four surviving checklist flags are fixed in rubric.json/TRUTH.md/report.json only. The C5.1 rerun proposal (delete &#x27;Arrive by 8:45 for setup.&#x27; from persona/HEARTBEAT.md) is NOT queued: that text is the stale trap for R19/R20 (DL6). Rerun batch is empty. No phase-2 fact/premise edits and no phase-3 splits are needed (checklist 2 PASS, no A3 hits).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R12&quot;,
+        &quot;R18&quot;,
+        &quot;R20&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C1.1&quot;,
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C5.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;visual route (DL6)&quot;,
+      &quot;action&quot;: &quot;rubric.json R6 criterion -&gt; &#x27;The response to the request to pull up Marcus&#x27;s hours card gives the card&#x27;s note \&quot;Be in the shop 15 minutes before\&quot; as a lead time of 15 minutes before the chairs open (wording aside), not only as an arrival clock time.&#x27; Score 1, importance important unchanged. IN_BY_RULE literal stays in the text (E4). HEARTBEAT.md untouched. Mirror the text in report.json R6 (justification unchanged: the T4 reply says &#x27;in the shop 15 minutes early&#x27;).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R6&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C5.1&quot;,
+        &quot;visual_leaks.json IN_BY_RULE&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;rubric.json: R23 score 5 -&gt; 3 and importance critically_important -&gt; important (same edit, E3); R18 3 -&gt; 1, R24 3 -&gt; 1, R20 3 -&gt; 1 (importance stays important). Mirror scores/importance in report.json rubric rows and pass_summary.json; recompute final_reward = rubric_weights_percentage = 52.17.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R23&quot;,
+        &quot;R18&quot;,
+        &quot;R24&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -5.48,
+      &quot;score_delta&quot;: 7.73
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;weight pass 2 (double charge)&quot;,
+      &quot;action&quot;: &quot;rubric.json R12 criterion -&gt; &#x27;The response to the question about Marcus&#x27;s price card states the taper and lineup price it gives, whatever that amount is, in a single sentence, whatever form the booking prices beside it take.&#x27; (same-output relative wording, no merge; score 3 unchanged). R11 unchanged at 1. After step 3 the same-source groups R17/R24/R27, R19/R20 and chain R18-&gt;R25 are all at 1: not pairs (rule 4), no further reweight. Mirror R12 text in report.json.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R11&quot;,
+        &quot;R12&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C1.1&quot;,
+        &quot;double_charge.json considered_not_pairs R11/R12&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Vision 68.52% -&gt; 63.04% (29/46; 65.22% if reworded R6 is counted as picture-only). Score 44.44% -&gt; 52.17% (24/46). No score target set and vision &gt;= 30%, so no pair swap.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;checklist item 10&quot;,
+        &quot;extras.json vision&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;Optional neo-qc J1 A5 fix: rubric.json R27 -&gt; &#x27;Across all of Priya&#x27;s calendars (the P.Whit Studio calendar included), the agent leaves at least one event for the Redlight session with DT on Friday March 27, every one of which starts at 7:30 PM.&#x27; (keeps the SESSION_CAL_MUTATED literal and one value; no &#x27;and&#x27;). Mirror in report.json (fail unchanged). No turn numbers added; targets unchanged (R6/R12 final_answer, R27 state_change); no process criteria.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R27&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;audit_report_tier25.json J1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;TRUTH.md: TAPER_REPLY_FORM -&gt; \&quot;states the taper and lineup price it gives, whatever that amount is, in a single sentence\&quot; (type graded-positive; literal is in R12). Step 5 (T4): add &#x27;HEARTBEAT.md \&quot;Arrive by 8:45 for setup\&quot; and \&quot;9:00 AM to 5:00 PM\&quot; are stale after the hours card is redone; they catch R19 and R20.&#x27; Step 8: R12 phrasing per new text. IN_BY_RULE, SESSION_CAL_MUTATED unchanged. No R-number changes (TB1), no &#x27;not graded&#x27; (TB2), no history words in report justifications (TB3), lock types unchanged (TB4). Weight reasoning (post-confirm silent change) goes in section 7 only.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R12&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R27&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C1.1&quot;,
+        &quot;C5.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc Tier 1.5 (E1/E3/E4/E6/E10/E12), Tier 2.5, TRUTH coverage and double charge, and the checklist agent, both with the shared tie-break rules. Expect: C1.1/C4.1/C4.2/C5.1 closed, E3 clean on R23, E4 clean on TAPER_REPLY_FORM/IN_BY_RULE/SESSION_CAL_MUTATED. QC re-check only; no task rerun.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R12&quot;,
+        &quot;R18&quot;,
+        &quot;R20&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R27&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C1.1&quot;,
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C5.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 68.52,
+    &quot;vision_after&quot;: 63.04,
+    &quot;score_before&quot;: 44.44,
+    &quot;score_after&quot;: 52.17,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 4,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;4 checklist flags survive reconciliation (C1.1, C4.1, C4.2, C5.1); all are rubric/TRUTH fixes, no rerun needed; vision stays 63.04%.&quot;,
+  &quot;summary&quot;: &quot;3 conflicts (DL6, DL5 x2), 2 disagreements (DL1 R11/R12 -&gt; checklist right; vision definition -&gt; checklist right), 6 agree, 1 one-sided (neo J1 R27), fix plan 8 steps (0 rerun), vision 68.52-&gt;63.04%, score 44.44-&gt;52.17%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "priya_whitfield_5a2495f2-339c-4bc9-b031-eac2a0017c29", "slug": "priya_whitfield_5a2495f2", "tasker": "Nikhil Satyam", "authors": ["nikhil.satyam02", "nikhil.satyam02@ethara.ai"], "version": 1, "commit_sha": "b2a564afdb86e7d4e445901ee6e65bdcd4809eaf", "base_sha": "099f9db529e628f472a5151b648416cf0b5c298e", "range": "099f9db52..b2a564afd", "change": "manual", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 4 flag(s); 3 conflicts (DL6, DL5 x2), 2 disagreements (DL1 R11/R12 -> checklist right; vision definition -> checklist right), 6 agree, 1 one-sided (neo J1 R27), fix plan 8 steps (0 rerun), vision 68.52->63.04%, score 44.44->52.17%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 0 design / 0 grader / 0 minor; score 44.44%; T3 non-model 0 (14 model misses); E8 rerun-class changes verified as a consistent rerun", "checklist_flags": 4, "conflicts": 3, "vision_before": 68.52, "vision_after": 63.04, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 0, "attempt": 1, "qc_finished_at": "2026-11-26T11:05:29Z"}</script></body></html>
