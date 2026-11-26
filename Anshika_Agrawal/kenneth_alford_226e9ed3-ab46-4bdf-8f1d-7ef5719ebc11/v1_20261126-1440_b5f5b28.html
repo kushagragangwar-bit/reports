@@ -1,0 +1,770 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: kenneth_alford_226e9ed3 (ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict ok">ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</code></span>
+<span><span class="k">Tasker</span>Anshika Agrawal</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>b5f5b28ae</code> (manual, range <code>fa370750f..b5f5b28ae</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 09:22:42 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>0</span>
+<span><span class="k">Conflicts</span>0</span>
+<span><span class="k">Vision</span>75.0% → 75.0%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 0 flag(s); 0 conflicts, 8 agree, 2 one-sided (RR4 E8 metadata, D17 checker limit), fix plan 2 steps (0 rerun), vision 75.0-&gt;75.0%, score 27.63-&gt;27.63%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: kenneth_alford_226e9ed3</h1>
+<p class="sub">obsidian-infinity-stage-1 fa370750f..b5f5b28ae (manual)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>33</b><span>rubrics</span></div><div class="stat"><b>27.6</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>11/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>11/1/1</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>3/0/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>33/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 11 failed criteria across 1 task(s): <b>11 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 1 failure(s) and 1 warning(s). Tier 2.5 flagged 0 of 4 checks on 0 task(s); 0 pending. Tier 3 re-graded 33 criteria: 33 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 12 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending.</p>
+<h3>Low scores (under 35%)</h3><table><tr><th>task</th><th>score</th><th>what drove it</th><th>tier 3</th></tr><tr><td><a href='#t-kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11'>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</a></td><td class='n'>27.63</td><td>The agent answered every drift turn (T7-T17) from its own earlier readings and never re-opened the screenshots or messages, so it gave all 11 stale values. The agent is wrong; the criteria are sound.</td><td class='muted'>model 11</td></tr></table>
+<h3>Issue log</h3><p class='muted'>No <code>issues.json</code> was supplied. Write one (see report_format.md) and re-run.</p>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>E8_change_diff</code></td><td><span class="b b-fail">fail</span></td><td class='muted'>UNEXPECTED: inject/stage1/mutations.json</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>E11_visual_leak_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>L57 SCIENCE_T1 10:30 AM: 2 readable copies (api 1, persona 1)</td></tr></table></details><details><summary>Visual leak candidates (12: 0 leak, 0 declared, 0 guessable)</summary><table><tr><th>task</th><th>lock</th><th>token</th><th>verdict</th><th>file</th><th>note</th></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>SCIENCE_T1</code></td><td>10:30 AM</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-calendar-api/events.json</td><td>Unrelated October 2026 school event; same clock time, different fact. No readable text gives the science center entry time (Gmail NCSC mail and the Drive plan say only &#x27;in the morning&#x27; / &#x27;tickets in the app&#x27;).</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>SCIENCE_T1</code></td><td>10:30 AM</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/HEARTBEAT.md</td><td>Same art-showcase event as the calendar record; unrelated to the science center booking.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>SYMPHONY_T4</code></td><td>2:00 PM</td><td><code>coincidence</code></td><td class='muted'>data/environment/gmail-api/messages.json</td><td>Kenneth&#x27;s October conference session time; unrelated. The symphony box-office email says only that tickets are in the app; the Drive plan names the concert with no time.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>DRIVE_TIME_T18</code></td><td>3 hours</td><td><code>coincidence</code></td><td class='muted'>prompt.txt</td><td>Cooking time in the T13 prompt; not the drive time, and the graded &#x27;5 minutes&#x27; appears nowhere in text.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>(no lock) R23</code></td><td>realistic photo-style image</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: the criterion grades the agent-generated cleveland_countdown.png (T6), not a value read from a source picture. The only text naming this property is the T6 instruction itself, which is the spec the agent must render, not an answer that satisfies the criterion without producing the image. No readable file hit (E11 lists the criterion with no file). Not a finding.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>(no lock) R24</code></td><td>soft pink and orange sky</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: the criterion grades the agent-generated cleveland_countdown.png (T6), not a value read from a source picture. The only text naming this property is the T6 instruction itself, which is the spec the agent must render, not an answer that satisfies the criterion without producing the image. No readable file hit (E11 lists the criterion with no file). Not a finding.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>(no lock) R25</code></td><td>no legible words</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: the criterion grades the agent-generated cleveland_countdown.png (T6), not a value read from a source picture. The only text naming this property is the T6 instruction itself, which is the spec the agent must render, not an answer that satisfies the criterion without producing the image. No readable file hit (E11 lists the criterion with no file). Not a finding.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>(no lock) R29</code></td><td>white lighthouse</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: the criterion grades the agent-generated cleveland_countdown.png (T6), not a value read from a source picture. The only text naming this property is the T6 instruction itself, which is the spec the agent must render, not an answer that satisfies the criterion without producing the image. No readable file hit (E11 lists the criterion with no file). Not a finding.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>(no lock) R30</code></td><td>lighthouse at end of a stone pier</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: the criterion grades the agent-generated cleveland_countdown.png (T6), not a value read from a source picture. The only text naming this property is the T6 instruction itself, which is the spec the agent must render, not an answer that satisfies the criterion without producing the image. No readable file hit (E11 lists the criterion with no file). Not a finding.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>(no lock) R31</code></td><td>sunrise, sun low near horizon</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: the criterion grades the agent-generated cleveland_countdown.png (T6), not a value read from a source picture. The only text naming this property is the T6 instruction itself, which is the spec the agent must render, not an answer that satisfies the criterion without producing the image. No readable file hit (E11 lists the criterion with no file). Not a finding.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>(no lock) R32</code></td><td>gulls overhead</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: the criterion grades the agent-generated cleveland_countdown.png (T6), not a value read from a source picture. The only text naming this property is the T6 instruction itself, which is the spec the agent must render, not an answer that satisfies the criterion without producing the image. No readable file hit (E11 lists the criterion with no file). Not a finding.</td></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>(no lock) R33</code></td><td>calm blue-grey water</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: the criterion grades the agent-generated cleveland_countdown.png (T6), not a value read from a source picture. The only text naming this property is the T6 instruction itself, which is the spec the agent must render, not an answer that satisfies the criterion without producing the image. No readable file hit (E11 lists the criterion with no file). Not a finding.</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage2 sil_drive_erin_van_edit: could not check (google-drive-api/replies: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11'><td>kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11</td><td class='n'>20</td><td class='n'>33</td><td class='n'>27.63</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 11</td><td>11/1/1</td><td><span class="b b-ok">pass</span></td><td>33/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>0 flags across items [1-12] (all PASS); 6 candidates rejected with evidence; vision 75.0% (64.5% excluding generated-image rows)</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Each 1-pt baseline (R12-R22) and its 5-pt follow-up (R1-R11) grade different values from different source states (seed vs mutated), so a wrong baseline cannot fail the follow-up. The only penalty, R28 (WhatsApp to Danny/Erin/Thomas), can fire on its own and has no paired positive.</td></tr><tr><td>2</td><td>Atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Each of R1-R22 and R26 grades one value. R2 and R17 list accepted forms of that one value. R23-R25 and R29-R33 each grade one scene element from the countdown-picture ask. R28 is one behaviour with alternative recipients.</td></tr><tr><td>3</td><td>Turn names the media file</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The only file-graded criteria, R23-R25 and R29-R33, name cleveland_countdown.png, which the Day 2 21:20 countdown-picture turn names exactly. R27 grades the WhatsApp to Margaret that the Day 6 17:00 turn asks for by name.</td></tr><tr><td>4</td><td>Lower weight after approval + silent change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>None of the 11 mutation chains follows a user confirmation or approval. The earlier turns (T0-T5) are only questions, and the later turns ask new derived figures rather than re-asking an approved value, so R1-R11 at 5 / critically_important stand.</td></tr><tr><td>5</td><td>No text leak of image-graded facts</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Image-only values (7:15/6:20 AM, 4:52 PM, $412.79/$346.93, 10:30/11:15 AM, $62.90/$27.95, 2:00/3:00 PM, 10:15/9:15 AM, 52/44 hrs, 196 mi, 3 hr 5 min) are not in any text source: Gmail, Drive/Docs, Calendar, WhatsApp, persona, notes, the numbered home files or the inject text. Emails and the doc only point to the apps.</td></tr><tr><td>6</td><td>Path-dependent scripted messages</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>All mutations are unconditional in-place edits or everyday no-figure messages (e.g. &#x27;Eight more sleeps, tell Hana!&#x27;). None assumes an earlier agent action or a particular path.</td></tr><tr><td>7</td><td>Evaluation target</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Chat answers R1-R22 and R26 use user_facing_message. Generated-image R23-R25 and R29-R33 use produced_artifact. The WhatsApp send R27 and penalty R28 use state_change. All correct.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion grades tool use or method. R28 enforces the AGENTS.md WhatsApp rule by its visible outcome (message state).</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>TRUTH covers T0-T19. Every derived value was recomputed from the seed and mutated sources (8:55 PM, $78.40/.41/.48, 4 h, $406.93, 2:55 AM, $82.95, 10:35 AM, 2:25 PM, 8:40 AM, 9:30 AM, $92, 4:52 PM) and matches R1-R27.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>57/76 = 75.0% of positive weight is image-graded with no text route (49/76 = 64.5% even if the generated-image rows are excluded).</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The run never re-read any mutated source after its stage fired: no tool calls at T7, T8 or T10-T17, and at T9 only a pay-calendar search. So it shows no value that conflicts with the environment. Stage WhatsApp upserts are visible in the run (message 92). The stale answers are model failures, not a mismatch.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion contains a T-label or &#x27;turn N&#x27;. Criteria anchor on the topic, with &#x27;first asks&#x27; telling the baseline asks apart.</td></tr></tbody></table>
+<p>No flags survived verification.</p>
+<h3>Vision share <span class="qc-tag ok">75.0%</span></h3>
+<p>57 of 76 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R2</td><td>5</td><td>Pictures/Travel/Niagara/lakewood_to_niagara.png</td><td>196 mi each way only in route screenshot</td></tr><tr><td>R3</td><td>5</td><td>inject/stage3/files/pto_balance.png</td><td>44.00 hrs only in retaken screenshot</td></tr><tr><td>R4</td><td>5</td><td>inject/stage4/files/lakeshore_reservation.png</td><td>$346.93 only in image</td></tr><tr><td>R5</td><td>5</td><td>inject/stage5/files/cascadia_trip.png</td><td>6:20 AM departure only in image</td></tr><tr><td>R6</td><td>5</td><td>inject/stage6/files/glmm_order.png</td><td>$27.95 only in image</td></tr><tr><td>R8</td><td>5</td><td>inject/stage8/files/big_beats_tickets.png</td><td>3:00 PM only in image</td></tr><tr><td>R9</td><td>5</td><td>inject/stage9/files/keeper_tour.png</td><td>9:15 AM only in image</td></tr><tr><td>R10</td><td>5</td><td>inject/stage10/files/ncsc_tickets.png</td><td>11:15 AM only in image</td></tr><tr><td>R12</td><td>1</td><td>Pictures/Travel/Flights/cascadia_trip.png</td><td>7:15 AM only in image</td></tr><tr><td>R13</td><td>1</td><td>Pictures/Travel/Car/lakeshore_reservation.png</td><td>$412.79 only in image</td></tr><tr><td>R14</td><td>1</td><td>Pictures/Travel/Science/ncsc_tickets.png</td><td>10:30 AM only in image</td></tr><tr><td>R15</td><td>1</td><td>Pictures/Travel/Museum/glmm_order.png</td><td>$62.90 only in image</td></tr><tr><td>R20</td><td>1</td><td>Pictures/Travel/Symphony/big_beats_tickets.png</td><td>2:00 PM only in image</td></tr><tr><td>R21</td><td>1</td><td>Pictures/Travel/Zoo/keeper_tour.png</td><td>10:15 AM only in image</td></tr><tr><td>R22</td><td>1</td><td>Pictures/Work/pto_balance.png</td><td>52.00 hrs only in image</td></tr><tr><td>R26</td><td>1</td><td>Pictures/Travel/Niagara/lakewood_to_niagara.png</td><td>3 hr 5 min only in image</td></tr><tr><td>R27</td><td>1</td><td>inject/stage5/files/cascadia_trip.png</td><td>CLE 4:52 PM only in flight image</td></tr><tr><td>R23</td><td>1</td><td>output_media/cleveland_countdown.png</td><td>photo-realism judged from generated image</td></tr><tr><td>R24</td><td>1</td><td>output_media/cleveland_countdown.png</td><td>sky colour judged from image</td></tr><tr><td>R25</td><td>1</td><td>output_media/cleveland_countdown.png</td><td>no lettering judged from image</td></tr><tr><td>R29</td><td>1</td><td>output_media/cleveland_countdown.png</td><td>white lighthouse judged from image</td></tr><tr><td>R30</td><td>1</td><td>output_media/cleveland_countdown.png</td><td>stone pier judged from image</td></tr><tr><td>R31</td><td>1</td><td>output_media/cleveland_countdown.png</td><td>low sun at horizon judged from image</td></tr><tr><td>R32</td><td>1</td><td>output_media/cleveland_countdown.png</td><td>gulls judged from image</td></tr><tr><td>R33</td><td>1</td><td>output_media/cleveland_countdown.png</td><td>calm blue-grey water judged from image</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (6)</summary><ul><li>item 1: Baseline/derived pairs (R17/R11, R12/R5, R13/R4, R15/R6, R16/R2, R18/R7, R19/R1, R20/R8, R21/R9, R14/R10, R22/R3, R12/R27) double-charge one value. <span class='qc-k'>dismissed:</span>Each follow-up uses the mutated source value (6:15 dinner, 18 mpg, 44 h, $346.93, 6:20 AM, $27.95, 12:45 landing, 3:00 PM, 9:15 AM, 11:15 AM, $31 seat), not the earlier answer, so the baseline is not an input to it. R12 and R27 are different facts (departure vs CLE arrival). R28 fires on its own.</li><li>item 2: R17, R2, R23, R30, R31, R28 combine separate asks. <span class='qc-k'>dismissed:</span>R17 and R2 list accepted forms of one value; R23 and R31 restate one property; R30 is one scene element worded as in the prompt; R28 is one behaviour with alternative recipients.</li><li>item 4: R1-R11 depend on a silent change after an earlier value and should drop to 3. <span class='qc-k'>dismissed:</span>No turn approves or confirms a value. T0-T5 are questions only (prompt.txt), and the later turns ask new derived figures, so the item 4 trigger (approval -&gt; silent change -&gt; asked again) is absent.</li><li>item 9: R3/TRUTH &#x27;4 hours&#x27; ignores the 6.15 h per pay-period accrual shown on pto_balance.png. <span class='qc-k'>dismissed:</span>Notes rule 9 (&#x27;5 clinic days at 8 hours of PTO each&#x27;) and TRUTH (&#x27;the PTO accrual and sick-leave lines&#x27; listed as designed distractors) agree with R3 = 44 - 40 = 4. TRUTH, rubric and prompt are consistent. The verifier called this at most a wording nicety, not a disagreement.</li><li>item 11: Filesystem mutation dst &#x27;/workspace/home/home/...&#x27; differs from the agent path &#x27;/root/workspace/home/home/...&#x27;, so the retaken screenshots may not have been delivered. <span class='qc-k'>dismissed:</span>Nothing in the run shows a conflicting value. The agent never re-opened a mutated image after its stage (no image reads after T5). The mapping cannot be checked from the bundle, so it stays a harness note, not a finding.</li><li>item 5: Image-graded values may have a text route. <span class='qc-k'>dismissed:</span>Two independent greps of all service JSON, persona, notes, extracted home docs, inject text and PNG metadata found none. The only matches are unrelated times (e.g. the Oct 24 2026 art showcase at 10:30 AM, the Oct 17 CEU session at 2:00 PM).</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>0 conflicts, 8 agree, 2 one-sided (RR4 E8 metadata, D17 checker limit), fix plan 2 steps (0 rerun), vision 75.0-&gt;75.0%, score 27.63-&gt;27.63%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">75.0% → 75.0%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">27.63% → 27.63%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag info">one_sided</span></td><td>RR4</td><td>E8 fail (11 inject/stage*/mutations.json UNEXPECTED), issues_draft D1 (dismissed)</td><td>item 11 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>E8 fails because the inject mutations.json files differ from the baseline. The drafted issue D1 was dismissed: the only change is the removed event_kind &#x27;independent_world_change&#x27; key, which is a no-op for silent mutations.</div><div><span class=qc-k>checklist</span>Silent here. Item 11 passes, and the run shows no value that conflicts with the environment.</div><div><span class=qc-k>loop</span>Restoring the key, or making any other inject edit, is itself an inject change after the run (RR4), so a fix with no rerun swaps one E8 for another.</div><div><span class=qc-k>resolution</span>No action. The diff is metadata-only and changes no fired op or value, so the run and the environment agree and checklist 11 holds. If a rerun ever happens for another reason, it uses the current files and E8 clears.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>gap</td><td>Tier 1 D17 warn (stage2 sil_drive_erin_van_edit could not check)</td><td></td><td></td><td><div><span class=qc-k>neo-qc</span>D17 could not import the service to check the stage2 Drive edit. This is a checker limit. The edit targets an existing Drive reply row and is a decoy that no criterion grades.</div><div><span class=qc-k>checklist</span>Silent. Item 6 passes because the injected messages carry no figures and assume no agent action.</div><div><span class=qc-k>resolution</span>No action. Tier 2 C confirms that the patch targets an existing pk (reply AAABkaclCr0001).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL1</td><td>double_charge.json chains[1] (seed R12-R22 vs derived R1-R11: not pairs), E12 info (0 candidates)</td><td>item 1 PASS, rejected item 1</td><td>R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22</td><td><div><span class=qc-k>neo-qc</span>Not pairs: every 5-point answer uses the changed input, never the seed value the 1-point row grades, so either one can be right while the other is wrong.</div><div><span class=qc-k>checklist</span>Item 1 PASS: each 5-point follow-up uses the changed value (6:15, 18 mpg, 44 h, $346.93, ...), so a wrong baseline cannot fail it.</div><div><span class=qc-k>resolution</span>No edit. Both tools apply the shared NOT-a-pair rule (a chain charged once, with downstream answers built from a different source value). Nothing is merged, dropped or reweighted, so DL1-DL3 cannot fire.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json considered_not_pairs R27/R28</td><td>item 1 PASS, item 8 PASS</td><td>R27, R28</td><td><div><span class=qc-k>neo-qc</span>R28 (WhatsApp to Danny/Erin/Thomas) is a wrong-recipient penalty, not a pair with R27.</div><div><span class=qc-k>checklist</span>The only penalty, R28 (wrong WhatsApp recipient), can fire on its own. It is graded on the visible message state.</div><div><span class=qc-k>resolution</span>Keep R28 at -3. Under the DL4 test, the penalty can fire without R27 failing (a correct Margaret message plus a stray send), so this is an independent behaviour that both tools accept.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL5</td><td>audit_report_tier25.json J1 pass (A7 no hit)</td><td>item 4 PASS, rejected item 4</td><td>R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11</td><td><div><span class=qc-k>neo-qc</span>J1 passes. No A7 tier-down because no criterion follows a sign-off.</div><div><span class=qc-k>checklist</span>No turn confirms or approves a value. T0-T5 are questions only, so R1-R11 stay at 5.</div><div><span class=qc-k>resolution</span>No weight change. Even the broad checklist-4 trigger (confirm, then silent change, then asked again) is absent because there is no confirmation, so R1-R11 stay at 5 / critically_important.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>visual_leaks.json (12 candidates, all coincidence), E11 warn (dismissed)</td><td>item 5 PASS, rejected item 5</td><td>R14, R20, R7</td><td><div><span class=qc-k>neo-qc</span>E11 warns on 10:30 AM, 2:00 PM and &#x27;3 hours&#x27;, but they are an October 2026 art showcase, an October conference talk and the pot-roast cook time from the prompt. 0 leaks.</div><div><span class=qc-k>checklist</span>Two greps found none of the image values in text. The only matches are unrelated times (the Oct 24 2026 art showcase 10:30 AM, the Oct 17 session 2:00 PM).</div><div><span class=qc-k>resolution</span>No anchor rewrite or data edit. The matching text gives a different fact, so it does not give the graded answer at grading time (shared leak rule). E11 stays a warn only.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>extras.json turn_refs [], tier25 J1 pass (A5 no hit)</td><td>item 12 PASS</td><td>R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22</td><td><div><span class=qc-k>neo-qc</span>No criterion names a turn number. J1 finds no loose &#x27;which reply?&#x27; wording.</div><div><span class=qc-k>checklist</span>No criterion has a T-label. They anchor on topic, with &#x27;first asks&#x27; for the baseline asks.</div><div><span class=qc-k>resolution</span>No edit. Each topic plus &#x27;first asks&#x27; anchor points at one reply, so A5 and checklist 12 are both satisfied.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>extras.json vision_pct 75.0</td><td>item 10 PASS</td><td>R2, R3, R4, R5, R6, R8, R9, R10, R12, R13, R14, R15, R20, R21, R22, R23, R24, R25, R26, R27, R29, R30, R31, R32, R33</td><td><div><span class=qc-k>neo-qc</span>57/76 = 75.0%, vision_ok true.</div><div><span class=qc-k>checklist</span>57/76 = 75.0% (or 64.5% if the generated-picture rows are left out).</div><div><span class=qc-k>resolution</span>Recomputed with the dependency definition (no text route at grading time): 57/76 = 75.0%. Both readings are well above 30%. The plan makes no weight edits, so the share does not change.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>TB2</td><td>truth_coverage.json gaps []</td><td>item 9 PASS, rejected item 9 (R3 accrual)</td><td>R3</td><td><div><span class=qc-k>neo-qc</span>TRUTH covers all 33 criteria and 20 turns, with no lock_type_mismatch. J1 A6 recomputes R3 = 44 - 40 = 4.</div><div><span class=qc-k>checklist</span>TRUTH covers T0-T19. The R3 accrual line is a listed distractor, so R3 = 4 is consistent.</div><div><span class=qc-k>resolution</span>No TRUTH edit, so TB1-TB4 cannot fire.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>gap</td><td>QC_SUMMARY.md leads dismissed (doubled /workspace/home/home dst)</td><td>rejected item 11 (mutation path)</td><td>R2, R3, R4, R5, R6, R8, R9, R10</td><td><div><span class=qc-k>neo-qc</span>The doubled /workspace/home/home/... destination is normalized at ingest. Not blocking.</div><div><span class=qc-k>checklist</span>The path mapping can&#x27;t be checked from the bundle. The run never re-read an image after T5, so it is a harness note, not a finding.</div><div><span class=qc-k>resolution</span>Both dismiss it, and neo-qc&#x27;s documented ingest normalization settles it. No edit. Tier 3 also attributes all 11 failures to the model (stale values, sources never reopened).</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>No flag needs a rerun and no rubric or TRUTH edit is required. Record that the E8 inject diff (removed event_kind metadata key) is a no-op, and leave the inject files as they are.</td><td></td><td>E8, D1 (dismissed), C11</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>recompute vision % and score</td><td>Confirm the metrics are unchanged: vision 57/76 = 75.0% (&gt;= 30%), and the run score 21/76 = 27.63%, which equals report.json final_reward. With no edits, no weight pass is needed.</td><td></td><td>extras.json vision_pct, C10</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+
+<p class="qc-k">Verdict: ACCEPTABLE, neo-qc ACCEPTABLE, 0 checklist flags, no conflicts, and vision is 75.0% (&gt;= 30%).</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: kenneth_alford_226e9ed3 (run 20261126-1440_a1)</h3>
+<p>Verdict: ACCEPTABLE. 0 kept issues (blocking 0, design 0, grader 0, minor 0). Nothing blocks delivery.</p>
+<h4>Tiers</h4>
+<ul>
+<li>Step 0 gate: exit 0, no HARD findings (1 informational).</li>
+<li>Tier 1: 20 pass, 1 warn (D17), 0 fail, 4 skip, 0 error.</li>
+<li>Tier 1.5: 11 pass, 1 warn (E11), 1 fail (E8), 2 info (E5, E12). E9 passed, so no hand-check was needed.</li>
+<li>Tier 2 (multi-turn): A, B, C, D, N3 all pass.</li>
+<li>Tier 2.5: J1, J2, J3 pass; J4 skip (rubric unchanged since the previous version).</li>
+<li>TRUTH coverage: 0 gaps (all 33 criteria, 20 turns and the deliverable are mapped).</li>
+<li>Visual leaks: 12 candidates, all coincidence; 0 leaks, 0 guessable.</li>
+<li>Double charge: 0 pairs (E12 had 0 candidates).</li>
+<li>Tier 3 all-criteria: 33 agree, 0 dispute, 0 unverifiable vs the official report.</li>
+</ul>
+<h4>Score and Tier 3 attribution</h4>
+<ul>
+<li>run_1 (claude-opus-5.5) scored 27.63. It failed R1-R11, the 5-point criteria that grade values after they change.</li>
+<li>Causes: model 11 (all high confidence). Rubric 0, judge 0, task 0, false_pass 0.</li>
+<li>Every wrong answer equals the stale value listed in TRUTH.md. After T6 the run never reopened a source (output.json msgs 61-83).</li>
+<li>Riskiest passes were checked and earned:</li>
+<li>R27/R28: the single WhatsApp send goes to Margaret.</li>
+<li>R23-R25 and R29-R33: the lighthouse image was viewed and matches.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>turn_refs: none.</li>
+<li>vision_pct: 75.0 (57/76 positive weight); vision_ok is true.</li>
+<li>unconditional_scripted_messages: none.</li>
+</ul>
+<h4>Leads checked and dismissed</h4>
+<ul>
+<li>E8 fail (11 inject/stage*/mutations.json UNEXPECTED; the only drafted issue, D1): dismissed.</li>
+<li>The files are identical to the baseline except that the <code>event_kind: &quot;independent_world_change&quot;</code> key was removed from silent mutations (checked with scratch/e8_diff.py).</li>
+<li>Per GUIDE.md, <code>event_kind</code> matters only for <code>conditional_notification</code>, so this is a no-op metadata cleanup.</li>
+<li>Trajectories, rubric and TRUTH are unchanged.</li>
+<li>D17 warn (stage2 sil_drive_erin_van_edit &quot;could not check: service did not import&quot;): a checker-tool limit, not a defect. The edit targets an existing Drive reply row. The mutation is a decoy that no criterion grades.</li>
+<li>E11 warn: 10:30 AM, 2:00 PM and &quot;3 hours&quot; are unrelated text. They are an October 2026 showcase, an October conference talk, and the pot-roast cook time in the prompt. The 8 image criteria are graded on the generated picture. No leak.</li>
+<li>E5 info: the 13 decoy mutations are intentional unasked noise.</li>
+<li>The doubled <code>/workspace/home/home/...</code> destination for screenshot mutations is normalized at ingest (SKILL.md &quot;Injected file destinations&quot;). It is not blocking.</li>
+</ul>
+<h4>Fix plan</h4>
+<p>None required.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 0 item(s))</summary><pre>[]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Each 1-pt baseline (R12-R22) and its 5-pt follow-up (R1-R11) grade different values from different source states (seed vs mutated), so a wrong baseline cannot fail the follow-up. The only penalty, R28 (WhatsApp to Danny/Erin/Thomas), can fire on its own and has no paired positive.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Each of R1-R22 and R26 grades one value. R2 and R17 list accepted forms of that one value. R23-R25 and R29-R33 each grade one scene element from the countdown-picture ask. R28 is one behaviour with alternative recipients.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turn names the media file&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The only file-graded criteria, R23-R25 and R29-R33, name cleveland_countdown.png, which the Day 2 21:20 countdown-picture turn names exactly. R27 grades the WhatsApp to Margaret that the Day 6 17:00 turn asks for by name.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after approval + silent change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;None of the 11 mutation chains follows a user confirmation or approval. The earlier turns (T0-T5) are only questions, and the later turns ask new derived figures rather than re-asking an approved value, so R1-R11 at 5 / critically_important stand.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;No text leak of image-graded facts&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Image-only values (7:15/6:20 AM, 4:52 PM, $412.79/$346.93, 10:30/11:15 AM, $62.90/$27.95, 2:00/3:00 PM, 10:15/9:15 AM, 52/44 hrs, 196 mi, 3 hr 5 min) are not in any text source: Gmail, Drive/Docs, Calendar, WhatsApp, persona, notes, the numbered home files or the inject text. Emails and the doc only point to the apps.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Path-dependent scripted messages&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;All mutations are unconditional in-place edits or everyday no-figure messages (e.g. &#x27;Eight more sleeps, tell Hana!&#x27;). None assumes an earlier agent action or a particular path.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Chat answers R1-R22 and R26 use user_facing_message. Generated-image R23-R25 and R29-R33 use produced_artifact. The WhatsApp send R27 and penalty R28 use state_change. All correct.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion grades tool use or method. R28 enforces the AGENTS.md WhatsApp rule by its visible outcome (message state).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;TRUTH covers T0-T19. Every derived value was recomputed from the seed and mutated sources (8:55 PM, $78.40/.41/.48, 4 h, $406.93, 2:55 AM, $82.95, 10:35 AM, 2:25 PM, 8:40 AM, 9:30 AM, $92, 4:52 PM) and matches R1-R27.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;57/76 = 75.0% of positive weight is image-graded with no text route (49/76 = 64.5% even if the generated-image rows are excluded).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The run never re-read any mutated source after its stage fired: no tool calls at T7, T8 or T10-T17, and at T9 only a pay-calendar search. So it shows no value that conflicts with the environment. Stage WhatsApp upserts are visible in the run (message 92). The stale answers are model failures, not a mismatch.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion contains a T-label or &#x27;turn N&#x27;. Criteria anchor on the topic, with &#x27;first asks&#x27; telling the baseline asks apart.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Baseline/derived pairs (R17/R11, R12/R5, R13/R4, R15/R6, R16/R2, R18/R7, R19/R1, R20/R8, R21/R9, R14/R10, R22/R3, R12/R27) double-charge one value.&quot;,
+      &quot;why&quot;: &quot;Each follow-up uses the mutated source value (6:15 dinner, 18 mpg, 44 h, $346.93, 6:20 AM, $27.95, 12:45 landing, 3:00 PM, 9:15 AM, 11:15 AM, $31 seat), not the earlier answer, so the baseline is not an input to it. R12 and R27 are different facts (departure vs CLE arrival). R28 fires on its own.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R17, R2, R23, R30, R31, R28 combine separate asks.&quot;,
+      &quot;why&quot;: &quot;R17 and R2 list accepted forms of one value; R23 and R31 restate one property; R30 is one scene element worded as in the prompt; R28 is one behaviour with alternative recipients.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R1-R11 depend on a silent change after an earlier value and should drop to 3.&quot;,
+      &quot;why&quot;: &quot;No turn approves or confirms a value. T0-T5 are questions only (prompt.txt), and the later turns ask new derived figures, so the item 4 trigger (approval -&gt; silent change -&gt; asked again) is absent.&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;R3/TRUTH &#x27;4 hours&#x27; ignores the 6.15 h per pay-period accrual shown on pto_balance.png.&quot;,
+      &quot;why&quot;: &quot;Notes rule 9 (&#x27;5 clinic days at 8 hours of PTO each&#x27;) and TRUTH (&#x27;the PTO accrual and sick-leave lines&#x27; listed as designed distractors) agree with R3 = 44 - 40 = 4. TRUTH, rubric and prompt are consistent. The verifier called this at most a wording nicety, not a disagreement.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;Filesystem mutation dst &#x27;/workspace/home/home/...&#x27; differs from the agent path &#x27;/root/workspace/home/home/...&#x27;, so the retaken screenshots may not have been delivered.&quot;,
+      &quot;why&quot;: &quot;Nothing in the run shows a conflicting value. The agent never re-opened a mutated image after its stage (no image reads after T5). The mapping cannot be checked from the bundle, so it stays a harness note, not a finding.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;Image-graded values may have a text route.&quot;,
+      &quot;why&quot;: &quot;Two independent greps of all service JSON, persona, notes, extracted home docs, inject text and PNG metadata found none. The only matches are unrelated times (e.g. the Oct 24 2026 art showcase at 10:30 AM, the Oct 17 CEU session at 2:00 PM).&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 75.0,
+    &quot;vision_weight&quot;: 57,
+    &quot;positive_weight&quot;: 76,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;Pictures/Travel/Niagara/lakewood_to_niagara.png&quot;,
+        &quot;why&quot;: &quot;196 mi each way only in route screenshot&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage3/files/pto_balance.png&quot;,
+        &quot;why&quot;: &quot;44.00 hrs only in retaken screenshot&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage4/files/lakeshore_reservation.png&quot;,
+        &quot;why&quot;: &quot;$346.93 only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage5/files/cascadia_trip.png&quot;,
+        &quot;why&quot;: &quot;6:20 AM departure only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage6/files/glmm_order.png&quot;,
+        &quot;why&quot;: &quot;$27.95 only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage8/files/big_beats_tickets.png&quot;,
+        &quot;why&quot;: &quot;3:00 PM only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage9/files/keeper_tour.png&quot;,
+        &quot;why&quot;: &quot;9:15 AM only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage10/files/ncsc_tickets.png&quot;,
+        &quot;why&quot;: &quot;11:15 AM only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Travel/Flights/cascadia_trip.png&quot;,
+        &quot;why&quot;: &quot;7:15 AM only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Travel/Car/lakeshore_reservation.png&quot;,
+        &quot;why&quot;: &quot;$412.79 only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Travel/Science/ncsc_tickets.png&quot;,
+        &quot;why&quot;: &quot;10:30 AM only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Travel/Museum/glmm_order.png&quot;,
+        &quot;why&quot;: &quot;$62.90 only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Travel/Symphony/big_beats_tickets.png&quot;,
+        &quot;why&quot;: &quot;2:00 PM only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Travel/Zoo/keeper_tour.png&quot;,
+        &quot;why&quot;: &quot;10:15 AM only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Work/pto_balance.png&quot;,
+        &quot;why&quot;: &quot;52.00 hrs only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Travel/Niagara/lakewood_to_niagara.png&quot;,
+        &quot;why&quot;: &quot;3 hr 5 min only in image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage5/files/cascadia_trip.png&quot;,
+        &quot;why&quot;: &quot;CLE 4:52 PM only in flight image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output_media/cleveland_countdown.png&quot;,
+        &quot;why&quot;: &quot;photo-realism judged from generated image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output_media/cleveland_countdown.png&quot;,
+        &quot;why&quot;: &quot;sky colour judged from image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output_media/cleveland_countdown.png&quot;,
+        &quot;why&quot;: &quot;no lettering judged from image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output_media/cleveland_countdown.png&quot;,
+        &quot;why&quot;: &quot;white lighthouse judged from image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output_media/cleveland_countdown.png&quot;,
+        &quot;why&quot;: &quot;stone pier judged from image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output_media/cleveland_countdown.png&quot;,
+        &quot;why&quot;: &quot;low sun at horizon judged from image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output_media/cleveland_countdown.png&quot;,
+        &quot;why&quot;: &quot;gulls judged from image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output_media/cleveland_countdown.png&quot;,
+        &quot;why&quot;: &quot;calm blue-grey water judged from image&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;why&quot;: &quot;Margaret WhatsApp edit (6:15) + notes rule 5, text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;why&quot;: &quot;Dad WhatsApp edit (12:45) + notes rule 4, text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;why&quot;: &quot;Danny WhatsApp edit ($31) + notes rule 10, text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;why&quot;: &quot;Drive reply AAABkaclCr0001 (24 mpg), text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;why&quot;: &quot;Danny WhatsApp ($38 a seat), text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;why&quot;: &quot;Dad WhatsApp (2:10 PM), text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;why&quot;: &quot;Margaret WhatsApp (5:30), text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;why&quot;: &quot;negative criterion, not in positive weight&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;0 flags across items [1-12] (all PASS); 6 candidates rejected with evidence; vision 75.0% (64.5% excluding generated-image rows)&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json chains[1] (seed R12-R22 vs derived R1-R11: not pairs)&quot;,
+        &quot;E12 info (0 candidates)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;rejected item 1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;,
+        &quot;R3&quot;,
+        &quot;R4&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R7&quot;,
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R11&quot;,
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Not pairs: every 5-point answer uses the changed input, never the seed value the 1-point row grades, so either one can be right while the other is wrong.&quot;,
+      &quot;checklist_says&quot;: &quot;Item 1 PASS: each 5-point follow-up uses the changed value (6:15, 18 mpg, 44 h, $346.93, ...), so a wrong baseline cannot fail it.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. Both tools apply the shared NOT-a-pair rule (a chain charged once, with downstream answers built from a different source value). Nothing is merged, dropped or reweighted, so DL1-DL3 cannot fire.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json: &#x27;Not pairs: every 5-point answer uses the mutated input ... never the seed value the 1-point criterion grades&#x27;; checklist.json rejected item 1 gives the same reason.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json considered_not_pairs R27/R28&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;item 8 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R27&quot;,
+        &quot;R28&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R28 (WhatsApp to Danny/Erin/Thomas) is a wrong-recipient penalty, not a pair with R27.&quot;,
+      &quot;checklist_says&quot;: &quot;The only penalty, R28 (wrong WhatsApp recipient), can fire on its own. It is graded on the visible message state.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Keep R28 at -3. Under the DL4 test, the penalty can fire without R27 failing (a correct Margaret message plus a stray send), so this is an independent behaviour that both tools accept.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R28: &#x27;The agent sends a WhatsApp message to Danny Alford, Erin Kowalski or Thomas Alford during the run.&#x27; The premise is persona/AGENTS.md:37 &#x27;Send when Kenneth explicitly asks ... Draft otherwise.&#x27; (tier25 J1 evidence).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 pass (A7 no hit)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 4 PASS&quot;,
+        &quot;rejected item 4&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;,
+        &quot;R3&quot;,
+        &quot;R4&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R7&quot;,
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R11&quot;
+      ],
+      &quot;neo_says&quot;: &quot;J1 passes. No A7 tier-down because no criterion follows a sign-off.&quot;,
+      &quot;checklist_says&quot;: &quot;No turn confirms or approves a value. T0-T5 are questions only, so R1-R11 stay at 5.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No weight change. Even the broad checklist-4 trigger (confirm, then silent change, then asked again) is absent because there is no confirmation, so R1-R11 stay at 5 / critically_important.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json rejected item 4: &#x27;No turn approves or confirms a value. T0-T5 are questions only (prompt.txt)&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json (12 candidates, all coincidence)&quot;,
+        &quot;E11 warn (dismissed)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;,
+        &quot;rejected item 5&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R14&quot;,
+        &quot;R20&quot;,
+        &quot;R7&quot;
+      ],
+      &quot;neo_says&quot;: &quot;E11 warns on 10:30 AM, 2:00 PM and &#x27;3 hours&#x27;, but they are an October 2026 art showcase, an October conference talk and the pot-roast cook time from the prompt. 0 leaks.&quot;,
+      &quot;checklist_says&quot;: &quot;Two greps found none of the image values in text. The only matches are unrelated times (the Oct 24 2026 art showcase 10:30 AM, the Oct 17 session 2:00 PM).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No anchor rewrite or data edit. The matching text gives a different fact, so it does not give the graded answer at grading time (shared leak rule). E11 stays a warn only.&quot;,
+      &quot;evidence&quot;: &quot;visual_leaks.json SCIENCE_T1: text_says &#x27;Hana art showcase ... 10:30 AM ... 2026-10-24&#x27;, picture_says &#x27;North Coast Science Center entry 10:30 AM, Mon Mar 22 2027&#x27;, verdict coincidence.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs []&quot;,
+        &quot;tier25 J1 pass (A5 no hit)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No criterion names a turn number. J1 finds no loose &#x27;which reply?&#x27; wording.&quot;,
+      &quot;checklist_says&quot;: &quot;No criterion has a T-label. They anchor on topic, with &#x27;first asks&#x27; for the baseline asks.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. Each topic plus &#x27;first asks&#x27; anchor points at one reply, so A5 and checklist 12 are both satisfied.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R12: &#x27;The response, when Kenneth first asks what time their flight leaves on the 20th, gives 7:15 AM.&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 75.0&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R3&quot;,
+        &quot;R4&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R26&quot;,
+        &quot;R27&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R31&quot;,
+        &quot;R32&quot;,
+        &quot;R33&quot;
+      ],
+      &quot;neo_says&quot;: &quot;57/76 = 75.0%, vision_ok true.&quot;,
+      &quot;checklist_says&quot;: &quot;57/76 = 75.0% (or 64.5% if the generated-picture rows are left out).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Recomputed with the dependency definition (no text route at grading time): 57/76 = 75.0%. Both readings are well above 30%. The plan makes no weight edits, so the share does not change.&quot;,
+      &quot;evidence&quot;: &quot;reconcile/scratch/build.py output: &#x27;pos 76 vis 57 vision% 75.0&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json gaps []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 PASS&quot;,
+        &quot;rejected item 9 (R3 accrual)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R3&quot;
+      ],
+      &quot;neo_says&quot;: &quot;TRUTH covers all 33 criteria and 20 turns, with no lock_type_mismatch. J1 A6 recomputes R3 = 44 - 40 = 4.&quot;,
+      &quot;checklist_says&quot;: &quot;TRUTH covers T0-T19. The R3 accrual line is a listed distractor, so R3 = 4 is consistent.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No TRUTH edit, so TB1-TB4 cannot fire.&quot;,
+      &quot;evidence&quot;: &quot;audit_report_tier25.json J1: &#x27;A6 recomputed: ... R3 44-40=4&#x27;; truth_coverage.json &#x27;gaps&#x27;: [].&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;QC_SUMMARY.md leads dismissed (doubled /workspace/home/home dst)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;rejected item 11 (mutation path)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R3&quot;,
+        &quot;R4&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The doubled /workspace/home/home/... destination is normalized at ingest. Not blocking.&quot;,
+      &quot;checklist_says&quot;: &quot;The path mapping can&#x27;t be checked from the bundle. The run never re-read an image after T5, so it is a harness note, not a finding.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both dismiss it, and neo-qc&#x27;s documented ingest normalization settles it. No edit. Tier 3 also attributes all 11 failures to the model (stale values, sources never reopened).&quot;,
+      &quot;evidence&quot;: &quot;neo-qc SKILL.md:730-732 &#x27;Filesystem mutations write to paths like /workspace/home/home/... We normalize this during ingest, so it is not blocking.&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E8 fail (11 inject/stage*/mutations.json UNEXPECTED)&quot;,
+        &quot;issues_draft D1 (dismissed)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 11 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;E8 fails because the inject mutations.json files differ from the baseline. The drafted issue D1 was dismissed: the only change is the removed event_kind &#x27;independent_world_change&#x27; key, which is a no-op for silent mutations.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent here. Item 11 passes, and the run shows no value that conflicts with the environment.&quot;,
+      &quot;loop&quot;: &quot;Restoring the key, or making any other inject edit, is itself an inject change after the run (RR4), so a fix with no rerun swaps one E8 for another.&quot;,
+      &quot;resolution&quot;: &quot;No action. The diff is metadata-only and changes no fired op or value, so the run and the environment agree and checklist 11 holds. If a rerun ever happens for another reason, it uses the current files and E8 clears.&quot;,
+      &quot;evidence&quot;: &quot;diff -r baseline/.../inject/stage3 root/.../inject/stage3: only &#x27;\&quot;event_kind\&quot;: \&quot;independent_world_change\&quot;&#x27; lines removed.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;Tier 1 D17 warn (stage2 sil_drive_erin_van_edit could not check)&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;D17 could not import the service to check the stage2 Drive edit. This is a checker limit. The edit targets an existing Drive reply row and is a decoy that no criterion grades.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent. Item 6 passes because the injected messages carry no figures and assume no agent action.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No action. Tier 2 C confirms that the patch targets an existing pk (reply AAABkaclCr0001).&quot;,
+      &quot;evidence&quot;: &quot;audit_report_tier2.json C: &#x27;The silent patches target existing pks (... replies AAABkaclCr0001 with a content field). Tier 1&#x27;s D17 could not check on the Drive reply is structurally fine.&#x27;&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;No flag needs a rerun and no rubric or TRUTH edit is required. Record that the E8 inject diff (removed event_kind metadata key) is a no-op, and leave the inject files as they are.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;E8&quot;,
+        &quot;D1 (dismissed)&quot;,
+        &quot;C11&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Confirm the metrics are unchanged: vision 57/76 = 75.0% (&gt;= 30%), and the run score 21/76 = 27.63%, which equals report.json final_reward. With no edits, no weight pass is needed.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;extras.json vision_pct&quot;,
+        &quot;C10&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 75.0,
+    &quot;vision_after&quot;: 75.0,
+    &quot;score_before&quot;: 27.63,
+    &quot;score_after&quot;: 27.63,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 0,
+  &quot;verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;neo-qc ACCEPTABLE, 0 checklist flags, no conflicts, and vision is 75.0% (&gt;= 30%).&quot;,
+  &quot;summary&quot;: &quot;0 conflicts, 8 agree, 2 one-sided (RR4 E8 metadata, D17 checker limit), fix plan 2 steps (0 rerun), vision 75.0-&gt;75.0%, score 27.63-&gt;27.63%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "kenneth_alford_226e9ed3-ab46-4bdf-8f1d-7ef5719ebc11", "slug": "kenneth_alford_226e9ed3", "tasker": "Anshika Agrawal", "authors": ["Anshika Agrawal", "anshika.agrawal@ethara.ai"], "version": 1, "commit_sha": "b5f5b28ae69cbaa4738fcfb04a6d93cdbc79c8ee", "base_sha": "fa370750ff578645810068dcdedf38a50c8d0efe", "range": "fa370750f..b5f5b28ae", "change": "manual", "verdict": "ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 0 flag(s); 0 conflicts, 8 agree, 2 one-sided (RR4 E8 metadata, D17 checker limit), fix plan 2 steps (0 rerun), vision 75.0->75.0%, score 27.63->27.63%", "neo_verdict": "ACCEPTABLE", "neo_summary": "blocking 0, design 0, grader 0, minor 0; score 27.63 (run_1, 11 high-confidence model misses on drift turns); T3 non-model 0; E8 fail dismissed (only event_kind metadata removed)", "checklist_flags": 0, "conflicts": 0, "vision_before": 75.0, "vision_after": 75.0, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 0, "attempt": 1, "qc_finished_at": "2026-11-26T09:22:42Z"}</script></body></html>
