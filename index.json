@@ -154,6 +154,14 @@
     "started": "2026-11-23 08:26",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1400_a1",
+    "score": 15.87,
+    "started": "2026-11-26 08:30",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/andy_lam_fb180841-fe26-44a1-a23d-9c9fa5ee9be8": [
@@ -1817,5 +1825,5 @@
    }
   ]
  },
- "updated": "2026-11-26 08:40 UTC"
+ "updated": "2026-11-26 08:41 UTC"
 }
