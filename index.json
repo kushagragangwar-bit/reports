@@ -202,6 +202,14 @@
     "started": "2026-11-23 08:26",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1400_a1",
+    "score": 19.64,
+    "started": "2026-11-26 08:30",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "ayush/barbara_huff_4f6ce727-d52b-4021-acba-c5b4013e4855": [
