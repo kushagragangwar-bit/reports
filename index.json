@@ -1130,6 +1130,14 @@
     "started": "2026-11-26 08:00",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1600_a1",
+    "score": 29.58,
+    "started": "2026-11-26 10:30",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/hyun_blair_13762c99-604e-4e01-b873-84eb54388989": [
@@ -1857,5 +1865,5 @@
    }
   ]
  },
- "updated": "2026-11-26 08:50 UTC"
+ "updated": "2026-11-26 10:38 UTC"
 }
