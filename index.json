@@ -402,6 +402,14 @@
     "started": "2026-11-23 08:26",
     "v": 3,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1400_a1",
+    "score": 8.6,
+    "started": "2026-11-26 08:30",
+    "v": 4,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/jeff_torres_df5c3381-19d0-449c-958a-eafed9c87171": [
@@ -1793,5 +1801,5 @@
    }
   ]
  },
- "updated": "2026-11-26 08:20 UTC"
+ "updated": "2026-11-26 08:40 UTC"
 }
