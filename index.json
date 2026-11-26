@@ -1650,6 +1650,14 @@
     "started": "2026-11-23 13:31",
     "v": 1,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1311_a1",
+    "score": 51.76,
+    "started": "2026-11-26 07:41",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "varun/daniel_wood_1434737c-69a5-4a62-a7f1-f5db9edcf336": [
@@ -1725,5 +1733,5 @@
    }
   ]
  },
- "updated": "2026-11-26 07:51 UTC"
+ "updated": "2026-11-26 07:54 UTC"
 }
