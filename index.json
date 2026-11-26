@@ -602,6 +602,14 @@
     "started": "2026-11-23 08:26",
     "v": 2,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1411_a1",
+    "score": 12.5,
+    "started": "2026-11-26 08:41",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/priya_whitfield_c061818f-26d2-43aa-846d-94dbaca61c5b": [
@@ -1833,5 +1841,5 @@
    }
   ]
  },
- "updated": "2026-11-26 08:48 UTC"
+ "updated": "2026-11-26 08:49 UTC"
 }
