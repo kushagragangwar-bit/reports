@@ -1,0 +1,1481 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: brian_kelly_edc5313a (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</code></span>
+<span><span class="k">Tasker</span>Aryan Kumar</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>6fdc7da64</code> (modified, range <code>2118d6fb2..6fdc7da64</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 11:59:22 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>7</span>
+<span><span class="k">Conflicts</span>5</span>
+<span><span class="k">Vision</span>64.29% → 60.0%</span></div>
+<p style="margin:.6rem 0 0" class="k">neo-qc section reused from the earlier QC run 20261126-1646_a1 of the same commit; checklist and reconciliation re-run in 20261126-1710_a1.</p>
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 7 flag(s); 6 conflicts/disagreements (5 DL5 conflicts + 1 DL5 disagreement on A7 scope, checklist right), 12 agree, 3 one-sided (DL8, TB2, score); fix plan 14 steps (0 rerun), vision 64.29-&gt;60.0%, score 23.21-&gt;32.5%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: brian_kelly_edc5313a</h1>
+<p class="sub">obsidian-infinity-stage-1 2118d6fb2..6fdc7da64 (modified)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>19</b><span>turns</span></div><div class="stat"><b>34</b><span>rubrics</span></div><div class="stat"><b>23.2</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>17/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>12/2/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>4/0/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>34/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/1/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>5/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 17 failed criteria across 1 task(s): <b>17 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 0 failure(s) and 2 warning(s). Tier 2.5 flagged 0 of 4 checks on 0 task(s); 0 pending. Tier 3 re-graded 34 criteria: 34 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 3 candidate(s) on 1 task(s): 0 leak(s), 1 declared text route(s), 0 guessable; 0 pending. Double charge review found 5 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending.</p>
+<h3>Low scores (under 35%)</h3><table><tr><th>task</th><th>score</th><th>what drove it</th><th>tier 3</th></tr><tr><td><a href='#t-brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a'>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</a></td><td class='n'>23.21</td><td>The agent reused PNG renders and earlier reads instead of re-fetching after each overnight change, so T5, T10-T14 and T16 timings were stale; the criteria are correct and the agent is wrong.</td><td class='muted'>model 17</td></tr></table>
+<h3>Issue log</h3><p class='muted'>No <code>issues.json</code> was supplied. Write one (see report_format.md) and re-run.</p>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>E11_visual_leak_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>L110 PAT_END_ORIG 3:30 PM: 1 readable copy (inject 1)</td></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>E12_double_charge_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>R3+R20 on final_answer:reply: R20 (11:50 AM) is derived from R3 (11:00 AM to 1:30 PM): ALTAR_TIME_MUTATED - 30 minutes - 40 minutes (both durations are Brian&#x27;s own habits in the Wednesday</td></tr></table></details><details><summary>Visual leak candidates (3: 0 leak, 1 declared, 0 guessable)</summary><table><tr><th>task</th><th>lock</th><th>token</th><th>verdict</th><th>file</th><th>note</th></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>PAT_END_ORIG</code></td><td>3:30 PM</td><td><code>coincidence</code></td><td class='muted'>inject/stage1/mutations.json</td><td>Readable from T3 via google-tasks (admin.set.notes is the patched record, not a rationale field), so not invisible; but it is a different fact: the start of Monday&#x27;s Gulf Air window (feeds R7 2:44 PM), not Patricia&#x27;s Thursday shift end. Nothing in the text ties 3:30 PM to Patricia&#x27;s schedule. Not a finding; R9 stays picture-only.</td></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>(no lock) R28</code></td><td>red side panel</td><td><code>invisible</code></td><td class='muted'></td><td>Placed as picture: the value is read from IMG_1977.jpg (TRUTH Steps 25-26, L58-59). E11 reported it unlocked although BIRDHOUSE_PAINT (L125, image-only anchor) covers it. T17 says only &#x27;painted just the way it is&#x27;. Counts as vision-dependent for E15. Not a finding.</td></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>(no lock) R29</code></td><td>bluebird</td><td><code>declared_route</code></td><td class='muted'>prompt.txt</td><td>Placed as text: CARD_BIRD (L126) anchors to file:prompts.json#T17 and the value is the user&#x27;s own instruction. Other &#x27;bluebird&#x27; hits (Bluebird Hotel Group in granola/contacts/calendly/forms/sheets) are coincidences. Unlike a normal declared_route, TRUTH never says this value is read from a picture, so no picture-reading claim is false and nothing should be removed: the bluebird is what T17 asks for. The only effect is that R29 must count as text, not vision, for E15 (vision share). No rerun or rubric edit is needed.</td></tr></table></details><details><summary>Double charge pairs (5, 0 points)</summary><table><tr><th>task</th><th>criteria</th><th>scores</th><th>shape</th><th>value</th><th>coupling</th><th>keep/lower</th><th>fix</th></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>R7+R8</code></td><td class='muted'>5+1</td><td><code>copy_by_instruction</code></td><td>2:44 PM Waffle House leave time</td><td class='muted'>T5: &#x27;Work out the latest I can leave ... and put that time on my to-do list&#x27;</td><td>keep R7, lower R8</td><td><code>reweight</code></td></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>R15+R16</code></td><td class='muted'>5+1</td><td><code>copy_by_instruction</code></td><td>2:59 PM Mary Mahoney&#x27;s leave time</td><td class='muted'>T11: &#x27;Work out the latest we can leave ... and put that time on my to-do list&#x27;</td><td>keep R15, lower R16</td><td><code>reweight</code></td></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>R17+R18</code></td><td class='muted'>5+1</td><td><code>copy_by_instruction</code></td><td>3:08 PM home time</td><td class='muted'>T12: &#x27;Work out when I&#x27;ll be home, draft my text telling Dennis that time, and put Dennis on my to-do list for that time&#x27;</td><td>keep R17, lower R18</td><td><code>reweight</code></td></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>R21+R22</code></td><td class='muted'>5+1</td><td><code>copy_by_instruction</code></td><td>8:18 AM walk start</td><td class='muted'>T14: &#x27;Work out when I should start the walk, and put that time on my to-do list&#x27;</td><td>keep R21, lower R22</td><td><code>reweight</code></td></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>R24+R27</code></td><td class='muted'>5+1</td><td><code>copy_by_instruction</code></td><td>pot roast in at 2:30 PM to 2:50 PM</td><td class='muted'>T16: &#x27;Work out when the pot roast goes in ... and put the roast time on my to-do list&#x27;</td><td>keep R24, lower R27</td><td><code>reweight</code></td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 sil_gulf_window_1230_to_1530: could not check (google-tasks-api/tasks: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a'><td>brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a</td><td class='n'>19</td><td class='n'>34</td><td class='n'>23.21</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 17</td><td>12/2/0</td><td><span class="b b-ok">pass</span></td><td>34/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>7 flags across items [4, 9]: item 4 re-tiers R7/R14/R15/R17/R20/R21/R24/R25; item 9 has R13 date ambiguity and the oven-clash TRUTH note; vision 64.3%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Checked every positive/penalty pair (R2, R11/R12, R17/R19, R17/R34). Each penalty can fire on its own. The reply/to-do copies (R8, R16, R18, R22, R27) are two positives whose dependent copy is already at weight 1.</td></tr><tr><td>2</td><td>Atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>All 34 criteria grade one value or one state. Ranges (R10, R24-R27) and title+heading (R5) are parts of one fact. Roast, potatoes and cornbread are already split into R24/R25/R26.</td></tr><tr><td>3</td><td>Turn names the file/record changed</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every write turn names its target: reading log Up Next (T3), to-do list (T5/T8/T9/T11/T12/T14/T16), dennis_card.png (T17), emma_shelf.xlsx (T18). &#x27;from my list&#x27; in T18 points at a read-only input, not the changed file.</td></tr><tr><td>4</td><td>Lower weight after confirm + silent change</td><td><span class="qc-tag bad">FLAG</span></td><td>C4.1, C4.2, C4.3, C4.4, C4.5</td><td>Five earlier replies confirm a value that a later silent or file change moves, and a later 5- or 3-point criterion depends on the new value. The run fell for all five. To-do copies are already at 1.</td></tr><tr><td>5</td><td>No text leak of image-graded facts</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Image-only PDFs have no text layer. Searches for 3 cups, 312, an hour before tip-off, D.H./birdhouse, Cortez, Beston, QTY and the 1:00/5:30 times found no readable route. The Notion &#x27;Drive times&#x27; page copies the drive-card minutes, but those are inputs, not graded answers. It only removes R7/R8/R21/R22 from the vision share.</td></tr><tr><td>6</td><td>Scripted messages assume the expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every stage 1-5 op is a world change that holds whatever the agent did: windows and times move, rescans, the pudding message, Patricia&#x27;s Kon-Tiki note, decoys, the auth lapse. None replies to an agent action.</td></tr><tr><td>7</td><td>Evaluation target</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>final_answer for reply values (including the drafted Dennis text in R17/R19), state_change for Notion/Tasks writes and the send penalty R34, produced_artifact for dennis_card.png and emma_shelf.xlsx.</td></tr><tr><td>8</td><td>No process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion grades a tool call or method. State criteria grade end state (item exists or unchanged, message not sent).</td></tr><tr><td>9</td><td>TRUTH consistent with rubric/prompt/answers</td><td><span class="qc-tag bad">FLAG</span></td><td>C9.1, C9.2</td><td>TRUTH covers T0-T18 and every criterion, and the recomputed values match. Two issues: the amlodipine date is underdetermined, and the one-oven 325F/425F clash is not addressed.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>36 of 56 positive points (64.3%) depend on image-only content with no text route. R29 is excluded (bluebird comes from the prompt). After the item-4 re-tier it is 24/40 = 60.0%.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every mutation the run read after it fired matched (6:00 and 5:15 tip-off, 3:30-5:30 Gulf window, 9:30-11:30 UPS, Kon-Tiki note, decoys). The stale 3:30p schedule at Thu 9:30 AM came from the agent&#x27;s own Saturday PNG render, not the environment. All 34 report verdicts agree with the run and output_media.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No T#/turn N in any criterion. Each day+clock anchor maps to exactly one turn (Day 1 = Sat Oct 31).</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C4.1"><div><strong>C4.1</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R7
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Sat 11:00 AM furnace window, Sun 7:30 PM Waffle House leave time</div>
+<p style="margin:.4rem 0">The Saturday 11:00 AM reply confirms the Gulf Air window as 12:30-2:30 PM (graded by R3). Stage 1 silently moves it to 3:30-5:30 PM. The Sunday 7:30 PM leave-time answer (R7, 5 points) depends on the moved window.</p><div class="ev"><span class="qc-k">rubric.json R3</span><code>The response gives 12:30 PM to 2:30 PM as the furnace tune-up arrival window in its reply to Brian&#x27;s Saturday 11:00 AM question.</code></div><div class="ev"><span class="qc-k">inject/stage1/mutations.json sil_gulf_window_1230_to_1530 (fires_at_turn T3)</span><code>Monday, Nov 2. They moved us: arrival window is now 3:30 PM to 5:30 PM. The tech calls when he is on the way. -P</code></div><div class="ev"><span class="qc-k">rubric.json R7 (score 5, critically_important)</span><code>The response gives 2:44 PM as the latest time to leave the Waffle House on Monday in its reply to Brian&#x27;s Sunday 7:30 PM request.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json Sun 7:30 PM reply (msg 57)</span><code>The latest you can leave the Waffle House is **11:44 AM**.</code></div>
+<div><span class="qc-k">Fix plan</span>R7 score 5 -&gt; 3, importance critically_important -&gt; important. Leave the wording as is: it stays atomic and self-contained. R8 is already 1.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 1 confirmed it from the rubric, mutation and run messages 16/57. I re-read the stage1 mutation and the run&#x27;s T5 reply.</div></div><div class="qc-flag" id="C4.2"><div><strong>C4.2</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R14, R15
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Sun 1:45 PM tip-off, Tue 8:30 AM Bev supper time, Tue 10:15 AM Mary Mahoney&#x27;s leave time</div>
+<p style="margin:.4rem 0">The Sunday 1:45 PM reply confirms tip-off at 6:00 PM (R6). Stage 3 silently moves it to 5:15 PM. The Tuesday answers (R14 3 points, R15 5 points) depend on the moved tip-off.</p><div class="ev"><span class="qc-k">rubric.json R6</span><code>The response gives 6:00 PM as the tip-off time of Caleb&#x27;s home game in its reply to Brian&#x27;s Sunday 1:45 PM question.</code></div><div class="ev"><span class="qc-k">inject/stage3/mutations.json sil_caleb_tip_1800_to_1715 (fires_at_turn T9)</span><code>Caleb&#x27;s home game: Tuesday, Nov 3 at the Gulfport Middle gym. Tip-off 5:15 PM. Dennis is driving you.</code></div><div class="ev"><span class="qc-k">rubric.json R14 (score 3)</span><code>The response gives 6:15 PM as the time Brian will be back home on Tuesday evening in its reply to Brian&#x27;s Tuesday 8:30 AM question.</code></div><div class="ev"><span class="qc-k">rubric.json R15 (score 5, critically_important)</span><code>The response gives 2:59 PM as the latest time to leave Mary Mahoney&#x27;s on Tuesday in its reply to Brian&#x27;s Tuesday 10:15 AM request.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json Tue 8:30 AM reply (msg 85)</span><code>Tell Bev **7:00 PM**.</code></div>
+<div><span class="qc-k">Fix plan</span>R14 score 3 -&gt; 1 (importance stays important). R15 score 5 -&gt; 3, importance critically_important -&gt; important. No wording change. R16 is already 1.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 1 confirmed it, quoting run messages 44/85/89. The run admitted the stale tip-off later (msg 118: &#x27;Patricia moved Caleb&#x27;s tip-off to **5:15 PM**, not 6:00&#x27;).</div></div><div class="qc-flag" id="C4.3"><div><strong>C4.3</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R17, R20
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Sat 4:30 PM Altar Guild time, Wed 7:15 AM Winn-Dixie/pharmacy home time, Wed 11:00 AM lunch time</div>
+<p style="margin:.4rem 0">The Saturday 4:30 PM reply confirms the Altar Guild meeting at 2:00 PM (R4). The notice is re-scanned twice without announcement (1:30, then 1:00 PM). The Wednesday answers (R17 5 points, R20 3 points) depend on 1:00 PM.</p><div class="ev"><span class="qc-k">rubric.json R4</span><code>The response states 2:00 PM as the Wednesday Altar Guild meeting time in its reply to Brian&#x27;s Saturday 4:30 PM question.</code></div><div class="ev"><span class="qc-k">inject/stage3/mutations.json fs_altar_notice_v3 rationale (fires_at_turn T9)</span><code>Joan re-scans the November notice with the meeting at 1:00 PM (second move; never announced)</code></div><div class="ev"><span class="qc-k">rubric.json R17 (score 5, critically_important)</span><code>The response gives 3:08 PM as the home time in Brian&#x27;s text to Dennis in its reply to Brian&#x27;s Wednesday 7:15 AM request.</code></div><div class="ev"><span class="qc-k">rubric.json R20 (score 3)</span><code>The response gives 11:50 AM as the latest time Brian can sit down to lunch on Wednesday in its reply to Brian&#x27;s Wednesday 11:00 AM question.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json Wed 11:00 AM reply (msg 97)</span><code>Sit down by **12:50 PM**.</code></div>
+<div><span class="qc-k">Fix plan</span>R17 score 5 -&gt; 3, importance -&gt; important. R20 score 3 -&gt; 1 (importance stays important). No wording change. R18 is already 1.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 1 confirmed it. I viewed the stage3 scan image (&#x27;REVISED 11/2&#x27;, &#x27;Time: 1:00 PM, Fellowship Hall&#x27;) and the run&#x27;s 4:08/12:50 answers.</div></div><div class="qc-flag" id="C4.4"><div><strong>C4.4</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R21
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Mon 12:45 PM hearing aid window, Wed 7:00 PM Thursday walk start</div>
+<p style="margin:.4rem 0">The Monday 12:45 PM reply confirms the UPS window as 11:00 AM-1:30 PM (R10). Stage 4 silently moves it to 9:30-11:30 AM. The walk start time (R21, 5 points) depends on the moved window.</p><div class="ev"><span class="qc-k">rubric.json R10</span><code>The response gives 11:00 AM to 1:30 PM as the hearing aid delivery window in its reply to Brian&#x27;s Monday 12:45 PM question.</code></div><div class="ev"><span class="qc-k">inject/stage4/mutations.json sil_ups_window_1100_to_0930 (fires_at_turn T12)</span><code>Left hearing aid back from Gulf Coast Hearing by UPS: Thursday, Nov 5, between 9:30 AM and 11:30 AM now. Someone has to sign for it.</code></div><div class="ev"><span class="qc-k">rubric.json R21 (score 5, critically_important)</span><code>The response gives 8:18 AM as the time to start Thursday&#x27;s walk in its reply to Brian&#x27;s Wednesday 7:00 PM request.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json Wed 7:00 PM reply (msg 101)</span><code>Start your walk by **9:48 AM**.</code></div>
+<div><span class="qc-k">Fix plan</span>R21 score 5 -&gt; 3, importance -&gt; important. No wording change. R22 is already 1.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 1 confirmed it. Verifier 5 showed the moved window was delivered: msg 146 reads &#x27;between 9:30 AM and 11:30 AM now&#x27;.</div></div><div class="qc-flag" id="C4.5"><div><strong>C4.5</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R24, R25
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Mon 6:45 AM Patricia&#x27;s Thursday shift end, Thu 9:30 AM supper cooking times</div>
+<p style="margin:.4rem 0">The Monday 6:45 AM reply confirms Patricia off at 3:30 PM (R9). Stage 4 replaces her schedule PDF without announcement (Thursday ends 5:30 PM). The Thursday cooking times (R24 5 points, R25 3 points) depend on 5:30 PM.</p><div class="ev"><span class="qc-k">rubric.json R9</span><code>The response gives 3:30 PM as Patricia&#x27;s Thursday quitting time in its reply to Brian&#x27;s Monday 6:45 AM question.</code></div><div class="ev"><span class="qc-k">inject/stage4/mutations.json fs_pat_schedule_rev (fires_at_turn T12)</span><code>Patricia&#x27;s November schedule, revised: Thursday now ends at 5:30 PM (never announced)</code></div><div class="ev"><span class="qc-k">rubric.json R24 (score 5, critically_important)</span><code>The response gives a time from 2:30 PM to 2:50 PM as the time the pot roast goes in the oven in its reply to Brian&#x27;s Thursday 9:30 AM request.</code></div><div class="ev"><span class="qc-k">rubric.json R25 (score 3)</span><code>The response gives a time from 5:05 PM to 5:25 PM as the time the potatoes go on to boil in its reply to Brian&#x27;s Thursday 9:30 AM request.</code></div>
+<div><span class="qc-k">Fix plan</span>R24 score 5 -&gt; 3, importance -&gt; important. R25 score 3 -&gt; 1 (importance stays important). R26 and R27 are already 1. No wording change.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 1 confirmed it. I viewed inject/stage4/files/schedule_2611.pdf (THU 5 &#x27;7:00a-5:30p&#x27;, &#x27;REVISED 11/3&#x27;).</div></div><div class="qc-flag" id="C9.1"><div><strong>C9.1</strong> · item 9 TRUTH consistent with rubric/prompt/answers
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R13
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Tue 7:00 AM amlodipine reminder</div>
+<p style="margin:.4rem 0">The label gives only QTY 30, FILLED 10/09/26, one every morning. Nov 7 holds only if the first tablet was taken on the fill day. Starting the next morning gives Nov 8, and nothing in the data fixes the start day. TRUTH and R13 accept only Nov 7.</p><div class="ev"><span class="qc-k">data/environment/artifacts/inputs/files/home/Pictures/IMG_2236.jpg label (image)</span><code>TAKE 1 TABLET BY MOUTH EVERY MORNING / QTY: 30 FILLED: 10/09/26</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 13</span><code>the last tablet is taken Saturday November 7; add a My Tasks item due 2026-11-07</code></div><div class="ev"><span class="qc-k">rubric.json R13</span><code>The agent adds a to-do dated November 7 for the last amlodipine tablet on Brian&#x27;s list.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json Tue 7:00 AM reply (msg 83)</span><code>**5 tablets left:** you started it October 10, and the last one is **Sunday, November 8**.</code></div>
+<div><span class="qc-k">Fix plan</span>Reword R13 to &#x27;The agent adds a to-do dated November 7 or November 8 for the last amlodipine tablet on Brian&#x27;s list.&#x27; (still one atomic fact). In TRUTH Step 13 and LAST_PILL_DATE, record that both start-day readings are accepted. Rerun-quality alternative: add a start anchor to the data (e.g. &#x27;started the new bottle 10/9&#x27;).</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 3 confirmed it with the arithmetic (Oct 9 start: 23+7=30, Nov 7; Oct 10 start: 22+8=30, Nov 8) and found no start date in any text. I viewed IMG_2236.jpg. The run failed R13 by adding no to-do, so this verdict does not change.</div></div><div class="qc-flag" id="C9.2"><div><strong>C9.2</strong> · item 9 TRUTH consistent with rubric/prompt/answers
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R24, R26
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Thu 9:30 AM supper cooking times</div>
+<p style="margin:.4rem 0">TRUTH has the roast at 325F, lid on, served straight from the oven at arrival, and the cornbread at 425F in its last 22 minutes. Both are in the oven together at different temperatures. TRUTH does not mention the clash, so a solver that resolves it (e.g. roast out early) can lose R24/R26.</p><div class="ev"><span class="qc-k">data/environment/artifacts/inputs/files/home/Documents/Recipes/IMG_1650.jpg right card / left card (image)</span><code>Oven 325 F for 3 hours, lid on. Take it straight to the table - no resting. / Bake 425 F for 22 minutes, till edges pull away.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 23</span><code>roast 3 hours: in from 2:30 PM to 2:50 PM; potatoes 25 minutes: on from 5:05 PM to 5:25 PM; cornbread 22 minutes: in from 5:08 PM to 5:28 PM</code></div>
+<div><span class="qc-k">Fix plan</span>Add a TRUTH Step 23 note: the graded values are the back-calculated insert times; the recipes clash on oven temperature; giving the arithmetic times and flagging the clash is the ideal reply. Rubric wording unchanged.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 3 confirmed it. I viewed IMG_1650.jpg. The run itself flagged the clash (&#x27;the oven would have to be at 325° and 425° at the same time&#x27;).</div></div>
+<h3>Vision share <span class="qc-tag ok">64.3%</span></h3>
+<p>36 of 56 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>Documents/Recipes/IMG_1650.jpg</td><td>1 1/2 cups per skillet only on the card</td></tr><tr><td>R4</td><td>1</td><td>Documents/FUMC/scan_1026.pdf (image-only)</td><td>Time 2:00 PM only in the scan</td></tr><tr><td>R9</td><td>1</td><td>Documents/PKH/schedule_2611.pdf (image-only)</td><td>THU 5 7:00a-3:30p only in the scan</td></tr><tr><td>R11</td><td>1</td><td>Documents/Health/IMG_2120.jpg</td><td>size 312 only on the receipt</td></tr><tr><td>R13</td><td>1</td><td>Pictures/IMG_2236.jpg</td><td>QTY 30 / filled 10/09 only on the label</td></tr><tr><td>R14</td><td>3</td><td>Pictures/IMG_2241.jpg</td><td>pickup an hour before tip-off only on the fridge note</td></tr><tr><td>R15</td><td>5</td><td>Pictures/IMG_2241.jpg</td><td>4:15 home time needs the fridge-note offset</td></tr><tr><td>R16</td><td>1</td><td>Pictures/IMG_2241.jpg</td><td>same 2:59 chain</td></tr><tr><td>R17</td><td>5</td><td>inject/stage3/files/scan_1026.pdf (image-only)</td><td>1:00 PM and about an hour only in the rescan</td></tr><tr><td>R18</td><td>1</td><td>inject/stage3/files/scan_1026.pdf</td><td>same 3:08 chain</td></tr><tr><td>R20</td><td>3</td><td>inject/stage3/files/scan_1026.pdf</td><td>1:00 PM only in the rescan</td></tr><tr><td>R24</td><td>5</td><td>inject/stage4/files/schedule_2611.pdf + IMG_1650.jpg</td><td>5:30p shift end and 3-hour roast only in images</td></tr><tr><td>R25</td><td>3</td><td>inject/stage4/files/schedule_2611.pdf + IMG_1650.jpg</td><td>5:30p and boil 25 minutes only in images</td></tr><tr><td>R26</td><td>1</td><td>inject/stage4/files/schedule_2611.pdf + IMG_1650.jpg</td><td>5:30p and 22 minutes only in images</td></tr><tr><td>R27</td><td>1</td><td>inject/stage4/files/schedule_2611.pdf + IMG_1650.jpg</td><td>same roast chain</td></tr><tr><td>R28</td><td>1</td><td>Pictures/IMG_1977.jpg</td><td>red side panel only in the photo</td></tr><tr><td>R31</td><td>1</td><td>Documents/IMG_2245.jpg</td><td>Steinbeck title only on the handwritten list</td></tr><tr><td>R33</td><td>1</td><td>Documents/IMG_2245.jpg</td><td>Henry Beston only on the handwritten list</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (7)</summary><ul><li>item 1: R11/R12 double-charge the hearing-aid battery edit. <span class='qc-k'>dismissed:</span>R12 can fire while R11 passes (patch the right item and also a Buy item). It grades the separate &#x27;leave every other item on the list exactly as it is&#x27; instruction and is already -1.</li><li>item 1: Reply and to-do criteria (R7/R8, R15/R16, R17/R18, R21/R22, R24/R27) double-charge one wrong time. <span class='qc-k'>dismissed:</span>They are two positives, not a positive and a penalty. The dependent to-do copy is already score 1, which is the prescribed remedy. Merging is forbidden and no same-output relative wording is possible.</li><li>item 3: T18 &#x27;from my list&#x27; does not name IMG_2245.jpg. <span class='qc-k'>dismissed:</span>Item 3 concerns the file being changed. T18 names emma_shelf.xlsx, which R30-R33 grade. The list is a read-only input with one unique match.</li><li>item 5: The Notion Drive times page leaks the IMG_2203 drive card. <span class='qc-k'>dismissed:</span>It gives input minutes, not any graded value (2:44, 2:59, 3:08, 8:18 or the cooking ranges are printed nowhere). It is handled by excluding R7/R8/R21/R22 from the vision share.</li><li>item 9: The TRUTH arrival window 5:30-5:50 conflicts with the documented &#x27;around 5 like usual&#x27; gap after a 3:30 shift. <span class='qc-k'>dismissed:</span>TRUTH states its basis explicitly (&#x27;HEARTBEAT&#x27;s usual 5:00 PM visit is superseded by the revised shift&#x27;). The ~90-min-gap reading rests on an old Dec 2025 email and an approximate &#x27;around 5&#x27;. It is a judgment call, not an inconsistency.</li><li>item 9: TRUTH lacks an explicit do-not-send step for R34. <span class='qc-k'>dismissed:</span>TRUTH Step 17 says &#x27;draft Dennis&#x27;s text&#x27;, and AGENTS.md says never send without explicit instruction. The criterion and TRUTH agree.</li><li>item 11: The environment failed to deliver the stage-4 schedule revision (run shows 3:30p on Thursday). <span class='qc-k'>dismissed:</span>Msg 112 reads /root/workspace/schedule_2611.pdf_0.png, the agent&#x27;s own render from Saturday (msg 8). The PKH PDF was never re-opened after the stage fired, so this is an agent stale cache, not an environment mismatch.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>6 conflicts/disagreements (5 DL5 conflicts + 1 DL5 disagreement on A7 scope, checklist right), 12 agree, 3 one-sided (DL8, TB2, score); fix plan 14 steps (0 rerun), vision 64.29-&gt;60.0%, score 23.21-&gt;32.5%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">64.29% → 60.0%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">23.21% → 32.5%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>DL5</td><td>J1 A7 (n/a), E3_penalty_labels, double_charge pair R7+R8</td><td>C4.1</td><td>R7, R8</td><td><div><span class=qc-k>neo-qc</span>Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R7+R8 at full weight and has the to-do at 1.</div><div><span class=qc-k>checklist</span>A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R7 5-&gt;3.</div><div><span class=qc-k>loop</span>Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R7+R8 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight.</div><div><span class=qc-k>resolution</span>Weight pass 1 before weight pass 2 (DL5): apply R7 5-&gt;3 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>DL5</td><td>J1 A7 (n/a), E3_penalty_labels, double_charge pair R15+R16</td><td>C4.2</td><td>R14, R15, R16</td><td><div><span class=qc-k>neo-qc</span>Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R15+R16 at full weight and has the to-do at 1.</div><div><span class=qc-k>checklist</span>A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R14 3-&gt;1 and R15 5-&gt;3.</div><div><span class=qc-k>loop</span>Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R15+R16 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight. The tier-down also lowers vision share.</div><div><span class=qc-k>resolution</span>Weight pass 1 before weight pass 2 (DL5): apply R14 3-&gt;1 and R15 5-&gt;3 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>DL5</td><td>J1 A7 (n/a), E3_penalty_labels, double_charge pair R17+R18</td><td>C4.3</td><td>R17, R18, R20</td><td><div><span class=qc-k>neo-qc</span>Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R17+R18 at full weight and has the to-do at 1.</div><div><span class=qc-k>checklist</span>A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R17 5-&gt;3 and R20 3-&gt;1.</div><div><span class=qc-k>loop</span>Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R17+R18 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight. The tier-down also lowers vision share.</div><div><span class=qc-k>resolution</span>Weight pass 1 before weight pass 2 (DL5): apply R17 5-&gt;3 and R20 3-&gt;1 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>DL5</td><td>J1 A7 (n/a), E3_penalty_labels, double_charge pair R21+R22</td><td>C4.4</td><td>R21, R22</td><td><div><span class=qc-k>neo-qc</span>Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R21+R22 at full weight and has the to-do at 1.</div><div><span class=qc-k>checklist</span>A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R21 5-&gt;3.</div><div><span class=qc-k>loop</span>Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R21+R22 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight.</div><div><span class=qc-k>resolution</span>Weight pass 1 before weight pass 2 (DL5): apply R21 5-&gt;3 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>DL5</td><td>J1 A7 (n/a), E3_penalty_labels, double_charge pair R24+R27</td><td>C4.5</td><td>R24, R25, R27</td><td><div><span class=qc-k>neo-qc</span>Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R24+R27 at full weight and has the to-do at 1.</div><div><span class=qc-k>checklist</span>A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R24 5-&gt;3 and R25 3-&gt;1.</div><div><span class=qc-k>loop</span>Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R24+R27 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight. The tier-down also lowers vision share.</div><div><span class=qc-k>resolution</span>Weight pass 1 before weight pass 2 (DL5): apply R24 5-&gt;3 and R25 3-&gt;1 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL5</td><td>audit_report_tier25.json J1 evidence: &#x27;no user sign-off precedes a silent change (A7 n/a)&#x27;</td><td>C4.1, C4.2, C4.3, C4.4, C4.5</td><td>R7, R14, R15, R17, R20, R21, R24, R25</td><td><div><span class=qc-k>neo-qc</span>A7 does not apply: no user sign-off comes before any silent change.</div><div><span class=qc-k>checklist</span>Five earlier replies (R3, R6, R4, R10, R9) confirm a value that a later silent/filesystem change moves, and later 3- or 5-point answers depend on the new value.</div><div><span class=qc-k>resolution</span>Checklist is right. The guide (DL5) says A7 is narrower than checklist 4 and to &#x27;use the broader checklist rule as the bar&#x27;. Shared tie-break rule 5 defines it as &#x27;a turn confirms a value, a silent or filesystem change hits it, and a later turn asks again&#x27;. All five cases match: for example, R3 has the reply confirm 12:30-2:30 PM, stage1 sil_gulf_window_1230_to_1530 (T3) moves it silently, and T5 asks for a leave time derived from it. So the tier-downs apply.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL8</td><td>audit_report_tier2/tier25 J2 pass, tier3_all_criteria R13 agree, truth_coverage.json 0 gaps</td><td>C9.1</td><td>R13</td><td><div><span class=qc-k>neo-qc</span>Silent: J2 TRUTH consistency passes and Tier 3 agrees with R13 (failed: no to-do added).</div><div><span class=qc-k>checklist</span>The label (QTY 30, FILLED 10/09/26, one every morning) does not fix the start day: Nov 7 if the first tablet was taken on the fill day, Nov 8 if it was taken the next morning. R13 and TRUTH accept only Nov 7.</div><div><span class=qc-k>resolution</span>Checklist is right, and neo-qc would not object if DL8 is followed. Put the alternative next to LAST_PILL_DATE in TRUTH, and keep the literal &#x27;November 7&#x27; in R13 so E4 still matches and the lock stays graded-positive (TB4). E10/E12 only tokenise money, decimals, clock times and IDs, and dates are none of those. Stale-pass check: no stage replaces a November 8 value (the only date mutation is the flu-shot decoy Nov 9 -&gt; Nov 10), so the alternative opens no stale-pass hole. The R13 verdict stays failed. No start anchor exists in the data: amlodipine mentions in persona/MEMORY.md, gmail, outlook (2025 refill) and the calendar give no start date.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>TB2</td><td>truth_coverage.json 0 gaps, J2 pass</td><td>C9.2</td><td>R24, R26</td><td><div><span class=qc-k>neo-qc</span>Silent: TRUTH coverage has no gap and J2 passes.</div><div><span class=qc-k>checklist</span>TRUTH Step 23 has the roast at 325F in the oven while the cornbread bakes at 425F, and it does not mention that the two clash.</div><div><span class=qc-k>resolution</span>Checklist is right, and this is a TRUTH-only fix. The checklist&#x27;s suggested note says &#x27;the graded values are...&#x27;. Per TB2, a TRUTH step must describe the expected reply and never say what is graded. Use the wording in fix_plan step 9, which has no grading words and none of the E6 residue words. Rubric wording and weights for R24/R26 do not change for this flag.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>score</td><td>report.json final_reward 23.21</td><td></td><td>R7, R14, R15, R17, R20, R21, R24, R25</td><td><div><span class=qc-k>neo-qc</span>Not checked.</div><div><span class=qc-k>checklist</span>Not checked.</div><div><span class=qc-k>resolution</span>Every lowered criterion is a run_1 fail, so the score rises from 23.21% to 32.5% (13/56 -&gt; 13/40). No score target is set, so this changes nothing. report.json final_reward / rubric_weights_percentage and pass_summary.json must be set to 32.5 in the same edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>E15_vision_share pass (84%), QC_SUMMARY hand count 64.29% (36/56)</td><td>item 10 PASS</td><td>R1, R4, R9, R11, R13, R14, R15, R16, R17, R18, R20, R24, R25, R26, R27, R28, R31, R33</td><td><div><span class=qc-k>neo-qc</span>Vision share is 84% by E15 and 64.29% by hand count, above the 30% floor.</div><div><span class=qc-k>checklist</span>64.3% (36/56) under the dependency definition; R7/R8/R21/R22 have a text route through the Notion Drive times page, and R29 comes from prompt text.</div><div><span class=qc-k>resolution</span>Use the dependency definition (guide section 5 and tie-break rule 10): 64.29% before the plan and 60.0% after. The C4 tier-downs lower vision criteria R14/R15/R17/R20/R24/R25, but the share stays above 30%, so no member swap is needed.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL1</td><td>double_charge.json 5 pairs, 0 surplus, D2 dismissed</td><td>item 1 PASS, rejected item 1 reply/to-do claim</td><td>R7, R8, R15, R16, R17, R18, R21, R22, R24, R27</td><td><div><span class=qc-k>neo-qc</span>Five reply/to-do pairs exist, but each to-do member is already at 1, so the reweight is in place.</div><div><span class=qc-k>checklist</span>Same: these are two positives with the dependent copy at 1. Merging is forbidden.</div><div><span class=qc-k>resolution</span>No change. Do not merge (DL1) and do not drop (DL3). The to-do members stay at 1 after the C4 edits.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL1</td><td>E12_double_charge_candidates warn R3+R20, R10+R20</td><td>item 1 PASS</td><td>R3, R10, R20</td><td><div><span class=qc-k>neo-qc</span>False candidates: E12 matched &#x27;11:00 AM&#x27; in a TRUTH comment. R20 derives from the Altar Guild time.</div><div><span class=qc-k>checklist</span>Item 1 passes and does not list them.</div><div><span class=qc-k>resolution</span>Not pairs. No change.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json penalties_reviewed</td><td>item 1 PASS, rejected item 1 R11/R12</td><td>R2, R11, R12, R17, R19, R34</td><td><div><span class=qc-k>neo-qc</span>R2, R12, R19 and R34 each fire on behaviour that no positive tests, so none is a trap_value pair.</div><div><span class=qc-k>checklist</span>Each penalty can fire on its own. R12 is a separate instruction and is already -1.</div><div><span class=qc-k>resolution</span>Not pairs (tie-break rule 3). Keep as is.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>E11_visual_leak_candidates warn L110 PAT_END_ORIG 3:30 PM, visual_leaks.json &#x27;coincidence&#x27;</td><td>item 5 PASS, rejected item 5 Drive times page</td><td>R9, R7, R8, R21, R22</td><td><div><span class=qc-k>neo-qc</span>The 3:30 PM in stage1 is the furnace window, a different fact from Patricia&#x27;s shift end (coincidence), so there are 0 leaks.</div><div><span class=qc-k>checklist</span>No readable route for image-graded facts. The Drive times page carries input minutes only and is handled by leaving R7/R8/R21/R22 out of the vision share.</div><div><span class=qc-k>resolution</span>No leak. No anchor edit and no data edit (RR3 not needed).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>visual_leaks.json R29 declared_route, D1 dismissed</td><td>item 10 (R29 excluded)</td><td>R29</td><td><div><span class=qc-k>neo-qc</span>The bluebird comes from the user&#x27;s T17 instruction, so it is not a leak. It only counts as text for vision share.</div><div><span class=qc-k>checklist</span>R29 is excluded from vision because the bluebird comes from the prompt.</div><div><span class=qc-k>resolution</span>No change. R29 counts as text-route in both vision numbers.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR4</td><td>D17_mutation_lands warn, E9_mutation_read pass, E8_change_diff pass</td><td>item 11 PASS, rejected item 11 stale schedule</td><td></td><td><div><span class=qc-k>neo-qc</span>The D17 warn is a checker limitation, and the run shows every mutation landing. E9 passes.</div><div><span class=qc-k>checklist</span>Every mutation read after it fired matched. The stale 3:30p came from the agent&#x27;s own cached render.</div><div><span class=qc-k>resolution</span>No run/environment mismatch, and nothing to rerun.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>E13 turn_refs none, D18 pass, J1 A5</td><td>item 12 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No turn refs, and every anchor resolves.</div><div><span class=qc-k>checklist</span>No T#. Each day+clock anchor maps to one turn.</div><div><span class=qc-k>resolution</span>No change. The new R13 wording has no turn anchor (state_change).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR1</td><td>J1 A8 n/a</td><td>item 3 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>Deliverables are requested after their stages, so A8 is n/a.</div><div><span class=qc-k>checklist</span>Every write turn names its target.</div><div><span class=qc-k>resolution</span>No prompt edit and no rerun.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR2</td><td>extras.json unconditional scripted messages: none</td><td>item 6 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No unconditional scripted messages.</div><div><span class=qc-k>checklist</span>Every stage op is a world change that holds whatever the agent did.</div><div><span class=qc-k>resolution</span>No inject edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL9</td><td>J1 A4 pass</td><td>item 7 PASS</td><td>R17, R19, R34</td><td><div><span class=qc-k>neo-qc</span>Targets match the wording.</div><div><span class=qc-k>checklist</span>final_answer for replies, state_change for writes and the R34 send, produced_artifact for png/xlsx.</div><div><span class=qc-k>resolution</span>No change. R13 stays state_change after the reword.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL10</td><td>J1 A1/A6 pass</td><td>item 8 PASS</td><td>R34, R12</td><td><div><span class=qc-k>neo-qc</span>No process criteria. R19 is backed by an AGENTS.md rule.</div><div><span class=qc-k>checklist</span>State criteria grade end state (item unchanged, message not sent).</div><div><span class=qc-k>resolution</span>No change.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Classify all 7 surviving checklist flags as rubric/TRUTH only (C4.1-C4.5 weight edits, C9.1 rubric+TRUTH, C9.2 TRUTH). neo-qc kept no issues. Nothing needs a prompt, inject or data edit, so no rerun is required. The only rerun-class idea, a start-day anchor for the amlodipine bottle, is optional and queued in rerun_batch.</td><td>R7, R13, R14, R15, R17, R20, R21, R24, R25, R26</td><td>C4.1, C4.2, C4.3, C4.4, C4.5, C9.1, C9.2</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>R13 criterion -&gt; &#x27;The agent adds a to-do dated November 7 or November 8 for the last amlodipine tablet on Brian&#x27;s list.&#x27; (score 1, important, state_change unchanged). Mirror the text in report.json R13 and write its justification in first-grading voice: &#x27;No reminder for the last amlodipine tablet dated November 7 or November 8 was added; the agent asked for the remaining tablet count instead.&#x27; (verdict stays failed; no E6/TB3 words). DL8: put the alternative in TRUTH next to the main value (step 9). No stage replaces a Nov 8 value, so there is no stale-pass hole.</td><td>R13</td><td>C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>structure (split compound criteria)</td><td>No split. Checklist item 2 and J1 A3 both pass. The R10/R24-R27 ranges, R5 heading+page and the &#x27;November 7 or November 8&#x27; alternative are each one fact.</td><td>R5, R10, R13, R24, R25, R26, R27</td><td>checklist item 2, J1 A3</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>visual route (DL6)</td><td>No change. The E11 3:30 PM copy is the furnace window (coincidence), and checklist item 5 passes. Do not re-anchor any lock.</td><td>R9</td><td>E11_visual_leak_candidates, checklist item 5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1 (silent after sign-off)</td><td>R7 score 5 -&gt; 3, importance critically_important -&gt; important in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R8 stays 1.</td><td>R7</td><td>C4.1, J1 A7</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>2.38</td><td>0.86</td></tr><tr><td>6</td><td>weight pass 1 (silent after sign-off)</td><td>R14 score 3 -&gt; 1 (importance stays important); R15 score 5 -&gt; 3, importance critically_important -&gt; important; in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R16 stays 1.</td><td>R14, R15</td><td>C4.2, J1 A7</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-2.67</td><td>1.93</td></tr><tr><td>7</td><td>weight pass 1 (silent after sign-off)</td><td>R17 score 5 -&gt; 3, importance critically_important -&gt; important; R20 score 3 -&gt; 1 (importance stays important); in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R18 stays 1.</td><td>R17, R20</td><td>C4.3, J1 A7</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-3.13</td><td>2.26</td></tr><tr><td>8</td><td>weight pass 1 (silent after sign-off)</td><td>R21 score 5 -&gt; 3, importance critically_important -&gt; important in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R22 stays 1.</td><td>R21</td><td>C4.4, J1 A7</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>2.77</td><td>1.29</td></tr><tr><td>9</td><td>weight pass 1 (silent after sign-off)</td><td>R24 score 5 -&gt; 3, importance critically_important -&gt; important; R25 score 3 -&gt; 1 (importance stays important); in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R26 and R27 stay 1.</td><td>R24, R25</td><td>C4.5, J1 A7</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-3.64</td><td>2.95</td></tr><tr><td>10</td><td>weight pass 2 (double charge)</td><td>No further change. In the pairs R7+R8, R15+R16, R17+R18, R21+R22 and R24+R27, the post-sign-off reply member is now 3 and the to-do member stays 1. Nothing is dropped (J4/DL3), and no member is moved to 1 a second time (DL5).</td><td>R7, R8, R15, R16, R17, R18, R21, R22, R24, R27</td><td>double_charge.json, D2, checklist item 1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>11</td><td>recompute vision % and score</td><td>Recompute: vision 36/56 = 64.29% -&gt; 24/40 = 60.0% (&gt;= 30%); score 13/56 = 23.21% -&gt; 13/40 = 32.5% (no target set). Set report.json final_reward and rubric_weights_percentage to 32.5, and pass_summary.json average_combined_score, average_rubric_weights_percentage, per_run rubric_weights_percentage and combined_score to 32.5. No member swap needed.</td><td></td><td>vision, score</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>12</td><td>turn anchors, targets, process wording</td><td>No change. The R13 reword keeps target state_change and carries no turn number. All other wording is untouched (checklist items 7/8/12 and J1 A1/A4/A5 pass).</td><td>R13</td><td>checklist item 12, J1 A5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>13</td><td>TRUTH.md sync (TB1-TB4)</td><td>TRUTH.md section 2 Step 13 -&gt; &#x27;read the amlodipine label (QTY: 30, filled 10/09/26, one every morning): the last tablet is taken Saturday November 7 if the first tablet was taken on the fill day, or Sunday November 8 if it was first taken the next morning; nothing in the records fixes the start day, so either date is right; add a My Tasks item due on that date&#x27; (route/anchor unchanged). Section 3 L123 -&gt; &#x27;LAST_PILL_DATE = &quot;November 7&quot;  # type: graded-positive; datatype: computed; also accepted: November 8 (first tablet the morning after the fill day); anchor: image:data/home/Pictures/IMG_2236.jpg#QTY and FILLED line&#x27;. Step 23: append &#x27;The roast card (325 F, lid on, straight to the table) and the cornbread card (425 F for 22 minutes) need the one oven at two temperatures during the cornbread&#x27;s bake; the ideal reply gives the insert times above and points out the clash so Brian can decide how to handle it.&#x27; No R-numbers, no &#x27;graded/not graded&#x27;, no E6 words; lock types unchanged (TB4).</td><td>R13, R24, R26</td><td>C9.1, C9.2</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>14</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5: E3 importance, E4 lock text &#x27;November 7&#x27;, E6 residue, E8 diff limited to rubric.json/report.json/pass_summary.json/TRUTH.md, E10; Tier 2.5; TRUTH coverage; double charge), then the checklist agent with the shared tie-break rules. No model rerun or grading call is needed.</td><td></td><td>C4.1, C4.2, C4.3, C4.4, C4.5, C9.1, C9.2</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>Optional, only if the task is rerun for another reason: add a start-day anchor for the amlodipine bottle to the data (e.g. a Tasks or MEMORY.md line &#x27;started the new amlodipine bottle 10/9&#x27;). Then R13 and TRUTH can go back to November 7 only. Not required: the no-rerun fix in steps 2 and 13 is complete.</li></ul>
+<p class="qc-k">Verdict: NOT ACCEPTABLE, All 7 checklist flags (C4.1-C4.5 re-tiers, C9.1 R13 date, C9.2 oven-clash TRUTH note) survive reconciliation. Each can be fixed without a rerun; vision after the plan is 60.0%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc: brian_kelly_edc5313a (edc5313a-d5ee-4271-8205-9d1dd58f6f2a)</h3>
+<p>Source: obsidian-infinity-stage-1 2118d6fb2..6fdc7da64 (modified). Model claude-opus-5.5, 1 run, score 23.21.</p>
+<h4>Tier counts</h4>
+<ul>
+<li>Step 0 gate: exit 0, no HARD findings (1 informational).</li>
+<li>Tier 1: pass 20, warn 1 (D17: 18 mutations &quot;service did not import&quot; in the checker, unresolved, not a dead mutation), skip 4.</li>
+<li>Tier 1.5: pass 12, warn 2 (E11, E12), info 1 (E5: 13 decoy mutations, unasked). E8 pass (only TRUTH.md, rubric.json and report.json changed). E9 pass (no hand-check needed). E15 pass.</li>
+<li>Tier 2: 5 pass. Tier 2.5: 4 pass (J4: only R30 reworded, nothing dropped; the new wording matches the turn).</li>
+<li>TRUTH coverage: 0 gaps (34 criteria, 19 turns, 2 output files all covered).</li>
+<li>Visual leaks: 3 candidates, 0 leaks. &quot;3:30 PM&quot; in stage1 is the furnace window, a different fact from Patricia&#x27;s quitting time (coincidence). R28 is picture-only (invisible). R29 is declared_route because the bluebird is the user&#x27;s own T17 instruction.</li>
+<li>Double charge: 5 reply/to-do pairs (R7+R8, R15+R16, R17+R18, R21+R22, R24+R27), 0 surplus points because every to-do member is already at 1. The E12 pairs R3+R20 and R10+R20 are not pairs: E12 matched &quot;11:00 AM&quot; in a TRUTH comment, and R20 derives from the Altar Guild time.</li>
+<li>Tier 3 all-criteria: 34 agree, 0 dispute, 0 unverifiable.</li>
+</ul>
+<h4>Tier 3 attribution (run_1)</h4>
+<ul>
+<li>17 failures, all <code>model</code> (high confidence): 0 rubric, 0 judge, 0 task, 0 false_pass.</li>
+<li>14 are stale values: the agent did not re-read a record after it changed (R7, R8, R14-R18, R20-R22, R24-R27). The run itself later reads the new values at T16 and T18, which shows the mutations landed and the D17 warn is a checker limitation.</li>
+<li>R13: the amlodipine reminder was never added. R31 and R33: titles were left off even though IMG_2245.jpg was opened at T9.</li>
+</ul>
+<h4>Issues kept: none (issues.json = [])</h4>
+<p>Dismissed drafts:</p>
+<ul>
+<li>D1 (R29 visual route): the bluebird is what the user asked for at T17, and TRUTH never claims a picture carries it, so this is not a leak. R29 only counts as text for vision share; no edit is needed.</li>
+<li>D2 (double charge): I checked rubric.json and every dependent to-do criterion (R8, R16, R18, R22, R27) is already scored 1. The reweight is already in place.</li>
+<li>D17 warn: the checker could not load the services. The trajectory shows the Tasks and Notion mutations landing, and the replacement PDFs carry the graded values.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>turn_refs: none (E13 clean). Unconditional scripted messages: none.</li>
+<li>Vision share: 64.29% (36/56) by hand count; E15 gives 84%. The difference comes from text copies of R3/R7/R8/R21/R22 and from R11/R28 placement. Both are above the 30% floor, so vision_ok is true.</li>
+</ul>
+<h4>Delivery</h4>
+<p>Nothing blocks delivery. Verdict: ACCEPTABLE. The low score comes from sound criteria and genuine model misses. Note: a Tier 3 sub-agent reported that another process overwrote one of its scratch scripts (it renamed its own files). This did not affect any sidecar.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 0 item(s))</summary><pre>[]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Checked every positive/penalty pair (R2, R11/R12, R17/R19, R17/R34). Each penalty can fire on its own. The reply/to-do copies (R8, R16, R18, R22, R27) are two positives whose dependent copy is already at weight 1.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;All 34 criteria grade one value or one state. Ranges (R10, R24-R27) and title+heading (R5) are parts of one fact. Roast, potatoes and cornbread are already split into R24/R25/R26.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turn names the file/record changed&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every write turn names its target: reading log Up Next (T3), to-do list (T5/T8/T9/T11/T12/T14/T16), dennis_card.png (T17), emma_shelf.xlsx (T18). &#x27;from my list&#x27; in T18 points at a read-only input, not the changed file.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after confirm + silent change&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Five earlier replies confirm a value that a later silent or file change moves, and a later 5- or 3-point criterion depends on the new value. The run fell for all five. To-do copies are already at 1.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C4.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R7&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Sat 11:00 AM furnace window&quot;,
+            &quot;Sun 7:30 PM Waffle House leave time&quot;
+          ],
+          &quot;problem&quot;: &quot;The Saturday 11:00 AM reply confirms the Gulf Air window as 12:30-2:30 PM (graded by R3). Stage 1 silently moves it to 3:30-5:30 PM. The Sunday 7:30 PM leave-time answer (R7, 5 points) depends on the moved window.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R3&quot;,
+              &quot;quote&quot;: &quot;The response gives 12:30 PM to 2:30 PM as the furnace tune-up arrival window in its reply to Brian&#x27;s Saturday 11:00 AM question.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage1/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_gulf_window_1230_to_1530 (fires_at_turn T3)&quot;,
+              &quot;quote&quot;: &quot;Monday, Nov 2. They moved us: arrival window is now 3:30 PM to 5:30 PM. The tech calls when he is on the way. -P&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R7 (score 5, critically_important)&quot;,
+              &quot;quote&quot;: &quot;The response gives 2:44 PM as the latest time to leave the Waffle House on Monday in its reply to Brian&#x27;s Sunday 7:30 PM request.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;Sun 7:30 PM reply (msg 57)&quot;,
+              &quot;quote&quot;: &quot;The latest you can leave the Waffle House is **11:44 AM**.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R7 score 5 -&gt; 3, importance critically_important -&gt; important. Leave the wording as is: it stays atomic and self-contained. R8 is already 1.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier 1 confirmed it from the rubric, mutation and run messages 16/57. I re-read the stage1 mutation and the run&#x27;s T5 reply.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.2&quot;,
+          &quot;criteria&quot;: [
+            &quot;R14&quot;,
+            &quot;R15&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Sun 1:45 PM tip-off&quot;,
+            &quot;Tue 8:30 AM Bev supper time&quot;,
+            &quot;Tue 10:15 AM Mary Mahoney&#x27;s leave time&quot;
+          ],
+          &quot;problem&quot;: &quot;The Sunday 1:45 PM reply confirms tip-off at 6:00 PM (R6). Stage 3 silently moves it to 5:15 PM. The Tuesday answers (R14 3 points, R15 5 points) depend on the moved tip-off.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R6&quot;,
+              &quot;quote&quot;: &quot;The response gives 6:00 PM as the tip-off time of Caleb&#x27;s home game in its reply to Brian&#x27;s Sunday 1:45 PM question.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage3/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_caleb_tip_1800_to_1715 (fires_at_turn T9)&quot;,
+              &quot;quote&quot;: &quot;Caleb&#x27;s home game: Tuesday, Nov 3 at the Gulfport Middle gym. Tip-off 5:15 PM. Dennis is driving you.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R14 (score 3)&quot;,
+              &quot;quote&quot;: &quot;The response gives 6:15 PM as the time Brian will be back home on Tuesday evening in its reply to Brian&#x27;s Tuesday 8:30 AM question.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R15 (score 5, critically_important)&quot;,
+              &quot;quote&quot;: &quot;The response gives 2:59 PM as the latest time to leave Mary Mahoney&#x27;s on Tuesday in its reply to Brian&#x27;s Tuesday 10:15 AM request.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;Tue 8:30 AM reply (msg 85)&quot;,
+              &quot;quote&quot;: &quot;Tell Bev **7:00 PM**.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R14 score 3 -&gt; 1 (importance stays important). R15 score 5 -&gt; 3, importance critically_important -&gt; important. No wording change. R16 is already 1.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier 1 confirmed it, quoting run messages 44/85/89. The run admitted the stale tip-off later (msg 118: &#x27;Patricia moved Caleb&#x27;s tip-off to **5:15 PM**, not 6:00&#x27;).&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.3&quot;,
+          &quot;criteria&quot;: [
+            &quot;R17&quot;,
+            &quot;R20&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Sat 4:30 PM Altar Guild time&quot;,
+            &quot;Wed 7:15 AM Winn-Dixie/pharmacy home time&quot;,
+            &quot;Wed 11:00 AM lunch time&quot;
+          ],
+          &quot;problem&quot;: &quot;The Saturday 4:30 PM reply confirms the Altar Guild meeting at 2:00 PM (R4). The notice is re-scanned twice without announcement (1:30, then 1:00 PM). The Wednesday answers (R17 5 points, R20 3 points) depend on 1:00 PM.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R4&quot;,
+              &quot;quote&quot;: &quot;The response states 2:00 PM as the Wednesday Altar Guild meeting time in its reply to Brian&#x27;s Saturday 4:30 PM question.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage3/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_altar_notice_v3 rationale (fires_at_turn T9)&quot;,
+              &quot;quote&quot;: &quot;Joan re-scans the November notice with the meeting at 1:00 PM (second move; never announced)&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R17 (score 5, critically_important)&quot;,
+              &quot;quote&quot;: &quot;The response gives 3:08 PM as the home time in Brian&#x27;s text to Dennis in its reply to Brian&#x27;s Wednesday 7:15 AM request.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R20 (score 3)&quot;,
+              &quot;quote&quot;: &quot;The response gives 11:50 AM as the latest time Brian can sit down to lunch on Wednesday in its reply to Brian&#x27;s Wednesday 11:00 AM question.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;Wed 11:00 AM reply (msg 97)&quot;,
+              &quot;quote&quot;: &quot;Sit down by **12:50 PM**.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R17 score 5 -&gt; 3, importance -&gt; important. R20 score 3 -&gt; 1 (importance stays important). No wording change. R18 is already 1.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier 1 confirmed it. I viewed the stage3 scan image (&#x27;REVISED 11/2&#x27;, &#x27;Time: 1:00 PM, Fellowship Hall&#x27;) and the run&#x27;s 4:08/12:50 answers.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.4&quot;,
+          &quot;criteria&quot;: [
+            &quot;R21&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Mon 12:45 PM hearing aid window&quot;,
+            &quot;Wed 7:00 PM Thursday walk start&quot;
+          ],
+          &quot;problem&quot;: &quot;The Monday 12:45 PM reply confirms the UPS window as 11:00 AM-1:30 PM (R10). Stage 4 silently moves it to 9:30-11:30 AM. The walk start time (R21, 5 points) depends on the moved window.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R10&quot;,
+              &quot;quote&quot;: &quot;The response gives 11:00 AM to 1:30 PM as the hearing aid delivery window in its reply to Brian&#x27;s Monday 12:45 PM question.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_ups_window_1100_to_0930 (fires_at_turn T12)&quot;,
+              &quot;quote&quot;: &quot;Left hearing aid back from Gulf Coast Hearing by UPS: Thursday, Nov 5, between 9:30 AM and 11:30 AM now. Someone has to sign for it.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R21 (score 5, critically_important)&quot;,
+              &quot;quote&quot;: &quot;The response gives 8:18 AM as the time to start Thursday&#x27;s walk in its reply to Brian&#x27;s Wednesday 7:00 PM request.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;Wed 7:00 PM reply (msg 101)&quot;,
+              &quot;quote&quot;: &quot;Start your walk by **9:48 AM**.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R21 score 5 -&gt; 3, importance -&gt; important. No wording change. R22 is already 1.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier 1 confirmed it. Verifier 5 showed the moved window was delivered: msg 146 reads &#x27;between 9:30 AM and 11:30 AM now&#x27;.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.5&quot;,
+          &quot;criteria&quot;: [
+            &quot;R24&quot;,
+            &quot;R25&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Mon 6:45 AM Patricia&#x27;s Thursday shift end&quot;,
+            &quot;Thu 9:30 AM supper cooking times&quot;
+          ],
+          &quot;problem&quot;: &quot;The Monday 6:45 AM reply confirms Patricia off at 3:30 PM (R9). Stage 4 replaces her schedule PDF without announcement (Thursday ends 5:30 PM). The Thursday cooking times (R24 5 points, R25 3 points) depend on 5:30 PM.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R9&quot;,
+              &quot;quote&quot;: &quot;The response gives 3:30 PM as Patricia&#x27;s Thursday quitting time in its reply to Brian&#x27;s Monday 6:45 AM question.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_pat_schedule_rev (fires_at_turn T12)&quot;,
+              &quot;quote&quot;: &quot;Patricia&#x27;s November schedule, revised: Thursday now ends at 5:30 PM (never announced)&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R24 (score 5, critically_important)&quot;,
+              &quot;quote&quot;: &quot;The response gives a time from 2:30 PM to 2:50 PM as the time the pot roast goes in the oven in its reply to Brian&#x27;s Thursday 9:30 AM request.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R25 (score 3)&quot;,
+              &quot;quote&quot;: &quot;The response gives a time from 5:05 PM to 5:25 PM as the time the potatoes go on to boil in its reply to Brian&#x27;s Thursday 9:30 AM request.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R24 score 5 -&gt; 3, importance -&gt; important. R25 score 3 -&gt; 1 (importance stays important). R26 and R27 are already 1. No wording change.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier 1 confirmed it. I viewed inject/stage4/files/schedule_2611.pdf (THU 5 &#x27;7:00a-5:30p&#x27;, &#x27;REVISED 11/3&#x27;).&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;No text leak of image-graded facts&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Image-only PDFs have no text layer. Searches for 3 cups, 312, an hour before tip-off, D.H./birdhouse, Cortez, Beston, QTY and the 1:00/5:30 times found no readable route. The Notion &#x27;Drive times&#x27; page copies the drive-card minutes, but those are inputs, not graded answers. It only removes R7/R8/R21/R22 from the vision share.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume the expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every stage 1-5 op is a world change that holds whatever the agent did: windows and times move, rescans, the pudding message, Patricia&#x27;s Kon-Tiki note, decoys, the auth lapse. None replies to an agent action.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;final_answer for reply values (including the drafted Dennis text in R17/R19), state_change for Notion/Tasks writes and the send penalty R34, produced_artifact for dennis_card.png and emma_shelf.xlsx.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion grades a tool call or method. State criteria grade end state (item exists or unchanged, message not sent).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent with rubric/prompt/answers&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;TRUTH covers T0-T18 and every criterion, and the recomputed values match. Two issues: the amlodipine date is underdetermined, and the one-oven 325F/425F clash is not addressed.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C9.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R13&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Tue 7:00 AM amlodipine reminder&quot;
+          ],
+          &quot;problem&quot;: &quot;The label gives only QTY 30, FILLED 10/09/26, one every morning. Nov 7 holds only if the first tablet was taken on the fill day. Starting the next morning gives Nov 8, and nothing in the data fixes the start day. TRUTH and R13 accept only Nov 7.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;data/environment/artifacts/inputs/files/home/Pictures/IMG_2236.jpg&quot;,
+              &quot;where&quot;: &quot;label (image)&quot;,
+              &quot;quote&quot;: &quot;TAKE 1 TABLET BY MOUTH EVERY MORNING / QTY: 30 FILLED: 10/09/26&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 13&quot;,
+              &quot;quote&quot;: &quot;the last tablet is taken Saturday November 7; add a My Tasks item due 2026-11-07&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R13&quot;,
+              &quot;quote&quot;: &quot;The agent adds a to-do dated November 7 for the last amlodipine tablet on Brian&#x27;s list.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;Tue 7:00 AM reply (msg 83)&quot;,
+              &quot;quote&quot;: &quot;**5 tablets left:** you started it October 10, and the last one is **Sunday, November 8**.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword R13 to &#x27;The agent adds a to-do dated November 7 or November 8 for the last amlodipine tablet on Brian&#x27;s list.&#x27; (still one atomic fact). In TRUTH Step 13 and LAST_PILL_DATE, record that both start-day readings are accepted. Rerun-quality alternative: add a start anchor to the data (e.g. &#x27;started the new bottle 10/9&#x27;).&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier 3 confirmed it with the arithmetic (Oct 9 start: 23+7=30, Nov 7; Oct 10 start: 22+8=30, Nov 8) and found no start date in any text. I viewed IMG_2236.jpg. The run failed R13 by adding no to-do, so this verdict does not change.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C9.2&quot;,
+          &quot;criteria&quot;: [
+            &quot;R24&quot;,
+            &quot;R26&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Thu 9:30 AM supper cooking times&quot;
+          ],
+          &quot;problem&quot;: &quot;TRUTH has the roast at 325F, lid on, served straight from the oven at arrival, and the cornbread at 425F in its last 22 minutes. Both are in the oven together at different temperatures. TRUTH does not mention the clash, so a solver that resolves it (e.g. roast out early) can lose R24/R26.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;data/environment/artifacts/inputs/files/home/Documents/Recipes/IMG_1650.jpg&quot;,
+              &quot;where&quot;: &quot;right card / left card (image)&quot;,
+              &quot;quote&quot;: &quot;Oven 325 F for 3 hours, lid on. Take it straight to the table - no resting. / Bake 425 F for 22 minutes, till edges pull away.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 23&quot;,
+              &quot;quote&quot;: &quot;roast 3 hours: in from 2:30 PM to 2:50 PM; potatoes 25 minutes: on from 5:05 PM to 5:25 PM; cornbread 22 minutes: in from 5:08 PM to 5:28 PM&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Add a TRUTH Step 23 note: the graded values are the back-calculated insert times; the recipes clash on oven temperature; giving the arithmetic times and flagging the clash is the ideal reply. Rubric wording unchanged.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;Verifier 3 confirmed it. I viewed IMG_1650.jpg. The run itself flagged the clash (&#x27;the oven would have to be at 325° and 425° at the same time&#x27;).&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;36 of 56 positive points (64.3%) depend on image-only content with no text route. R29 is excluded (bluebird comes from the prompt). After the item-4 re-tier it is 24/40 = 60.0%.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every mutation the run read after it fired matched (6:00 and 5:15 tip-off, 3:30-5:30 Gulf window, 9:30-11:30 UPS, Kon-Tiki note, decoys). The stale 3:30p schedule at Thu 9:30 AM came from the agent&#x27;s own Saturday PNG render, not the environment. All 34 report verdicts agree with the run and output_media.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No T#/turn N in any criterion. Each day+clock anchor maps to exactly one turn (Day 1 = Sat Oct 31).&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R11/R12 double-charge the hearing-aid battery edit.&quot;,
+      &quot;why&quot;: &quot;R12 can fire while R11 passes (patch the right item and also a Buy item). It grades the separate &#x27;leave every other item on the list exactly as it is&#x27; instruction and is already -1.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Reply and to-do criteria (R7/R8, R15/R16, R17/R18, R21/R22, R24/R27) double-charge one wrong time.&quot;,
+      &quot;why&quot;: &quot;They are two positives, not a positive and a penalty. The dependent to-do copy is already score 1, which is the prescribed remedy. Merging is forbidden and no same-output relative wording is possible.&quot;
+    },
+    {
+      &quot;item&quot;: 3,
+      &quot;claim&quot;: &quot;T18 &#x27;from my list&#x27; does not name IMG_2245.jpg.&quot;,
+      &quot;why&quot;: &quot;Item 3 concerns the file being changed. T18 names emma_shelf.xlsx, which R30-R33 grade. The list is a read-only input with one unique match.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;The Notion Drive times page leaks the IMG_2203 drive card.&quot;,
+      &quot;why&quot;: &quot;It gives input minutes, not any graded value (2:44, 2:59, 3:08, 8:18 or the cooking ranges are printed nowhere). It is handled by excluding R7/R8/R21/R22 from the vision share.&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;The TRUTH arrival window 5:30-5:50 conflicts with the documented &#x27;around 5 like usual&#x27; gap after a 3:30 shift.&quot;,
+      &quot;why&quot;: &quot;TRUTH states its basis explicitly (&#x27;HEARTBEAT&#x27;s usual 5:00 PM visit is superseded by the revised shift&#x27;). The ~90-min-gap reading rests on an old Dec 2025 email and an approximate &#x27;around 5&#x27;. It is a judgment call, not an inconsistency.&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;TRUTH lacks an explicit do-not-send step for R34.&quot;,
+      &quot;why&quot;: &quot;TRUTH Step 17 says &#x27;draft Dennis&#x27;s text&#x27;, and AGENTS.md says never send without explicit instruction. The criterion and TRUTH agree.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;The environment failed to deliver the stage-4 schedule revision (run shows 3:30p on Thursday).&quot;,
+      &quot;why&quot;: &quot;Msg 112 reads /root/workspace/schedule_2611.pdf_0.png, the agent&#x27;s own render from Saturday (msg 8). The PKH PDF was never re-opened after the stage fired, so this is an agent stale cache, not an environment mismatch.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 64.3,
+    &quot;vision_weight&quot;: 36,
+    &quot;positive_weight&quot;: 56,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Recipes/IMG_1650.jpg&quot;,
+        &quot;why&quot;: &quot;1 1/2 cups per skillet only on the card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/FUMC/scan_1026.pdf (image-only)&quot;,
+        &quot;why&quot;: &quot;Time 2:00 PM only in the scan&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/PKH/schedule_2611.pdf (image-only)&quot;,
+        &quot;why&quot;: &quot;THU 5 7:00a-3:30p only in the scan&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Health/IMG_2120.jpg&quot;,
+        &quot;why&quot;: &quot;size 312 only on the receipt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_2236.jpg&quot;,
+        &quot;why&quot;: &quot;QTY 30 / filled 10/09 only on the label&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/IMG_2241.jpg&quot;,
+        &quot;why&quot;: &quot;pickup an hour before tip-off only on the fridge note&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;Pictures/IMG_2241.jpg&quot;,
+        &quot;why&quot;: &quot;4:15 home time needs the fridge-note offset&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_2241.jpg&quot;,
+        &quot;why&quot;: &quot;same 2:59 chain&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage3/files/scan_1026.pdf (image-only)&quot;,
+        &quot;why&quot;: &quot;1:00 PM and about an hour only in the rescan&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage3/files/scan_1026.pdf&quot;,
+        &quot;why&quot;: &quot;same 3:08 chain&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage3/files/scan_1026.pdf&quot;,
+        &quot;why&quot;: &quot;1:00 PM only in the rescan&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage4/files/schedule_2611.pdf + IMG_1650.jpg&quot;,
+        &quot;why&quot;: &quot;5:30p shift end and 3-hour roast only in images&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage4/files/schedule_2611.pdf + IMG_1650.jpg&quot;,
+        &quot;why&quot;: &quot;5:30p and boil 25 minutes only in images&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage4/files/schedule_2611.pdf + IMG_1650.jpg&quot;,
+        &quot;why&quot;: &quot;5:30p and 22 minutes only in images&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage4/files/schedule_2611.pdf + IMG_1650.jpg&quot;,
+        &quot;why&quot;: &quot;same roast chain&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_1977.jpg&quot;,
+        &quot;why&quot;: &quot;red side panel only in the photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/IMG_2245.jpg&quot;,
+        &quot;why&quot;: &quot;Steinbeck title only on the handwritten list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/IMG_2245.jpg&quot;,
+        &quot;why&quot;: &quot;Henry Beston only on the handwritten list&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;why&quot;: &quot;Google Tasks note text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;why&quot;: &quot;WhatsApp text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;why&quot;: &quot;Notion block text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;why&quot;: &quot;full text route: Gulf Air note + Notion &#x27;Dollar General (Pass Rd) - 11 min&#x27;&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;why&quot;: &quot;same text route as R7&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;why&quot;: &quot;Notion For Dad block text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;why&quot;: &quot;full text route: Notion UPS block + Notion Dollar General 11 min&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;why&quot;: &quot;same text route as R21&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;why&quot;: &quot;WhatsApp text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;why&quot;: &quot;bluebird comes from the prompt text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;why&quot;: &quot;web lookup, text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;why&quot;: &quot;Patricia&#x27;s Tasks note text&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;7 flags across items [4, 9]: item 4 re-tiers R7/R14/R15/R17/R20/R21/R24/R25; item 9 has R13 date ambiguity and the oven-clash TRUTH note; vision 64.3%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 evidence: &#x27;no user sign-off precedes a silent change (A7 n/a)&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C4.3&quot;,
+        &quot;C4.4&quot;,
+        &quot;C4.5&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R17&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;
+      ],
+      &quot;neo_says&quot;: &quot;A7 does not apply: no user sign-off comes before any silent change.&quot;,
+      &quot;checklist_says&quot;: &quot;Five earlier replies (R3, R6, R4, R10, R9) confirm a value that a later silent/filesystem change moves, and later 3- or 5-point answers depend on the new value.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right. The guide (DL5) says A7 is narrower than checklist 4 and to &#x27;use the broader checklist rule as the bar&#x27;. Shared tie-break rule 5 defines it as &#x27;a turn confirms a value, a silent or filesystem change hits it, and a later turn asks again&#x27;. All five cases match: for example, R3 has the reply confirm 12:30-2:30 PM, stage1 sil_gulf_window_1230_to_1530 (T3) moves it silently, and T5 asks for a leave time derived from it. So the tier-downs apply.&quot;,
+      &quot;evidence&quot;: &quot;audit_report_tier25.json J1: &#x27;no user sign-off precedes a silent change (A7 n/a)&#x27;; rules/neoqc_contradict.html DL5: &#x27;Use the broader checklist rule as the bar.&#x27;; inject/stage1/mutations.json sil_gulf_window_1230_to_1530 fires_at_turn T3; prompt.txt T5: &#x27;I want to be home a quarter hour ahead of what I&#x27;ve got that afternoon.&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A7 (n/a)&quot;,
+        &quot;E3_penalty_labels&quot;,
+        &quot;double_charge pair R7+R8&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R8&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R7+R8 at full weight and has the to-do at 1.&quot;,
+      &quot;checklist_says&quot;: &quot;A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R7 5-&gt;3.&quot;,
+      &quot;loop&quot;: &quot;Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R7+R8 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight.&quot;,
+      &quot;resolution&quot;: &quot;Weight pass 1 before weight pass 2 (DL5): apply R7 5-&gt;3 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R7 score 5 critically_important; R8 score 1; inject/stage1/mutations.json sil_gulf_window_1230_to_1530 fires T3; double_charge.json pair R7+R8 with the to-do at 1&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A7 (n/a)&quot;,
+        &quot;E3_penalty_labels&quot;,
+        &quot;double_charge pair R15+R16&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.2&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R15+R16 at full weight and has the to-do at 1.&quot;,
+      &quot;checklist_says&quot;: &quot;A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R14 3-&gt;1 and R15 5-&gt;3.&quot;,
+      &quot;loop&quot;: &quot;Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R15+R16 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight. The tier-down also lowers vision share.&quot;,
+      &quot;resolution&quot;: &quot;Weight pass 1 before weight pass 2 (DL5): apply R14 3-&gt;1 and R15 5-&gt;3 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R14 score 3, R15 score 5 critically_important, R16 score 1; inject/stage3/mutations.json sil_caleb_tip_1800_to_1715 fires T9&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A7 (n/a)&quot;,
+        &quot;E3_penalty_labels&quot;,
+        &quot;double_charge pair R17+R18&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.3&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R17+R18 at full weight and has the to-do at 1.&quot;,
+      &quot;checklist_says&quot;: &quot;A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R17 5-&gt;3 and R20 3-&gt;1.&quot;,
+      &quot;loop&quot;: &quot;Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R17+R18 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight. The tier-down also lowers vision share.&quot;,
+      &quot;resolution&quot;: &quot;Weight pass 1 before weight pass 2 (DL5): apply R17 5-&gt;3 and R20 3-&gt;1 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R17 score 5 critically_important, R18 score 1, R20 score 3; inject/stage3/mutations.json fs_altar_notice_v3 fires T9 &#x27;never announced&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A7 (n/a)&quot;,
+        &quot;E3_penalty_labels&quot;,
+        &quot;double_charge pair R21+R22&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.4&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R21&quot;,
+        &quot;R22&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R21+R22 at full weight and has the to-do at 1.&quot;,
+      &quot;checklist_says&quot;: &quot;A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R21 5-&gt;3.&quot;,
+      &quot;loop&quot;: &quot;Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R21+R22 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight.&quot;,
+      &quot;resolution&quot;: &quot;Weight pass 1 before weight pass 2 (DL5): apply R21 5-&gt;3 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R21 score 5 critically_important, R22 score 1; inject/stage4/mutations.json sil_ups_window_1100_to_0930 fires T12&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A7 (n/a)&quot;,
+        &quot;E3_penalty_labels&quot;,
+        &quot;double_charge pair R24+R27&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.5&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R27&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Tier 2.5 J1 passes and calls A7 n/a; E3 requires importance to follow |score| = 5; double charge keeps the reply member of R24+R27 at full weight and has the to-do at 1.&quot;,
+      &quot;checklist_says&quot;: &quot;A reply confirmed the value, then a silent or file change moved it, and a later 3/5-point answer depends on the moved value, so these criteria go one tier down: R24 5-&gt;3 and R25 3-&gt;1.&quot;,
+      &quot;loop&quot;: &quot;Lowering 5-&gt;3 without changing importance fails E3 (neo_checks.py:266-270 E3: critically_important &lt;=&gt; |score| = 5). Lowering the reply member of R24+R27 cuts the &#x27;kept&#x27; side of the double-charge pair (double_charge_prompt.md:39-42 keep the output the turn finally asks for, reweight the other to 1); then lowering it again to 1 to match the to-do leaves the asked output with no weight. The tier-down also lowers vision share.&quot;,
+      &quot;resolution&quot;: &quot;Weight pass 1 before weight pass 2 (DL5): apply R24 5-&gt;3 and R25 3-&gt;1 and set importance in the same edit (5 -&gt; critically_important, 3/1 -&gt; important). The to-do member stays at 1, so the post-sign-off member is the lowered one and no second weight change is made. Vision stays &gt;= 30% (60.0% after all C4 edits); no score target is set.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R24 score 5 critically_important, R25 score 3, R27 score 1; inject/stage4/mutations.json fs_pat_schedule_rev fires T12 &#x27;never announced&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL8&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier2/tier25 J2 pass&quot;,
+        &quot;tier3_all_criteria R13 agree&quot;,
+        &quot;truth_coverage.json 0 gaps&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C9.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R13&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent: J2 TRUTH consistency passes and Tier 3 agrees with R13 (failed: no to-do added).&quot;,
+      &quot;checklist_says&quot;: &quot;The label (QTY 30, FILLED 10/09/26, one every morning) does not fix the start day: Nov 7 if the first tablet was taken on the fill day, Nov 8 if it was taken the next morning. R13 and TRUTH accept only Nov 7.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right, and neo-qc would not object if DL8 is followed. Put the alternative next to LAST_PILL_DATE in TRUTH, and keep the literal &#x27;November 7&#x27; in R13 so E4 still matches and the lock stays graded-positive (TB4). E10/E12 only tokenise money, decimals, clock times and IDs, and dates are none of those. Stale-pass check: no stage replaces a November 8 value (the only date mutation is the flu-shot decoy Nov 9 -&gt; Nov 10), so the alternative opens no stale-pass hole. The R13 verdict stays failed. No start anchor exists in the data: amlodipine mentions in persona/MEMORY.md, gmail, outlook (2025 refill) and the calendar give no start date.&quot;,
+      &quot;evidence&quot;: &quot;data/solution/TRUTH.md Step 13: &#x27;the last tablet is taken Saturday November 7&#x27;; L123 LAST_PILL_DATE = \&quot;November 7\&quot;; inject/stage2/mutations.json sil_decoy_flushot_nov9_to_nov10; outlook-api/messages.json refill message received_date 2025-12-02; run_1 output msg 83 &#x27;the last one is **Sunday, November 8**&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json 0 gaps&quot;,
+        &quot;J2 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C9.2&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R24&quot;,
+        &quot;R26&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent: TRUTH coverage has no gap and J2 passes.&quot;,
+      &quot;checklist_says&quot;: &quot;TRUTH Step 23 has the roast at 325F in the oven while the cornbread bakes at 425F, and it does not mention that the two clash.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right, and this is a TRUTH-only fix. The checklist&#x27;s suggested note says &#x27;the graded values are...&#x27;. Per TB2, a TRUTH step must describe the expected reply and never say what is graded. Use the wording in fix_plan step 9, which has no grading words and none of the E6 residue words. Rubric wording and weights for R24/R26 do not change for this flag.&quot;,
+      &quot;evidence&quot;: &quot;data/solution/TRUTH.md Step 23: &#x27;roast 3 hours: in from 2:30 PM to 2:50 PM ... cornbread 22 minutes: in from 5:08 PM to 5:28 PM&#x27;; checklist C9.2 cites IMG_1650.jpg &#x27;Oven 325 F for 3 hours ... Bake 425 F for 22 minutes&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E15_vision_share pass (84%)&quot;,
+        &quot;QC_SUMMARY hand count 64.29% (36/56)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R4&quot;,
+        &quot;R9&quot;,
+        &quot;R11&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R20&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R26&quot;,
+        &quot;R27&quot;,
+        &quot;R28&quot;,
+        &quot;R31&quot;,
+        &quot;R33&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision share is 84% by E15 and 64.29% by hand count, above the 30% floor.&quot;,
+      &quot;checklist_says&quot;: &quot;64.3% (36/56) under the dependency definition; R7/R8/R21/R22 have a text route through the Notion Drive times page, and R29 comes from prompt text.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Use the dependency definition (guide section 5 and tie-break rule 10): 64.29% before the plan and 60.0% after. The C4 tier-downs lower vision criteria R14/R15/R17/R20/R24/R25, but the share stays above 30%, so no member swap is needed.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md: &#x27;Vision share: 64.29% (36/56) by hand count; E15 gives 84%&#x27;; checklist.json vision.pct 64.3; scratch/metrics.py output before 64.29 after 60.0&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;score&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;report.json final_reward 23.21&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R17&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Not checked.&quot;,
+      &quot;checklist_says&quot;: &quot;Not checked.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Every lowered criterion is a run_1 fail, so the score rises from 23.21% to 32.5% (13/56 -&gt; 13/40). No score target is set, so this changes nothing. report.json final_reward / rubric_weights_percentage and pass_summary.json must be set to 32.5 in the same edit.&quot;,
+      &quot;evidence&quot;: &quot;report.json final_reward 23.21 = 13 passed positive points / 56; scratch/metrics.py after 32.5&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json 5 pairs, 0 surplus&quot;,
+        &quot;D2 dismissed&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;rejected item 1 reply/to-do claim&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R8&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R24&quot;,
+        &quot;R27&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Five reply/to-do pairs exist, but each to-do member is already at 1, so the reweight is in place.&quot;,
+      &quot;checklist_says&quot;: &quot;Same: these are two positives with the dependent copy at 1. Merging is forbidden.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. Do not merge (DL1) and do not drop (DL3). The to-do members stay at 1 after the C4 edits.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;D2 (double charge): ... every dependent to-do criterion (R8, R16, R18, R22, R27) is already scored 1&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E12_double_charge_candidates warn R3+R20, R10+R20&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R3&quot;,
+        &quot;R10&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;neo_says&quot;: &quot;False candidates: E12 matched &#x27;11:00 AM&#x27; in a TRUTH comment. R20 derives from the Altar Guild time.&quot;,
+      &quot;checklist_says&quot;: &quot;Item 1 passes and does not list them.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Not pairs. No change.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json: R3+R20 &#x27;not a pair&#x27; &#x27;E12 matched 11:00 AM inside the lock comment&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json penalties_reviewed&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;rejected item 1 R11/R12&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R11&quot;,
+        &quot;R12&quot;,
+        &quot;R17&quot;,
+        &quot;R19&quot;,
+        &quot;R34&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R2, R12, R19 and R34 each fire on behaviour that no positive tests, so none is a trap_value pair.&quot;,
+      &quot;checklist_says&quot;: &quot;Each penalty can fire on its own. R12 is a separate instruction and is already -1.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Not pairs (tie-break rule 3). Keep as is.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json: &#x27;R2 ..., R12 ..., R19 ..., R34 ... each fire on behavior no positive tests&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E11_visual_leak_candidates warn L110 PAT_END_ORIG 3:30 PM&quot;,
+        &quot;visual_leaks.json &#x27;coincidence&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;,
+        &quot;rejected item 5 Drive times page&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R9&quot;,
+        &quot;R7&quot;,
+        &quot;R8&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The 3:30 PM in stage1 is the furnace window, a different fact from Patricia&#x27;s shift end (coincidence), so there are 0 leaks.&quot;,
+      &quot;checklist_says&quot;: &quot;No readable route for image-graded facts. The Drive times page carries input minutes only and is handled by leaving R7/R8/R21/R22 out of the vision share.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No leak. No anchor edit and no data edit (RR3 not needed).&quot;,
+      &quot;evidence&quot;: &quot;audit_report.json E11: &#x27;L110 PAT_END_ORIG 3:30 PM: 1 readable copy (inject 1)&#x27;; QC_SUMMARY.md &#x27;\&quot;3:30 PM\&quot; in stage1 is the furnace window ... (coincidence)&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json R29 declared_route&quot;,
+        &quot;D1 dismissed&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 (R29 excluded)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R29&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The bluebird comes from the user&#x27;s T17 instruction, so it is not a leak. It only counts as text for vision share.&quot;,
+      &quot;checklist_says&quot;: &quot;R29 is excluded from vision because the bluebird comes from the prompt.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. R29 counts as text-route in both vision numbers.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;D1 (R29 visual route): the bluebird is what the user asked for at T17&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D17_mutation_lands warn&quot;,
+        &quot;E9_mutation_read pass&quot;,
+        &quot;E8_change_diff pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 11 PASS&quot;,
+        &quot;rejected item 11 stale schedule&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;The D17 warn is a checker limitation, and the run shows every mutation landing. E9 passes.&quot;,
+      &quot;checklist_says&quot;: &quot;Every mutation read after it fired matched. The stale 3:30p came from the agent&#x27;s own cached render.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No run/environment mismatch, and nothing to rerun.&quot;,
+      &quot;evidence&quot;: &quot;audit_report.json E9 &#x27;old_only&#x27;: 0; checklist rejected: &#x27;Msg 112 reads /root/workspace/schedule_2611.pdf_0.png, the agent&#x27;s own render&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E13 turn_refs none&quot;,
+        &quot;D18 pass&quot;,
+        &quot;J1 A5&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No turn refs, and every anchor resolves.&quot;,
+      &quot;checklist_says&quot;: &quot;No T#. Each day+clock anchor maps to one turn.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. The new R13 wording has no turn anchor (state_change).&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;turn_refs: none (E13 clean)&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A8 n/a&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 3 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;Deliverables are requested after their stages, so A8 is n/a.&quot;,
+      &quot;checklist_says&quot;: &quot;Every write turn names its target.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No prompt edit and no rerun.&quot;,
+      &quot;evidence&quot;: &quot;audit_report_tier25.json J1: &#x27;deliverables requested after their stages (A8 n/a)&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json unconditional scripted messages: none&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 6 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No unconditional scripted messages.&quot;,
+      &quot;checklist_says&quot;: &quot;Every stage op is a world change that holds whatever the agent did.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No inject edit.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;Unconditional scripted messages: none.&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL9&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A4 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 7 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R19&quot;,
+        &quot;R34&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Targets match the wording.&quot;,
+      &quot;checklist_says&quot;: &quot;final_answer for replies, state_change for writes and the R34 send, produced_artifact for png/xlsx.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. R13 stays state_change after the reword.&quot;,
+      &quot;evidence&quot;: &quot;audit_report_tier25.json J1: &#x27;targets match wording&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL10&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A1/A6 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 8 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R34&quot;,
+        &quot;R12&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No process criteria. R19 is backed by an AGENTS.md rule.&quot;,
+      &quot;checklist_says&quot;: &quot;State criteria grade end state (item unchanged, message not sent).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change.&quot;,
+      &quot;evidence&quot;: &quot;audit_report_tier25.json J1 R19 backed by AGENTS.md:62&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Classify all 7 surviving checklist flags as rubric/TRUTH only (C4.1-C4.5 weight edits, C9.1 rubric+TRUTH, C9.2 TRUTH). neo-qc kept no issues. Nothing needs a prompt, inject or data edit, so no rerun is required. The only rerun-class idea, a start-day anchor for the amlodipine bottle, is optional and queued in rerun_batch.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R17&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R26&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C4.3&quot;,
+        &quot;C4.4&quot;,
+        &quot;C4.5&quot;,
+        &quot;C9.1&quot;,
+        &quot;C9.2&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;R13 criterion -&gt; &#x27;The agent adds a to-do dated November 7 or November 8 for the last amlodipine tablet on Brian&#x27;s list.&#x27; (score 1, important, state_change unchanged). Mirror the text in report.json R13 and write its justification in first-grading voice: &#x27;No reminder for the last amlodipine tablet dated November 7 or November 8 was added; the agent asked for the remaining tablet count instead.&#x27; (verdict stays failed; no E6/TB3 words). DL8: put the alternative in TRUTH next to the main value (step 9). No stage replaces a Nov 8 value, so there is no stale-pass hole.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure (split compound criteria)&quot;,
+      &quot;action&quot;: &quot;No split. Checklist item 2 and J1 A3 both pass. The R10/R24-R27 ranges, R5 heading+page and the &#x27;November 7 or November 8&#x27; alternative are each one fact.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R5&quot;,
+        &quot;R10&quot;,
+        &quot;R13&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R26&quot;,
+        &quot;R27&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;checklist item 2&quot;,
+        &quot;J1 A3&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route (DL6)&quot;,
+      &quot;action&quot;: &quot;No change. The E11 3:30 PM copy is the furnace window (coincidence), and checklist item 5 passes. Do not re-anchor any lock.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R9&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;E11_visual_leak_candidates&quot;,
+        &quot;checklist item 5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;R7 score 5 -&gt; 3, importance critically_important -&gt; important in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R8 stays 1.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R7&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;,
+        &quot;J1 A7&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 2.38,
+      &quot;score_delta&quot;: 0.86
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;R14 score 3 -&gt; 1 (importance stays important); R15 score 5 -&gt; 3, importance critically_important -&gt; important; in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R16 stays 1.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R14&quot;,
+        &quot;R15&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.2&quot;,
+        &quot;J1 A7&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -2.67,
+      &quot;score_delta&quot;: 1.93
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;R17 score 5 -&gt; 3, importance critically_important -&gt; important; R20 score 3 -&gt; 1 (importance stays important); in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R18 stays 1.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.3&quot;,
+        &quot;J1 A7&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -3.13,
+      &quot;score_delta&quot;: 2.26
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;R21 score 5 -&gt; 3, importance critically_important -&gt; important in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R22 stays 1.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R21&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.4&quot;,
+        &quot;J1 A7&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 2.77,
+      &quot;score_delta&quot;: 1.29
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;R24 score 5 -&gt; 3, importance critically_important -&gt; important; R25 score 3 -&gt; 1 (importance stays important); in rubric.json and the mirrored row in trajectories/claude-opus-5.5/run_1/report.json (score + importance only; verdicts and justifications unchanged). R26 and R27 stay 1.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R24&quot;,
+        &quot;R25&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.5&quot;,
+        &quot;J1 A7&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -3.64,
+      &quot;score_delta&quot;: 2.95
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;weight pass 2 (double charge)&quot;,
+      &quot;action&quot;: &quot;No further change. In the pairs R7+R8, R15+R16, R17+R18, R21+R22 and R24+R27, the post-sign-off reply member is now 3 and the to-do member stays 1. Nothing is dropped (J4/DL3), and no member is moved to 1 a second time (DL5).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R8&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R24&quot;,
+        &quot;R27&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;double_charge.json&quot;,
+        &quot;D2&quot;,
+        &quot;checklist item 1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 11,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute: vision 36/56 = 64.29% -&gt; 24/40 = 60.0% (&gt;= 30%); score 13/56 = 23.21% -&gt; 13/40 = 32.5% (no target set). Set report.json final_reward and rubric_weights_percentage to 32.5, and pass_summary.json average_combined_score, average_rubric_weights_percentage, per_run rubric_weights_percentage and combined_score to 32.5. No member swap needed.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;vision&quot;,
+        &quot;score&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 12,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;No change. The R13 reword keeps target state_change and carries no turn number. All other wording is untouched (checklist items 7/8/12 and J1 A1/A4/A5 pass).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;checklist item 12&quot;,
+        &quot;J1 A5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 13,
+      &quot;phase&quot;: &quot;TRUTH.md sync (TB1-TB4)&quot;,
+      &quot;action&quot;: &quot;TRUTH.md section 2 Step 13 -&gt; &#x27;read the amlodipine label (QTY: 30, filled 10/09/26, one every morning): the last tablet is taken Saturday November 7 if the first tablet was taken on the fill day, or Sunday November 8 if it was first taken the next morning; nothing in the records fixes the start day, so either date is right; add a My Tasks item due on that date&#x27; (route/anchor unchanged). Section 3 L123 -&gt; &#x27;LAST_PILL_DATE = \&quot;November 7\&quot;  # type: graded-positive; datatype: computed; also accepted: November 8 (first tablet the morning after the fill day); anchor: image:data/home/Pictures/IMG_2236.jpg#QTY and FILLED line&#x27;. Step 23: append &#x27;The roast card (325 F, lid on, straight to the table) and the cornbread card (425 F for 22 minutes) need the one oven at two temperatures during the cornbread&#x27;s bake; the ideal reply gives the insert times above and points out the clash so Brian can decide how to handle it.&#x27; No R-numbers, no &#x27;graded/not graded&#x27;, no E6 words; lock types unchanged (TB4).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R24&quot;,
+        &quot;R26&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C9.1&quot;,
+        &quot;C9.2&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 14,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5: E3 importance, E4 lock text &#x27;November 7&#x27;, E6 residue, E8 diff limited to rubric.json/report.json/pass_summary.json/TRUTH.md, E10; Tier 2.5; TRUTH coverage; double charge), then the checklist agent with the shared tie-break rules. No model rerun or grading call is needed.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C4.3&quot;,
+        &quot;C4.4&quot;,
+        &quot;C4.5&quot;,
+        &quot;C9.1&quot;,
+        &quot;C9.2&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;Optional, only if the task is rerun for another reason: add a start-day anchor for the amlodipine bottle to the data (e.g. a Tasks or MEMORY.md line &#x27;started the new amlodipine bottle 10/9&#x27;). Then R13 and TRUTH can go back to November 7 only. Not required: the no-rerun fix in steps 2 and 13 is complete.&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 64.29,
+    &quot;vision_after&quot;: 60.0,
+    &quot;score_before&quot;: 23.21,
+    &quot;score_after&quot;: 32.5,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 7,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;All 7 checklist flags (C4.1-C4.5 re-tiers, C9.1 R13 date, C9.2 oven-clash TRUTH note) survive reconciliation. Each can be fixed without a rerun; vision after the plan is 60.0%.&quot;,
+  &quot;summary&quot;: &quot;6 conflicts/disagreements (5 DL5 conflicts + 1 DL5 disagreement on A7 scope, checklist right), 12 agree, 3 one-sided (DL8, TB2, score); fix plan 14 steps (0 rerun), vision 64.29-&gt;60.0%, score 23.21-&gt;32.5%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "brian_kelly_edc5313a-d5ee-4271-8205-9d1dd58f6f2a", "slug": "brian_kelly_edc5313a", "tasker": "Aryan Kumar", "authors": ["aryan.kumar220", "aryan.kumar220@ethara.ai"], "version": 1, "commit_sha": "6fdc7da649cf258e5976db6cfe387aedde719d0c", "base_sha": "2118d6fb27b87b3481fa1f669a45e927454da09f", "range": "2118d6fb2..6fdc7da64", "change": "modified", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 7 flag(s); 6 conflicts/disagreements (5 DL5 conflicts + 1 DL5 disagreement on A7 scope, checklist right), 12 agree, 3 one-sided (DL8, TB2, score); fix plan 14 steps (0 rerun), vision 64.29->60.0%, score 23.21->32.5%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 0 design / 0 grader / 0 minor; score 23.21; T3 non-model 0 (17 fails all model, 34/34 all-criteria agree)", "checklist_flags": 7, "conflicts": 5, "vision_before": 64.29, "vision_after": 60.0, "kind": "recheck", "neo_from": "20261126-1646_a1", "note": "neo-qc section reused from the earlier QC run 20261126-1646_a1 of the same commit; checklist and reconciliation re-run in 20261126-1710_a1.", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 0, "attempt": 1, "qc_finished_at": "2026-11-26T11:59:22Z"}</script></body></html>
