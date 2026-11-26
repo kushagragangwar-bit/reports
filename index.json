@@ -1452,6 +1452,16 @@
     "verdict": "ACCEPTABLE"
    }
   ],
+  "mohit/paul_rivera_68ad387d-e141-4204-a45c-c2c2a3e9f10d": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1342_a1",
+    "score": 26.47,
+    "started": "2026-11-26 08:12",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
   "mohit/phil_lane_9773d72e-4adc-471a-9e68-13eae4e69ec0": [
    {
     "started": "2026-11-21 18:30",
@@ -1783,5 +1793,5 @@
    }
   ]
  },
- "updated": "2026-11-26 08:19 UTC"
+ "updated": "2026-11-26 08:20 UTC"
 }
