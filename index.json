@@ -1930,8 +1930,16 @@
     "started": "2026-11-21 09:30",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1745_a1",
+    "score": 63.08,
+    "started": "2026-11-26 12:15",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ]
  },
- "updated": "2026-11-26 12:22 UTC"
+ "updated": "2026-11-26 12:23 UTC"
 }
