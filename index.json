@@ -1706,6 +1706,14 @@
     "started": "2026-11-26 08:12",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1609_a1",
+    "score": 29.58,
+    "started": "2026-11-26 10:39",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/samantha_peterson_9f90bf4e-6cda-4e6d-8626-017ddb026306": [
@@ -1889,5 +1897,5 @@
    }
   ]
  },
- "updated": "2026-11-26 10:39 UTC"
+ "updated": "2026-11-26 10:47 UTC"
 }
