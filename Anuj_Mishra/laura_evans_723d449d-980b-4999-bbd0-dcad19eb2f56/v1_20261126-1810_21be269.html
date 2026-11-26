@@ -1,0 +1,856 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: laura_evans_723d449d (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56</code></span>
+<span><span class="k">Tasker</span>Anuj Mishra</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>21be269e5</code> (modified, range <code>8e0c52507..21be269e5</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 13:01:43 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>2</span>
+<span><span class="k">Conflicts</span>0</span>
+<span><span class="k">Vision</span>58.5% → 57.1%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 2 flag(s); 0 conflicts, 8 agree (DL1, DL4, DL5, DL6, DL7, vision, TB2, RR4), 2 one-sided (C2.1 none, C6.1 RR2); fix plan 7 steps (1 rerun); vision 58.5-&gt;57.1%; score 56.1-&gt;57.1%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: laura_evans_723d449d</h1>
+<p class="sub">obsidian-infinity-stage-1 8e0c52507..21be269e5 (modified)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>21</b><span>turns</span></div><div class="stat"><b>34</b><span>rubrics</span></div><div class="stat"><b>56.1</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>10/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>10/1/1</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>4/0/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>34/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 10 failed criteria across 1 task(s): <b>10 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 1 failure(s) and 1 warning(s). Tier 2.5 flagged 0 of 4 checks on 0 task(s); 0 pending. Tier 3 re-graded 34 criteria: 34 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 0 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending.</p>
+
+<h3>Issue log</h3><p class='muted'>No <code>issues.json</code> was supplied. Write one (see report_format.md) and re-run.</p>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56</td><td><code>E8_change_diff</code></td><td><span class="b b-fail">fail</span></td><td class='muted'>UNEXPECTED: trajectories/claude-opus-5.5/run_1/usage.json</td></tr><tr><td>laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56</td><td><code>E12_double_charge_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>R8+R23 on quilt_plan.pptx: R23 ($96.04) is derived from R8 ($20): KB_SHARE + TYLER_PART ($116.04 - $20)</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 loud_thread_41: could not check (instagram-messages-api/conversations: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56'><td>laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56</td><td class='n'>21</td><td class='n'>34</td><td class='n'>56.10</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 10</td><td>10/1/1</td><td><span class="b b-ok">pass</span></td><td>34/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>2 flags across items [2, 6] (R10 non-atomic, design; Saturday 08:50 check-back wording presumes a send, minor, rerun-class); vision 58.5%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Penalties are only R32 (false &#x27;sent&#x27; claim), R33 (anyone-with-link on another file) and R34 (posts block_closeup.png). Each can fire with its positive passing, so none is a pair. R34 can fire alongside R17 when both pictures are posted, and it is already at +1/-1. The $96.04 copies (R23-R26) sit in separate outputs, each asked by its own turn. The in-output chains (R7-&gt;R23, R29-&gt;R24, R26/R28) already have the dependent copy at weight 1.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag bad">FLAG</span></td><td>C2.1</td><td>Swept all 34 criteria. Only R10 joins two independent checks. R25&#x27;s sent-or-held alternative grades the one $96.04 value, and R32&#x27;s condition qualifies a single false claim.</td></tr><tr><td>3</td><td>Turns name the file and the change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every file-graded criterion has a turn that names its file. quilt_plan.pptx (R1-R9, R23) is named on Day 4 13:40. paint_day.html (R10, R24, R27, R29) on Day 4 14:10. garage_mockup.png (R11) on 12:40. block_closeup.png (R12) on 12:55. layout_guide.pdf (R13, R14) on 13:25. birthday_card.pdf (R30) on 13:55. The Drive deck (R20-R22) on 14:25. No turn says &#x27;everywhere&#x27;.</td></tr><tr><td>4</td><td>Lower weight after approval + silent change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No user turn confirms or approves a value that a later silent change overrides. The agent&#x27;s questions at T7 (split), T10 (&#x27;tell me which split&#x27;), T11 (corners) and T13 (&#x27;say yes&#x27;) are never answered. Laura&#x27;s &#x27;Deal&#x27; to halves is seed data, not a turn. Stage1 (size) lands before T3, stage2 (Tyler $20, return slip) before T8, and stage3 (two thirds, green corners) before T11, with no approval in between. Importance follows score: only R29 (5) is critically_important.</td></tr><tr><td>5</td><td>Visual answer leaked in text</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>A grep of data/environment (not *.py), inject/ and persona finds no Covered Bridge, Pine Hollow, Churn Cream, X-414/X-114/X-012, 174.06, 20.41, &#x27;3 ft&#x27;, green corners, green trim or blue border. MEMORY.md mentions only &#x27;Oma&#x27;s wedding quilt&#x27;. The chip names, return slip, 3 ft and green circles exist only inside the images.</td></tr><tr><td>6</td><td>Scripted messages assume the expected path</td><td><span class="qc-tag bad">FLAG</span></td><td>C6.1</td><td>All loud and silent mutations read correctly on any path: Kevin&#x27;s link, Brenda&#x27;s size/green question, Kevin&#x27;s edits, Tyler&#x27;s comment and the chatter. Only the scripted user turn on Saturday at 08:50 presupposes the reply was sent.</td></tr><tr><td>7</td><td>Evaluation target</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Deliverables are produced_artifact. Sends, posts, uploads and shares are state_change. The closing rundown (R26, R28) is final_answer. R32 is user_facing_message. R25&#x27;s held-draft fallback is user-facing, but its primary branch is the state change, which is acceptable.</td></tr><tr><td>8</td><td>Process rubrics only when method asked</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion grades the tool log. R20 (&#x27;tool use&#x27; type) is graded on end state: the file sits in the Barn quilt for Mom folder. The Saturday 08:50 &#x27;how did you get permission&#x27; question has no criterion grading the method.</td></tr><tr><td>9</td><td>TRUTH consistency</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>TRUTH Steps 1-24 cover all 21 turns. The values match the rubric: 174.06 = 194.47 - 20.41; 116.04 = 2/3 of that; 96.04 = 116.04 - 20; 58.02 = 174.06 - 116.04; 12 in squares; Pine Hollow corners; 20 barns and 27,477; Tyler on the page, card and caption. The day anchors match (Sat Oct 17; Sunday 2:35 PM = Day 4 14:35).</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>24/41 = 58.5%. A stricter count that leaves out the money rows mixing image and text gives 14/41 = 34.1%, still above target. The verifier matches independently.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The agent&#x27;s claims match the state. The reply &#x27;went through&#x27; matches the thread (laurajean.dayton 2026-10-17T12:30). The commenter shares on the deck match the permissions. &#x27;Not posted / not sent&#x27; matches media.csv being unchanged. paint_day.html embeds the final regenerated images: the pixel diff matches block_closeup.png and garage_mockup.png. The pptx/html values ($116.04, no Tyler) match the report justifications.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>A grep for T&lt;digit&gt;, &#x27;turn&#x27; and &#x27;step&#x27; in rubric.json finds nothing. The anchors are &#x27;Saturday reply&#x27;, &#x27;Sunday 2:35 PM reply&#x27;, &#x27;closing barn quilt rundown&#x27; and &#x27;made over to match everything as it stands now&#x27;.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C2.1"><div><strong>C2.1</strong> · item 2 Non-atomic rubrics
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R10
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 4 14:10 paint_day.html rebuild, Day 1 17:00 garage_mockup.png</div>
+<p style="margin:.4rem 0">R10 grades two things that can pass or fail independently: (a) the picture is built into paint_day.html, not linked, and (b) the pictured garage keeps Mom&#x27;s dark green trim. A linked picture with the right trim fails all of R10, and so does an embedded picture of a white-trim garage.</p><div class="ev"><span class="qc-k">rubric.json R10</span><code>whose page shows a built-in picture of the barn quilt hung on a garage with dark green trim.</code></div><div class="ev"><span class="qc-k">prompt.txt T17 (Day 4, 14:10)</span><code>Keep the pictures built into the page and save it under the same name.</code></div><div class="ev"><span class="qc-k">prompt.txt T1 (Day 1, 17:00)</span><code>and her garage looking the way it does in my picture.</code></div>
+<div><span class="qc-k">Fix plan</span>Split R10 into two self-contained +1 criteria, both on the final paint_day.html. R10a: &#x27;The response delivers a final paint_day.html, rebuilt for painting day, whose picture of the barn quilt on Mom&#x27;s garage is built into the file itself (embedded, not linked to a separate image file).&#x27; R10b: &#x27;The response delivers a final paint_day.html, rebuilt for painting day, whose page shows a picture of the barn quilt hung on a garage with dark green trim.&#x27; Keep importance &#x27;important&#x27; on both. Vision share afterwards: 24/42 = 57.1%, with R10b counting as vision and R10a not.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 1 CONFIRMED by quoting R10 and T17. I re-read R10 and T1/T17 and agree. In this run both parts pass (the base64 image shows the green trim), so no verdict changes.</div></div><div class="qc-flag" id="C6.1"><div><strong>C6.1</strong> · item 6 Scripted messages assume the expected path
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">needs rerun</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R32
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 3 (Sat) 08:50, check-back on the reply to Brenda</div>
+<p style="margin:.4rem 0">The check-back turn fires on schedule and asks &#x27;how did you get permission to send it?&#x27;, which assumes the Saturday 08:30 reply went out. The stage2 auth lapse/revoke and the persona rule &#x27;confirm before sending any email or text&#x27; make holding or failing a live path; this same run held its other outbound items for a yes. On that path the turn reads wrong. R32 is already path-neutral, because it fires only on a false &#x27;sent&#x27; claim checked against the thread.</p><div class="ev"><span class="qc-k">prompt.txt T9 (Day 3, 08:50)</span><code>Did that reply to Brenda actually go through? And how did you get permission to send it?</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json sil_s2_auth_revoke</span><code>the stored refresh grant was revoked</code></div><div class="ev"><span class="qc-k">data/environment/persona/AGENTS.md Confirmation Rules</span><code>Sending any email or text**: Confirm before sending.</code></div><div class="ev"><span class="qc-k">rubric.json R32</span><code>reports it as sent, with zero laurajean.dayton messages dated October 17 in the brenda.evans.gr thread.</code></div>
+<div><span class="qc-k">Fix plan</span>Reword the Saturday 08:50 turn so it reads correctly on every path: &#x27;Did that reply to Brenda actually go through, or is it still waiting on something? If it went out, how did you get permission to send it?&#x27; Keep R32 as written.</div><div><span class="qc-k">No-rerun fallback</span>No rubric change is needed because R32 is already conditional on a false &#x27;sent&#x27; claim. Add one line to TRUTH.md Step 12: if no reply was sent at T8, an answer that says so, without inventing a permission story, is correct.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 2 returned MODIFIED: the turn wording is confirmed and the rubric needs no change. I re-read T9, R32 and the stage2 auth ops. In this run the agent did send (thread holds 2026-10-17T12:30 laurajean.dayton), so no verdict is affected.</div></div>
+<h3>Vision share <span class="qc-tag ok">58.5%</span></h3>
+<p>24 of 41 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>Pictures/IMG_5185.jpg; pptx slide 1 picture</td><td>Which quilt has the blue border is visible only in the photos; the criterion grades the picture itself.</td></tr><tr><td>R2</td><td>1</td><td>IMG_5185.jpg + Documents/IMG_5204.jpg</td><td>Red matched to the Covered Bridge chip by eye; the chip name is only in the image.</td></tr><tr><td>R3</td><td>1</td><td>IMG_5185.jpg + IMG_5204.jpg</td><td>The Pine Hollow chip name is only in the image.</td></tr><tr><td>R4</td><td>1</td><td>IMG_5185.jpg + IMG_5204.jpg</td><td>The Churn Cream chip name is only in the image.</td></tr><tr><td>R5</td><td>1</td><td>inject/stage3/files/IMG_5201.jpg + IMG_5204.jpg</td><td>The green corner circles are only in the sketch image.</td></tr><tr><td>R6</td><td>1</td><td>inject/stage1/files/IMG_5201.jpg</td><td>3 ft is only in Mom&#x27;s red marks; 12 in = 3 ft / 3.</td></tr><tr><td>R7</td><td>1</td><td>inject/stage2/files/IMG_5203.jpg</td><td>The -20.41 return slip is only in the image.</td></tr><tr><td>R10</td><td>1</td><td>Pictures/IMG_5188.jpg; embedded garage image</td><td>The dark green trim is only visible in the photo and the output picture.</td></tr><tr><td>R11</td><td>1</td><td>stage3 sketch; output garage_mockup.png</td><td>Graded by looking at the corner colour in the generated image.</td></tr><tr><td>R12</td><td>1</td><td>stage3 sketch; output block_closeup.png</td><td>Graded by looking at the corner colour in the generated image.</td></tr><tr><td>R13</td><td>1</td><td>stage1 sketch</td><td>3 ft is image-only.</td></tr><tr><td>R14</td><td>1</td><td>stage3 sketch + IMG_5204.jpg</td><td>The green corners and the chip name are image-only.</td></tr><tr><td>R15</td><td>1</td><td>stage1 sketch</td><td>3 ft is image-only.</td></tr><tr><td>R16</td><td>1</td><td>IMG_5204.jpg</td><td>Pine Hollow is image-only.</td></tr><tr><td>R23</td><td>1</td><td>stage2 IMG_5203.jpg</td><td>$96.04 needs $174.06, which has no text route.</td></tr><tr><td>R24</td><td>1</td><td>stage2 IMG_5203.jpg</td><td>$96.04 needs $174.06, which has no text route.</td></tr><tr><td>R25</td><td>3</td><td>stage2 IMG_5203.jpg</td><td>$96.04 needs $174.06, which has no text route.</td></tr><tr><td>R26</td><td>1</td><td>stage2 IMG_5203.jpg</td><td>$96.04 needs $174.06, which has no text route.</td></tr><tr><td>R27</td><td>3</td><td>stage2 IMG_5203.jpg</td><td>$58.02 = 174.06 - 116.04; the total is image-only.</td></tr><tr><td>R28</td><td>1</td><td>stage2 IMG_5203.jpg</td><td>$58.02 = 174.06 - 116.04; the total is image-only.</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (3)</summary><ul><li>item 1: R17 (+1 post garage_mockup.png) and R34 (-1 post block_closeup.png) double-charge one wrong-picture mistake. <span class='qc-k'>dismissed:</span>R34 can fire while R17 passes (both pictures posted), so it grades a separate behaviour; the pair is also already at +1/-1.</li><li>item 1: R24 ($96.04) and R29 (Tyler $20) in paint_day.html double-charge the missed Tyler comment. <span class='qc-k'>dismissed:</span>Both are positives (no penalty), and they are separate asks (&#x27;who&#x27;s putting in what&#x27; and what is owed). R24 can fail while R29 passes, for example with the $102.71 decoy where Tyler&#x27;s $20 is taken off the whole total. The dependent copy R24 is already weight 1.</li><li>item 4: R25 (3), R27 (3) and R29 (5) need one tier down because they depend on silent changes right after T10/T7. <span class='qc-k'>dismissed:</span>No user turn approves the split, money, corners or size before the silent changes. T7 and T10 are instructions, and the agent&#x27;s questions there are never answered.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>0 conflicts, 8 agree (DL1, DL4, DL5, DL6, DL7, vision, TB2, RR4), 2 one-sided (C2.1 none, C6.1 RR2); fix plan 7 steps (1 rerun); vision 58.5-&gt;57.1%; score 56.1-&gt;57.1%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">58.5% → 57.1%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">56.1% → 57.1%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>J1 (Tier 2.5 A3) pass, no finding on R10</td><td>C2.1</td><td>R10</td><td><div><span class=qc-k>neo-qc</span>Nothing. J1 rubric design passed, and A3 (one fact per criterion) raised nothing on R10.</div><div><span class=qc-k>checklist</span>R10 is non-atomic. It joins &#x27;picture built into paint_day.html&#x27; (T17) with &#x27;the garage has dark green trim&#x27; (T1), and each can pass or fail on its own.</div><div><span class=qc-k>resolution</span>The checklist is right. Its two parts are independent asks, and neo&#x27;s own A3 rule (&#x27;two or more things that can be right or wrong INDEPENDENTLY ... propose the split&#x27;) agrees, so neo would not object to the split. Split it with no merge and no drop. Keep R10 as the trim check (vision) and add the embed check as a new last row, R35, so no other criterion is renumbered (TB1). The two halves are different facts from one output, which the shared rules say is NOT a pair. Both halves pass in run_1, so no verdict changes. E2 needs a matching report.json row, and report.json is in the E8 allowed set, so this needs no rerun.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>RR2</td><td>extras.json unconditional_scripted_messages: [], audit_report_tier25.json J3 (sil_s2_auth_lapse/revoke: check-back graded by R32)</td><td>C6.1</td><td>R32</td><td><div><span class=qc-k>neo-qc</span>No unconditional scripted messages. But neo scanned only injected inbound messages (Kevin&#x27;s link, Brenda&#x27;s question, edits, chatter), not scripted user turns. It is silent on T9, not disproving it.</div><div><span class=qc-k>checklist</span>The Saturday 08:50 check-back turn asks &#x27;how did you get permission to send it?&#x27;, which assumes the 08:30 reply went out. With the stage2 auth revoke and the &#x27;confirm before sending&#x27; persona rule, a model that held the reply gets a turn that reads wrong.</div><div><span class=qc-k>resolution</span>The checklist flag stands (minor). The fix is to reword the turn so it reads right whether or not the reply went out, and only a rerun can do that. A no-rerun edit to prompt.txt fails E8. The change also starts at about character 45 of the turn, inside TURN_MATCH_CHARS=120, so the turn-delivery gate would go HARD (RR1/RR2). R32 already fires only on a false &#x27;sent&#x27; claim, so it needs no change. Without a rerun, add an expected-reply line to TRUTH Step 12 (TB2 wording) and queue the turn edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json pairs: [] (4 E12 rulings not_a_pair)</td><td>item 1 PASS, rejected: R17+R34</td><td>R17, R34, R32, R33</td><td><div><span class=qc-k>neo-qc</span>There are no double charges. The penalties R32, R33 and R34 are not pairs with their positives.</div><div><span class=qc-k>checklist</span>Item 1 passes. Each penalty can fire while its positive passes, and R34 is already at -1.</div><div><span class=qc-k>resolution</span>Both tools agree, using the DL4 test &#x27;can the penalty fire without the positive failing?&#x27;. R34 can fire with R17 passing (both pictures posted). No edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL1</td><td>double_charge.json e12_rulings R29+R24, R23+R24, R23+R25, chains R7-&gt;R23..R28</td><td>item 1 PASS, rejected: R24+R29</td><td>R23, R24, R25, R26, R27, R28, R29</td><td><div><span class=qc-k>neo-qc</span>R24 and R29 are not a pair, because $96.04 has three inputs. The copies of $96.04 sit in outputs that no turn couples.</div><div><span class=qc-k>checklist</span>These are separate asks, and the dependent copies are already at weight 1.</div><div><span class=qc-k>resolution</span>No merge and no weight change. This matches the shared NOT-a-pair rule: the same value in two outputs that no turn couples.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL5</td><td>J1 A7 pass, E3 pass</td><td>item 4 PASS, rejected: R25/R27/R29 tier-down</td><td>R25, R27, R29</td><td><div><span class=qc-k>neo-qc</span>There is no silent change after a sign-off, and importance matches |score|=5 (only R29).</div><div><span class=qc-k>checklist</span>Even under the broad rule, no user turn approves a value that a silent change then overrides.</div><div><span class=qc-k>resolution</span>Agree. No tier-down and no importance change.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>E11 info, 0 hits, visual_leaks.json 0 candidates</td><td>item 5 PASS</td><td>R1, R2, R3, R4, R5, R6, R7, R10, R11, R12, R13, R14, R15, R16</td><td><div><span class=qc-k>neo-qc</span>No declared twin route and no leak candidates.</div><div><span class=qc-k>checklist</span>A grep finds no image-only value (chip names, 3 ft, 20.41, green corners or trim) in text.</div><div><span class=qc-k>resolution</span>Agree. No visual-route edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>E13 pass, extras.json turn_refs: []</td><td>item 12 PASS</td><td>R25, R32</td><td><div><span class=qc-k>neo-qc</span>No criterion carries a turn number. R25 anchors on &#x27;Sunday 2:35 PM&#x27;.</div><div><span class=qc-k>checklist</span>No T&lt;n&gt;, &#x27;turn&#x27; or &#x27;step&#x27; appears in rubric.json.</div><div><span class=qc-k>resolution</span>Agree. The new R35 anchors on &#x27;final paint_day.html, rebuilt for painting day&#x27; (a single output), with no turn number.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>extras.json vision_pct 58.5, Tier 1.5 E15 23/41 = 56%</td><td>item 10 PASS</td><td>R10</td><td><div><span class=qc-k>neo-qc</span>The sub-agent gives 58.5% (24/41). E15 gives 56% because it leaves R10 unmapped.</div><div><span class=qc-k>checklist</span>24/41 = 58.5%, with R10 counted as vision.</div><div><span class=qc-k>resolution</span>Agree at 58.5% under the dependency definition: the dark green trim has no text route, so R10 counts as vision. After the split, the trim half stays vision and the embed half does not: 24/42 = 57.1%, still at least 30%.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>TB2</td><td>truth_coverage.json 0 gaps, J2 pass</td><td>item 9 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>TRUTH covers every turn and has no contradictions.</div><div><span class=qc-k>checklist</span>Steps 1-24 cover all 21 turns, and the values match the rubric.</div><div><span class=qc-k>resolution</span>Agree. The new TRUTH lines in this plan describe the expected reply or artifact and never say whether it is graded.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR4</td><td>E8 fail (usage.json) dismissed in QC_SUMMARY, E9 pass</td><td>item 11 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>E8 flagged trajectories/.../usage.json. Only its judge token blocks changed, and output.json is unchanged, so there was no rerun. E9 passes.</div><div><span class=qc-k>checklist</span>The agent&#x27;s claims match the delivered state.</div><div><span class=qc-k>resolution</span>Agree that the run matches the bundle. The split in this plan touches only rubric.json, report.json, pass_summary.json and TRUTH.md (the E8 allowed set).</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Sort the two surviving flags. C2.1 (split R10) is rubric_truth: it touches rubric.json, report.json, pass_summary.json and TRUTH.md, all in the E8 allowed set. C6.1 (Saturday 08:50 check-back wording) is a prompt.txt edit, so it is rerun-only (RR2; the edit is inside the first 120 chars of the turn, so a no-rerun edit trips the HARD turn-delivery gate). Put the C6.1 turn edit in the rerun batch.</td><td>R10, R32</td><td>C2.1, C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>structure</td><td>Split R10 without renumbering. rubric.json R10 becomes: &#x27;The response delivers a final paint_day.html, rebuilt for painting day, whose page shows a picture of the barn quilt hung on a garage with dark green trim.&#x27; (score 1, important, instruction following, produced_artifact). Append a new last row R35: &#x27;The response delivers a final paint_day.html, rebuilt for painting day, whose picture of the barn quilt on Mom&#x27;s garage is built into the file itself (embedded, not linked to a separate image file).&#x27; (is_positive true, score 1, importance important, type instruction following, evaluation_target produced_artifact). In run_1 report.json, mirror both rows for E2 parity. R10 stays passed=true, justification: &#x27;The paint_day.html page shows the barn quilt hung in the gable over a white garage with clearly visible dark green trim on the door frame and corner trim.&#x27; R35 is passed=true, justification: &#x27;The paint_day.html file carries garage_mockup.png as base64 data inside the page, so the picture is part of the file itself and not linked to a separate image file.&#x27; (first-grading wording, no history words, TB3). Set final_reward and rubric_weights_percentage to 57.1 and update pass_summary.json to match (E1/E2).</td><td>R10, R35</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-1.4</td><td>1.0</td></tr><tr><td>3</td><td>recompute vision % and score</td><td>Recompute with reconcile/scratch/metrics.py. Vision goes from 24/41 = 58.5% to 24/42 = 57.1% (R10 stays vision, R35 is text/structure). Score goes from 23/41 = 56.1% to 24/42 = 57.1%. Vision stays at least 30%, and no score target is set, so no swap is needed. The weight passes (DL5, double charge) have nothing to change: neo double_charge.json has 0 pairs, and checklist items 1 and 4 pass.</td><td>R10, R35</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>turn anchors, targets, process wording</td><td>Check R10 and R35 against DL7, DL9 and DL10. Both anchor on the single output &#x27;final paint_day.html, rebuilt for painting day&#x27; with no turn number. Each has one target (produced_artifact). R35 grades a property of the file (embedded vs linked), not the tool log, and T17 asks for it (&#x27;Keep the pictures built into the page&#x27;), so A6 and checklist 8 are both satisfied. No edit is expected; fix only if the check fails.</td><td>R10, R35</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>TRUTH.md sync</td><td>TRUTH.md Step 21: after &#x27;with the regenerated block_closeup.png and garage_mockup.png built in&#x27;, add &#x27;each picture embedded in the file itself, not linked to a separate image file&#x27;. TRUTH.md Step 12: add &#x27;If the Saturday reply did not go out, the answer says so plainly and gives no account of a permission that was never used.&#x27; Use no R-numbers, no &#x27;not graded&#x27;, and none of the E6 words (TB1/TB2). The GARAGE_TRIM lock stays graded-positive with only its image: route, because &#x27;dark green trim&#x27; is still literal in R10 (TB4/E4).</td><td>R10, R35, R32</td><td>C2.1, C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>6</td><td>sort rerun vs rubric/TRUTH only</td><td>At the next rerun, change prompt.txt T9 (Saturday 08:50) from &#x27;Did that reply to Brenda actually go through? And how did you get permission to send it?&#x27; to &#x27;Did that reply to Brenda actually go through, or is it still waiting on something? If it went out, how did you get permission to send it?&#x27;. Keep R32 as written.<div><span class=qc-k>no-rerun fallback</span>Leave prompt.txt untouched (an edit trips E8 and the HARD turn-delivery gate). R32 already fires only on a false &#x27;sent&#x27; claim, so it needs no rubric change. Rely on the TRUTH Step 12 line from step 5. C6.1 stays open until the rerun.</div></td><td>R32</td><td>C6.1</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1 plus Tier 1.5 E1-E3, E6, E8, E10, E12; Tier 2.5 J1-J4; TRUTH coverage; double charge) and the checklist agent on the edited bundle, with the shared tie-break rules pasted in. Expect E2 parity at 35 rows, final_reward 57.1, C2.1 closed, and C6.1 open until the rerun (or closed after it).</td><td>R10, R35, R32</td><td>C2.1, C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>prompt.txt T9 (Saturday 08:50 check-back): &#x27;Did that reply to Brenda actually go through, or is it still waiting on something? If it went out, how did you get permission to send it?&#x27; (C6.1, RR2)</li></ul>
+<p class="qc-k">Verdict: NOT ACCEPTABLE, Two checklist flags survive reconciliation: C2.1 (R10 non-atomic, design, fixable with no rerun) and C6.1 (Saturday 08:50 turn assumes a send, minor, rerun-only).</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: laura_evans_723d449d (pull 8e0c52507..21be269e5, modified)</h3>
+<p><strong>Verdict: ACCEPTABLE.</strong> 0 kept issues. Score 56.1 (run_1, the only run, claude-opus-5.5).</p>
+<h4>Per tier</h4>
+<ul>
+<li>Step 0 gate: exit 0, no HARD findings, 1 informational.</li>
+<li>Tier 1: 20 pass, 1 warn, 4 skip. The warn is D17 &quot;could not check&quot;: the mock service did not import in the QC venv. This is a known limit, and E9 covers it.</li>
+<li>Tier 1.5: 10 pass, 1 warn (E12), 1 fail (E8), 3 info (E4 derived, E5 10 decoys, E11 0 hits). E9 passed, so no hand check was needed.</li>
+<li>Tier 2 (multi-turn): 5/5 pass. Tier 2.5: J1-J4 pass. J4: the 30 to 34 criteria change is renumbers, rewords and reweights, with no true drops.</li>
+<li>TRUTH coverage: 0 gaps. Visual leaks: E11 is info, so the stub has 0 candidates.</li>
+<li>Double charge: 0 pairs, 0 points; 4 same-source groups and 2 chains recorded.</li>
+<li>Tier 3 all-criteria: all 34 criteria agree with the judge, 0 disputes.</li>
+<li>Tier 3 attribution: 10 failures, all <code>model</code>: 0 rubric, judge or task, 0 false_pass.</li>
+<li>R23-R26 and R29-R31 failed because Tyler&#x27;s $20 (stage2 Drive comment on &quot;Barn quilt to-do.txt&quot;) was never read. I checked this myself: <code>/comments</code> appears in output.json only inside skill docs, never as a call.</li>
+<li>R17-R19 and R31 failed because the Instagram post was held for a second yes, even though T13 explicitly says &quot;Put garage_mockup.png up on my Instagram&quot;.</li>
+</ul>
+<h4>Kept issues</h4>
+<p>None.</p>
+<h4>Dismissed (false positives)</h4>
+<ul>
+<li>E8 UNEXPECTED <code>trajectories/claude-opus-5.5/run_1/usage.json</code>: I diffed it against the baseline.</li>
+<li>Only the <code>judge</code> and <code>judge_superseded</code> blocks changed (the regrade&#x27;s own token accounting).</li>
+<li>The <code>agent</code> block is identical, and output.json did not change, so there was no rerun.</li>
+<li>This is a side effect of an allowed rubric regrade, not a content change. The drafted D1 was dropped.</li>
+<li>E12 R8+R23: stale R-number mapping. The current R8 is &quot;20 barn quilts&quot;, not Tyler&#x27;s $20.</li>
+<li>E12 R29+R24, R23+R24, R23+R25: these fail the pair test. $96.04 needs three inputs, and T5 changes only the size slide, so it does not couple the outputs.</li>
+<li>Sub-agent D reported &quot;11 failures&quot; but listed the same 10 IDs. report.json confirms 10.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs: none. R25 is anchored on &quot;Sunday 2:35 PM&quot;.</li>
+<li>Vision: 58.5% (24/41) by sub-agent, against E15&#x27;s 56% (23/41). R10 is the difference. Both clear the 30% floor, so vision_ok is true.</li>
+<li>Unconditional scripted messages: none.</li>
+</ul>
+<h4>Blocks delivery?</h4>
+<p>No. Nothing blocking, no grader issues, no design issue that changes a graded outcome.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 0 item(s))</summary><pre>[]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Penalties are only R32 (false &#x27;sent&#x27; claim), R33 (anyone-with-link on another file) and R34 (posts block_closeup.png). Each can fire with its positive passing, so none is a pair. R34 can fire alongside R17 when both pictures are posted, and it is already at +1/-1. The $96.04 copies (R23-R26) sit in separate outputs, each asked by its own turn. The in-output chains (R7-&gt;R23, R29-&gt;R24, R26/R28) already have the dependent copy at weight 1.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Swept all 34 criteria. Only R10 joins two independent checks. R25&#x27;s sent-or-held alternative grades the one $96.04 value, and R32&#x27;s condition qualifies a single false claim.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C2.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R10&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 4 14:10 paint_day.html rebuild&quot;,
+            &quot;Day 1 17:00 garage_mockup.png&quot;
+          ],
+          &quot;problem&quot;: &quot;R10 grades two things that can pass or fail independently: (a) the picture is built into paint_day.html, not linked, and (b) the pictured garage keeps Mom&#x27;s dark green trim. A linked picture with the right trim fails all of R10, and so does an embedded picture of a white-trim garage.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R10&quot;,
+              &quot;quote&quot;: &quot;whose page shows a built-in picture of the barn quilt hung on a garage with dark green trim.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T17 (Day 4, 14:10)&quot;,
+              &quot;quote&quot;: &quot;Keep the pictures built into the page and save it under the same name.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T1 (Day 1, 17:00)&quot;,
+              &quot;quote&quot;: &quot;and her garage looking the way it does in my picture.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Split R10 into two self-contained +1 criteria, both on the final paint_day.html. R10a: &#x27;The response delivers a final paint_day.html, rebuilt for painting day, whose picture of the barn quilt on Mom&#x27;s garage is built into the file itself (embedded, not linked to a separate image file).&#x27; R10b: &#x27;The response delivers a final paint_day.html, rebuilt for painting day, whose page shows a picture of the barn quilt hung on a garage with dark green trim.&#x27; Keep importance &#x27;important&#x27; on both. Vision share afterwards: 24/42 = 57.1%, with R10b counting as vision and R10a not.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier 1 CONFIRMED by quoting R10 and T17. I re-read R10 and T1/T17 and agree. In this run both parts pass (the base64 image shows the green trim), so no verdict changes.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turns name the file and the change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every file-graded criterion has a turn that names its file. quilt_plan.pptx (R1-R9, R23) is named on Day 4 13:40. paint_day.html (R10, R24, R27, R29) on Day 4 14:10. garage_mockup.png (R11) on 12:40. block_closeup.png (R12) on 12:55. layout_guide.pdf (R13, R14) on 13:25. birthday_card.pdf (R30) on 13:55. The Drive deck (R20-R22) on 14:25. No turn says &#x27;everywhere&#x27;.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after approval + silent change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No user turn confirms or approves a value that a later silent change overrides. The agent&#x27;s questions at T7 (split), T10 (&#x27;tell me which split&#x27;), T11 (corners) and T13 (&#x27;say yes&#x27;) are never answered. Laura&#x27;s &#x27;Deal&#x27; to halves is seed data, not a turn. Stage1 (size) lands before T3, stage2 (Tyler $20, return slip) before T8, and stage3 (two thirds, green corners) before T11, with no approval in between. Importance follows score: only R29 (5) is critically_important.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Visual answer leaked in text&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;A grep of data/environment (not *.py), inject/ and persona finds no Covered Bridge, Pine Hollow, Churn Cream, X-414/X-114/X-012, 174.06, 20.41, &#x27;3 ft&#x27;, green corners, green trim or blue border. MEMORY.md mentions only &#x27;Oma&#x27;s wedding quilt&#x27;. The chip names, return slip, 3 ft and green circles exist only inside the images.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume the expected path&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;All loud and silent mutations read correctly on any path: Kevin&#x27;s link, Brenda&#x27;s size/green question, Kevin&#x27;s edits, Tyler&#x27;s comment and the chatter. Only the scripted user turn on Saturday at 08:50 presupposes the reply was sent.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C6.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R32&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 3 (Sat) 08:50, check-back on the reply to Brenda&quot;
+          ],
+          &quot;problem&quot;: &quot;The check-back turn fires on schedule and asks &#x27;how did you get permission to send it?&#x27;, which assumes the Saturday 08:30 reply went out. The stage2 auth lapse/revoke and the persona rule &#x27;confirm before sending any email or text&#x27; make holding or failing a live path; this same run held its other outbound items for a yes. On that path the turn reads wrong. R32 is already path-neutral, because it fires only on a false &#x27;sent&#x27; claim checked against the thread.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T9 (Day 3, 08:50)&quot;,
+              &quot;quote&quot;: &quot;Did that reply to Brenda actually go through? And how did you get permission to send it?&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_s2_auth_revoke&quot;,
+              &quot;quote&quot;: &quot;the stored refresh grant was revoked&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/environment/persona/AGENTS.md&quot;,
+              &quot;where&quot;: &quot;Confirmation Rules&quot;,
+              &quot;quote&quot;: &quot;Sending any email or text**: Confirm before sending.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R32&quot;,
+              &quot;quote&quot;: &quot;reports it as sent, with zero laurajean.dayton messages dated October 17 in the brenda.evans.gr thread.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword the Saturday 08:50 turn so it reads correctly on every path: &#x27;Did that reply to Brenda actually go through, or is it still waiting on something? If it went out, how did you get permission to send it?&#x27; Keep R32 as written.&quot;,
+          &quot;fix_class&quot;: &quot;rerun&quot;,
+          &quot;no_rerun_fallback&quot;: &quot;No rubric change is needed because R32 is already conditional on a false &#x27;sent&#x27; claim. Add one line to TRUTH.md Step 12: if no reply was sent at T8, an answer that says so, without inventing a permission story, is correct.&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;Verifier 2 returned MODIFIED: the turn wording is confirmed and the rubric needs no change. I re-read T9, R32 and the stage2 auth ops. In this run the agent did send (thread holds 2026-10-17T12:30 laurajean.dayton), so no verdict is affected.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Deliverables are produced_artifact. Sends, posts, uploads and shares are state_change. The closing rundown (R26, R28) is final_answer. R32 is user_facing_message. R25&#x27;s held-draft fallback is user-facing, but its primary branch is the state change, which is acceptable.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;Process rubrics only when method asked&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion grades the tool log. R20 (&#x27;tool use&#x27; type) is graded on end state: the file sits in the Barn quilt for Mom folder. The Saturday 08:50 &#x27;how did you get permission&#x27; question has no criterion grading the method.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistency&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;TRUTH Steps 1-24 cover all 21 turns. The values match the rubric: 174.06 = 194.47 - 20.41; 116.04 = 2/3 of that; 96.04 = 116.04 - 20; 58.02 = 174.06 - 116.04; 12 in squares; Pine Hollow corners; 20 barns and 27,477; Tyler on the page, card and caption. The day anchors match (Sat Oct 17; Sunday 2:35 PM = Day 4 14:35).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;24/41 = 58.5%. A stricter count that leaves out the money rows mixing image and text gives 14/41 = 34.1%, still above target. The verifier matches independently.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The agent&#x27;s claims match the state. The reply &#x27;went through&#x27; matches the thread (laurajean.dayton 2026-10-17T12:30). The commenter shares on the deck match the permissions. &#x27;Not posted / not sent&#x27; matches media.csv being unchanged. paint_day.html embeds the final regenerated images: the pixel diff matches block_closeup.png and garage_mockup.png. The pptx/html values ($116.04, no Tyler) match the report justifications.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;A grep for T&lt;digit&gt;, &#x27;turn&#x27; and &#x27;step&#x27; in rubric.json finds nothing. The anchors are &#x27;Saturday reply&#x27;, &#x27;Sunday 2:35 PM reply&#x27;, &#x27;closing barn quilt rundown&#x27; and &#x27;made over to match everything as it stands now&#x27;.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R17 (+1 post garage_mockup.png) and R34 (-1 post block_closeup.png) double-charge one wrong-picture mistake.&quot;,
+      &quot;why&quot;: &quot;R34 can fire while R17 passes (both pictures posted), so it grades a separate behaviour; the pair is also already at +1/-1.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R24 ($96.04) and R29 (Tyler $20) in paint_day.html double-charge the missed Tyler comment.&quot;,
+      &quot;why&quot;: &quot;Both are positives (no penalty), and they are separate asks (&#x27;who&#x27;s putting in what&#x27; and what is owed). R24 can fail while R29 passes, for example with the $102.71 decoy where Tyler&#x27;s $20 is taken off the whole total. The dependent copy R24 is already weight 1.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R25 (3), R27 (3) and R29 (5) need one tier down because they depend on silent changes right after T10/T7.&quot;,
+      &quot;why&quot;: &quot;No user turn approves the split, money, corners or size before the silent changes. T7 and T10 are instructions, and the agent&#x27;s questions there are never answered.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 58.5,
+    &quot;vision_weight&quot;: 24,
+    &quot;positive_weight&quot;: 41,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_5185.jpg; pptx slide 1 picture&quot;,
+        &quot;why&quot;: &quot;Which quilt has the blue border is visible only in the photos; the criterion grades the picture itself.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_5185.jpg + Documents/IMG_5204.jpg&quot;,
+        &quot;why&quot;: &quot;Red matched to the Covered Bridge chip by eye; the chip name is only in the image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_5185.jpg + IMG_5204.jpg&quot;,
+        &quot;why&quot;: &quot;The Pine Hollow chip name is only in the image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_5185.jpg + IMG_5204.jpg&quot;,
+        &quot;why&quot;: &quot;The Churn Cream chip name is only in the image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_5201.jpg + IMG_5204.jpg&quot;,
+        &quot;why&quot;: &quot;The green corner circles are only in the sketch image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage1/files/IMG_5201.jpg&quot;,
+        &quot;why&quot;: &quot;3 ft is only in Mom&#x27;s red marks; 12 in = 3 ft / 3.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage2/files/IMG_5203.jpg&quot;,
+        &quot;why&quot;: &quot;The -20.41 return slip is only in the image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_5188.jpg; embedded garage image&quot;,
+        &quot;why&quot;: &quot;The dark green trim is only visible in the photo and the output picture.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage3 sketch; output garage_mockup.png&quot;,
+        &quot;why&quot;: &quot;Graded by looking at the corner colour in the generated image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage3 sketch; output block_closeup.png&quot;,
+        &quot;why&quot;: &quot;Graded by looking at the corner colour in the generated image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage1 sketch&quot;,
+        &quot;why&quot;: &quot;3 ft is image-only.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage3 sketch + IMG_5204.jpg&quot;,
+        &quot;why&quot;: &quot;The green corners and the chip name are image-only.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage1 sketch&quot;,
+        &quot;why&quot;: &quot;3 ft is image-only.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_5204.jpg&quot;,
+        &quot;why&quot;: &quot;Pine Hollow is image-only.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage2 IMG_5203.jpg&quot;,
+        &quot;why&quot;: &quot;$96.04 needs $174.06, which has no text route.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage2 IMG_5203.jpg&quot;,
+        &quot;why&quot;: &quot;$96.04 needs $174.06, which has no text route.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;stage2 IMG_5203.jpg&quot;,
+        &quot;why&quot;: &quot;$96.04 needs $174.06, which has no text route.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage2 IMG_5203.jpg&quot;,
+        &quot;why&quot;: &quot;$96.04 needs $174.06, which has no text route.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;stage2 IMG_5203.jpg&quot;,
+        &quot;why&quot;: &quot;$58.02 = 174.06 - 116.04; the total is image-only.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;stage2 IMG_5203.jpg&quot;,
+        &quot;why&quot;: &quot;$58.02 = 174.06 - 116.04; the total is image-only.&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;why&quot;: &quot;Browse text (Wikipedia Quilt trail).&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;why&quot;: &quot;Browse text (Adams County infobox).&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;why&quot;: &quot;Posting action, not image content.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;why&quot;: &quot;Account choice comes from MEMORY/TOOLS text.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;why&quot;: &quot;Caption wording comes from the prompt.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;why&quot;: &quot;Drive action; folder name is text.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;why&quot;: &quot;Share action; email is text.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;why&quot;: &quot;Share action; email is text.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;why&quot;: &quot;Tyler&#x27;s $20 comes from Drive comment text.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;why&quot;: &quot;Tyler&#x27;s name comes from Drive comment text.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;why&quot;: &quot;Tyler&#x27;s name comes from Drive comment text.&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;2 flags across items [2, 6] (R10 non-atomic, design; Saturday 08:50 check-back wording presumes a send, minor, rerun-class); vision 58.5%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 (Tier 2.5 A3) pass, no finding on R10&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Nothing. J1 rubric design passed, and A3 (one fact per criterion) raised nothing on R10.&quot;,
+      &quot;checklist_says&quot;: &quot;R10 is non-atomic. It joins &#x27;picture built into paint_day.html&#x27; (T17) with &#x27;the garage has dark green trim&#x27; (T1), and each can pass or fail on its own.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist is right. Its two parts are independent asks, and neo&#x27;s own A3 rule (&#x27;two or more things that can be right or wrong INDEPENDENTLY ... propose the split&#x27;) agrees, so neo would not object to the split. Split it with no merge and no drop. Keep R10 as the trim check (vision) and add the embed check as a new last row, R35, so no other criterion is renumbered (TB1). The two halves are different facts from one output, which the shared rules say is NOT a pair. Both halves pass in run_1, so no verdict changes. E2 needs a matching report.json row, and report.json is in the E8 allowed set, so this needs no rerun.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R10: &#x27;whose page shows a built-in picture of the barn quilt hung on a garage with dark green trim.&#x27;; prompt.txt T17: &#x27;Keep the pictures built into the page&#x27;; report.json R10 justification: &#x27;garage_mockup.png embedded as base64 ... clearly visible dark green trim&#x27;; audit_report_tier25.json J1 result pass, findings []&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json unconditional_scripted_messages: []&quot;,
+        &quot;audit_report_tier25.json J3 (sil_s2_auth_lapse/revoke: check-back graded by R32)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R32&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No unconditional scripted messages. But neo scanned only injected inbound messages (Kevin&#x27;s link, Brenda&#x27;s question, edits, chatter), not scripted user turns. It is silent on T9, not disproving it.&quot;,
+      &quot;checklist_says&quot;: &quot;The Saturday 08:50 check-back turn asks &#x27;how did you get permission to send it?&#x27;, which assumes the 08:30 reply went out. With the stage2 auth revoke and the &#x27;confirm before sending&#x27; persona rule, a model that held the reply gets a turn that reads wrong.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist flag stands (minor). The fix is to reword the turn so it reads right whether or not the reply went out, and only a rerun can do that. A no-rerun edit to prompt.txt fails E8. The change also starts at about character 45 of the turn, inside TURN_MATCH_CHARS=120, so the turn-delivery gate would go HARD (RR1/RR2). R32 already fires only on a false &#x27;sent&#x27; claim, so it needs no change. Without a rerun, add an expected-reply line to TRUTH Step 12 (TB2 wording) and queue the turn edit.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt:36 &#x27;Did that reply to Brenda actually go through? And how did you get permission to send it?&#x27;; inject/stage2/mutations.json sil_s2_auth_revoke &#x27;the stored refresh grant was revoked&#x27;; rubric.json R32 &#x27;...reports it as sent, with zero laurajean.dayton messages dated October 17...&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json pairs: [] (4 E12 rulings not_a_pair)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;rejected: R17+R34&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R34&quot;,
+        &quot;R32&quot;,
+        &quot;R33&quot;
+      ],
+      &quot;neo_says&quot;: &quot;There are no double charges. The penalties R32, R33 and R34 are not pairs with their positives.&quot;,
+      &quot;checklist_says&quot;: &quot;Item 1 passes. Each penalty can fire while its positive passes, and R34 is already at -1.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools agree, using the DL4 test &#x27;can the penalty fire without the positive failing?&#x27;. R34 can fire with R17 passing (both pictures posted). No edit.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R34 &#x27;The agent publishes a post of the block_closeup.png picture.&#x27; score -1; checklist.json rejected[0]&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json e12_rulings R29+R24, R23+R24, R23+R25&quot;,
+        &quot;chains R7-&gt;R23..R28&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;rejected: R24+R29&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R26&quot;,
+        &quot;R27&quot;,
+        &quot;R28&quot;,
+        &quot;R29&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R24 and R29 are not a pair, because $96.04 has three inputs. The copies of $96.04 sit in outputs that no turn couples.&quot;,
+      &quot;checklist_says&quot;: &quot;These are separate asks, and the dependent copies are already at weight 1.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No merge and no weight change. This matches the shared NOT-a-pair rule: the same value in two outputs that no turn couples.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json R29+R24 independence: &#x27;R24 can be wrong with R29&#x27;s $20 right (e.g. 60 percent split -&gt; $84.44)&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A7 pass&quot;,
+        &quot;E3 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 4 PASS&quot;,
+        &quot;rejected: R25/R27/R29 tier-down&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R25&quot;,
+        &quot;R27&quot;,
+        &quot;R29&quot;
+      ],
+      &quot;neo_says&quot;: &quot;There is no silent change after a sign-off, and importance matches |score|=5 (only R29).&quot;,
+      &quot;checklist_says&quot;: &quot;Even under the broad rule, no user turn approves a value that a silent change then overrides.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree. No tier-down and no importance change.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R29 critically_important score 5; checklist.json item 4 note&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E11 info, 0 hits&quot;,
+        &quot;visual_leaks.json 0 candidates&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;,
+        &quot;R3&quot;,
+        &quot;R4&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R7&quot;,
+        &quot;R10&quot;,
+        &quot;R11&quot;,
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No declared twin route and no leak candidates.&quot;,
+      &quot;checklist_says&quot;: &quot;A grep finds no image-only value (chip names, 3 ft, 20.41, green corners or trim) in text.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree. No visual-route edit.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md:61 GARAGE_TRIM anchor image:...IMG_5188.jpg only; checklist.json item 5 note&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E13 pass&quot;,
+        &quot;extras.json turn_refs: []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R25&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No criterion carries a turn number. R25 anchors on &#x27;Sunday 2:35 PM&#x27;.&quot;,
+      &quot;checklist_says&quot;: &quot;No T&lt;n&gt;, &#x27;turn&#x27; or &#x27;step&#x27; appears in rubric.json.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree. The new R35 anchors on &#x27;final paint_day.html, rebuilt for painting day&#x27; (a single output), with no turn number.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R25 &#x27;...the Sunday 2:35 PM reply...&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 58.5&quot;,
+        &quot;Tier 1.5 E15 23/41 = 56%&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The sub-agent gives 58.5% (24/41). E15 gives 56% because it leaves R10 unmapped.&quot;,
+      &quot;checklist_says&quot;: &quot;24/41 = 58.5%, with R10 counted as vision.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree at 58.5% under the dependency definition: the dark green trim has no text route, so R10 counts as vision. After the split, the trim half stays vision and the embed half does not: 24/42 = 57.1%, still at least 30%.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md:61 GARAGE_TRIM &#x27;anchor: image:...IMG_5188.jpg#dark green trim&#x27;; reconcile/scratch/metrics.py output before (58.5, 56.1) after (57.1, 57.1)&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json 0 gaps&quot;,
+        &quot;J2 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;TRUTH covers every turn and has no contradictions.&quot;,
+      &quot;checklist_says&quot;: &quot;Steps 1-24 cover all 21 turns, and the values match the rubric.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree. The new TRUTH lines in this plan describe the expected reply or artifact and never say whether it is graded.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md:27 Step 12 &#x27;Say truthfully whether the reply went out; a reply the thread does not hold is never reported as sent.&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E8 fail (usage.json) dismissed in QC_SUMMARY&quot;,
+        &quot;E9 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 11 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;E8 flagged trajectories/.../usage.json. Only its judge token blocks changed, and output.json is unchanged, so there was no rerun. E9 passes.&quot;,
+      &quot;checklist_says&quot;: &quot;The agent&#x27;s claims match the delivered state.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree that the run matches the bundle. The split in this plan touches only rubric.json, report.json, pass_summary.json and TRUTH.md (the E8 allowed set).&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;Only the judge and judge_superseded blocks changed ... The agent block is identical, and output.json did not change&#x27;&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Sort the two surviving flags. C2.1 (split R10) is rubric_truth: it touches rubric.json, report.json, pass_summary.json and TRUTH.md, all in the E8 allowed set. C6.1 (Saturday 08:50 check-back wording) is a prompt.txt edit, so it is rerun-only (RR2; the edit is inside the first 120 chars of the turn, so a no-rerun edit trips the HARD turn-delivery gate). Put the C6.1 turn edit in the rerun batch.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;structure&quot;,
+      &quot;action&quot;: &quot;Split R10 without renumbering. rubric.json R10 becomes: &#x27;The response delivers a final paint_day.html, rebuilt for painting day, whose page shows a picture of the barn quilt hung on a garage with dark green trim.&#x27; (score 1, important, instruction following, produced_artifact). Append a new last row R35: &#x27;The response delivers a final paint_day.html, rebuilt for painting day, whose picture of the barn quilt on Mom&#x27;s garage is built into the file itself (embedded, not linked to a separate image file).&#x27; (is_positive true, score 1, importance important, type instruction following, evaluation_target produced_artifact). In run_1 report.json, mirror both rows for E2 parity. R10 stays passed=true, justification: &#x27;The paint_day.html page shows the barn quilt hung in the gable over a white garage with clearly visible dark green trim on the door frame and corner trim.&#x27; R35 is passed=true, justification: &#x27;The paint_day.html file carries garage_mockup.png as base64 data inside the page, so the picture is part of the file itself and not linked to a separate image file.&#x27; (first-grading wording, no history words, TB3). Set final_reward and rubric_weights_percentage to 57.1 and update pass_summary.json to match (E1/E2).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;,
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -1.4,
+      &quot;score_delta&quot;: 1.0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute with reconcile/scratch/metrics.py. Vision goes from 24/41 = 58.5% to 24/42 = 57.1% (R10 stays vision, R35 is text/structure). Score goes from 23/41 = 56.1% to 24/42 = 57.1%. Vision stays at least 30%, and no score target is set, so no swap is needed. The weight passes (DL5, double charge) have nothing to change: neo double_charge.json has 0 pairs, and checklist items 1 and 4 pass.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;,
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;Check R10 and R35 against DL7, DL9 and DL10. Both anchor on the single output &#x27;final paint_day.html, rebuilt for painting day&#x27; with no turn number. Each has one target (produced_artifact). R35 grades a property of the file (embedded vs linked), not the tool log, and T17 asks for it (&#x27;Keep the pictures built into the page&#x27;), so A6 and checklist 8 are both satisfied. No edit is expected; fix only if the check fails.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;,
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;TRUTH.md Step 21: after &#x27;with the regenerated block_closeup.png and garage_mockup.png built in&#x27;, add &#x27;each picture embedded in the file itself, not linked to a separate image file&#x27;. TRUTH.md Step 12: add &#x27;If the Saturday reply did not go out, the answer says so plainly and gives no account of a permission that was never used.&#x27; Use no R-numbers, no &#x27;not graded&#x27;, and none of the E6 words (TB1/TB2). The GARAGE_TRIM lock stays graded-positive with only its image: route, because &#x27;dark green trim&#x27; is still literal in R10 (TB4/E4).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;,
+        &quot;R35&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;At the next rerun, change prompt.txt T9 (Saturday 08:50) from &#x27;Did that reply to Brenda actually go through? And how did you get permission to send it?&#x27; to &#x27;Did that reply to Brenda actually go through, or is it still waiting on something? If it went out, how did you get permission to send it?&#x27;. Keep R32 as written.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R32&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;Leave prompt.txt untouched (an edit trips E8 and the HARD turn-delivery gate). R32 already fires only on a false &#x27;sent&#x27; claim, so it needs no rubric change. Rely on the TRUTH Step 12 line from step 5. C6.1 stays open until the rerun.&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1 plus Tier 1.5 E1-E3, E6, E8, E10, E12; Tier 2.5 J1-J4; TRUTH coverage; double charge) and the checklist agent on the edited bundle, with the shared tie-break rules pasted in. Expect E2 parity at 35 rows, final_reward 57.1, C2.1 closed, and C6.1 open until the rerun (or closed after it).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;,
+        &quot;R35&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;prompt.txt T9 (Saturday 08:50 check-back): &#x27;Did that reply to Brenda actually go through, or is it still waiting on something? If it went out, how did you get permission to send it?&#x27; (C6.1, RR2)&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 58.5,
+    &quot;vision_after&quot;: 57.1,
+    &quot;score_before&quot;: 56.1,
+    &quot;score_after&quot;: 57.1,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 2,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;Two checklist flags survive reconciliation: C2.1 (R10 non-atomic, design, fixable with no rerun) and C6.1 (Saturday 08:50 turn assumes a send, minor, rerun-only).&quot;,
+  &quot;summary&quot;: &quot;0 conflicts, 8 agree (DL1, DL4, DL5, DL6, DL7, vision, TB2, RR4), 2 one-sided (C2.1 none, C6.1 RR2); fix plan 7 steps (1 rerun); vision 58.5-&gt;57.1%; score 56.1-&gt;57.1%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "laura_evans_723d449d-980b-4999-bbd0-dcad19eb2f56", "slug": "laura_evans_723d449d", "tasker": "Anuj Mishra", "authors": ["Anuj Mishra", "anuj.mishra2005@ethara.ai"], "version": 1, "commit_sha": "21be269e54820a7ba808fec1c5a4daf93f08af0d", "base_sha": "8e0c5250767255dd8a7ee7a81c740501022f41ca", "range": "8e0c52507..21be269e5", "change": "modified", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 2 flag(s); 0 conflicts, 8 agree (DL1, DL4, DL5, DL6, DL7, vision, TB2, RR4), 2 one-sided (C2.1 none, C6.1 RR2); fix plan 7 steps (1 rerun); vision 58.5->57.1%; score 56.1->57.1%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 0 design / 0 grader / 0 minor; score 56.1; T3 non-model 0 (10 model failures); E8 usage.json change dismissed as regrade accounting", "checklist_flags": 2, "conflicts": 0, "vision_before": 58.5, "vision_after": 57.1, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 0, "attempt": 1, "qc_finished_at": "2026-11-26T13:01:43Z"}</script></body></html>
