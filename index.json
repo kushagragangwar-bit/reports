@@ -1,0 +1,1713 @@
+{
+ "tasks": {
+  "abhishek/meghan_douglas_821bf898-b358-4b6a-844e-976763a2d05e": [
+   {
+    "score": 59.65,
+    "started": "2026-11-19 07:21",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ashmi/adrienne_thibault_70a4abdf-00bb-4039-8258-8b65fdefd31b": [
+   {
+    "score": 46.24,
+    "started": "2026-11-20 06:27",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ashmi/cedric_fontaine_7c4e2a91-3b5d-4f8e-a6c2-9d1e5b7f3a04": [
+   {
+    "score": 63.29,
+    "started": "2026-11-20 12:56",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ashmi/jane_downs_0232341e-5c8e-48ec-842d-2717a466a576": [
+   {
+    "score": 44.74,
+    "started": "2026-11-19 11:21",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ashmi/koji_holder_3b7e9c41-5d2a-4f86-9e1b-7c0a6d58f2e4": [
+   {
+    "started": "2026-11-19 08:25",
+    "v": 1
+   },
+   {
+    "started": "2026-11-19 11:47",
+    "v": 2
+   },
+   {
+    "started": "2026-11-19 13:01",
+    "v": 3
+   },
+   {
+    "started": "2026-11-20 08:07",
+    "v": 4
+   },
+   {
+    "score": 60.24,
+    "started": "2026-11-20 10:31",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ashmi/patricia_waters_6f1c2a94-3be7-4d05-9a81-c27e50d1b347": [
+   {
+    "score": 60.42,
+    "started": "2026-11-20 12:56",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ashmi/patrick_campbell_4f7e2a91-6c3d-4b18-9a52-d1e8c07b35e7": [
+   {
+    "started": "2026-11-19 08:34",
+    "v": 1
+   },
+   {
+    "score": 61.11,
+    "started": "2026-11-19 11:00",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/ada_nakamura-jones_8fc10382-39cf-400f-b804-e50ce6ca9ad1": [
+   {
+    "started": "2026-11-19 11:47",
+    "v": 1
+   },
+   {
+    "score": 22.81,
+    "started": "2026-11-19 13:30",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/aiden_mccarthy_241a7063-fcf8-4bac-80e2-46e2cb36ccf1": [
+   {
+    "score": 52.38,
+    "started": "2026-11-23 08:26",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/aleksei_dmitrievich_petrov_d7d18660-6848-4111-bd29-36a5f83d4670": [
+   {
+    "started": "2026-11-19 16:01",
+    "v": 1
+   },
+   {
+    "score": 18.64,
+    "started": "2026-11-19 17:01",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/alex_santos_ef78c5b5-dc25-451b-b725-c4d4c582d063": [
+   {
+    "score": 15.0,
+    "started": "2026-11-23 15:55",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/amanda_hill_0e16cf30-6840-4263-8838-31fb53cc85ed": [
+   {
+    "started": "2026-11-19 16:01",
+    "v": 1
+   },
+   {
+    "score": 17.14,
+    "started": "2026-11-19 17:01",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/amber_jenkins_16b34625-4f37-413e-8c32-7eb063f9106b": [
+   {
+    "score": 22.95,
+    "started": "2026-11-23 15:55",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/amy_schuler_640c1585-66e9-49fa-91a2-68df5894291a": [
+   {
+    "started": "2026-11-19 16:01",
+    "v": 1
+   },
+   {
+    "score": 18.33,
+    "started": "2026-11-20 16:10",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/andrea_dunn_f4c6c54a-854b-4d59-b0b2-61db55fd9569": [
+   {
+    "score": 15.87,
+    "started": "2026-11-23 08:26",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/andy_lam_fb180841-fe26-44a1-a23d-9c9fa5ee9be8": [
+   {
+    "score": 22.22,
+    "started": "2026-11-23 15:55",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/anthony_blair_2520bb51-a79d-4ad3-831c-7af0c5dfa830": [
+   {
+    "score": 15.58,
+    "started": "2026-11-23 15:55",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/anthony_church_72af2a1d-ac36-423f-9970-9ca69aa3642c": [
+   {
+    "score": 8.82,
+    "started": "2026-11-19 13:30",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/anthony_rawlings_dc4c441b-1840-4724-86d2-275b987386c0": [
+   {
+    "started": "2026-11-19 16:01",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 16:10",
+    "v": 2
+   },
+   {
+    "score": 18.46,
+    "started": "2026-11-23 08:26",
+    "v": 3,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/ashley_griffin_020db57b-b171-4734-a1fe-01f771ad31e8": [
+   {
+    "score": 19.64,
+    "started": "2026-11-23 08:26",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/barbara_huff_4f6ce727-d52b-4021-acba-c5b4013e4855": [
+   {
+    "started": "2026-11-19 16:12",
+    "v": 1
+   },
+   {
+    "score": 19.23,
+    "started": "2026-11-20 16:10",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/barbara_kidd_2b833204-ec6d-43d2-b488-735764882585": [
+   {
+    "score": 12.5,
+    "started": "2026-11-20 12:24",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/benjamin_marshall_1c2b8c69-1d62-468f-9a3a-bc342180f3a9": [
+   {
+    "score": 23.88,
+    "started": "2026-11-20 12:24",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/benjamin_warren_4236d818-3904-4050-8b3f-6c097fcb2c24": [
+   {
+    "score": 20.37,
+    "started": "2026-11-19 16:12",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/brandon_torres_8dc19fa6-34f6-4fb6-92c9-0fbc6c43bcfa": [
+   {
+    "score": 23.53,
+    "started": "2026-11-23 16:05",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/brian_campbell_3d3ec0c3-be30-4725-b6bd-ab15e85f1ff0": [
+   {
+    "score": 20.59,
+    "started": "2026-11-23 16:05",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/bridget_anna_kowalska_315d380a-84fd-4548-a2e7-720797342792": [
+   {
+    "score": 21.55,
+    "started": "2026-11-23 16:05",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/carlton_mcgee_fe526037-ce14-4b98-901e-0e29024b0ae3": [
+   {
+    "score": 28.0,
+    "started": "2026-11-23 08:26",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/catherine_atkins_8afd87ed-8665-4dff-af6e-e4fcc34a06c5": [
+   {
+    "score": 16.39,
+    "started": "2026-11-23 08:26",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/cedric_fontaine_7f7e45a1-8b45-4682-8c4d-0754c3133a69": [
+   {
+    "started": "2026-11-19 16:12",
+    "v": 1
+   },
+   {
+    "score": 21.43,
+    "started": "2026-11-20 06:27",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/celestine_dubois-moreau_a1074fa5-8b3e-49c3-bdb4-1fd1f825a528": [
+   {
+    "score": 19.44,
+    "started": "2026-11-23 16:05",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/christopher_bell_1ec992b3-6e85-4f03-8caf-70fa2a38aade": [
+   {
+    "started": "2026-11-19 13:30",
+    "v": 1
+   },
+   {
+    "score": 14.29,
+    "started": "2026-11-23 08:26",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/courtney_harper_f1eb5add-9531-4474-a62e-aeae30b800a8": [
+   {
+    "score": 7.46,
+    "started": "2026-11-19 13:30",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/daniel_cooper_ce1e6c0a-2c67-4311-bfe8-14d63cce5756": [
+   {
+    "score": 8.82,
+    "started": "2026-11-19 13:38",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/david_porter_c805ec5e-bd5f-44dc-80da-b744872dd011": [
+   {
+    "started": "2026-11-19 13:38",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 16:00",
+    "v": 2
+   },
+   {
+    "score": 8.06,
+    "started": "2026-11-23 08:26",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/helen_sexton_29da10ce-3625-4af6-a3ea-0c55f2f4d0f0": [
+   {
+    "score": 10.96,
+    "started": "2026-11-19 13:38",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/jack_singleton_37119e2a-d898-4938-9e57-484dfb079b7d": [
+   {
+    "score": 42.22,
+    "started": "2026-11-23 16:13",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/jacob_graves_6113039e-2c93-4572-a300-8d411f11cfa3": [
+   {
+    "started": "2026-11-19 16:12",
+    "v": 1
+   },
+   {
+    "score": 15.0,
+    "started": "2026-11-20 16:10",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/james_hoffman_62dc561d-1b78-435b-8bb9-2c74cb6b0f28": [
+   {
+    "score": 17.65,
+    "started": "2026-11-23 16:13",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/javier_morales_acc33119-f190-4494-9cc2-bc35b1f40328": [
+   {
+    "score": 14.71,
+    "started": "2026-11-20 12:24",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/jean_mullen_b48ba641-2728-4623-9c13-f0e20489c3c8": [
+   {
+    "started": "2026-11-19 13:38",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 16:00",
+    "v": 2
+   },
+   {
+    "score": 8.7,
+    "started": "2026-11-23 08:26",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/jeff_torres_df5c3381-19d0-449c-958a-eafed9c87171": [
+   {
+    "started": "2026-11-19 13:46",
+    "v": 1
+   },
+   {
+    "score": 5.97,
+    "started": "2026-11-23 08:26",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/jessica_spencer_f392c20c-bf9d-41ec-a5f9-ec3bef251eef": [
+   {
+    "score": 18.46,
+    "started": "2026-11-19 16:22",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/jill_carson_380a5a3b-768e-4f76-abd0-b8384764177a": [
+   {
+    "score": 11.94,
+    "started": "2026-11-19 13:46",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/karen_long_a0ca617d-c1d8-40be-ad8c-577b16b4d443": [
+   {
+    "score": 14.75,
+    "started": "2026-11-23 16:13",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/kavita_york_bb2263f2-00e9-4468-b460-875f5d0be709": [
+   {
+    "score": 9.23,
+    "started": "2026-11-23 16:13",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/keisha_williams_a3c9317d-7307-47a3-8ad2-f8e524680d1d": [
+   {
+    "score": 6.25,
+    "started": "2026-11-20 12:24",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/kerry_cortez_20cd16aa-a3a6-459a-8e1c-dc03415ceef3": [
+   {
+    "score": 40.0,
+    "started": "2026-11-23 16:26",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/kerry_couch_444c1d8f-7818-4326-9c7b-402f404e680d": [
+   {
+    "started": "2026-11-20 12:34",
+    "v": 1
+   },
+   {
+    "score": 11.43,
+    "started": "2026-11-23 08:26",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/kevin_wood_cb360a63-5ffc-4402-adc3-d466c6731295": [
+   {
+    "score": 28.26,
+    "started": "2026-11-23 16:26",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/kim_russell_ae9149c7-49da-4e9a-9977-f197726d7715": [
+   {
+    "started": "2026-11-19 13:46",
+    "v": 1
+   },
+   {
+    "score": 9.52,
+    "started": "2026-11-23 08:26",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/kristen_moore_41e6fbff-e8f6-4e7e-b996-04aecf76d1f8": [
+   {
+    "score": 27.14,
+    "started": "2026-11-20 12:34",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/larry_bates_40c12309-b9ed-4dc5-9fec-7470a3ae1ca7": [
+   {
+    "score": 32.31,
+    "started": "2026-11-23 16:26",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/lisa_garrett_a247baa6-1210-4093-a8d1-292fde00b9fc": [
+   {
+    "score": 27.42,
+    "started": "2026-11-23 16:26",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/lynn_robbins_a12f3797-4a13-45af-8d3c-8626050541aa": [
+   {
+    "started": "2026-11-20 12:34",
+    "v": 1
+   },
+   {
+    "score": 11.43,
+    "started": "2026-11-20 16:20",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/melissa_wood_e21c1b5c-5732-4094-b555-451a26435ba0": [
+   {
+    "score": 26.92,
+    "started": "2026-11-23 08:26",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/michael_green_7371008f-b026-4936-bd62-749558649a9e": [
+   {
+    "started": "2026-11-19 13:46",
+    "v": 1
+   },
+   {
+    "score": 8.33,
+    "started": "2026-11-23 08:26",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/michael_torres_417e0211-dbb8-4b1f-9c4f-f5ec32100695": [
+   {
+    "started": "2026-11-20 12:34",
+    "v": 1
+   },
+   {
+    "score": 12.5,
+    "started": "2026-11-23 08:26",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/priya_whitfield_c061818f-26d2-43aa-846d-94dbaca61c5b": [
+   {
+    "started": "2026-11-20 16:31",
+    "v": 1
+   },
+   {
+    "score": 46.34,
+    "started": "2026-11-23 08:26",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/rafael_bailey_825f81c5-1682-41d6-a869-af07a3d03430": [
+   {
+    "score": 22.0,
+    "started": "2026-11-23 16:35",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/richard_allen_dc1f5eed-a453-49ca-a590-0baafd5affd5": [
+   {
+    "started": "2026-11-20 12:43",
+    "v": 1
+   },
+   {
+    "score": 7.69,
+    "started": "2026-11-20 16:20",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/ryan_garcia_2445044c-5768-42c7-987d-5e5a4a79647c": [
+   {
+    "started": "2026-11-20 12:43",
+    "v": 1
+   },
+   {
+    "score": 6.15,
+    "started": "2026-11-20 16:20",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/sean_fitzgerald_db55c791-373a-4767-b36a-e61507ccde8f": [
+   {
+    "started": "2026-11-19 13:56",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 16:00",
+    "v": 2
+   },
+   {
+    "score": 19.7,
+    "started": "2026-11-23 08:26",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/susan_morris_518a9e88-9f82-4a9a-8ca8-6b8da288fab4": [
+   {
+    "score": 15.71,
+    "started": "2026-11-23 08:26",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "ayush/vanessa_chen_56c502f5-99cd-41e0-a5c9-4b8e974f7ea2": [
+   {
+    "score": 29.51,
+    "started": "2026-11-23 16:35",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "ayush/vikram_estes_a6e90481-de91-4680-a2bb-490f0bb28c4f": [
+   {
+    "started": "2026-11-19 13:56",
+    "v": 1
+   },
+   {
+    "score": 18.75,
+    "started": "2026-11-20 16:00",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/aaron_delgado_9ad35e5d-88b6-41f1-8814-8d5a50c5a8c3": [
+   {
+    "started": "2026-11-21 14:31",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:00",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:00",
+    "v": 3
+   },
+   {
+    "score": 62.12,
+    "started": "2026-11-25 12:32",
+    "v": 4,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/aaron_delgado_9c289ef6-7baf-41e2-9376-07571d54f832": [
+   {
+    "started": "2026-11-21 14:31",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:00",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:00",
+    "v": 3
+   },
+   {
+    "started": "2026-11-23 07:23",
+    "v": 4
+   },
+   {
+    "score": 27.63,
+    "started": "2026-11-25 12:32",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/abilene_ross_b8a08cec-762e-469e-9c11-8da5fd28ce2c": [
+   {
+    "started": "2026-11-21 14:31",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:00",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:00",
+    "v": 3
+   },
+   {
+    "score": 47.37,
+    "started": "2026-11-25 12:32",
+    "v": 4,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/andrea_kaminski_0569c733-d6a2-48f3-a03c-6959094b1318": [
+   {
+    "started": "2026-11-23 14:32",
+    "v": 1
+   },
+   {
+    "score": 46.67,
+    "started": "2026-11-26 07:01",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/anthony_rawlings_2f633bd2-287a-4c56-adbf-3efd3c737e17": [
+   {
+    "started": "2026-11-21 17:23",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 00:09",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 09:05",
+    "v": 3
+   },
+   {
+    "started": "2026-11-23 07:46",
+    "v": 4
+   },
+   {
+    "score": 46.15,
+    "started": "2026-11-23 14:11",
+    "v": 5,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/anthony_rawlings_7db80e04-841c-4d8b-94fb-46862c235ef6": [
+   {
+    "started": "2026-11-21 14:31",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:13",
+    "v": 2
+   },
+   {
+    "started": "2026-11-23 14:00",
+    "v": 3
+   },
+   {
+    "score": 41.84,
+    "started": "2026-11-25 12:32",
+    "v": 4,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/ashley_flores_d99e266b-f5a8-4c61-adf1-4e3f0fbdfe35": [
+   {
+    "started": "2026-11-21 14:40",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:13",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:00",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:30",
+    "v": 4
+   },
+   {
+    "score": 62.03,
+    "started": "2026-11-26 06:04",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/ashley_flores_ee364851-1b06-442a-83ad-e75177e9e499": [
+   {
+    "started": "2026-11-21 14:40",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:13",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:09",
+    "v": 3
+   },
+   {
+    "score": 62.03,
+    "started": "2026-11-23 14:00",
+    "v": 4,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/brandon_hill_38f29aec-d650-4570-aaa3-3157057264e0": [
+   {
+    "started": "2026-11-21 14:40",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:13",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:09",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:30",
+    "v": 4
+   },
+   {
+    "score": 27.71,
+    "started": "2026-11-26 06:04",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/brandon_hill_d46f1d01-715e-4333-baaf-c1eed6b36d76": [
+   {
+    "started": "2026-11-21 14:40",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:23",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:21",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:30",
+    "v": 4
+   },
+   {
+    "started": "2026-11-23 07:23",
+    "v": 5
+   },
+   {
+    "score": 41.86,
+    "started": "2026-11-23 14:00",
+    "v": 6,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/brian_henderson_de7dbaa3-28e8-4f15-b499-5dd912509d94": [
+   {
+    "started": "2026-11-20 09:55",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 12:09",
+    "v": 2
+   },
+   {
+    "started": "2026-11-21 17:00",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 00:09",
+    "v": 4
+   },
+   {
+    "started": "2026-11-22 08:30",
+    "v": 5
+   },
+   {
+    "started": "2026-11-23 07:23",
+    "v": 6
+   },
+   {
+    "score": 30.26,
+    "started": "2026-11-23 14:00",
+    "v": 7,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/brian_patterson_45f60418-3882-42c7-b35d-ae8e9b85e6bd": [
+   {
+    "started": "2026-11-21 14:51",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:23",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:21",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:42",
+    "v": 4
+   },
+   {
+    "started": "2026-11-23 07:23",
+    "v": 5
+   },
+   {
+    "score": 62.34,
+    "started": "2026-11-23 14:11",
+    "v": 6,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/brian_patterson_f94820fe-5370-4006-8544-8b6e04081a58": [
+   {
+    "started": "2026-11-21 14:51",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:23",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:21",
+    "v": 3
+   },
+   {
+    "score": 62.2,
+    "started": "2026-11-26 06:04",
+    "v": 4,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/darius_norman_0dde888f-2854-4441-8876-c90b429e07f3": [
+   {
+    "started": "2026-11-21 14:51",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:34",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:21",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:42",
+    "v": 4
+   },
+   {
+    "started": "2026-11-23 07:35",
+    "v": 5
+   },
+   {
+    "score": 64.56,
+    "started": "2026-11-26 06:04",
+    "v": 6,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/darius_norman_77d6c2fb-b746-4269-8290-3d3dc6a9e061": [
+   {
+    "started": "2026-11-21 14:51",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:34",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:31",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:42",
+    "v": 4
+   },
+   {
+    "started": "2026-11-23 07:35",
+    "v": 5
+   },
+   {
+    "score": 42.7,
+    "started": "2026-11-26 06:14",
+    "v": 6,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/derek_sandoval_fab6641d-3e37-4a94-8aef-d1c64dc73ac9": [
+   {
+    "started": "2026-11-21 18:07",
+    "v": 1
+   },
+   {
+    "score": 23.08,
+    "started": "2026-11-26 06:38",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/gerald_ellison_600f6d2f-0a2d-4cea-931b-52ce50b8ac23": [
+   {
+    "started": "2026-11-21 18:07",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 00:51",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 09:05",
+    "v": 3
+   },
+   {
+    "started": "2026-11-23 07:46",
+    "v": 4
+   },
+   {
+    "score": 27.14,
+    "started": "2026-11-26 06:49",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/greg_howard_1828c2cf-6c26-4893-bc7c-7dddc5388d6d": [
+   {
+    "score": 60.0,
+    "started": "2026-11-23 14:32",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/jack_singleton_3a5978b7-d807-4f8f-a764-bc70f09f9abd": [
+   {
+    "started": "2026-11-21 15:01",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:34",
+    "v": 2
+   },
+   {
+    "score": 51.19,
+    "started": "2026-11-26 06:14",
+    "v": 3,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/jack_singleton_fce8cec0-4ae5-4a85-bac8-5774a28e6710": [
+   {
+    "started": "2026-11-21 15:01",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:34",
+    "v": 2
+   },
+   {
+    "score": 37.5,
+    "started": "2026-11-26 06:14",
+    "v": 3,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/john_martin_5cffbd94-a0ec-4f90-9397-29e6e463c606": [
+   {
+    "score": 54.43,
+    "started": "2026-11-23 14:32",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/john_patel_361b5dc6-ce33-4d3c-a385-c04ff8e6df59": [
+   {
+    "started": "2026-11-21 18:07",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 00:51",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 09:05",
+    "v": 3
+   },
+   {
+    "started": "2026-11-23 07:46",
+    "v": 4
+   },
+   {
+    "started": "2026-11-23 14:11",
+    "v": 5
+   },
+   {
+    "score": 43.66,
+    "started": "2026-11-26 06:49",
+    "v": 6,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/john_smith_1d9b5eb1-263a-4b7e-ab4a-db57295b2f3b": [
+   {
+    "started": "2026-11-21 15:01",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:44",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:31",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:42",
+    "v": 4
+   },
+   {
+    "score": 25.37,
+    "started": "2026-11-26 06:14",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/john_smith_f011d359-dad2-4e0d-98b3-49035ca5e5cf": [
+   {
+    "started": "2026-11-21 15:01",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:44",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:31",
+    "v": 3
+   },
+   {
+    "score": 24.24,
+    "started": "2026-11-26 06:25",
+    "v": 4,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/kelly_west_2f73be70-be91-413a-9747-72fc9b1f2628": [
+   {
+    "started": "2026-11-21 15:12",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:44",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:31",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:52",
+    "v": 4
+   },
+   {
+    "score": 45.33,
+    "started": "2026-11-26 06:25",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/kelly_west_339c93c2-0300-47e3-85f3-b276457b0e9f": [
+   {
+    "started": "2026-11-21 18:20",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 00:51",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 09:05",
+    "v": 3
+   },
+   {
+    "started": "2026-11-23 07:46",
+    "v": 4
+   },
+   {
+    "started": "2026-11-23 14:22",
+    "v": 5
+   },
+   {
+    "score": 27.91,
+    "started": "2026-11-26 06:49",
+    "v": 6,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/kevin_collins_5e8a8316-b85d-4785-8400-0d877a9a7004": [
+   {
+    "started": "2026-11-21 15:12",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:44",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:40",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:52",
+    "v": 4
+   },
+   {
+    "score": 22.89,
+    "started": "2026-11-26 06:25",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/kevin_collins_bbff9291-1da9-47fe-af0a-33e6836528c0": [
+   {
+    "started": "2026-11-21 18:20",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 00:51",
+    "v": 2
+   },
+   {
+    "started": "2026-11-23 08:02",
+    "v": 3
+   },
+   {
+    "started": "2026-11-23 14:22",
+    "v": 4
+   },
+   {
+    "score": 46.51,
+    "started": "2026-11-26 06:49",
+    "v": 5,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/klaus_irwin_1cb23f8d-f673-47e2-b879-36d4417804cb": [
+   {
+    "score": 58.33,
+    "started": "2026-11-23 14:40",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/laura_evans_ca8275c5-139f-42ee-a576-c412b23cf410": [
+   {
+    "started": "2026-11-21 18:20",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 01:01",
+    "v": 2
+   },
+   {
+    "started": "2026-11-23 08:02",
+    "v": 3
+   },
+   {
+    "score": 27.63,
+    "started": "2026-11-26 07:01",
+    "v": 4,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/laura_jenkins_ff0bc357-fe16-45e7-96c1-05853126e5fa": [
+   {
+    "started": "2026-11-21 18:20",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 01:01",
+    "v": 2
+   },
+   {
+    "score": 31.25,
+    "started": "2026-11-23 08:02",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/mark_lewis_8f2d6a17-3c4e-4b91-9a5f-d0e7c2b18a64": [
+   {
+    "started": "2026-11-21 15:12",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:54",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:40",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:52",
+    "v": 4
+   },
+   {
+    "started": "2026-11-23 07:35",
+    "v": 5
+   },
+   {
+    "started": "2026-11-23 14:11",
+    "v": 6
+   },
+   {
+    "score": 55.69,
+    "started": "2026-11-26 06:25",
+    "v": 7,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/martha_rivers_4102d18c-637a-42a6-b873-89d6f08d58dd": [
+   {
+    "started": "2026-11-21 18:30",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 01:01",
+    "v": 2
+   },
+   {
+    "started": "2026-11-23 08:02",
+    "v": 3
+   },
+   {
+    "started": "2026-11-23 14:22",
+    "v": 4
+   },
+   {
+    "score": 57.32,
+    "started": "2026-11-26 07:01",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/martha_rivers_446cacd9-1b43-4d86-ad94-965aa6479302": [
+   {
+    "started": "2026-11-21 15:12",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:54",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:40",
+    "v": 3
+   },
+   {
+    "score": 26.83,
+    "started": "2026-11-26 06:38",
+    "v": 4,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/matt_garcia_d053fc43-feaa-4794-88a3-0b153af7497e": [
+   {
+    "score": 26.32,
+    "started": "2026-11-23 14:40",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/paul_johnson_3e1a99fe-5567-42e6-95dd-f3353cd6f033": [
+   {
+    "started": "2026-11-20 09:55",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 12:09",
+    "v": 2
+   },
+   {
+    "started": "2026-11-20 13:30",
+    "v": 3
+   },
+   {
+    "started": "2026-11-20 14:30",
+    "v": 4
+   },
+   {
+    "score": 47.71,
+    "started": "2026-11-20 16:20",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/phil_lane_9773d72e-4adc-471a-9e68-13eae4e69ec0": [
+   {
+    "started": "2026-11-21 18:30",
+    "v": 1
+   },
+   {
+    "started": "2026-11-22 01:01",
+    "v": 2
+   },
+   {
+    "score": 33.05,
+    "started": "2026-11-23 08:13",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/pooja_carroll_3f498831-d859-43ae-a16a-3b6390007e7c": [
+   {
+    "started": "2026-11-21 15:24",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:54",
+    "v": 2
+   },
+   {
+    "started": "2026-11-22 00:40",
+    "v": 3
+   },
+   {
+    "started": "2026-11-22 08:52",
+    "v": 4
+   },
+   {
+    "started": "2026-11-23 07:35",
+    "v": 5
+   },
+   {
+    "score": 58.04,
+    "started": "2026-11-26 06:38",
+    "v": 6,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/pooja_carroll_5e9a83ad-81eb-45c4-b382-7bcf2e07f846": [
+   {
+    "score": 55.38,
+    "started": "2026-11-20 09:55",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/pooja_carroll_f84433c2-7f30-4177-bb47-0228c2dddb35": [
+   {
+    "started": "2026-11-19 12:11",
+    "v": 1
+   },
+   {
+    "score": 62.63,
+    "started": "2026-11-20 06:27",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/priya_whitfield_6ad04145-9731-42d6-a676-8059ad30ef42": [
+   {
+    "started": "2026-11-19 12:11",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 06:27",
+    "v": 2
+   },
+   {
+    "started": "2026-11-20 09:55",
+    "v": 3
+   },
+   {
+    "started": "2026-11-20 12:09",
+    "v": 4
+   },
+   {
+    "started": "2026-11-20 13:30",
+    "v": 5
+   },
+   {
+    "score": 59.38,
+    "started": "2026-11-20 14:30",
+    "v": 6,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/priya_whitfield_749b389f-ed1e-4ad7-931d-fe815d7be011": [
+   {
+    "started": "2026-11-20 10:07",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 12:09",
+    "v": 2
+   },
+   {
+    "score": 54.14,
+    "started": "2026-11-20 13:30",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/rachel_long_3c9e5a71-8d24-4b6f-a1e0-7f52c4d98b13": [
+   {
+    "started": "2026-11-21 15:24",
+    "v": 1
+   },
+   {
+    "started": "2026-11-21 17:54",
+    "v": 2
+   },
+   {
+    "score": 28.57,
+    "started": "2026-11-26 06:38",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/rachel_simmons_b81f4d26-5e93-4c07-9a6d-2e4f8c1a7d35": [
+   {
+    "started": "2026-11-20 13:30",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 14:30",
+    "v": 2
+   },
+   {
+    "score": 56.67,
+    "started": "2026-11-20 16:31",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "mohit/samantha_peterson_9f90bf4e-6cda-4e6d-8626-017ddb026306": [
+   {
+    "started": "2026-11-21 15:24",
+    "v": 1
+   },
+   {
+    "score": 14.29,
+    "started": "2026-11-21 18:07",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "mohit/virginia_french_df39237c-6bbd-49b6-9c0f-ba810993d994": [
+   {
+    "score": 27.63,
+    "started": "2026-11-23 14:40",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "priyansh/andrew_pham_794b435f-f793-4fc3-9095-401e761d7deb": [
+   {
+    "started": "2026-11-19 08:25",
+    "v": 1
+   },
+   {
+    "started": "2026-11-20 06:41",
+    "v": 2
+   },
+   {
+    "score": 62.22,
+    "started": "2026-11-20 07:12",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "priyansh/anthony_hicks_0592fb23-366a-4b99-b6c3-3f76deb7e625": [
+   {
+    "started": "2026-11-19 08:25",
+    "v": 1
+   },
+   {
+    "score": 40.79,
+    "started": "2026-11-19 11:21",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "varun/alonzo_whitfield_ffe7d5ca-a5ea-4962-9e26-6beee9e8b948": [
+   {
+    "score": 58.89,
+    "started": "2026-11-23 14:22",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "varun/augusta_bell_01b00921-e9ac-42ae-ba5b-d0caa32061f0": [
+   {
+    "started": "2026-11-20 14:01",
+    "v": 1
+   },
+   {
+    "score": 63.64,
+    "started": "2026-11-20 19:31",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "varun/carlos_morales_3ea0e1c9-4061-4fca-abfb-8c2d7c218a54": [
+   {
+    "score": 61.9,
+    "started": "2026-11-21 06:30",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "varun/carlos_morales_b003be3a-aab1-4e4b-b5c2-c5d6a3c1eaa6": [
+   {
+    "score": 58.93,
+    "started": "2026-11-23 13:31",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "varun/daniel_stewart_86df2cce-ddd1-4344-809c-e79658a4d258": [
+   {
+    "score": 51.76,
+    "started": "2026-11-23 13:31",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "varun/daniel_wood_1434737c-69a5-4a62-a7f1-f5db9edcf336": [
+   {
+    "score": 35.21,
+    "started": "2026-11-23 13:31",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "varun/james_allen_37ee622d-18a6-446c-80d5-3e9e929f366b": [
+   {
+    "started": "2026-11-23 13:31",
+    "v": 1
+   },
+   {
+    "score": 56.25,
+    "started": "2026-11-26 07:01",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "varun/james_davis_b2f04454-bc7a-4ad3-b16d-432a92e84453": [
+   {
+    "score": 51.52,
+    "started": "2026-11-23 14:32",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "varun/james_gutierrez_d2badc37-fd9b-4090-af7b-219aae83a550": [
+   {
+    "started": "2026-11-21 11:00",
+    "v": 1
+   },
+   {
+    "score": 51.52,
+    "started": "2026-11-23 10:31",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "varun/martin_engel_b7773044-9827-4fde-b2e0-b14190a5555a": [
+   {
+    "score": 56.76,
+    "started": "2026-11-20 20:31",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
+  "varun/mike_crawford_e943209c-a428-448d-886c-34537c76ce17": [
+   {
+    "score": 61.29,
+    "started": "2026-11-19 12:33",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
+  "varun/sandra_buckley_1f163157-2900-436b-a430-2bfd50e26dac": [
+   {
+    "score": 63.08,
+    "started": "2026-11-21 09:30",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ]
+ },
+ "updated": "2026-11-26 07:32 UTC"
+}
