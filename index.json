@@ -1016,6 +1016,16 @@
     "verdict": "NOT ACCEPTABLE"
    }
   ],
+  "mohit/gabriela_vargas_b3a90077-e709-4341-944f-807015e47d82": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1330_a1",
+    "score": 25.37,
+    "started": "2026-11-26 08:00",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
   "mohit/gerald_ellison_600f6d2f-0a2d-4cea-931b-52ce50b8ac23": [
    {
     "started": "2026-11-21 18:07",
