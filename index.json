@@ -1556,6 +1556,14 @@
     "started": "2026-11-26 08:12",
     "v": 1,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1609_a1",
+    "score": 27.54,
+    "started": "2026-11-26 10:39",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/phil_lane_9773d72e-4adc-471a-9e68-13eae4e69ec0": [
@@ -1897,5 +1905,5 @@
    }
   ]
  },
- "updated": "2026-11-26 10:47 UTC"
+ "updated": "2026-11-26 10:48 UTC"
 }
