@@ -24,6 +24,16 @@
     "verdict": "ACCEPTABLE"
    }
   ],
+  "ashmi/daichi_mosley_9f8ff161-f2d9-4e4e-b493-da7fed96060d": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1645_a1",
+    "score": 26.98,
+    "started": "2026-11-26 11:15",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
   "ashmi/jane_downs_0232341e-5c8e-48ec-842d-2717a466a576": [
    {
     "score": 44.74,
@@ -1905,5 +1915,5 @@
    }
   ]
  },
- "updated": "2026-11-26 10:48 UTC"
+ "updated": "2026-11-26 11:22 UTC"
 }
