@@ -1878,6 +1878,14 @@
     "started": "2026-11-26 07:01",
     "v": 2,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1745_a1",
+    "score": 56.25,
+    "started": "2026-11-26 12:15",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "varun/james_davis_b2f04454-bc7a-4ad3-b16d-432a92e84453": [
@@ -1941,5 +1949,5 @@
    }
   ]
  },
- "updated": "2026-11-26 12:23 UTC"
+ "updated": "2026-11-26 12:24 UTC"
 }
