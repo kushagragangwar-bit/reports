@@ -1650,6 +1650,14 @@
     "started": "2026-11-23 13:31",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1311_a1",
+    "score": 35.21,
+    "started": "2026-11-26 07:41",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "varun/james_allen_37ee622d-18a6-446c-80d5-3e9e929f366b": [
@@ -1709,5 +1717,5 @@
    }
   ]
  },
- "updated": "2026-11-26 07:32 UTC"
+ "updated": "2026-11-26 07:51 UTC"
 }
