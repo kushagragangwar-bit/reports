@@ -1634,6 +1634,14 @@
     "started": "2026-11-23 13:31",
     "v": 1,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1311_a1",
+    "score": 58.93,
+    "started": "2026-11-26 07:41",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "varun/daniel_stewart_86df2cce-ddd1-4344-809c-e79658a4d258": [
