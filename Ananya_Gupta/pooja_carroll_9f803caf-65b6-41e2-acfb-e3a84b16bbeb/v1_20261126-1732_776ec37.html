@@ -1,0 +1,791 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: pooja_carroll_9f803caf (ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict ok">ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</code></span>
+<span><span class="k">Tasker</span>Ananya Gupta</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>776ec3735</code> (added, range <code>b7b7ae805..776ec3735</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 12:21:11 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>0</span>
+<span><span class="k">Conflicts</span>1</span>
+<span><span class="k">Vision</span>69.81% → 69.81%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 0 flag(s); 1 conflict (DL8), 4 agree, 1 one-sided, 1 disagreement (vision R12); fix plan 10 steps (0 rerun), vision 69.81-&gt;69.81%, score 50.94-&gt;50.94%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: pooja_carroll_9f803caf</h1>
+<p class="sub">obsidian-infinity-stage-1 b7b7ae805..776ec3735 (added)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>37</b><span>rubrics</span></div><div class="stat"><b>50.9</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>12/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>10/3/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>2/1/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>37/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/1</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 12 failed criteria across 1 task(s): <b>12 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 0 failure(s) and 3 warning(s). Tier 2.5 flagged 1 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 37 criteria: 37 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 4 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 1 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 1 item(s): 1 design.</p>
+
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#D1'><code>D1</code></a></td><td><span class="b b-sev-design">design</span></td><td class='muted'>rubric</td><td class='muted'>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td>The seat criterion never names the seat, so the grader has to take the agent&#x27;s word for it</td></tr></table><div class='issue' id='D1'><h4><code>D1</code> The seat criterion never names the seat, so the grader has to take the agent&#x27;s word for it <span class="b b-sev-design">design</span> <span class='muted'>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</span></h4><p>R10 asks for &#x27;the only open Main Cabin aisle seat on the Friday flight it lists for her&#x27; but names no seat. The right answer only appears in the seat-map pictures (<code>IMG_7041.PNG</code> for AA 2151 gives 23D, <code>IMG_7042.PNG</code> for AA 1977 gives 19C), and the grader does not see those input pictures. A run that picks a wrong seat and calls it &#x27;the only open aisle seat&#x27; would still pass. In this run the outcome is right: the agent listed AA 1977 with 19C, which matches TRUTH Step 6.</p><p><b>Evidence.</b> rubric.json R10; TRUTH.md Step 6 and locks OKA_SEAT_ORIG=19C / OKA_SEAT_MUTATED=23D; run_1 report.json R10 justification quotes the run&#x27;s own note &quot;19C is the only open Main Cabin aisle seat&quot;.</p><p><b>Ask.</b> Reword R10 to name the seat per flight, e.g. &#x27;gives Dr. Okafor seat 23D if it lists AA 2151, or 19C if it lists AA 1977&#x27;.</p></div>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>E4_truth_refs</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>OKA_SUN_CAR=11:30 AM: not found in any criterion text</td></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>E11_visual_leak_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>L56 DELG_OUT 1843: 1 readable copy (api 1)</td></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>E12_double_charge_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>R26+R5 on vip_weekend_plan.xlsx: R5 ($558) is derived from R26 (Classic King): 2 x $279 Classic King (block agreement)</td></tr></table></details><details><summary>Tier 2.5 findings (1)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R10 self-containment (A3/A5): &quot;giving Dr. Okafor the only open Main Cabin aisle seat on the Friday flight it lists for her&quot; carries no literal seat, so the grader cannot check it from the workbook without the seat-map images. The run&#x27;s grader credited 19C o...</td><td class='muted'>rubric.json:R10: &quot;The response delivers vip_weekend_plan.xlsx giving Dr. Okafor the only open Main Cabin aisle seat on the Friday flight it lists for her.&quot;</td></tr></table></details><details><summary>Visual leak candidates (4: 0 leak, 0 declared, 1 guessable)</summary><table><tr><th>task</th><th>lock</th><th>token</th><th>verdict</th><th>file</th><th>note</th></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>DELG_OUT</code></td><td>1843</td><td><code>coincidence</code></td><td class='muted'>data/environment/peloton-api/rides.json</td><td>A ride duration field in a distractor service, not a flight number. Not a finding.</td></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>DINNER_PLACE</code></td><td>Alder &amp; Rye</td><td><code>coincidence</code></td><td class='muted'>data/environment/opentable-api/restaurants.json</td><td>The record is the booking target the API must list; it does not say the donor dinner is there, and no readable text (WhatsApp, Drive, persona, calendar) names the venue. Choosing it among six listings (including the Alder Ballantyne decoy) still needs the notebook. TRUTH Step 22 names rid 104501 only as the booking route, not as the source of the venue. Not a finding.</td></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>SOUNDCHECK</code></td><td>5:00 PM</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/HEARTBEAT.md</td><td>End of a weekday work block in the persona routine, unrelated to the gala sound check. Not a finding.</td></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>(no lock) R12</code></td><td>white orchids</td><td><code>guessable</code></td><td class='muted'></td><td>Placement: text. R12 grades a generated image (output-format criterion); the graded value is read from text, and TRUTH locks it there (DEPICT_ORCHID_MUTATED L89, anchor row:whatsapp/messages#msg-rd-03.text). No picture-reading claim exists to be falsified; the criterion still needs the generation step, hence guessable rather than leak/declared_route. Not a defect; no fix needed.</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage3 s3-auth-lapse: could not check (google-drive-api/oauth_tokens: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb'><td>pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb</td><td class='n'>20</td><td class='n'>37</td><td class='n'>50.94</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 12</td><td>10/3/0</td><td><span class="b b-warn">J1</span></td><td>37/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>0 flags across items [1-12] (all PASS after strict verification by 3 verifiers); vision 69.8% (37/53)</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Only penalties are R34 (dollar figure sent to Rosa) and R35 (&gt;1 active Nov 13 reservation); each can fire with no positive failing. Shared values are relative within one output (R6, R10, R31, R36) or separate turns/outputs (R13/R18, R15/R16, R19/R20).</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Each criterion grades one fact. R29 &#x27;on both travelers&#x27; pages&#x27; is the scope of the single T19 ask (&#x27;add ... to both pages&#x27;), not two asks; R3 is one fare shared by both Delgados.</td></tr><tr><td>3</td><td>Turn names the file and change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every artifact criterion maps to a turn naming the file and the part: Flights/Lodging/Ground tab of vip_weekend_plan.xlsx (T1,T2,T3,T5,T9), welcome_card.png (T6), vip_itineraries.pdf with Delgados&#x27; page / both pages (T10,T16,T19). No vague &#x27;everywhere&#x27;.</td></tr><tr><td>4</td><td>Lower weight after approval + silent change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No user turn approves a value before a silent change. Earlier values (T2 $642, T4 rehearsal, T8 driver) came from the agent, and T9 explicitly asks for a recheck; the agent-answered-then-changed rows (R15, R16, R18) already score 1. Importance matches |score| (only R32 = 5 is critically_important).</td></tr><tr><td>5</td><td>No text leak for visual asks</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Scripted search of persona, all seed JSON, inject text, home docx/xlsx/html/tsv/xml, PDF text layers, metadata and filenames. All scans have empty text layers; the &#x27;leaf&#x27;/&#x27;279&#x27;/&#x27;558&#x27; hits are unrelated (Greenleaf Market, copperleaf emails, a JFK-SFO fare). OpenTable lists Alder &amp; Rye next to the Alder Ballantyne decoy without tying either to the dinner.</td></tr><tr><td>6</td><td>Scripted mutations assume expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>All five stages are source edits (rehearsal time, package price, flowers, driver, headcount, Sunday window) that read correctly whatever the agent did. Car confirmation revisions keep &#x27;flight: send&#x27;, and msg-lw-08 &#x27;add two to your list&#x27; works whether or not a booking exists.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>xlsx/pdf/png checks are produced_artifact; reservations, Drive placement and messages to Rosa are state_change; chat answers (R8, R11, R13, R15, R18, R32) are user_facing_message.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion grades the method. R17/R24 are typed &#x27;tool use&#x27; but grade the resulting reservation, and R34 grades the sent message, not the tool log.</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>TRUTH Steps 1-28 cover T0-T19. VALUE_LOCK and the silent timeline match every graded value and its turn timing (4:30 at T4, 4:00/3:30 after stage3, Marcus Bell 11/10, Terrence Hill 11/12, $658, party of 10, AA 1563/2412).</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>37 of 53 positive points (69.8%) depend on image-only content; independently re-derived by two verifiers with identical rows.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Filesystem mutations landed on schedule (run ls: RunOfShow 11/08 21:40, QueenCityCar 11/09 22:15 and 11/11 21:50), and the run read Rev 2 at T10 and Terrence Hill at T15. The run never called the shipped WhatsApp connector, so R11/R12/R14-R17 failed through agent behaviour, not env mismatch. Drive re-auth after stage3 worked, and verdicts match output_media.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion carries a turn number. Chat anchors are unique: week-preview, Kendra rehearsal question, Kendra Nov 10 / Nov 12 driver requests, car-leaves-hotel question, car company landing-time question.</td></tr></tbody></table>
+<p>No flags survived verification.</p>
+<h3>Vision share <span class="qc-tag ok">69.8%</span></h3>
+<p>37 of 53 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>Pictures/IMG_7036.PNG</td><td>AA 1843 only in flight-search screenshot</td></tr><tr><td>R2</td><td>1</td><td>Pictures/IMG_7035.PNG</td><td>AA 1172 lowest qualifying fare, image only</td></tr><tr><td>R3</td><td>1</td><td>Documents/Meridian_VIP_Travel_Policy.pdf (scan)</td><td>&#x27;Main Cabin Extra&#x27; only in images; text says &#x27;extra legroom&#x27;</td></tr><tr><td>R4</td><td>3</td><td>Pictures/IMG_6952.jpg + Delgado form scan</td><td>photo chosen from leaf-painting request in scanned form</td></tr><tr><td>R5</td><td>1</td><td>Documents/SloaneHouse_RoomBlock_Meridian.pdf (scan)</td><td>$279 x2 rate image only</td></tr><tr><td>R6</td><td>1</td><td>QueenCityCar_Confirmation.pdf (scan) / IMG_6977.jpg</td><td>2-hour rule and departure time image only</td></tr><tr><td>R7</td><td>1</td><td>Pictures/IMG_7012.jpg</td><td>tree nut allergy only in rider image</td></tr><tr><td>R8</td><td>1</td><td>Pictures/IMG_7036.PNG</td><td>2:16 PM arrival image only</td></tr><tr><td>R9</td><td>1</td><td>Pictures/IMG_7034.PNG + IMG_7012.jpg</td><td>flight list and 3-hour rule image only</td></tr><tr><td>R10</td><td>1</td><td>Pictures/IMG_7041.PNG / IMG_7042.PNG</td><td>seat map</td></tr><tr><td>R13</td><td>3</td><td>inject/stage2/files/QueenCityCar_Confirmation.pdf (scan)</td><td>driver Marcus Bell, no text layer</td></tr><tr><td>R14</td><td>3</td><td>Pictures/IMG_7050.PNG</td><td>$642 base only in image; text gives +$8/night</td></tr><tr><td>R15</td><td>1</td><td>Pictures/IMG_6977.jpg</td><td>&#x27;30 min before rehearsal&#x27; rule image only</td></tr><tr><td>R17</td><td>3</td><td>Pictures/IMG_6977.jpg</td><td>&#x27;8 of us&#x27; base image only; text adds two</td></tr><tr><td>R18</td><td>1</td><td>inject/stage4/files/QueenCityCar_Confirmation.pdf (scan)</td><td>driver Terrence Hill, no text layer</td></tr><tr><td>R19</td><td>1</td><td>Pictures/IMG_7037.PNG</td><td>Sunday flight numbers image only</td></tr><tr><td>R20</td><td>1</td><td>Pictures/IMG_7037.PNG</td><td>Sunday flight numbers image only</td></tr><tr><td>R21</td><td>3</td><td>inject/stage1/files/Meridian_Gala_RunOfShow.pdf (scan)</td><td>5:45 PM photo call image only</td></tr><tr><td>R24</td><td>1</td><td>Pictures/IMG_6977.jpg</td><td>dinner 7:30 image only</td></tr><tr><td>R25</td><td>1</td><td>QueenCityCar_Confirmation.pdf (scan)</td><td>Zone D image only</td></tr><tr><td>R26</td><td>1</td><td>IMG_7012.jpg + RoomBlock scan</td><td>Classic King image only</td></tr><tr><td>R27</td><td>1</td><td>Meridian_Gala_RunOfShow.pdf (scan)</td><td>5:00 PM sound check image only</td></tr><tr><td>R28</td><td>1</td><td>Meridian_Gala_RunOfShow.pdf (scan)</td><td>8:30 PM award image only</td></tr><tr><td>R29</td><td>1</td><td>Pictures/IMG_6977.jpg</td><td>dinner venue named only in notebook</td></tr><tr><td>R31</td><td>1</td><td>Pictures/IMG_7012.jpg</td><td>30-min quiet time rule image only</td></tr><tr><td>R36</td><td>1</td><td>IMG_7037.PNG + QueenCityCar scan</td><td>departure and 2-hour rule image only</td></tr><tr><td>R37</td><td>1</td><td>Pictures/IMG_6977.jpg</td><td>dinner venue named only in notebook</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (5)</summary><ul><li>item 2: R29 &#x27;Alder &amp; Rye ... on both travelers&#x27; pages&#x27; combines two independently failable checks <span class='qc-k'>dismissed:</span>T19 is one ask: &#x27;add Friday&#x27;s donor dinner to both pages of vip_itineraries.pdf&#x27;. R29 grades one value, the restaurant, at the scope that ask sets; time and headcount are not bundled.</li><li>item 4: R14 ($658, score 3) should drop to 1 because stage2 changed the package price after the T2 Lodging total <span class='qc-k'>dismissed:</span>No turn approves $642: T2 is a build instruction (&#x27;Add a Lodging tab...&#x27;) and T3-T8 never mention lodging. T9 explicitly asks for a recheck (&#x27;set each party&#x27;s total before tax ... to what the hotel is charging&#x27;).</li><li>item 4: Score-3 mutated-value rows R11, R12, R13, R17, R21 follow an approval <span class='qc-k'>dismissed:</span>Stages land before the first ask of each value (stage1 T2/T3 -&gt; R11 T4, R21 T10; stage2 T5/T6 -&gt; R12 T6, R13 T8; stage4 T12/T13 -&gt; R17 T13), and no user turn approved the old value.</li><li>item 5: &#x27;leaf&#x27;, &#x27;279&#x27;, &#x27;558&#x27; and Corner King text hits leak image-graded answers <span class='qc-k'>dismissed:</span>The hits are &#x27;Greenleaf Market&#x27; (Movies/data_5.tsv), copperleaf.example emails, a duffel JFK-SFO fare row and health data. Drive comment AAAB-sh02-package names Corner King but gives no photo or price, and Drive seed files have no content.</li><li>item 11: Run gave stale rehearsal/flowers/price/headcount, suggesting mutations did not land <span class='qc-k'>dismissed:</span>The run never queried WhatsApp (0 occurrences in output.json) although whatsapp-api-connector ships. The file mutations show correct mtimes in the run&#x27;s own ls, so these are agent failures.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>1 conflict (DL8), 4 agree, 1 one-sided, 1 disagreement (vision R12); fix plan 10 steps (0 rerun), vision 69.81-&gt;69.81%, score 50.94-&gt;50.94%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">69.81% → 69.81%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">50.94% → 50.94%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>DL8</td><td>D1, double_charge.json R9/R10 independence + rehearsal chain, truth_coverage lock_type_mismatch rule (TB4)</td><td>item 1</td><td>R9, R10</td><td><div><span class=qc-k>neo-qc</span>D1 suggests naming &#x27;23D if AA 2151, or 19C if AA 1977&#x27;. The double-charge pass keeps R10 relative on purpose so that a stale AA 1977 fails R9 only (chain charged once).</div><div><span class=qc-k>checklist</span>Item 1: one wrong value must not cost twice. Naming only 23D would make a stale AA 1977 run fail both R9 and R10.</div><div><span class=qc-k>loop</span>Naming only 23D creates an R9+R10 double charge (checklist 1 / neo double charge). Naming 19C as a second accepted value trips DL8: the extra value equals the stale lock OKA_SEAT_ORIG = 19C, and once 19C sits in a criterion, TRUTH coverage reports lock_type_mismatch because that lock is typed stale (TB4).</div><div><span class=qc-k>resolution</span>Keep both branches in one criterion on one output. This is a chain charged once (R9 carries the stale-flight charge), which is on the shared NOT-a-pair list, so 19C is a deliberate value, not a stale-pass hole. It passes only when paired with AA 1977 and adds no new pass compared with today&#x27;s wording. In TRUTH, retype OKA_SEAT_ORIG to checkpoint and OKA_SEAT_MUTATED to graded-positive, and write in words that 19C is accepted only with AA 1977. No $ or decimal values are added, so E10 and E12 stay quiet.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>vision</td><td>extras.json vision_pct 75.5 (vision_rows incl. R12)</td><td>item 10</td><td>R12</td><td><div><span class=qc-k>neo-qc</span>Vision 75.5% (40/53). R12 counts because the output welcome_card.png is graded visually.</div><div><span class=qc-k>checklist</span>Vision 69.8% (37/53). R12 is left out because the input fact (white orchids) comes from WhatsApp text msg-rd-03.</div><div><span class=qc-k>resolution</span>The checklist is right under the shared tie-break definition: the graded value must have no text route, and &#x27;white orchids&#x27; does have one (msg-rd-03). Use 69.81%. Both readings are well above 30%, so nothing changes.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>gap</td><td>D1, tier25 J1 warn (R10 A3/A5)</td><td></td><td>R10</td><td><div><span class=qc-k>neo-qc</span>R10 never names the seat. The answer is only in the input seat maps (IMG_7041 AA 2151 = 23D, IMG_7042 AA 1977 = 19C), which the grader does not see, so a wrong seat called &#x27;the only open aisle seat&#x27; would also pass.</div><div><span class=qc-k>checklist</span>Silent. Item 1 notes R10 as relative wording inside one output and passes it. Item 2 passes atomicity. Nothing in the checklist objects to naming the seat.</div><div><span class=qc-k>resolution</span>neo-qc is right: the criterion is not self-contained for the grader. Fix by naming the seat for each flight branch inside the same output (see the DL8 match for the exact wording). The checklist would not object to that wording.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>double_charge.json 0 pairs, E12 lead dismissed (R5/R26)</td><td>item 1</td><td>R5, R26, R34, R35</td><td><div><span class=qc-k>neo-qc</span>No double-charge pairs. R34 and R35 are behaviour penalties.</div><div><span class=qc-k>checklist</span>PASS. Each penalty can fire with no positive failing.</div><div><span class=qc-k>resolution</span>Both say no double charge. No action.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>visual_leaks.json 0 leaks, E11 lead dismissed</td><td>item 5</td><td></td><td><div><span class=qc-k>neo-qc</span>4 candidates, 0 leaks (1843 is a Peloton ride, Alder &amp; Rye is one of six listings, 5:00 PM is a work block).</div><div><span class=qc-k>checklist</span>PASS. Scripted search found no text leak.</div><div><span class=qc-k>resolution</span>Both say no leak. No action.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>extras.json turn_refs []</td><td>item 12</td><td></td><td><div><span class=qc-k>neo-qc</span>No turn references. Anchors are by date and actor.</div><div><span class=qc-k>checklist</span>PASS. No turn numbers, and chat anchors are unique.</div><div><span class=qc-k>resolution</span>Both say no turn numbers. No action.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>truth_coverage 0 gaps, J2 pass, E9 pass, J3 pass</td><td>item 9, item 11, item 6</td><td></td><td><div><span class=qc-k>neo-qc</span>TRUTH covers every turn, the run matches the inject (E9), every mutation is asked and graded, and there are no loud scripted messages.</div><div><span class=qc-k>checklist</span>PASS on TRUTH consistency, run vs environment, and conditional mutations.</div><div><span class=qc-k>resolution</span>Both agree. The only TRUTH edit is the lock retype in the fix plan.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Sort the work. The only fix (R10 wording plus the TRUTH lock retype) is rubric/TRUTH only. No prompt, inject or data edit is needed, so the rerun batch is empty.</td><td>R10</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>Rewrite R10 as: &#x27;The response delivers vip_weekend_plan.xlsx giving Dr. Okafor seat 23D when it lists AA 2151 as her Friday flight, or seat 19C when it lists AA 1977.&#x27; Keep score 1, importance &#x27;important&#x27;, target produced_artifact. DL8 check: 19C equals stale OKA_SEAT_ORIG, but this is deliberate because the chain is charged once on R9. No money or decimal tokens are added.</td><td>R10</td><td>D1, tier25 J1, item 1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>structure</td><td>No split. R10 stays one fact (the seat) on one output, with the branch keyed to the flight that same sheet lists.</td><td>R10</td><td>item 2</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>visual route</td><td>No change. The seats stay picture-only (IMG_7041 and IMG_7042) and no anchor is rewritten.</td><td>R10</td><td>item 5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1</td><td>No change. No user turn approves a value before a silent change.</td><td></td><td>item 4</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>6</td><td>weight pass 2</td><td>No change. There are no double-charge pairs, and R9/R10 stay at 1/1 as a chain charged once.</td><td>R9, R10</td><td>item 1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>recompute vision % and score</td><td>Recompute. Vision is 69.81% (37/53) before and after. Score is 50.94% before and after; R10 still passes because the run lists AA 1977 with 19C.</td><td>R10</td><td>item 10</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>turn anchors, targets, process wording</td><td>No change. R10 carries no turn anchor, its target produced_artifact fits, and it is not a process criterion.</td><td>R10</td><td>item 7, item 8, item 12</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>TRUTH.md sync</td><td>In the TRUTH.md Value Lock, retype OKA_SEAT_MUTATED = &quot;23D&quot; to graded-positive and OKA_SEAT_ORIG = &quot;19C&quot; to checkpoint, with the comment &#x27;accepted for the seat on the Flights tab only when it lists AA 1977&#x27;. Cite no R-numbers and use none of the E6 words. Step 6 stays as it is.</td><td>R10</td><td>D1, TB4</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E3/E4/E6/E10/E12, Tier 2.5, TRUTH coverage, double charge) and the checklist agent on the edited rubric and TRUTH. This is a re-check, not a model rerun.</td><td>R10</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+
+<p class="qc-k">Verdict: ACCEPTABLE, neo-qc ACCEPTABLE, 0 checklist flags survive, and vision stays at 69.81% (&gt;= 30%) after the plan.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: pooja_carroll_9f803caf</h3>
+<p>Task 9f803caf: 37 criteria, 20 turns, 5 stages and 11 mutations. Single run (claude-opus-5.5 run_1) scored <strong>50.94</strong>. No baseline, so E8 was skipped.</p>
+<h4>Counts per tier</h4>
+<ul>
+<li><strong>Step 0 gate:</strong> exit 0 with no HARD findings.</li>
+<li><strong>Tier 1:</strong> 20 pass, 1 warn, 4 skip.</li>
+<li>D17 warn: two Drive auth-lapse/revoke mutations could not be checked. This is the fleet-level connector-auth issue, which is accepted.</li>
+<li><strong>Tier 1.5:</strong> 10 pass, 3 warn (E4, E11, E12), 1 info (E5), 1 skip (E8). E9 passed, so no hand-check was needed.</li>
+<li><strong>Tier 2:</strong> A, B, C, D and N3 all pass. No drift values sit in the mount ahead of time.</li>
+<li><strong>Tier 2.5:</strong> J1 warn (R10), J2 and J3 pass, J4 skip (no changes supplied).</li>
+<li><strong>TRUTH coverage:</strong> 0 gaps.</li>
+<li><strong>Visual leaks:</strong> 4 candidates, 0 leaks (3 coincidence, 1 guessable).</li>
+<li><strong>Double charge:</strong> 0 pairs (3 same-source groups, 3 chains).</li>
+<li><strong>Tier 3 all-criteria re-grade:</strong> 37 of 37 agree with the original judge.</li>
+</ul>
+<h4>Kept issue (1)</h4>
+<ul>
+<li><strong>D1 (design, no effect on this run&#x27;s score): R10 never names the seat.</strong></li>
+<li>Evidence: the correct seat is only in the input seat-map pictures (<code>IMG_7041.PNG</code> gives 23D for AA 2151, <code>IMG_7042.PNG</code> gives 19C for AA 1977), which the grader does not see. The judge&#x27;s justification quotes the agent&#x27;s own claim that 19C is &quot;the only open Main Cabin aisle seat&quot;. A wrong seat with the same claim would also pass.</li>
+<li>This run is graded correctly: AA 1977 with 19C matches TRUTH Step 6.</li>
+<li>Fix: reword R10 to &quot;seat 23D if it lists AA 2151, or 19C if it lists AA 1977&quot;.</li>
+</ul>
+<h4>Leads dismissed</h4>
+<ul>
+<li><strong>E4:</strong> the four lock values (OKA_SUN_CAR, OKA_SEAT_MUTATED, DELG_SUN_CAR_MUTATED, QUIET_TIME) are graded through relative wording, and TRUTH coverage confirms the locks cover them.</li>
+<li><strong>E5:</strong> the six &quot;decoy (unasked)&quot; mutations are each asked for by a later turn and graded (for example R9/R11/R15/R16 for the rehearsal, R14 for the package, R17 for the dinner). Tier 2.5 J3 confirms this; E5 was matching criterion text literally.</li>
+<li><strong>E11:</strong> the &quot;1843&quot; hit is a Peloton ride length, Alder &amp; Rye is one of six OpenTable listings, and 5:00 PM in HEARTBEAT.md is a work-block time. None of these is a leak.</li>
+<li><strong>E12:</strong> R5 ($558) also depends on the $279 rate and the 2 nights, so it can fail while R26 passes. Not a double charge.</li>
+<li><strong>D17:</strong> fleet-level, accepted.</li>
+<li><strong>Tier 2.5 also noted</strong> relative wording in R6, R31 and R36. Each is arithmetic inside one output that the grader can check, so I did not flag them.</li>
+</ul>
+<h4>Tier 3 attribution</h4>
+<ul>
+<li>12 failures, all caused by the model, all high confidence: R9, R11–R18, R20, R32, R36. 0 rubric, judge, task or false_pass causes.</li>
+<li>Main cause: the run never opened WhatsApp, so it missed the rehearsal changes, the +$8/night package rise, the white orchids, the party of 10, and the texts to Rosa.</li>
+<li>Second cause: it did not re-read the updated car confirmation PDF, so it gave the wrong driver names (R13, R18).</li>
+<li>The riskiest passes, including the OpenTable booking, the Drive upload and the workbook/PDF values, were checked and are earned.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs: none.</li>
+<li>Vision share: 75.5% (40 of 53 positive points), so vision_ok is true.</li>
+<li>Unconditional scripted messages: none (no loud mutations).</li>
+</ul>
+<h4>Delivery</h4>
+<p>Nothing blocks delivery. There are no blocking or grader issues, and D1 does not change any graded outcome. Verdict: <strong>ACCEPTABLE</strong>.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 1 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;D1&quot;,
+    &quot;severity&quot;: &quot;design&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb&quot;,
+    &quot;title&quot;: &quot;The seat criterion never names the seat, so the grader has to take the agent&#x27;s word for it&quot;,
+    &quot;what&quot;: &quot;R10 asks for &#x27;the only open Main Cabin aisle seat on the Friday flight it lists for her&#x27; but names no seat. The right answer only appears in the seat-map pictures (`IMG_7041.PNG` for AA 2151 gives 23D, `IMG_7042.PNG` for AA 1977 gives 19C), and the grader does not see those input pictures. A run that picks a wrong seat and calls it &#x27;the only open aisle seat&#x27; would still pass. In this run the outcome is right: the agent listed AA 1977 with 19C, which matches TRUTH Step 6.&quot;,
+    &quot;evidence&quot;: &quot;rubric.json R10; TRUTH.md Step 6 and locks OKA_SEAT_ORIG=19C / OKA_SEAT_MUTATED=23D; run_1 report.json R10 justification quotes the run&#x27;s own note \&quot;19C is the only open Main Cabin aisle seat\&quot;.&quot;,
+    &quot;ask&quot;: &quot;Reword R10 to name the seat per flight, e.g. &#x27;gives Dr. Okafor seat 23D if it lists AA 2151, or 19C if it lists AA 1977&#x27;.&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Only penalties are R34 (dollar figure sent to Rosa) and R35 (&gt;1 active Nov 13 reservation); each can fire with no positive failing. Shared values are relative within one output (R6, R10, R31, R36) or separate turns/outputs (R13/R18, R15/R16, R19/R20).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Each criterion grades one fact. R29 &#x27;on both travelers&#x27; pages&#x27; is the scope of the single T19 ask (&#x27;add ... to both pages&#x27;), not two asks; R3 is one fare shared by both Delgados.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turn names the file and change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every artifact criterion maps to a turn naming the file and the part: Flights/Lodging/Ground tab of vip_weekend_plan.xlsx (T1,T2,T3,T5,T9), welcome_card.png (T6), vip_itineraries.pdf with Delgados&#x27; page / both pages (T10,T16,T19). No vague &#x27;everywhere&#x27;.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after approval + silent change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No user turn approves a value before a silent change. Earlier values (T2 $642, T4 rehearsal, T8 driver) came from the agent, and T9 explicitly asks for a recheck; the agent-answered-then-changed rows (R15, R16, R18) already score 1. Importance matches |score| (only R32 = 5 is critically_important).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;No text leak for visual asks&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Scripted search of persona, all seed JSON, inject text, home docx/xlsx/html/tsv/xml, PDF text layers, metadata and filenames. All scans have empty text layers; the &#x27;leaf&#x27;/&#x27;279&#x27;/&#x27;558&#x27; hits are unrelated (Greenleaf Market, copperleaf emails, a JFK-SFO fare). OpenTable lists Alder &amp; Rye next to the Alder Ballantyne decoy without tying either to the dinner.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted mutations assume expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;All five stages are source edits (rehearsal time, package price, flowers, driver, headcount, Sunday window) that read correctly whatever the agent did. Car confirmation revisions keep &#x27;flight: send&#x27;, and msg-lw-08 &#x27;add two to your list&#x27; works whether or not a booking exists.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;xlsx/pdf/png checks are produced_artifact; reservations, Drive placement and messages to Rosa are state_change; chat answers (R8, R11, R13, R15, R18, R32) are user_facing_message.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion grades the method. R17/R24 are typed &#x27;tool use&#x27; but grade the resulting reservation, and R34 grades the sent message, not the tool log.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;TRUTH Steps 1-28 cover T0-T19. VALUE_LOCK and the silent timeline match every graded value and its turn timing (4:30 at T4, 4:00/3:30 after stage3, Marcus Bell 11/10, Terrence Hill 11/12, $658, party of 10, AA 1563/2412).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;37 of 53 positive points (69.8%) depend on image-only content; independently re-derived by two verifiers with identical rows.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Filesystem mutations landed on schedule (run ls: RunOfShow 11/08 21:40, QueenCityCar 11/09 22:15 and 11/11 21:50), and the run read Rev 2 at T10 and Terrence Hill at T15. The run never called the shipped WhatsApp connector, so R11/R12/R14-R17 failed through agent behaviour, not env mismatch. Drive re-auth after stage3 worked, and verdicts match output_media.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion carries a turn number. Chat anchors are unique: week-preview, Kendra rehearsal question, Kendra Nov 10 / Nov 12 driver requests, car-leaves-hotel question, car company landing-time question.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R29 &#x27;Alder &amp; Rye ... on both travelers&#x27; pages&#x27; combines two independently failable checks&quot;,
+      &quot;why&quot;: &quot;T19 is one ask: &#x27;add Friday&#x27;s donor dinner to both pages of vip_itineraries.pdf&#x27;. R29 grades one value, the restaurant, at the scope that ask sets; time and headcount are not bundled.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R14 ($658, score 3) should drop to 1 because stage2 changed the package price after the T2 Lodging total&quot;,
+      &quot;why&quot;: &quot;No turn approves $642: T2 is a build instruction (&#x27;Add a Lodging tab...&#x27;) and T3-T8 never mention lodging. T9 explicitly asks for a recheck (&#x27;set each party&#x27;s total before tax ... to what the hotel is charging&#x27;).&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;Score-3 mutated-value rows R11, R12, R13, R17, R21 follow an approval&quot;,
+      &quot;why&quot;: &quot;Stages land before the first ask of each value (stage1 T2/T3 -&gt; R11 T4, R21 T10; stage2 T5/T6 -&gt; R12 T6, R13 T8; stage4 T12/T13 -&gt; R17 T13), and no user turn approved the old value.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;&#x27;leaf&#x27;, &#x27;279&#x27;, &#x27;558&#x27; and Corner King text hits leak image-graded answers&quot;,
+      &quot;why&quot;: &quot;The hits are &#x27;Greenleaf Market&#x27; (Movies/data_5.tsv), copperleaf.example emails, a duffel JFK-SFO fare row and health data. Drive comment AAAB-sh02-package names Corner King but gives no photo or price, and Drive seed files have no content.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;Run gave stale rehearsal/flowers/price/headcount, suggesting mutations did not land&quot;,
+      &quot;why&quot;: &quot;The run never queried WhatsApp (0 occurrences in output.json) although whatsapp-api-connector ships. The file mutations show correct mtimes in the run&#x27;s own ls, so these are agent failures.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 69.8,
+    &quot;vision_weight&quot;: 37,
+    &quot;positive_weight&quot;: 53,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7036.PNG&quot;,
+        &quot;why&quot;: &quot;AA 1843 only in flight-search screenshot&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7035.PNG&quot;,
+        &quot;why&quot;: &quot;AA 1172 lowest qualifying fare, image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Meridian_VIP_Travel_Policy.pdf (scan)&quot;,
+        &quot;why&quot;: &quot;&#x27;Main Cabin Extra&#x27; only in images; text says &#x27;extra legroom&#x27;&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/IMG_6952.jpg + Delgado form scan&quot;,
+        &quot;why&quot;: &quot;photo chosen from leaf-painting request in scanned form&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/SloaneHouse_RoomBlock_Meridian.pdf (scan)&quot;,
+        &quot;why&quot;: &quot;$279 x2 rate image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;QueenCityCar_Confirmation.pdf (scan) / IMG_6977.jpg&quot;,
+        &quot;why&quot;: &quot;2-hour rule and departure time image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7012.jpg&quot;,
+        &quot;why&quot;: &quot;tree nut allergy only in rider image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7036.PNG&quot;,
+        &quot;why&quot;: &quot;2:16 PM arrival image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7034.PNG + IMG_7012.jpg&quot;,
+        &quot;why&quot;: &quot;flight list and 3-hour rule image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7041.PNG / IMG_7042.PNG&quot;,
+        &quot;why&quot;: &quot;seat map&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/QueenCityCar_Confirmation.pdf (scan)&quot;,
+        &quot;why&quot;: &quot;driver Marcus Bell, no text layer&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/IMG_7050.PNG&quot;,
+        &quot;why&quot;: &quot;$642 base only in image; text gives +$8/night&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_6977.jpg&quot;,
+        &quot;why&quot;: &quot;&#x27;30 min before rehearsal&#x27; rule image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/IMG_6977.jpg&quot;,
+        &quot;why&quot;: &quot;&#x27;8 of us&#x27; base image only; text adds two&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage4/files/QueenCityCar_Confirmation.pdf (scan)&quot;,
+        &quot;why&quot;: &quot;driver Terrence Hill, no text layer&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7037.PNG&quot;,
+        &quot;why&quot;: &quot;Sunday flight numbers image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7037.PNG&quot;,
+        &quot;why&quot;: &quot;Sunday flight numbers image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage1/files/Meridian_Gala_RunOfShow.pdf (scan)&quot;,
+        &quot;why&quot;: &quot;5:45 PM photo call image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_6977.jpg&quot;,
+        &quot;why&quot;: &quot;dinner 7:30 image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;QueenCityCar_Confirmation.pdf (scan)&quot;,
+        &quot;why&quot;: &quot;Zone D image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_7012.jpg + RoomBlock scan&quot;,
+        &quot;why&quot;: &quot;Classic King image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Meridian_Gala_RunOfShow.pdf (scan)&quot;,
+        &quot;why&quot;: &quot;5:00 PM sound check image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Meridian_Gala_RunOfShow.pdf (scan)&quot;,
+        &quot;why&quot;: &quot;8:30 PM award image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_6977.jpg&quot;,
+        &quot;why&quot;: &quot;dinner venue named only in notebook&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_7012.jpg&quot;,
+        &quot;why&quot;: &quot;30-min quiet time rule image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R36&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_7037.PNG + QueenCityCar scan&quot;,
+        &quot;why&quot;: &quot;departure and 2-hour rule image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R37&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_6977.jpg&quot;,
+        &quot;why&quot;: &quot;dinner venue named only in notebook&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;why&quot;: &quot;4:30 PM in WhatsApp text msg-lw-04 (stage1)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;why&quot;: &quot;white orchids from WhatsApp text msg-rd-03 (stage2); output image graded, input fact is text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;why&quot;: &quot;4:00 PM in WhatsApp text msg-lw-04 (stage3)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;why&quot;: &quot;address in Public/page_23.html text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;why&quot;: &quot;Drive placement, not visual&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;why&quot;: &quot;msg-lw-04 + MEMORY.md &#x27;Mint Museum Uptown&#x27; text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;why&quot;: &quot;msg-lw-08 text + OpenTable state&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;why&quot;: &quot;turn text &#x27;under my name&#x27; + USER.md&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;0 flags across items [1-12] (all PASS after strict verification by 3 verifiers); vision 69.8% (37/53)&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;tier25 J1 warn (R10 A3/A5)&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R10 never names the seat. The answer is only in the input seat maps (IMG_7041 AA 2151 = 23D, IMG_7042 AA 1977 = 19C), which the grader does not see, so a wrong seat called &#x27;the only open aisle seat&#x27; would also pass.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent. Item 1 notes R10 as relative wording inside one output and passes it. Item 2 passes atomicity. Nothing in the checklist objects to naming the seat.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;neo-qc is right: the criterion is not self-contained for the grader. Fix by naming the seat for each flight branch inside the same output (see the DL8 match for the exact wording). The checklist would not object to that wording.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R10: &#x27;giving Dr. Okafor the only open Main Cabin aisle seat on the Friday flight it lists for her&#x27;; report.json R10 justification cites the run&#x27;s own note &#x27;19C is the only open Main Cabin aisle seat&#x27;; TRUTH.md Step 6: &#x27;IMG_7041.PNG (AA 2151): the only open Main aisle seat is 23D (IMG_7042.PNG for AA 1977 shows 19C)&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL8&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;double_charge.json R9/R10 independence + rehearsal chain&quot;,
+        &quot;truth_coverage lock_type_mismatch rule (TB4)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R9&quot;,
+        &quot;R10&quot;
+      ],
+      &quot;neo_says&quot;: &quot;D1 suggests naming &#x27;23D if AA 2151, or 19C if AA 1977&#x27;. The double-charge pass keeps R10 relative on purpose so that a stale AA 1977 fails R9 only (chain charged once).&quot;,
+      &quot;checklist_says&quot;: &quot;Item 1: one wrong value must not cost twice. Naming only 23D would make a stale AA 1977 run fail both R9 and R10.&quot;,
+      &quot;loop&quot;: &quot;Naming only 23D creates an R9+R10 double charge (checklist 1 / neo double charge). Naming 19C as a second accepted value trips DL8: the extra value equals the stale lock OKA_SEAT_ORIG = 19C, and once 19C sits in a criterion, TRUTH coverage reports lock_type_mismatch because that lock is typed stale (TB4).&quot;,
+      &quot;resolution&quot;: &quot;Keep both branches in one criterion on one output. This is a chain charged once (R9 carries the stale-flight charge), which is on the shared NOT-a-pair list, so 19C is a deliberate value, not a stale-pass hole. It passes only when paired with AA 1977 and adds no new pass compared with today&#x27;s wording. In TRUTH, retype OKA_SEAT_ORIG to checkpoint and OKA_SEAT_MUTATED to graded-positive, and write in words that 19C is accepted only with AA 1977. No $ or decimal values are added, so E10 and E12 stay quiet.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json: &#x27;R10 is graded against whichever Friday flight the sheet lists (23D for AA 2151, 19C for AA 1977), so a stale AA 1977 with 19C fails R9 and passes R10&#x27;; TRUTH.md:82 &#x27;OKA_SEAT_ORIG = \&quot;19C\&quot; # type: stale&#x27;; TRUTH.md:83 &#x27;OKA_SEAT_MUTATED = \&quot;23D\&quot; # type: checkpoint&#x27;; truth_coverage_prompt.md:35-38 lock_type_mismatch.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 75.5 (vision_rows incl. R12)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R12&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision 75.5% (40/53). R12 counts because the output welcome_card.png is graded visually.&quot;,
+      &quot;checklist_says&quot;: &quot;Vision 69.8% (37/53). R12 is left out because the input fact (white orchids) comes from WhatsApp text msg-rd-03.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist is right under the shared tie-break definition: the graded value must have no text route, and &#x27;white orchids&#x27; does have one (msg-rd-03). Use 69.81%. Both readings are well above 30%, so nothing changes.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json vision.excluded R12: &#x27;white orchids from WhatsApp text msg-rd-03 (stage2)&#x27;; tier25 J3: &#x27;sil_wa_flowers_roses_to_orchids -&gt; asked T6/T7 -&gt; R12&#x27;; guide section 8: &#x27;weight of positive criteria whose graded value has no text route&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json 0 pairs&quot;,
+        &quot;E12 lead dismissed (R5/R26)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R5&quot;,
+        &quot;R26&quot;,
+        &quot;R34&quot;,
+        &quot;R35&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No double-charge pairs. R34 and R35 are behaviour penalties.&quot;,
+      &quot;checklist_says&quot;: &quot;PASS. Each penalty can fire with no positive failing.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both say no double charge. No action.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json summary &#x27;No pairs&#x27;; checklist item 1 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json 0 leaks&quot;,
+        &quot;E11 lead dismissed&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;4 candidates, 0 leaks (1843 is a Peloton ride, Alder &amp; Rye is one of six listings, 5:00 PM is a work block).&quot;,
+      &quot;checklist_says&quot;: &quot;PASS. Scripted search found no text leak.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both say no leak. No action.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;Visual leaks: 4 candidates, 0 leaks&#x27;; checklist item 5 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No turn references. Anchors are by date and actor.&quot;,
+      &quot;checklist_says&quot;: &quot;PASS. No turn numbers, and chat anchors are unique.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both say no turn numbers. No action.&quot;,
+      &quot;evidence&quot;: &quot;extras.json notes; checklist item 12 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage 0 gaps&quot;,
+        &quot;J2 pass&quot;,
+        &quot;E9 pass&quot;,
+        &quot;J3 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9&quot;,
+        &quot;item 11&quot;,
+        &quot;item 6&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;TRUTH covers every turn, the run matches the inject (E9), every mutation is asked and graded, and there are no loud scripted messages.&quot;,
+      &quot;checklist_says&quot;: &quot;PASS on TRUTH consistency, run vs environment, and conditional mutations.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both agree. The only TRUTH edit is the lock retype in the fix plan.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;TRUTH coverage: 0 gaps&#x27;, &#x27;E9 passed&#x27;; checklist items 6, 9 and 11.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Sort the work. The only fix (R10 wording plus the TRUTH lock retype) is rubric/TRUTH only. No prompt, inject or data edit is needed, so the rerun batch is empty.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;Rewrite R10 as: &#x27;The response delivers vip_weekend_plan.xlsx giving Dr. Okafor seat 23D when it lists AA 2151 as her Friday flight, or seat 19C when it lists AA 1977.&#x27; Keep score 1, importance &#x27;important&#x27;, target produced_artifact. DL8 check: 19C equals stale OKA_SEAT_ORIG, but this is deliberate because the chain is charged once on R9. No money or decimal tokens are added.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;tier25 J1&quot;,
+        &quot;item 1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure&quot;,
+      &quot;action&quot;: &quot;No split. R10 stays one fact (the seat) on one output, with the branch keyed to the flight that same sheet lists.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;item 2&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route&quot;,
+      &quot;action&quot;: &quot;No change. The seats stay picture-only (IMG_7041 and IMG_7042) and no anchor is rewritten.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;item 5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;No change. No user turn approves a value before a silent change.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;item 4&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 2&quot;,
+      &quot;action&quot;: &quot;No change. There are no double-charge pairs, and R9/R10 stay at 1/1 as a chain charged once.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R9&quot;,
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;item 1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute. Vision is 69.81% (37/53) before and after. Score is 50.94% before and after; R10 still passes because the run lists AA 1977 with 19C.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;item 10&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;No change. R10 carries no turn anchor, its target produced_artifact fits, and it is not a process criterion.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;item 7&quot;,
+        &quot;item 8&quot;,
+        &quot;item 12&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;In the TRUTH.md Value Lock, retype OKA_SEAT_MUTATED = \&quot;23D\&quot; to graded-positive and OKA_SEAT_ORIG = \&quot;19C\&quot; to checkpoint, with the comment &#x27;accepted for the seat on the Flights tab only when it lists AA 1977&#x27;. Cite no R-numbers and use none of the E6 words. Step 6 stays as it is.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;TB4&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E3/E4/E6/E10/E12, Tier 2.5, TRUTH coverage, double charge) and the checklist agent on the edited rubric and TRUTH. This is a re-check, not a model rerun.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R10&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 69.81,
+    &quot;vision_after&quot;: 69.81,
+    &quot;score_before&quot;: 50.94,
+    &quot;score_after&quot;: 50.94,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 0,
+  &quot;verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;neo-qc ACCEPTABLE, 0 checklist flags survive, and vision stays at 69.81% (&gt;= 30%) after the plan.&quot;,
+  &quot;summary&quot;: &quot;1 conflict (DL8), 4 agree, 1 one-sided, 1 disagreement (vision R12); fix plan 10 steps (0 rerun), vision 69.81-&gt;69.81%, score 50.94-&gt;50.94%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "pooja_carroll_9f803caf-65b6-41e2-acfb-e3a84b16bbeb", "slug": "pooja_carroll_9f803caf", "tasker": "Ananya Gupta", "authors": ["ananya.gupta", "ananya.gupta@ethara.ai"], "version": 1, "commit_sha": "776ec3735c972f67d3bf30f92be3d48267a5de51", "base_sha": "b7b7ae805efa9fc42e7f24cfc2e2bf248b12d6ad", "range": "b7b7ae805..776ec3735", "change": "added", "verdict": "ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 0 flag(s); 1 conflict (DL8), 4 agree, 1 one-sided, 1 disagreement (vision R12); fix plan 10 steps (0 rerun), vision 69.81->69.81%, score 50.94->50.94%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 1 design (R10 names no seat, outcome unchanged) / 0 grader / 0 minor; score 50.94; T3 non-model 0 of 12 failures", "checklist_flags": 0, "conflicts": 1, "vision_before": 69.81, "vision_after": 69.81, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 1, "attempt": 1, "qc_finished_at": "2026-11-26T12:21:11Z"}</script></body></html>
