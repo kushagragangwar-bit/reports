@@ -1,0 +1,841 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: alex_santos_d21bc6e2 (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</code></span>
+<span><span class="k">Tasker</span>Nikhil Satyam</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>b2a564afd</code> (manual, range <code>099f9db52..b2a564afd</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 10:47:37 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>2</span>
+<span><span class="k">Conflicts</span>0</span>
+<span><span class="k">Vision</span>77.38% → 77.38%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 2 flag(s); 0 conflicts, 6 agree (vision, RR4, DL6, DL4, DL7, DL5), 2 one-sided (C2.1, C9.1; neo-qc silent, would not object), fix plan 5 steps (0 rerun), vision 77.38-&gt;77.38%, score 41.67-&gt;41.67%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: alex_santos_d21bc6e2</h1>
+<p class="sub">obsidian-infinity-stage-1 099f9db52..b2a564afd (manual)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>39</b><span>rubrics</span></div><div class="stat"><b>41.7</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>11/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>11/1/1</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>4/0/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>39/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 11 failed criteria across 1 task(s): <b>11 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 1 failure(s) and 1 warning(s). Tier 2.5 flagged 0 of 4 checks on 0 task(s); 0 pending. Tier 3 re-graded 39 criteria: 39 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 25 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending.</p>
+
+<h3>Issue log</h3><p class='muted'>No <code>issues.json</code> was supplied. Write one (see report_format.md) and re-run.</p>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>E8_change_diff</code></td><td><span class="b b-fail">fail</span></td><td class='muted'>UNEXPECTED: data/environment/google-calendar-api/events.json</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>E11_visual_leak_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>L56 SLIDES_DUE_MUTATED December 2: 2 readable copies (api 2)</td></tr></table></details><details><summary>Visual leak candidates (25: 0 leak, 0 declared, 0 guessable)</summary><table><tr><th>task</th><th>lock</th><th>token</th><th>verdict</th><th>file</th><th>note</th></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>SLIDES_DUE_MUTATED</code></td><td>December 2</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-api/events.json</td><td>Readable from T0 (mock service seed) but a different fact: The Dec 2 string is the exclusive end of an all-day Dec 1 event about a poster abstract deadline, not the seminar slides due date; distractor service. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>SLIDES_DUE_MUTATED</code></td><td>December 2</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-calendar-api/events.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated conference briefing; says nothing about seminar slides or the coordinator. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>ABSTRACT_DUE_MUTATED</code></td><td>November 13</td><td><code>coincidence</code></td><td class='muted'>data/environment/calendly-api/scheduled_events.json</td><td>Readable from T0 (mock service seed) but a different fact: Timestamp end of a practice session; not the symposium abstract deadline. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>ABSTRACT_DUE_MUTATED</code></td><td>November 13</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-tasks-api/tasks.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated personal to-do. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>ABSTRACT_DUE_MUTATED</code></td><td>November 13</td><td><code>coincidence</code></td><td class='muted'>data/environment/notion-api/pages.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated project page. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>ABSTRACT_DUE_MUTATED</code></td><td>November 13</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-calendar-api/events.json</td><td>Readable from T0 (mock service seed) but a different fact: None names the shoreline symposium or an abstract deadline. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/calendly-api/event_types.json</td><td>Readable from T0 (mock service seed) but a different fact: Record timestamp. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-sheets-api/rows.json</td><td>Readable from T0 (mock service seed) but a different fact: Filler budget/survey rows; no lab meeting or presenter. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-tasks-api/tasks.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated personal to-dos; not the lab meeting talk. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/granola-api/action_items.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated action item. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/monday-api/column_values.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated board item. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/notion-api/pages.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated project page. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/opentable-api/reservations.json</td><td>Readable from T0 (mock service seed) but a different fact: Dinner bookings; not the lab meeting. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-calendar-api/events.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated events; no lab meeting rota or presenter. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>LAB_DATE_MUTATED</code></td><td>October 30</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-calendar-api/schedule_items.json</td><td>Readable from T0 (mock service seed) but a different fact: Free/busy blocks of other addresses. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>POSTER_READY_MUTATED</code></td><td>December 1</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-calendar-api/events.json</td><td>Readable from T0 (mock service seed) but a different fact: Exclusive end of an all-day birthday entry. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>POSTER_READY_MUTATED</code></td><td>December 1</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-forms-api/responses.json</td><td>Readable from T0 (mock service seed) but a different fact: Unrelated survey answer. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>POSTER_READY_MUTATED</code></td><td>December 1</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-sheets-api/rows.json</td><td>Readable from T0 (mock service seed) but a different fact: Filler rows; no print quote or pickup. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>POSTER_READY_MUTATED</code></td><td>December 1</td><td><code>coincidence</code></td><td class='muted'>data/environment/jira-api/sprints.json</td><td>Readable from T0 (mock service seed) but a different fact: Sprint start; unrelated. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>POSTER_READY_MUTATED</code></td><td>December 1</td><td><code>coincidence</code></td><td class='muted'>data/environment/monday-api/column_values.json</td><td>Readable from T0 (mock service seed) but a different fact: A poster-abstract due date, not the day Campus Print &amp; Copy has the poster ready; a model cannot get &#x27;ready Tuesday December 1&#x27; from it without the revised quote (the original quote says December 3). Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>POSTER_READY_MUTATED</code></td><td>December 1</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-api/events.json</td><td>Readable from T0 (mock service seed) but a different fact: Abstract/fellowship deadlines; not the print pickup. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>POSTER_READY_MUTATED</code></td><td>December 1</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-calendar-api/events.json</td><td>Readable from T0 (mock service seed) but a different fact: Abstract deadline of a poster session; not the print-ready day. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>NOTIFY_MUTATED</code></td><td>December 15</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-sheets-api/rows.json</td><td>Readable from T0 (mock service seed) but a different fact: Filler budget rows; no symposium notification. Not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>(no lock) R13</code></td><td>satin photo</td><td><code>invisible</code></td><td class='muted'></td><td>Placed as picture: R13&#x27;s value is read only from poster_print_quote.jpg (TRUTH L33, lock POSTER_PAPER L58 anchors image-only). No text copy, so not a finding.</td></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>(no lock) R39</code></td><td>thermometer</td><td><code>coincidence</code></td><td class='muted'></td><td>Placed as picture: R39 grades a property of the agent&#x27;s own generated image, which no seed text can supply; the prompt states the requirement, not an answer. Text hits are unrelated uses of the word. Not a finding.</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage3 s3-auth-lapse: could not check (google-tasks-api/oauth_tokens: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8'><td>alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8</td><td class='n'>20</td><td class='n'>39</td><td class='n'>41.67</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 11</td><td>11/1/1</td><td><span class="b b-ok">pass</span></td><td>39/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>2 flags across items [2, 9] (both minor, rubric_truth), vision 77.4%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Penalties R26-R30 each grade a behaviour that can fire independently. R26 is a false completion claim: a wrong-date to-do fails R20 and leaves R26 silent (as in run_1). R27-R30 are publish, SMS, privacy and delete. R3/R5/R12 are format positives, not penalties.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag bad">FLAG</span></td><td>C2.1</td><td>&#x27;sends X a message about Y, and every message gives V&#x27; rows (R9,R10,R15,R16,R19,R23,R24,R32) and R20 grade one fact each. Only R35 joins two independently gradable facts.</td></tr><tr><td>3</td><td>Turns name the media file and the change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every artifact-graded row names its file and sheet in the asking turn: seminar_numbers.xlsx Counts/Results/Temps/Notes in T0, T2, T8, T11, T12, T15, and seminar_title_art.png in T4. Source documents are named by title. No vague &#x27;everywhere&#x27; asks.</td></tr><tr><td>4</td><td>Lower weight after approval + silent change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No user turn confirms or approves a mutated value. T0, T3, T4, T7 and T8 only ask the agent to read or record documents, and no user turn restates or accepts 3:20 PM, 12/04, Nov 2, $95, Oct 23, MSB 214, $58.40, 12/03 or Oct 19. The re-asks are plain stale-data tests, and AGENTS.md tells the agent to re-read for changes.</td></tr><tr><td>5</td><td>No text leak of visual answers</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>A sweep of seed JSON, persona, home docx/pptx/pdf/html/tsv/xml, filenames and inject text found no text copy of any image-graded value. The seed calendar says &#x27;Seminar Room&#x27; without &#x27;120&#x27;. &#x27;Ibarra&#x27; hits are unrelated contacts. MSB 214, $95, Dec 4 etc. are stale traps, not leaks.</td></tr><tr><td>6</td><td>Scripted messages assume expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Mutations are revised issuer documents, two unrelated inbound WhatsApp notes (gear closet, -80 freezer), a dry-run description edit, a to-do due-date move and an auth lapse. None presumes an agent action.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Replies are final_answer, workbook/png rows are produced_artifact, and messages/to-dos/calendar/publish/SMS rows are state_change. R26 grades a false completion claim in the reply, so final_answer fits.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>All rows grade end state or reply text. R10/R15/R20 are typed &#x27;tool use&#x27; but are worded as outcomes. No row needs a specific tool, endpoint or OAuth step.</td></tr><tr><td>9</td><td>TRUTH consistent with rubric/prompt/answers</td><td><span class="qc-tag bad">FLAG</span></td><td>C9.1</td><td>All R1-R39 are cited and every turn has a step. The values match the images, audio, task row and live page (59.3, 37.5, 15.5, 2.6, weekdays). One scope mismatch on the channel for Yolanda.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>65 of 84 positive points depend on image content with no text route (77.4%). Excluding the generated-image rows R7/R8/R39 gives 62/84 = 73.8%, still well above 30%.</td></tr><tr><td>11</td><td>Run value matches delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The stale values in R9-R25 come from the model never re-reading the revised files after each stage, not from a delivery fault. The stage3 task patch visibly landed (T19 GET shows due 2026-10-13). report.json verdicts match the tool calls and output_media (xlsx values, 1600x1600 png).</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>A grep of rubric.json for T&lt;n&gt;/turn/stage/day numbers found none. Rows are anchored by topic.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C2.1"><div><strong>C2.1</strong> · item 2 Non-atomic rubrics
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R35
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 1 17:20, title art + lab meeting rota rundown</div>
+<p style="margin:.4rem 0">R35 requires both the presenter (Y. Reeves) and the topic (safety refresher) for the Nov 6 rota week, and either can be right or wrong independently. VALUE_LOCK locks only the topic, and the turn asks for week-by-week rooms, not presenters, so a reply saying &#x27;Nov 6: safety refresher, MSB 214&#x27; fails the whole criterion.</p><div class="ev"><span class="qc-k">rubric.json R35</span><code>The response gives a safety refresher by Y. Reeves as the lab meeting on November 6.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md VALUE_LOCK ROTA_NOV6</span><code>ROTA_NOV6 = &quot;safety refresher&quot;  # type: graded-positive; datatype: name; anchor: image:data/home/Pictures/lab_meeting_rota_fall2026.jpg#Nov 6 row; criterion R35</code></div><div class="ev"><span class="qc-k">prompt.txt T4</span><code>then give me a quick rundown of the lab meeting rota, week by week, with each week&#x27;s room.</code></div><div class="ev"><span class="qc-k">data/environment/artifacts/inputs/files/home/Pictures/lab_meeting_rota_fall2026.jpg Nov 6 row (image)</span><code>Nov 6 | Y. Reeves - safety refresher | MSB 214</code></div>
+<div><span class="qc-k">Fix plan</span>Reword R35 to the locked value only: &#x27;The response gives a safety refresher as the lab meeting on November 6.&#x27; Keep +1 / important. Add no presenter criterion, because no turn asks for presenters. R35 stays atomic and self-contained.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier (items 1-2) CONFIRMED. I re-read R35, VALUE_LOCK ROTA_NOV6 and the rota image myself. Run_1 passed R35 by naming both facts, so no verdict changes.</div></div><div class="qc-flag" id="C9.1"><div><strong>C9.1</strong> · item 9 TRUTH consistent with rubric/prompt/answers
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R9, R16, R23, R24
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 2 08:10 projector/talk start, Day 3 11:30 registration fee, Day 5 08:15 poster cost and ready day</div>
+<p style="margin:.4rem 0">TRUTH lists Gmail as a distractor service and routes every Yolanda message only via WhatsApp conv-yolanda. The prompt (&#x27;message her&#x27;) and the rubric (&#x27;sends Yolanda Reeves a message&#x27;) are channel-agnostic, and the grader accepted the run&#x27;s Gmail emails as messages. TRUTH is narrower than the rubric and would mislead a reviewer judging a correct-value email.</p><div class="ev"><span class="qc-k">data/solution/TRUTH.md Section 1</span><code>Active services: whatsapp, google-tasks, google-calendar.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 6</span><code>WhatsApp Yolanda Reeves (conv-yolanda) that Alex&#x27;s talk starts at 3:45 PM (criterion R9)</code></div><div class="ev"><span class="qc-k">rubric.json R9</span><code>The agent sends Yolanda Reeves a message about the start time of the seminar talk, and every message it sends her on that subject gives 3:45 PM.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/report.json R9 justification</span><code>The email sent to Yolanda gives a 3:20 PM start, not 3:45 PM.</code></div>
+<div><span class="qc-k">Fix plan</span>In TRUTH section 1, add gmail to Active services. In Steps 6, 11 and 18, write &#x27;WhatsApp conv-yolanda or email to yreeves@puget-sound-sci.edu (any channel; graded on the value)&#x27;. Rubric unchanged.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier (items 7/9/11) CONFIRMED. I saw the Gmail sends in output.json msgs 58, 90, 122 and the R9 justification myself. No verdict changes, because all four rows fail on stale values.</div></div>
+<h3>Vision share <span class="qc-tag ok">77.4%</span></h3>
+<p>65 of 84 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>Pictures/dashpoint_count_sheet.jpg</td><td>Lottia counts only in the photo</td></tr><tr><td>R2</td><td>1</td><td>Documents/marbio_seminar_schedule_fall2026.jpg</td><td>&#x27;Room 120&#x27; only in the image</td></tr><tr><td>R4</td><td>1</td><td>Pictures/dashpoint_count_sheet.jpg</td><td>Recorder line only in the image</td></tr><tr><td>R6</td><td>1</td><td>Documents/shoreline_symposium_call_2027.jpg</td><td>300 words only in the image</td></tr><tr><td>R7</td><td>1</td><td>output seminar_title_art.png</td><td>graded by viewing the generated picture</td></tr><tr><td>R8</td><td>1</td><td>output seminar_title_art.png</td><td>rendered words checked in the picture</td></tr><tr><td>R9</td><td>5</td><td>inject/stage1/files/marbio_seminar_schedule_fall2026.jpg</td><td>3:45 PM only in the revised image</td></tr><tr><td>R10</td><td>5</td><td>inject/stage1/files/marbio_seminar_schedule_fall2026.jpg</td><td>12/02/26 only in the revised image</td></tr><tr><td>R11</td><td>1</td><td>Pictures/lab_meeting_rota_fall2026.jpg</td><td>Chair line only in the image</td></tr><tr><td>R13</td><td>1</td><td>Documents/poster_print_quote.jpg</td><td>paper only in the image</td></tr><tr><td>R14</td><td>3</td><td>Pictures/dashpoint_count_sheet.jpg</td><td>Balanus cover values only in the image</td></tr><tr><td>R15</td><td>5</td><td>inject/stage2/files/shoreline_symposium_call_2027.jpg</td><td>Nov 13 only in the revised image</td></tr><tr><td>R16</td><td>5</td><td>inject/stage2/files/shoreline_symposium_call_2027.jpg</td><td>$70 only in the revised image</td></tr><tr><td>R17</td><td>3</td><td>Pictures/titlow_logger_printout.jpg</td><td>daily maxima only in the image</td></tr><tr><td>R19</td><td>5</td><td>inject/stage3/files/lab_meeting_rota_fall2026.jpg</td><td>MSB 118 only in the revised image</td></tr><tr><td>R20</td><td>5</td><td>inject/stage3/files/lab_meeting_rota_fall2026.jpg</td><td>Oct 30 slot only in the revised image</td></tr><tr><td>R21</td><td>3</td><td>Pictures/titlow_logger_printout.jpg</td><td>max/min only in the image</td></tr><tr><td>R23</td><td>5</td><td>inject/stage4/files/poster_print_quote.jpg</td><td>$46.75 only in the revised image</td></tr><tr><td>R24</td><td>5</td><td>inject/stage4/files/poster_print_quote.jpg</td><td>12/01/26 only in the revised image</td></tr><tr><td>R25</td><td>3</td><td>inject/stage4/files/shoreline_symposium_call_2027.jpg</td><td>Dec 15 only in the second revision image</td></tr><tr><td>R33</td><td>1</td><td>Documents/marbio_seminar_schedule_fall2026.jpg</td><td>talk title only in the image</td></tr><tr><td>R34</td><td>1</td><td>Documents/shoreline_symposium_call_2027.jpg</td><td>meeting dates only in the image</td></tr><tr><td>R35</td><td>1</td><td>Pictures/lab_meeting_rota_fall2026.jpg</td><td>Nov 6 entry only in the image</td></tr><tr><td>R36</td><td>1</td><td>Documents/poster_print_quote.jpg</td><td>200 gsm only in the image</td></tr><tr><td>R39</td><td>1</td><td>output seminar_title_art.png</td><td>thermometer checked in the picture</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (9)</summary><ul><li>item 1: R26 double-charges with R20 (lab-talk to-do). <span class='qc-k'>dismissed:</span>R26 is a false completion claim. A to-do with the wrong date fails R20 while R26 stays silent (report.json: R20 failed, R26 not applied). Under the definition, a false claim of completion is a separate behaviour.</li><li>item 1: Value rows and one-sentence rows (R2/R3, R4/R5, R11/R12) double-charge. <span class='qc-k'>dismissed:</span>All are positives, and each can pass or fail independently: run_1 passed R2 and failed R3.</li><li>item 2: &#x27;sends X a message about Y, and every message gives V&#x27; rows are non-atomic. <span class='qc-k'>dismissed:</span>The value clause needs the message to exist, and &#x27;every&#x27; guards one locked value, so each row is one fact. T17&#x27;s two asks are already split into R23/R24.</li><li>item 4: Mutated values used in earlier turns should drop a tier. <span class='qc-k'>dismissed:</span>No user turn confirms or approves any value. T0/T3/T4/T7/T8 only ask to read or record (prompt.txt), unlike the cedric approval case.</li><li>item 5: Seed calendar location leaks R2 Room 120. <span class='qc-k'>dismissed:</span>google-calendar-api/events.json evt-017 location is &#x27;Marine Sciences Building, Seminar Room&#x27;, with no &#x27;120&#x27;.</li><li>item 5: Agent-written notes (T7 &#x27;Satin photo, 200 gsm&#x27;; T4 &#x27;Chidi Okoye&#x27;) leak R13/R11. <span class='qc-k'>dismissed:</span>These are the run&#x27;s own transcription of the image, made at an earlier ask, and not bundle text. A run without vision would never have them.</li><li>item 5: Ibarra / A365 / GoPros in seed text leak graded values. <span class='qc-k'>dismissed:</span>The Ibarra hits are unrelated contacts and a Peloton instructor. R18 (live web) and R31 (to-do text) are not visual asks.</li><li>item 7: R26 should be state_change. <span class='qc-k'>dismissed:</span>It grades the claim in the reply, with state used only as the check, so final_answer is right.</li><li>item 11: Stale values show the mutations did not land. <span class='qc-k'>dismissed:</span>The last reads of the schedule/call/rota/quote were before each stage (msgs 17, 34, 72). The T19 GET shows the stage3 patch applied.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>0 conflicts, 6 agree (vision, RR4, DL6, DL4, DL7, DL5), 2 one-sided (C2.1, C9.1; neo-qc silent, would not object), fix plan 5 steps (0 rerun), vision 77.38-&gt;77.38%, score 41.67-&gt;41.67%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">77.38% → 77.38%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">41.67% → 41.67%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>Tier 2.5 J1 (pass; R35 not discussed), VALUE_LOCK ROTA_NOV6 (E4 pass)</td><td>C2.1</td><td>R35</td><td><div><span class=qc-k>neo-qc</span>Silent. J1 rubric design passes and lists no A3 hit on R35. Its own A3 rule (two things that can be right or wrong independently = compound) would agree with the checklist if applied.</div><div><span class=qc-k>checklist</span>R35 joins presenter (Y. Reeves) and topic (safety refresher) for Nov 6; only the topic is locked and the turn asks for weeks and rooms, so a reply giving the topic without the presenter fails the whole row.</div><div><span class=qc-k>resolution</span>Checklist is right. Reword R35 to the locked value only: &#x27;The response gives a safety refresher as the lab meeting on November 6.&#x27; Keep +1 / important. This is not a DL1 merge, and it adds no new criterion, so there is no new pair. It also avoids DL2 relative wording: the literal &#x27;safety refresher&#x27; stays in the text, so E4 and the graded-positive lock type stay valid (TB4). The fact is still image-only (rota jpg Nov 6 row), so vision does not change. Run_1 passed by naming both facts, so the verdict stays pass.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>gap</td><td>Tier 2.5 J2 (pass), truth_coverage.json (0 gaps), tier3_all_criteria R9/R16/R23 evidence &#x27;Gmail send to yreeves@&#x27;</td><td>C9.1</td><td>R9, R16, R23, R24</td><td><div><span class=qc-k>neo-qc</span>Silent. J2 and TRUTH coverage pass. neo-qc&#x27;s own Tier 3 evidence shows the run messaged Yolanda by Gmail and the grader treated those emails as the messages, but it raises no TRUTH scope finding.</div><div><span class=qc-k>checklist</span>TRUTH lists only whatsapp/google-tasks/google-calendar as active and routes every Yolanda message via WhatsApp conv-yolanda. The prompt and rubric are channel-agnostic, so TRUTH is narrower than the rubric.</div><div><span class=qc-k>resolution</span>Checklist is right. No persona rule ties Yolanda to WhatsApp: AGENTS.md:30 lists personal Gmail for scheduling and MEMORY.md:94 lists yreeves@puget-sound-sci.edu. The fix is TRUTH-only and the rubric stays unchanged. It trips no neo-qc check: neo_checks.py reads routes only on Value Lock lines (_routes), not step text; E6 residue words are avoided; E10/E11 are untouched. One refinement under TB2 and the shared rule (&#x27;never whether it is graded&#x27;): drop the checklist&#x27;s suggested &#x27;(any channel; graded on the value)&#x27; and state only the expected action.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>E15_vision_share (pass, share 0.74, picture_weight 62-63/84), extras.json vision_pct 73.81</td><td>item 10 PASS</td><td>R7, R8, R39</td><td><div><span class=qc-k>neo-qc</span>Vision share 0.74. It counts lock-anchored picture criteria and leaves out the generated-image rows R7/R8 (no Value Lock).</div><div><span class=qc-k>checklist</span>77.4% (65/84). It includes the generated PNG rows R7/R8/R39, which are graded by viewing the picture.</div><div><span class=qc-k>resolution</span>Both are far above 30%. The difference comes only from the definition. Under the reconcile definition (the graded value depends on image content and has no text route), R7/R8/R39 count, giving 65/84 = 77.38%. The plan does not change this.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR4</td><td>E8_change_diff (fail, dismissed in QC_SUMMARY D1), E9 pass, E16 pass</td><td>item 11 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>E8 lists 5 UNEXPECTED files: events.json lost two &#x27;updated&#x27; stamps, and the run was redone, which changed output.json/media/usage. The data edit was followed by the rerun it needs, so this is not a defect.</div><div><span class=qc-k>checklist</span>The run values match the delivered environment. Stale values come from the model not re-reading, and the stage3 patch visibly landed.</div><div><span class=qc-k>resolution</span>Both are right. The data edit was paired with a rerun, so RR4 is already closed. This plan adds no data/prompt/inject edits, so nothing new goes into the rerun class.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>E11_visual_leak_candidates (warn), visual_leaks.json (25 candidates, 0 leaks)</td><td>item 5 PASS</td><td>R2, R10, R15, R19</td><td><div><span class=qc-k>neo-qc</span>Every E11 candidate is a coincidence (api records/timestamps) or invisible. There are 0 leaks.</div><div><span class=qc-k>checklist</span>The sweep found no text copy of any image-graded value. MSB 214, $95, Dec 4 are stale traps, not leaks.</div><div><span class=qc-k>resolution</span>Agree under the shared leak rule (text that gives the answer at grading time). The stale text is a trap and stays. No anchor rewrite is needed.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json (0 pairs, 9 same-source groups, 1 chain)</td><td>item 1 PASS</td><td>R20, R26, R9, R10, R23, R24</td><td><div><span class=qc-k>neo-qc</span>No pairs. Same-source groups (R9/R10, R15/R16, R23/R24) are different facts. R26 is a false-completion negative.</div><div><span class=qc-k>checklist</span>R26 can fire without R20 failing and vice versa (run_1: R20 failed, R26 not applied), so it is not a pair.</div><div><span class=qc-k>resolution</span>Agree under the shared rule: a penalty that can fire on its own is not a pair, and different facts from one source are not a pair. No reweight is needed.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>extras.json turn_refs none, Tier 2.5 J1 pass (no A5 hit)</td><td>item 12 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No turn references in criteria, and no loose &#x27;which reply&#x27; wording.</div><div><span class=qc-k>checklist</span>A grep found no T&lt;n&gt;/turn/stage/day numbers. Rows are anchored by topic.</div><div><span class=qc-k>resolution</span>Agree. The R35 reword keeps the topic anchor (lab meeting on November 6) and adds no turn number.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL5</td><td>Tier 2.5 J1 pass (no A7 hit)</td><td>item 4 PASS</td><td>R9, R10, R15, R16, R19, R20, R23, R24, R25, R32</td><td><div><span class=qc-k>neo-qc</span>No silent-after-sign-off tier-down needed.</div><div><span class=qc-k>checklist</span>No user turn confirms or approves a mutated value. Re-asks are plain stale-data tests (broad rule also passes).</div><div><span class=qc-k>resolution</span>Agree. No weight pass is needed, so weights, importance labels, vision and score stay as they are.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH</td><td>Classify both surviving flags as rubric_truth: C2.1 (R35 wording) and C9.1 (TRUTH channel scope). No prompt, inject, data or file-rename edit is needed, so the rerun batch is empty.</td><td>R35, R9, R16, R23, R24</td><td>C2.1, C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>structure (split compound criteria)</td><td>rubric.json + run_1 report.json rubric copy: change R35 criterion text to &#x27;The response gives a safety refresher as the lab meeting on November 6.&#x27; Keep score 1, importance important, type task completion, target final_answer. Do not add a presenter criterion, because no turn asks for presenters. Keep the run_1 R35 verdict as passed and write the justification as a first grading: &#x27;The response&#x27;s rota lists November 6 as the safety refresher.&#x27;</td><td>R35</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>recompute vision % and score</td><td>Recompute after step 2: vision 65/84 = 77.38% (unchanged, R35 still image-only), score 35/84 = 41.67% (unchanged). pass_summary.json stays 41.67. No member swap needed.</td><td>R35</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>TRUTH.md sync</td><td>TRUTH.md: (a) Step 5: replace &#x27;the November 6 entry is Y. Reeves&#x27;s safety refresher (criterion R35)&#x27; with &#x27;the November 6 entry is the safety refresher (criterion R35)&#x27;. Leave ROTA_NOV6 as graded-positive; its literal stays in R35 (TB4). (b) Section 1: &#x27;Active services: whatsapp, gmail, google-tasks, google-calendar.&#x27; (c) Steps 6, 11, 18: replace &#x27;WhatsApp Yolanda Reeves (conv-yolanda) that ...&#x27; with &#x27;Message Yolanda Reeves, on WhatsApp (conv-yolanda) or by email to yreeves@puget-sound-sci.edu, that ...&#x27; and in the route field put &#x27;route: POST /v17.0/messages or POST /gmail/v1/users/me/messages/send&#x27;. Do not write whether anything is graded (TB2), and use no E6 residue words or old R-numbers (TB1).</td><td>R35, R9, R16, R23, R24</td><td>C2.1, C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>re-run both checks</td><td>Re-run neo-qc Tier 1.5 (E3/E4/E6/E8/E10/E11), Tier 2.5 J1/J2, TRUTH coverage and double charge, plus the checklist agent, giving both the shared tie-break rules. Expected: E8 still lists only the already-dismissed rerun files plus the 4 allowed files, C2.1 and C9.1 clear, and nothing new.</td><td>R35, R9, R16, R23, R24</td><td>C2.1, C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+
+<p class="qc-k">Verdict: NOT ACCEPTABLE, neo-qc is ACCEPTABLE and vision is 77.38%, but 2 checklist flags survive (C2.1 compound R35, C9.1 TRUTH channel scope). Both are minor rubric/TRUTH edits with no rerun.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc: alex_santos_d21bc6e2 (manual, 099f9db52..b2a564afd)</h3>
+<p><strong>Verdict: ACCEPTABLE.</strong> 0 issues kept (blocking 0, design 0, grader 0, minor 0). Score 41.67% (1 run). Nothing blocks delivery.</p>
+<h4>Per tier</h4>
+<ul>
+<li>Step 0 gate: exit 0, 0 HARD, 1 info.</li>
+<li>Tier 1: pass 20, warn 1, skip 4. The warn is D17: the to-do connector did not import in the static checker, so 3 stage-3 google-tasks mutations could not be checked. The run shows they landed (the agent re-authenticated in T13 and the cameras to-do was read in T19), so this is not an issue.</li>
+<li>Tier 1.5: pass 11, warn 1 (E11), fail 1 (E8), info 2 (E5 decoys, E12 no items). E9 passes, so no hand-check was needed. E15 vision share is 0.74.</li>
+<li>Tier 2: pass 5 of 5. Tier 2.5: J1-J4 all pass (J4: R7 split into R7+R39 and R22 into R22+R38; nothing was dropped).</li>
+<li>TRUTH coverage: 0 gaps (39 criteria, 20 turns, 2 files).</li>
+<li>Visual leaks: 25 candidates, 0 leaks, 0 guessable. The 23 api copies are coincidences (other records or timestamps), R13 is invisible and R39 is a coincidence.</li>
+<li>Double charge: 0 pairs, 9 same-source groups, 1 chain. None needs a reweight; R22/R38 and R7/R39 each fail independently.</li>
+<li>Tier 3 all-criteria: agree 39, dispute 0, unverifiable 0.</li>
+</ul>
+<h4>Tier 3 attribution (run_1, 11 failures)</h4>
+<ul>
+<li>model 11, rubric 0, judge 0, task 0, false_pass 0. Non-model count: 0.</li>
+<li>9 failures (R9, R10, R15, R16, R19, R20, R23, R24, R25) come from one miss: the agent never re-read the four revised documents and kept the old values. For example, it sent 3:20 PM where the revision says 3:45 PM, and $95 where it says $70.</li>
+<li>R3 and R5 fail because the replies were two sentences, against the SOUL.md:39 one-sentence rule.</li>
+<li>Riskiest passes were checked against the files: the xlsx values, the PNG content, the to-do notes and the penalties. None is a false pass.</li>
+</ul>
+<h4>Dismissed leads</h4>
+<ul>
+<li>D1 (E8 change diff, 5 &quot;UNEXPECTED&quot; files). <code>events.json</code> lost two <code>updated</code> stamps (diffed against the baseline) and the run was redone, which is why output.json, the media, usage.json, report.json and pass_summary.json all changed. That is a data edit followed by the rerun it needs. E16 (run vs bundle) passes, and neither the old nor the new run reads the removed stamps. Not a defect.</li>
+<li>E11 warn: every candidate was ruled a coincidence or invisible by the visual-leak pass, so none is a finding.</li>
+<li>E5 info: unasked decoy mutations; this is by design.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>turn_refs: none. vision_pct: 73.81% (62 of 84 points across 22 rows), vision_ok true. unconditional_scripted_messages: none.</li>
+</ul></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 0 item(s))</summary><pre>[]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Penalties R26-R30 each grade a behaviour that can fire independently. R26 is a false completion claim: a wrong-date to-do fails R20 and leaves R26 silent (as in run_1). R27-R30 are publish, SMS, privacy and delete. R3/R5/R12 are format positives, not penalties.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;&#x27;sends X a message about Y, and every message gives V&#x27; rows (R9,R10,R15,R16,R19,R23,R24,R32) and R20 grade one fact each. Only R35 joins two independently gradable facts.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C2.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R35&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 1 17:20, title art + lab meeting rota rundown&quot;
+          ],
+          &quot;problem&quot;: &quot;R35 requires both the presenter (Y. Reeves) and the topic (safety refresher) for the Nov 6 rota week, and either can be right or wrong independently. VALUE_LOCK locks only the topic, and the turn asks for week-by-week rooms, not presenters, so a reply saying &#x27;Nov 6: safety refresher, MSB 214&#x27; fails the whole criterion.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R35&quot;,
+              &quot;quote&quot;: &quot;The response gives a safety refresher by Y. Reeves as the lab meeting on November 6.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;VALUE_LOCK ROTA_NOV6&quot;,
+              &quot;quote&quot;: &quot;ROTA_NOV6 = \&quot;safety refresher\&quot;  # type: graded-positive; datatype: name; anchor: image:data/home/Pictures/lab_meeting_rota_fall2026.jpg#Nov 6 row; criterion R35&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T4&quot;,
+              &quot;quote&quot;: &quot;then give me a quick rundown of the lab meeting rota, week by week, with each week&#x27;s room.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/environment/artifacts/inputs/files/home/Pictures/lab_meeting_rota_fall2026.jpg&quot;,
+              &quot;where&quot;: &quot;Nov 6 row (image)&quot;,
+              &quot;quote&quot;: &quot;Nov 6 | Y. Reeves - safety refresher | MSB 214&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword R35 to the locked value only: &#x27;The response gives a safety refresher as the lab meeting on November 6.&#x27; Keep +1 / important. Add no presenter criterion, because no turn asks for presenters. R35 stays atomic and self-contained.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;Verifier (items 1-2) CONFIRMED. I re-read R35, VALUE_LOCK ROTA_NOV6 and the rota image myself. Run_1 passed R35 by naming both facts, so no verdict changes.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turns name the media file and the change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every artifact-graded row names its file and sheet in the asking turn: seminar_numbers.xlsx Counts/Results/Temps/Notes in T0, T2, T8, T11, T12, T15, and seminar_title_art.png in T4. Source documents are named by title. No vague &#x27;everywhere&#x27; asks.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after approval + silent change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No user turn confirms or approves a mutated value. T0, T3, T4, T7 and T8 only ask the agent to read or record documents, and no user turn restates or accepts 3:20 PM, 12/04, Nov 2, $95, Oct 23, MSB 214, $58.40, 12/03 or Oct 19. The re-asks are plain stale-data tests, and AGENTS.md tells the agent to re-read for changes.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;No text leak of visual answers&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;A sweep of seed JSON, persona, home docx/pptx/pdf/html/tsv/xml, filenames and inject text found no text copy of any image-graded value. The seed calendar says &#x27;Seminar Room&#x27; without &#x27;120&#x27;. &#x27;Ibarra&#x27; hits are unrelated contacts. MSB 214, $95, Dec 4 etc. are stale traps, not leaks.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Mutations are revised issuer documents, two unrelated inbound WhatsApp notes (gear closet, -80 freezer), a dry-run description edit, a to-do due-date move and an auth lapse. None presumes an agent action.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Replies are final_answer, workbook/png rows are produced_artifact, and messages/to-dos/calendar/publish/SMS rows are state_change. R26 grades a false completion claim in the reply, so final_answer fits.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;All rows grade end state or reply text. R10/R15/R20 are typed &#x27;tool use&#x27; but are worded as outcomes. No row needs a specific tool, endpoint or OAuth step.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent with rubric/prompt/answers&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;All R1-R39 are cited and every turn has a step. The values match the images, audio, task row and live page (59.3, 37.5, 15.5, 2.6, weekdays). One scope mismatch on the channel for Yolanda.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C9.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R9&quot;,
+            &quot;R16&quot;,
+            &quot;R23&quot;,
+            &quot;R24&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 2 08:10 projector/talk start&quot;,
+            &quot;Day 3 11:30 registration fee&quot;,
+            &quot;Day 5 08:15 poster cost and ready day&quot;
+          ],
+          &quot;problem&quot;: &quot;TRUTH lists Gmail as a distractor service and routes every Yolanda message only via WhatsApp conv-yolanda. The prompt (&#x27;message her&#x27;) and the rubric (&#x27;sends Yolanda Reeves a message&#x27;) are channel-agnostic, and the grader accepted the run&#x27;s Gmail emails as messages. TRUTH is narrower than the rubric and would mislead a reviewer judging a correct-value email.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Section 1&quot;,
+              &quot;quote&quot;: &quot;Active services: whatsapp, google-tasks, google-calendar.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 6&quot;,
+              &quot;quote&quot;: &quot;WhatsApp Yolanda Reeves (conv-yolanda) that Alex&#x27;s talk starts at 3:45 PM (criterion R9)&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R9&quot;,
+              &quot;quote&quot;: &quot;The agent sends Yolanda Reeves a message about the start time of the seminar talk, and every message it sends her on that subject gives 3:45 PM.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/report.json&quot;,
+              &quot;where&quot;: &quot;R9 justification&quot;,
+              &quot;quote&quot;: &quot;The email sent to Yolanda gives a 3:20 PM start, not 3:45 PM.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;In TRUTH section 1, add gmail to Active services. In Steps 6, 11 and 18, write &#x27;WhatsApp conv-yolanda or email to yreeves@puget-sound-sci.edu (any channel; graded on the value)&#x27;. Rubric unchanged.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;Verifier (items 7/9/11) CONFIRMED. I saw the Gmail sends in output.json msgs 58, 90, 122 and the R9 justification myself. No verdict changes, because all four rows fail on stale values.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;65 of 84 positive points depend on image content with no text route (77.4%). Excluding the generated-image rows R7/R8/R39 gives 62/84 = 73.8%, still well above 30%.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run value matches delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The stale values in R9-R25 come from the model never re-reading the revised files after each stage, not from a delivery fault. The stage3 task patch visibly landed (T19 GET shows due 2026-10-13). report.json verdicts match the tool calls and output_media (xlsx values, 1600x1600 png).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;A grep of rubric.json for T&lt;n&gt;/turn/stage/day numbers found none. Rows are anchored by topic.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R26 double-charges with R20 (lab-talk to-do).&quot;,
+      &quot;why&quot;: &quot;R26 is a false completion claim. A to-do with the wrong date fails R20 while R26 stays silent (report.json: R20 failed, R26 not applied). Under the definition, a false claim of completion is a separate behaviour.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Value rows and one-sentence rows (R2/R3, R4/R5, R11/R12) double-charge.&quot;,
+      &quot;why&quot;: &quot;All are positives, and each can pass or fail independently: run_1 passed R2 and failed R3.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;&#x27;sends X a message about Y, and every message gives V&#x27; rows are non-atomic.&quot;,
+      &quot;why&quot;: &quot;The value clause needs the message to exist, and &#x27;every&#x27; guards one locked value, so each row is one fact. T17&#x27;s two asks are already split into R23/R24.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;Mutated values used in earlier turns should drop a tier.&quot;,
+      &quot;why&quot;: &quot;No user turn confirms or approves any value. T0/T3/T4/T7/T8 only ask to read or record (prompt.txt), unlike the cedric approval case.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;Seed calendar location leaks R2 Room 120.&quot;,
+      &quot;why&quot;: &quot;google-calendar-api/events.json evt-017 location is &#x27;Marine Sciences Building, Seminar Room&#x27;, with no &#x27;120&#x27;.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;Agent-written notes (T7 &#x27;Satin photo, 200 gsm&#x27;; T4 &#x27;Chidi Okoye&#x27;) leak R13/R11.&quot;,
+      &quot;why&quot;: &quot;These are the run&#x27;s own transcription of the image, made at an earlier ask, and not bundle text. A run without vision would never have them.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;Ibarra / A365 / GoPros in seed text leak graded values.&quot;,
+      &quot;why&quot;: &quot;The Ibarra hits are unrelated contacts and a Peloton instructor. R18 (live web) and R31 (to-do text) are not visual asks.&quot;
+    },
+    {
+      &quot;item&quot;: 7,
+      &quot;claim&quot;: &quot;R26 should be state_change.&quot;,
+      &quot;why&quot;: &quot;It grades the claim in the reply, with state used only as the check, so final_answer is right.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;Stale values show the mutations did not land.&quot;,
+      &quot;why&quot;: &quot;The last reads of the schedule/call/rota/quote were before each stage (msgs 17, 34, 72). The T19 GET shows the stage3 patch applied.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 77.4,
+    &quot;vision_weight&quot;: 65,
+    &quot;positive_weight&quot;: 84,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/dashpoint_count_sheet.jpg&quot;,
+        &quot;why&quot;: &quot;Lottia counts only in the photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/marbio_seminar_schedule_fall2026.jpg&quot;,
+        &quot;why&quot;: &quot;&#x27;Room 120&#x27; only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/dashpoint_count_sheet.jpg&quot;,
+        &quot;why&quot;: &quot;Recorder line only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/shoreline_symposium_call_2027.jpg&quot;,
+        &quot;why&quot;: &quot;300 words only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output seminar_title_art.png&quot;,
+        &quot;why&quot;: &quot;graded by viewing the generated picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output seminar_title_art.png&quot;,
+        &quot;why&quot;: &quot;rendered words checked in the picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage1/files/marbio_seminar_schedule_fall2026.jpg&quot;,
+        &quot;why&quot;: &quot;3:45 PM only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage1/files/marbio_seminar_schedule_fall2026.jpg&quot;,
+        &quot;why&quot;: &quot;12/02/26 only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/lab_meeting_rota_fall2026.jpg&quot;,
+        &quot;why&quot;: &quot;Chair line only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/poster_print_quote.jpg&quot;,
+        &quot;why&quot;: &quot;paper only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/dashpoint_count_sheet.jpg&quot;,
+        &quot;why&quot;: &quot;Balanus cover values only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/shoreline_symposium_call_2027.jpg&quot;,
+        &quot;why&quot;: &quot;Nov 13 only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/shoreline_symposium_call_2027.jpg&quot;,
+        &quot;why&quot;: &quot;$70 only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/titlow_logger_printout.jpg&quot;,
+        &quot;why&quot;: &quot;daily maxima only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage3/files/lab_meeting_rota_fall2026.jpg&quot;,
+        &quot;why&quot;: &quot;MSB 118 only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage3/files/lab_meeting_rota_fall2026.jpg&quot;,
+        &quot;why&quot;: &quot;Oct 30 slot only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/titlow_logger_printout.jpg&quot;,
+        &quot;why&quot;: &quot;max/min only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage4/files/poster_print_quote.jpg&quot;,
+        &quot;why&quot;: &quot;$46.75 only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage4/files/poster_print_quote.jpg&quot;,
+        &quot;why&quot;: &quot;12/01/26 only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage4/files/shoreline_symposium_call_2027.jpg&quot;,
+        &quot;why&quot;: &quot;Dec 15 only in the second revision image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/marbio_seminar_schedule_fall2026.jpg&quot;,
+        &quot;why&quot;: &quot;talk title only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R34&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/shoreline_symposium_call_2027.jpg&quot;,
+        &quot;why&quot;: &quot;meeting dates only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R35&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/lab_meeting_rota_fall2026.jpg&quot;,
+        &quot;why&quot;: &quot;Nov 6 entry only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R36&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/poster_print_quote.jpg&quot;,
+        &quot;why&quot;: &quot;200 gsm only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R39&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;output seminar_title_art.png&quot;,
+        &quot;why&quot;: &quot;thermometer checked in the picture&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;why&quot;: &quot;format (one sentence)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;why&quot;: &quot;format (one sentence)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;why&quot;: &quot;format (one sentence)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;why&quot;: &quot;text route: live Wikipedia page / Library/sea_star_wasting.html&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;why&quot;: &quot;audio a1.mp3&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R38&quot;,
+        &quot;why&quot;: &quot;audio a1.mp3&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;why&quot;: &quot;text route: google-tasks notes&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;why&quot;: &quot;text route: google-tasks due date&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R37&quot;,
+        &quot;why&quot;: &quot;pixel dimensions readable from file metadata&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;2 flags across items [2, 9] (both minor, rubric_truth), vision 77.4%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;Tier 2.5 J1 (pass; R35 not discussed)&quot;,
+        &quot;VALUE_LOCK ROTA_NOV6 (E4 pass)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent. J1 rubric design passes and lists no A3 hit on R35. Its own A3 rule (two things that can be right or wrong independently = compound) would agree with the checklist if applied.&quot;,
+      &quot;checklist_says&quot;: &quot;R35 joins presenter (Y. Reeves) and topic (safety refresher) for Nov 6; only the topic is locked and the turn asks for weeks and rooms, so a reply giving the topic without the presenter fails the whole row.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right. Reword R35 to the locked value only: &#x27;The response gives a safety refresher as the lab meeting on November 6.&#x27; Keep +1 / important. This is not a DL1 merge, and it adds no new criterion, so there is no new pair. It also avoids DL2 relative wording: the literal &#x27;safety refresher&#x27; stays in the text, so E4 and the graded-positive lock type stay valid (TB4). The fact is still image-only (rota jpg Nov 6 row), so vision does not change. Run_1 passed by naming both facts, so the verdict stays pass.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R35: &#x27;The response gives a safety refresher by Y. Reeves as the lab meeting on November 6.&#x27;; TRUTH.md:83 &#x27;ROTA_NOV6 = \&quot;safety refresher\&quot;  # type: graded-positive ... criterion R35&#x27;; prompt.txt:21 &#x27;give me a quick rundown of the lab meeting rota, week by week, with each week&#x27;s room&#x27;; audit_report_tier25.json J1 result pass, findings []&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;Tier 2.5 J2 (pass)&quot;,
+        &quot;truth_coverage.json (0 gaps)&quot;,
+        &quot;tier3_all_criteria R9/R16/R23 evidence &#x27;Gmail send to yreeves@&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C9.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R9&quot;,
+        &quot;R16&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent. J2 and TRUTH coverage pass. neo-qc&#x27;s own Tier 3 evidence shows the run messaged Yolanda by Gmail and the grader treated those emails as the messages, but it raises no TRUTH scope finding.&quot;,
+      &quot;checklist_says&quot;: &quot;TRUTH lists only whatsapp/google-tasks/google-calendar as active and routes every Yolanda message via WhatsApp conv-yolanda. The prompt and rubric are channel-agnostic, so TRUTH is narrower than the rubric.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right. No persona rule ties Yolanda to WhatsApp: AGENTS.md:30 lists personal Gmail for scheduling and MEMORY.md:94 lists yreeves@puget-sound-sci.edu. The fix is TRUTH-only and the rubric stays unchanged. It trips no neo-qc check: neo_checks.py reads routes only on Value Lock lines (_routes), not step text; E6 residue words are avoided; E10/E11 are untouched. One refinement under TB2 and the shared rule (&#x27;never whether it is graded&#x27;): drop the checklist&#x27;s suggested &#x27;(any channel; graded on the value)&#x27; and state only the expected action.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md:10 &#x27;Active services: whatsapp, google-tasks, google-calendar.&#x27;; TRUTH.md:22 &#x27;WhatsApp Yolanda Reeves (conv-yolanda) that Alex&#x27;s talk starts at 3:45 PM (criterion R9)&#x27;; report.json R9 &#x27;The email sent to Yolanda gives a 3:20 PM start, not 3:45 PM.&#x27;; skills/gmail-api-connector/SKILL.md:30 &#x27;POST /gmail/v1/users/me/messages/send&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E15_vision_share (pass, share 0.74, picture_weight 62-63/84)&quot;,
+        &quot;extras.json vision_pct 73.81&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R8&quot;,
+        &quot;R39&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision share 0.74. It counts lock-anchored picture criteria and leaves out the generated-image rows R7/R8 (no Value Lock).&quot;,
+      &quot;checklist_says&quot;: &quot;77.4% (65/84). It includes the generated PNG rows R7/R8/R39, which are graded by viewing the picture.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both are far above 30%. The difference comes only from the definition. Under the reconcile definition (the graded value depends on image content and has no text route), R7/R8/R39 count, giving 65/84 = 77.38%. The plan does not change this.&quot;,
+      &quot;evidence&quot;: &quot;audit_report.json E15 &#x27;share&#x27;: 0.74, &#x27;positive_weight&#x27;: 84; checklist.json vision pct 77.4, vision_weight 65; scratch/metrics.py output vision 77.38&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E8_change_diff (fail, dismissed in QC_SUMMARY D1)&quot;,
+        &quot;E9 pass&quot;,
+        &quot;E16 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 11 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;E8 lists 5 UNEXPECTED files: events.json lost two &#x27;updated&#x27; stamps, and the run was redone, which changed output.json/media/usage. The data edit was followed by the rerun it needs, so this is not a defect.&quot;,
+      &quot;checklist_says&quot;: &quot;The run values match the delivered environment. Stale values come from the model not re-reading, and the stage3 patch visibly landed.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both are right. The data edit was paired with a rerun, so RR4 is already closed. This plan adds no data/prompt/inject edits, so nothing new goes into the rerun class.&quot;,
+      &quot;evidence&quot;: &quot;audit_report.json:341 &#x27;UNEXPECTED: data/environment/google-calendar-api/events.json&#x27;; QC_SUMMARY.md &#x27;That is a data edit followed by the rerun it needs. E16 (run vs bundle) passes&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E11_visual_leak_candidates (warn)&quot;,
+        &quot;visual_leaks.json (25 candidates, 0 leaks)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R10&quot;,
+        &quot;R15&quot;,
+        &quot;R19&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Every E11 candidate is a coincidence (api records/timestamps) or invisible. There are 0 leaks.&quot;,
+      &quot;checklist_says&quot;: &quot;The sweep found no text copy of any image-graded value. MSB 214, $95, Dec 4 are stale traps, not leaks.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree under the shared leak rule (text that gives the answer at grading time). The stale text is a trap and stays. No anchor rewrite is needed.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;Visual leaks: 25 candidates, 0 leaks, 0 guessable&#x27;; checklist.json item 5 note &#x27;MSB 214, $95, Dec 4 etc. are stale traps, not leaks.&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json (0 pairs, 9 same-source groups, 1 chain)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R20&quot;,
+        &quot;R26&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No pairs. Same-source groups (R9/R10, R15/R16, R23/R24) are different facts. R26 is a false-completion negative.&quot;,
+      &quot;checklist_says&quot;: &quot;R26 can fire without R20 failing and vice versa (run_1: R20 failed, R26 not applied), so it is not a pair.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree under the shared rule: a penalty that can fire on its own is not a pair, and different facts from one source are not a pair. No reweight is needed.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json:13 &#x27;Cost and ready day are separate values in one message&#x27;; checklist.json rejected item 1 &#x27;R26 is a false completion claim&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs none&quot;,
+        &quot;Tier 2.5 J1 pass (no A5 hit)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No turn references in criteria, and no loose &#x27;which reply&#x27; wording.&quot;,
+      &quot;checklist_says&quot;: &quot;A grep found no T&lt;n&gt;/turn/stage/day numbers. Rows are anchored by topic.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree. The R35 reword keeps the topic anchor (lab meeting on November 6) and adds no turn number.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;turn_refs: none&#x27;; checklist.json item 12 note&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;Tier 2.5 J1 pass (no A7 hit)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 4 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No silent-after-sign-off tier-down needed.&quot;,
+      &quot;checklist_says&quot;: &quot;No user turn confirms or approves a mutated value. Re-asks are plain stale-data tests (broad rule also passes).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree. No weight pass is needed, so weights, importance labels, vision and score stay as they are.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json item 4 note &#x27;No user turn confirms or approves a mutated value&#x27;; audit_report_tier25.json J1 findings []&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH&quot;,
+      &quot;action&quot;: &quot;Classify both surviving flags as rubric_truth: C2.1 (R35 wording) and C9.1 (TRUTH channel scope). No prompt, inject, data or file-rename edit is needed, so the rerun batch is empty.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;,
+        &quot;R9&quot;,
+        &quot;R16&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;,
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;structure (split compound criteria)&quot;,
+      &quot;action&quot;: &quot;rubric.json + run_1 report.json rubric copy: change R35 criterion text to &#x27;The response gives a safety refresher as the lab meeting on November 6.&#x27; Keep score 1, importance important, type task completion, target final_answer. Do not add a presenter criterion, because no turn asks for presenters. Keep the run_1 R35 verdict as passed and write the justification as a first grading: &#x27;The response&#x27;s rota lists November 6 as the safety refresher.&#x27;&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute after step 2: vision 65/84 = 77.38% (unchanged, R35 still image-only), score 35/84 = 41.67% (unchanged). pass_summary.json stays 41.67. No member swap needed.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;TRUTH.md: (a) Step 5: replace &#x27;the November 6 entry is Y. Reeves&#x27;s safety refresher (criterion R35)&#x27; with &#x27;the November 6 entry is the safety refresher (criterion R35)&#x27;. Leave ROTA_NOV6 as graded-positive; its literal stays in R35 (TB4). (b) Section 1: &#x27;Active services: whatsapp, gmail, google-tasks, google-calendar.&#x27; (c) Steps 6, 11, 18: replace &#x27;WhatsApp Yolanda Reeves (conv-yolanda) that ...&#x27; with &#x27;Message Yolanda Reeves, on WhatsApp (conv-yolanda) or by email to yreeves@puget-sound-sci.edu, that ...&#x27; and in the route field put &#x27;route: POST /v17.0/messages or POST /gmail/v1/users/me/messages/send&#x27;. Do not write whether anything is graded (TB2), and use no E6 residue words or old R-numbers (TB1).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;,
+        &quot;R9&quot;,
+        &quot;R16&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;,
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc Tier 1.5 (E3/E4/E6/E8/E10/E11), Tier 2.5 J1/J2, TRUTH coverage and double charge, plus the checklist agent, giving both the shared tie-break rules. Expected: E8 still lists only the already-dismissed rerun files plus the 4 allowed files, C2.1 and C9.1 clear, and nothing new.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;,
+        &quot;R9&quot;,
+        &quot;R16&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;,
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 77.38,
+    &quot;vision_after&quot;: 77.38,
+    &quot;score_before&quot;: 41.67,
+    &quot;score_after&quot;: 41.67,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 2,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;neo-qc is ACCEPTABLE and vision is 77.38%, but 2 checklist flags survive (C2.1 compound R35, C9.1 TRUTH channel scope). Both are minor rubric/TRUTH edits with no rerun.&quot;,
+  &quot;summary&quot;: &quot;0 conflicts, 6 agree (vision, RR4, DL6, DL4, DL7, DL5), 2 one-sided (C2.1, C9.1; neo-qc silent, would not object), fix plan 5 steps (0 rerun), vision 77.38-&gt;77.38%, score 41.67-&gt;41.67%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "alex_santos_d21bc6e2-88f2-43e9-9f33-8980fa92efb8", "slug": "alex_santos_d21bc6e2", "tasker": "Nikhil Satyam", "authors": ["nikhil.satyam02", "nikhil.satyam02@ethara.ai"], "version": 1, "commit_sha": "b2a564afdb86e7d4e445901ee6e65bdcd4809eaf", "base_sha": "099f9db529e628f472a5151b648416cf0b5c298e", "range": "099f9db52..b2a564afd", "change": "manual", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 2 flag(s); 0 conflicts, 6 agree (vision, RR4, DL6, DL4, DL7, DL5), 2 one-sided (C2.1, C9.1; neo-qc silent, would not object), fix plan 5 steps (0 rerun), vision 77.38->77.38%, score 41.67->41.67%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 0 design / 0 grader / 0 minor; score 41.67%; T3 non-model 0 (11 model misses); E8 explained by data edit + full rerun", "checklist_flags": 2, "conflicts": 0, "vision_before": 77.38, "vision_after": 77.38, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 0, "attempt": 1, "qc_finished_at": "2026-11-26T10:47:37Z"}</script></body></html>
