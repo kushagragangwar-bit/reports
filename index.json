@@ -1906,6 +1906,14 @@
     "started": "2026-11-20 20:31",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1745_a1",
+    "score": 48.61,
+    "started": "2026-11-26 12:15",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "varun/mike_crawford_e943209c-a428-448d-886c-34537c76ce17": [
@@ -1925,5 +1933,5 @@
    }
   ]
  },
- "updated": "2026-11-26 11:41 UTC"
+ "updated": "2026-11-26 12:22 UTC"
 }
