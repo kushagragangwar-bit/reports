@@ -1,0 +1,1061 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: samuel_grant_1e67ef0e (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a</code></span>
+<span><span class="k">Tasker</span>Ananya Gupta</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>776ec3735</code> (added, range <code>b7b7ae805..776ec3735</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 12:39:44 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>4</span>
+<span><span class="k">Conflicts</span>1</span>
+<span><span class="k">Vision</span>33.85% → 33.33%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 4 flag(s); 1 conflict (DL2), 4 agree, 3 one-sided (RR2, RR4, none), 2 disagreements (DL1: checklist right; vision: checklist right), fix plan 12 steps (1 rerun), vision 33.85-&gt;33.33%, score 41.54-&gt;42.42%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: samuel_grant_1e67ef0e</h1>
+<p class="sub">obsidian-infinity-stage-1 b7b7ae805..776ec3735 (added)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>16</b><span>turns</span></div><div class="stat"><b>41</b><span>rubrics</span></div><div class="stat"><b>41.5</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>12/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>11/0/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>2/1/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>41/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 12 failed criteria across 1 task(s): <b>12 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 0 failure(s) and 0 warning(s). Tier 2.5 flagged 1 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 41 criteria: 41 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 0 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 1 item(s): 1 minor.</p>
+
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#M1'><code>M1</code></a></td><td><span class="b b-sev-minor">minor</span></td><td class='muted'>rubric</td><td class='muted'>samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a</td><td>The door-card reply criterion does not name the values it expects</td></tr></table><div class='issue' id='M1'><h4><code>M1</code> The door-card reply criterion does not name the values it expects <span class="b b-sev-minor">minor</span> <span class='muted'>samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a</span></h4><p>R22 passes the Wednesday-afternoon reply if it reports the text &quot;as it reads in the finished image&quot;, so the judge must open the PNG to know what a correct reply says. The criterion is not self-contained. It did not change the score: the run&#x27;s reply matched its card, and our re-grade agrees with the pass.</p><p><b>Evidence.</b> rubric.json:193 (R22); prompt.txt:33 &quot;tell me what it says once it&#x27;s made&quot;; TRUTH.md:27 lists the card lines (Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2, Stain spray 2).</p><p><b>Ask.</b> Rewrite R22 to name the expected card lines from TRUTH.md:27 (Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2, Stain spray 2), keeping &quot;as shown on the delivered card&quot; only if you want a reply-matches-image check.</p></div>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 2.5 findings (1)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R22 self-containment (A3): &quot;reports the text as it reads in the finished image (the items and numbers on it)&quot; grades the reply relative to the PNG instead of naming its own literals; propose &quot;The reply in the Wednesday 2:10 PM door-card turn lists Paper tow...</td><td class='muted'>rubric.json:193: &quot;The response to Samuel&#x27;s Wednesday-afternoon question about the laundry-room door card reports the text as it reads in the finished image (the items and numbers on it).&quot;</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 sil_doc_line_soap: could not check (google-docs-api/paragraphs: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a'><td>samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a</td><td class='n'>16</td><td class='n'>41</td><td class='n'>41.54</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 12</td><td>11/0/0</td><td><span class="b b-warn">J1</span></td><td>41/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>4 flags across items [2, 6, 11] (R15 and R33 atomicity, R30 path-conditional, Drive modified-time cue not delivered); no blocking issues; vision 33.8%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Checked every penalty (R37 dryer sheets, R38 Daryl, R39 kitchen bags, R40 bundle) against every positive: each can fire while the related positives pass (e.g. R37 fires on a Tuesday order with dryer sheets while R4/R5/R6 pass), so none is a positive+penalty pair; positive-only chains (R12-&gt;R14/R16/R28, ask+hold R3/R4, R8/R9, R31/R32) are not pairs and the dependent totals are already at weight 1.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag bad">FLAG</span></td><td>C2.1, C2.2</td><td>R15 joins the conclusion with its reason; R33 grades both recurrence (&#x27;series&#x27;) and start date, overlapping R41. All other rows grade one fact.</td></tr><tr><td>3</td><td>Turns name the file and change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>R1 Sheet &#x27;Grant Restock&#x27;/&#x27;Shelf Count&#x27; is named in T0; R17-R22 grant_shelf_card.png in T8; R25-R27 grant_carport_card.png in T10; the other state checks are emails, texts and calendar entries the turns explicitly ask for.</td></tr><tr><td>4</td><td>Silent change after approval</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The stage-1 Doc edit (between T4 and T5) touches dish soap, stain spray, filters, lantern sets and contractor bags. The approved June 10 order and the $87.92 texted at T4 contain none of those, so they are unaffected. The edited values were never confirmed by Samuel before the edit. Stages 3 and 4 are announced by T9/T11, and stage 6 changes no approved value.</td></tr><tr><td>5</td><td>No text leak of picture facts</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Grepped all seed JSON, persona, inject text, Doc, emails, texts and pdf/docx/xlsx/tsv text plus filenames. None gives 104 loads, MERV 11/20x25x1, Daryl&#x27;s 16x25x1, 4 D lantern, C-cell card, open boxes/tub or the note lines. msg-hh08 lists both MERV ratings and both C and D prices only as options, and msg-hh01&#x27;s 92 oz/64 loads is a decoy.</td></tr><tr><td>6</td><td>Scripted events assume the expected path</td><td><span class="qc-tag bad">FLAG</span></td><td>C6.1</td><td>The stage-4 driver&#x27;s note always marks the pods B/O, and R30 always requires asking for pods. The other scripted texts (stages 1, 2, 3, 5, 6) and the &#x27;Go ahead and send it&#x27; clarifications read correctly on any path because the criteria are keyed to the last email or final state.</td></tr><tr><td>7</td><td>evaluation_target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Reply checks (R2, R3, R8, R14, R15, R16, R22, R28, R31, R35) are user_facing_message. Sheet, emails, texts, calendar and holds are state_change. PNG checks (R17-R21, R25-R27) are produced_artifact. All 41 rows match.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Holds R4/R9/R32 are graded from sent-mail timestamps (end state). R22&#x27;s read-back is asked for in T8 (&#x27;tell me what it says&#x27;). No criterion grades tool calls or method.</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>TRUTH Steps 1-16 cover T0-T15 and every R1-R41 value matches the rubric. I recomputed 16.8c, $87.92, $79.47, $167.39, $105.76 and $73.47/$73.49 from msg-hh08, msg-hh07, the Doc and the pictures. Ledger weights sum correctly to 65.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>22 of 65 positive points (33.8%) depend on input pictures with no text route. Counting the agent&#x27;s own generated PNGs would give 40.0%, but they are excluded.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag bad">FLAG</span></td><td>C11.1</td><td>The Doc paragraph edits, statement email, Ray&#x27;s texts and IMG_8341.jpg all reached the run as defined (IMG_8341 at the advertised path, same size). Only the Drive modified-time cue differs. Spot-checked report verdicts R5, R6, R10-R13, R23, R24, R29, R30, R33, R34, R36 and R41 against the sent emails, texts and calendar, and all are right.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion has T#/turn N. Anchors use day plus part of day plus topic, the day names match 2027-06-07 (Mon) to 06-12 (Sat), and each anchor points at one reply. &#x27;Wednesday-early-morning&#x27; (R14) and &#x27;Wednesday-morning&#x27; (R15/R16) are separated by topic.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C2.1"><div><strong>C2.1</strong> · item 2 Non-atomic rubrics
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R15
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Wed Jun 9 10:30, May statement / combined total question</div>
+<p style="margin:.4rem 0">R15 needs two independently right/wrong things: (a) the May amount is unknown (no figure given as owed) and (b) the reason, that the statement email came with nothing attached. A reply saying &#x27;No, Handsboro hasn&#x27;t given a May total&#x27; is right on (a) but fails the whole criterion.</p><div class="ev"><span class="qc-k">rubric.json R15</span><code>says the May amount is unknown because the store&#x27;s statement email came with nothing attached.</code></div><div class="ev"><span class="qc-k">prompt.txt T7 (Day 3, 10:30)</span><code>Did Handsboro say what we owe them for May?</code></div><div class="ev"><span class="qc-k">inject/stage1/mutations.json sil_gmail_may_statement body</span><code>Your May statement for the Grant account is attached. Let me know if anything on it looks off.</code></div>
+<div><span class="qc-k">Fix plan</span>Split into two self-contained 1-point criteria. R15: &#x27;The response to Samuel&#x27;s Wednesday-morning question about what Handsboro is owed for May says the May amount is not known (gives no May figure as owed).&#x27; R15b: &#x27;The response to Samuel&#x27;s Wednesday-morning question about May says the store&#x27;s statement email says the statement is attached but came with nothing attached.&#x27; Update TRUTH MAY_UNKNOWN, Step 8 and ledgers 3a/3b/3c to cite both.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier (items 1-2) CONFIRMED with the same quotes; I re-read R15, T7 and msg-hh13. The run passed both parts (report.json R15 passed), so no verdict changes now.</div></div><div class="qc-flag" id="C2.2"><div><strong>C2.2</strong> · item 2 Non-atomic rubrics
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R33, R41
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Thu Jun 10 20:00, standing order + calendar, Fri Jun 11 06:15, July 8 clarification</div>
+<p style="margin:.4rem 0">R33 grades two things: that the calendar entry is a repeating series and that its first occurrence is July 8. Recurrence is graded again by R41. TRUTH says a single July 8 event fails both, so one mistake (no repeat) is charged twice.</p><div class="ev"><span class="qc-k">rubric.json R33</span><code>The agent&#x27;s calendar has a Handsboro standing-delivery series whose first occurrence is Thursday, July 8, 2027.</code></div><div class="ev"><span class="qc-k">rubric.json R41</span><code>The agent&#x27;s calendar Handsboro standing-delivery series repeats every four weeks.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md 3c failure-pattern ledger, working recurrence row</span><code>| working recurrence | R33, R41 (2) | the standing calendar entry has to repeat on its own | a single July 8 event |</code></div>
+<div><span class="qc-k">Fix plan</span>Reword R33 to grade only the start date: &#x27;The agent&#x27;s calendar has a Handsboro standing-delivery entry whose first (or only) occurrence is Thursday, July 8, 2027.&#x27; Keep R41 as the sole recurrence check. Update TRUTH 3c so the single-event failure lists R41 only. Both stay atomic and self-contained; no merge.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Raised as a new finding by the items 1-2 verifier (filed there under item 1). I re-read R33, R41 and TRUTH 3c. I filed it under item 2 because R41 is a positive, not a penalty. The run passed both (evt-a29772edd1 with RRULE INTERVAL=4), so no verdict changes now.</div></div><div class="qc-flag" id="C6.1"><div><strong>C6.1</strong> · item 6 Scripted events assume the expected path
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R30
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Thu Jun 10 16:50, driver&#x27;s note / missing items email</div>
+<p style="margin:.4rem 0">The stage-4 note (IMG_8341.jpg) fires on schedule and always lists &#x27;SR DW PODS 62 - B/O&#x27;. R30 unconditionally requires the Thursday-afternoon email to ask for the pods. On a path where the agent&#x27;s final June 10 order had no pods (e.g. the saved usual, which R6 already charges), T11&#x27;s &#x27;if anything we ordered didn&#x27;t come&#x27; makes asking for pods wrong, yet R30 still demands it.</p><div class="ev"><span class="qc-k">inject/stage4/files/IMG_8341.jpg note line 4 (viewed)</span><code>SR DW PODS 62 - B/O</code></div><div class="ev"><span class="qc-k">prompt.txt T11 (Day 4, 16:50)</span><code>If anything we ordered for today didn&#x27;t come, have Handsboro bring it on the 17th with the carport order.</code></div><div class="ev"><span class="qc-k">rubric.json R30</span><code>The agent&#x27;s Thursday-afternoon email to Handsboro asks them to bring the dishwasher pods.</code></div><div class="ev"><span class="qc-k">data/environment/gmail-api/messages.json msg-hh01 saved usual (no pods)</span><code>- 1 Cottonmist dryer sheets, 120 ct
+- 1 Harbor Strong tall kitchen bags, 13 gal, 45 ct
+- 1 Sunbright dish soap, 38 oz</code></div>
+<div><span class="qc-k">Fix plan</span>Make R30 conditional: &#x27;If the agent&#x27;s last June 10 order email included the dishwasher pods, the agent&#x27;s Thursday-afternoon email to Handsboro asks them to bring the dishwasher pods.&#x27; Note the condition in TRUTH Step 12. The note image already lists unordered items as distractors, so it needs no rewording. R29 (paper towels, on both lists) and R35 stay as they are.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier (items 4/6) returned MODIFIED, narrowing the stage-4 lead to R30 only. I checked the note image, T11, R30 and msg-hh01. This run ordered pods ([43]) and passed R30, so no verdict changes.</div></div><div class="qc-flag" id="C11.1"><div><strong>C11.1</strong> · item 11 Run vs delivered environment
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">needs rerun</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Wed Jun 9 10:30, May statement / combined total question</div>
+<p style="margin:.4rem 0">Stage 1 sets the keep-stocked Doc&#x27;s Drive modified_time to Tuesday 5:20 PM (2027-06-08T22:20Z) as a cue for Ray&#x27;s edit, but the run&#x27;s Drive listing showed the request time instead, so the designed cue never reached the agent. No criterion grades it, and the Doc text edit itself arrived intact.</p><div class="ev"><span class="qc-k">inject/stage1/mutations.json sil_drive_doc_modified</span><code>&quot;set&quot;: {&quot;modified_time&quot;: &quot;2027-06-08T22:20:00.000Z&quot;}</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json message index 74 (Drive list at the Wednesday 10:30 turn)</span><code>&quot;modifiedTime&quot;:&quot;2027-06-09T15:30:08.605Z&quot;</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md 3a stage-1 row</span><code>the Doc&#x27;s Drive modified time moves to Tuesday 5:20 PM</code></div>
+<div><span class="qc-k">Fix plan</span>Have the harness owner fix the Drive mock so a patched modified_time is served on list/get, then rerun. TRUTH 3a should not present the Drive timestamp as a cue the agent sees.</div><div><span class="qc-k">No-rerun fallback</span>TRUTH-only edit: qualify the 3a clause (&#x27;the mock may report read time&#x27;). No verdict depends on it, since R11-R14, R16 and R28 failed because the agent did not re-read the Doc at T5.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier (items 9/11) CONFIRMED. I saw both values myself: the mutation file and run message [74], where the request at 15:30:08.566Z returns modifiedTime 15:30:08.605Z.</div></div>
+<h3>Vision share <span class="qc-tag ok">33.8%</span></h3>
+<p>22 of 65 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>IMG_8305.jpg</td><td>Lantern &#x27;USES 4 &quot;D&quot;&#x27; with a size-C card means no D on hand; only in the picture</td></tr><tr><td>R2</td><td>1</td><td>IMG_8303.jpg</td><td>&#x27;104 loads&#x27; only on the detergent label; the text gives only 92 oz/64 loads</td></tr><tr><td>R5</td><td>1</td><td>IMG_8303.jpg</td><td>One detergent jug on hand (lookalike is softener) is only in the picture</td></tr><tr><td>R6</td><td>1</td><td>IMG_8302.jpg</td><td>Pod tub open means 0 unopened; only in the picture</td></tr><tr><td>R7</td><td>1</td><td>IMG_8302.jpg, IMG_8303.jpg</td><td>$87.92 needs the on-hand counts from the pictures</td></tr><tr><td>R10</td><td>3</td><td>IMG_8305.jpg</td><td>MERV 11 only in small print on the spare; msg-hh08 lists both ratings</td></tr><tr><td>R11</td><td>1</td><td>IMG_8305.jpg</td><td>3 spares minus the 1 wrapped spare seen in the picture</td></tr><tr><td>R12</td><td>3</td><td>IMG_8305.jpg</td><td>4 D per set and none on hand come only from the picture</td></tr><tr><td>R13</td><td>3</td><td>IMG_8305.jpg</td><td>The open contractor box (0 unopened) is only in the picture</td></tr><tr><td>R14</td><td>1</td><td>IMG_8305.jpg</td><td>$79.47 needs the MERV 11 price and the picture counts</td></tr><tr><td>R16</td><td>1</td><td>IMG_8302/8303/8305.jpg</td><td>Sum of two picture-dependent totals</td></tr><tr><td>R23</td><td>1</td><td>IMG_8305.jpg</td><td>16 x 25 x 1 only on the DARYL box; Ray&#x27;s text gives no size</td></tr><tr><td>R28</td><td>1</td><td>IMG_8305.jpg</td><td>Needs Daryl&#x27;s MERV 8 and the carport counts from the picture</td></tr><tr><td>R29</td><td>1</td><td>IMG_8341.jpg (stage 4)</td><td>&#x27;CB PT 6 DBL - OUT, back 6/17&#x27; only in the note</td></tr><tr><td>R30</td><td>1</td><td>IMG_8341.jpg (stage 4)</td><td>&#x27;SR DW PODS 62 - B/O&#x27; only in the note</td></tr><tr><td>R35</td><td>1</td><td>IMG_8341.jpg (stage 4)</td><td>Pods B/O with no date only in the note; no email gives a date</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (12)</summary><ul><li>item 1: R37 (dryer sheets left on the June 10 order) double-charges R4/R5/R6. <span class='qc-k'>dismissed:</span>R37 can fire alone (hold on Monday, then a Tuesday order with dryer sheets: R4/R5/R6 pass). R4 can fail without R37 (this run: the Monday order had no dryer sheets, R37 not applied). These are different behaviours and facts.</li><li>item 1: R39 (kitchen bags asked as missing) pairs with R29/R30. <span class='qc-k'>dismissed:</span>R39 grades misreading the &#x27;HS L&amp;L 39 GAL&#x27; line and can fire while R29/R30 pass (an email asking for towels, pods and kitchen bags).</li><li>item 1: Missed Doc edit or C/D misread cascades through R12, R14, R16, R28. <span class='qc-k'>dismissed:</span>These are positive-only, with no penalty. R11-R13 are different Doc lines, and R14/R16/R28 are totals asked separately in T6/T7/T10, each already at the minimum weight of 1.</li><li>item 1: Ask+hold pairs R3/R4, R8/R9, R31/R32 double-charge one premature send. <span class='qc-k'>dismissed:</span>Both are positives that can fail independently (ask then send anyway, or neither ask nor send). The hold grades sending before approval, which the definition says is a separate behaviour.</li><li>item 2: R34, R22 and R17 are compound. <span class='qc-k'>dismissed:</span>R34&#x27;s &#x27;naming the pods&#x27; is the test of the one item-list fact. R22&#x27;s items and numbers are one transcription. R17&#x27;s &#x27;delivers the png&#x27; only names the output being graded.</li><li>item 4: Stage-1 Doc edit lands right after the June 10 order approval, so R11-R28 should drop a tier. <span class='qc-k'>dismissed:</span>The approved order and the $87.92 total use none of the edited lines. The carport and card values were never approved before the edit (T5/T8/T10 are new requests).</li><li>item 6: Stage-6 Ray text presumes a standing order exists (R36). <span class='qc-k'>dismissed:</span>T12 and T13 order the setup on every path. Ray&#x27;s text is future tense, and R36&#x27;s figure comes from prices and the last-three-orders list.</li><li>item 6: Clarifications T3/T6/T13 &#x27;Go ahead and send it&#x27; presume the agent held. <span class='qc-k'>dismissed:</span>R5, R6, R10-R13, R33, R34 and R41 grade the last email or final state, so they are fair whether the agent held or already sent (this run declined to resend and those rows were graded correctly).</li><li>item 6: Stage-4 note makes R29 and R35 path-dependent. <span class='qc-k'>dismissed:</span>Paper towels are on both the saved usual and the last-three-orders list, and &#x27;no arrival date&#x27; is true on any path. Only R30 is affected (C6.1).</li><li>item 9: TRUTH anchors pictures at data/home/Pictures/Restock/... which is not the bundle path. <span class='qc-k'>dismissed:</span>This is the authoring-bundle home convention (runtime /root/workspace/home/home/Pictures/Restock). It does not disagree with any criterion or value.</li><li>item 9: TRUTH Step 12 omits the back-in dates for dryer sheets (6/24) and lawn bags (6/17). <span class='qc-k'>dismissed:</span>TRUTH&#x27;s &#x27;out&#x27; is accurate. Those items were never ordered, and no criterion depends on their dates, so there is no disagreement.</li><li>item 11: Stage-4 IMG_8341.jpg landed at /tmp_workspace instead of the advertised /root/workspace path. <span class='qc-k'>dismissed:</span>The two paths are the same directory: /root/workspace/grant_carport_card.png showed up as /tmp_workspace/grant_carport_card.png in the same find. The file size 154048 and 15:30 mtime match the inject, and the agent read it.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>1 conflict (DL2), 4 agree, 3 one-sided (RR2, RR4, none), 2 disagreements (DL1: checklist right; vision: checklist right), fix plan 12 steps (1 rerun), vision 33.85-&gt;33.33%, score 41.54-&gt;42.42%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">33.85% → 33.33%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">41.54% → 42.42%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>DL2</td><td>M1, tier25 J1 warn (R22 self-containment, A3)</td><td>item 2 rejected claim &#x27;R22 is compound&#x27;, item 1 PASS, item 8 PASS (R22 read-back asked in T8)</td><td>R22, R19, R20</td><td><div><span class=qc-k>neo-qc</span>R22 grades the reply against the finished PNG instead of naming its own values; name the six card lines from TRUTH Step 9.</div><div><span class=qc-k>checklist</span>R22 is one transcription (not compound) and the read-back is asked for in T8; no flag.</div><div><span class=qc-k>loop</span>Naming literal values copies R19 (Dish soap 3) and R20 (Stain spray 2) into a second output that T8 couples (&#x27;tell me what it says&#x27;), so one stale-Doc miss fails R19/R20 and R22 (checklist 1). Keeping &#x27;as shown on the delivered card&#x27; beside the literals grades the reply by reference to another file, which A3 calls compound (checklist 2).</div><div><span class=qc-k>resolution</span>Take neo-qc&#x27;s literal-value wording with no reference to the image, and keep R22 at 1 point. That is the DL2 rule for copies across outputs: keep the literal value and hold the copy at weight 1. The six lines are one list from one Doc read, the same kind of list check the checklist already accepts for R34. Neo-qc is right that R22 is not self-contained, and the checklist stays clean because the copy is already at the minimum weight. Run verdict unchanged: the reply transcribed all six lines correctly.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL1</td><td>double_charge.json summary: &#x27;calendar start/interval (R33/R41) can fail independently&#x27;</td><td>C2.2</td><td>R33, R41</td><td><div><span class=qc-k>neo-qc</span>R33 and R41 are not a pair because each can fail without the other.</div><div><span class=qc-k>checklist</span>R33 grades both &#x27;is a repeating series&#x27; and &#x27;starts July 8&#x27;. The recurrence part is graded again by R41, so a single July 8 event fails both.</div><div><span class=qc-k>resolution</span>The checklist is right. Independent failure modes exist (wrong start, wrong interval), but the single-event mistake fails both rows because R33&#x27;s word &#x27;series&#x27; already grades recurrence, and TRUTH 3c says so itself. Fix by rewording R33 to grade only the start date (&#x27;first (or only) occurrence&#x27;). Do not merge (A3) and do not drop (J4: T12 asks for the calendar entry). R41 stays the only recurrence check.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>vision</td><td>extras.json vision_pct 47.7 (31/65, counts produced PNGs and R22), QC_SUMMARY: &#x27;E15 reported 34%&#x27;</td><td>item 10 PASS (22/65 = 33.8%)</td><td>R17, R18, R19, R20, R21, R22, R25, R26, R27</td><td><div><span class=qc-k>neo-qc</span>Vision share is 47.7%, counting the rows graded on the agent&#x27;s own generated PNGs.</div><div><span class=qc-k>checklist</span>Vision share is 33.8%. Only input pictures count, and the produced-card rows take their values from the Doc text.</div><div><span class=qc-k>resolution</span>The checklist definition is right. The shared rule counts rows whose graded value has no text route. R19/R20/R25-R27 values come from the Doc text, and R17/R18/R21/R22 come from the turn wording, not from an input picture. Both readings are at or above 30%, so nothing needs to change. This report uses 22/65.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>tier25 J1 (R15 not flagged)</td><td>C2.1</td><td>R15, R42</td><td><div><span class=qc-k>neo-qc</span>Silent. J1 flags only R22. Neo-qc&#x27;s A3 rule (two things that can be right or wrong independently) would agree with the split, not object to it.</div><div><span class=qc-k>checklist</span>R15 joins the conclusion (May amount unknown) with its reason (the statement email came with nothing attached). A reply that is right on the first part fails the whole row.</div><div><span class=qc-k>resolution</span>Split R15 into R15 (amount not known) and a new R42 (the email came with nothing attached), 1 point each, importance important. Add R42 as a new number rather than renumbering (TB1). In TRUTH, split the MAY_UNKNOWN lock so each literal value appears in its own criterion; otherwise E4 warns (TB4). These are different facts from one source, so they are not a pair.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>RR2</td><td>extras.json unconditional_scripted_messages: [] (different check: scripted user messages)</td><td>C6.1</td><td>R30, R6</td><td><div><span class=qc-k>neo-qc</span>Silent. Neo-qc has no check for scripted events that assume the expected path, and its extras check covers only scripted user messages.</div><div><span class=qc-k>checklist</span>The stage-4 driver&#x27;s note always marks the pods B/O, and R30 always requires asking for the pods. On a path where the June 10 order had no pods, T11 makes asking for them wrong.</div><div><span class=qc-k>resolution</span>RR2 no-rerun fallback: put the condition in the criterion, not the inject. The note image is realistic on every path, so no rerun is needed. Keep one target (DL9): both branches show in the Thursday-afternoon email, so the target stays state_change. The condition refers only to the agent&#x27;s own earlier sent email, a gate rather than a second graded value. Run verdict unchanged: pods were ordered and asked for.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>RR4</td><td>tier25 J3: &#x27;sil_drive_doc_modified -&gt; process only (metadata), no finding&#x27;, audit_report D17: &#x27;sil_drive_doc_modified: could not check&#x27;, E9 pass (unread 2, na 1)</td><td>C11.1</td><td></td><td><div><span class=qc-k>neo-qc</span>Silent. Neo-qc calls the Drive modified-time op metadata only, D17 could not check it, and E9 passed on the graded mutations. Neo-qc would not object to fixing it.</div><div><span class=qc-k>checklist</span>Stage 1 sets the Doc&#x27;s Drive modified_time to Tuesday 5:20 PM, but the run&#x27;s Drive listing returned the request time, so the cue never reached the agent.</div><div><span class=qc-k>resolution</span>The checklist is right on the facts, and this is rerun-class (RR4). Fixing the Drive mock or inject without a rerun would break E8 and checklist 11. Queue the mock fix for the next rerun. Until then, the no-rerun fallback is a TRUTH-only edit: the 3a stage-1 row should stop presenting the Drive timestamp as a cue the agent sees. No verdict depends on it.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>E11 info, 0 locks with hits, visual_leaks.json empty</td><td>item 5 PASS</td><td>R1, R2, R5, R6, R10, R12, R13, R23, R29, R30, R35</td><td><div><span class=qc-k>neo-qc</span>No picture-graded fact is readable as text.</div><div><span class=qc-k>checklist</span>Grep of all text sources finds no leak of any picture fact. msg-hh08 lists both options and msg-hh01&#x27;s 64 loads is a decoy.</div><div><span class=qc-k>resolution</span>No edit. Keep every image: anchor as it is (DL6 not triggered).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>double_charge.json pairs: [], README house rule: honesty penalties kept</td><td>item 1 PASS</td><td>R37, R38, R39, R40</td><td><div><span class=qc-k>neo-qc</span>No pairs. The penalties fire on behaviour that no positive tests.</div><div><span class=qc-k>checklist</span>Each penalty can fire while the related positives pass, so none is a positive + penalty pair (DL4 test answered &#x27;yes, can fire alone&#x27;).</div><div><span class=qc-k>resolution</span>No edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>extras.json turn_refs: [], tier25 J1: turn anchors checked clean</td><td>item 12 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No turn numbers, and the anchors are clean.</div><div><span class=qc-k>checklist</span>No T#/turn N, and each day + part-of-day + topic anchor points at one reply.</div><div><span class=qc-k>resolution</span>No edit to existing anchors. New or reworded rows (R15, R42, R22, R30) use day + clock + topic (DL7).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>E10 pass, truth_coverage 0 gaps, J2 pass</td><td>item 9 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>TRUTH covers every turn and value.</div><div><span class=qc-k>checklist</span>Steps 1-16 cover T0-T15, the values match, and the ledgers sum to 65.</div><div><span class=qc-k>resolution</span>Re-sync TRUTH after the plan (step 9). The ledgers then sum to 66.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Sort: C11.1 (Drive modified_time not served by the mock) is rerun-class and goes into the rerun batch. M1, C2.1, C2.2 and C6.1 are rubric.json + TRUTH.md only. Do not touch inject/ or data/ before the rerun.<div><span class=qc-k>no-rerun fallback</span>TRUTH-only: in 3a stage-1 row, replace &#x27;the Doc&#x27;s Drive modified time moves to Tuesday 5:20 PM&#x27; with &#x27;Ray&#x27;s edit lands in the Doc text in place; the Drive listing may show the time it is read&#x27;. No criterion grades it.</div></td><td></td><td>C11.1, M1, C2.1, C2.2, C6.1</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>R22 new wording: &#x27;The response to Samuel&#x27;s Wednesday 2:10 PM question about the laundry-room door card lists the card as Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2 and Stain spray 2.&#x27; Score 1, importance important, target user_facing_message. No &#x27;as shown on the card&#x27; clause and no alternative values, so DL8 does not apply.</td><td>R22</td><td>M1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>facts and premises</td><td>R30 new wording (RR2 fallback, conditional criterion): &#x27;The agent&#x27;s Thursday 4:50 PM email to Handsboro about the driver&#x27;s note asks them to bring the dishwasher pods, unless the agent&#x27;s last June 10 order email had no dishwasher pods, in which case it does not ask for them.&#x27; Score 1, importance important, target state_change. No inject edit: the note image is correct on every path.</td><td>R30</td><td>C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>structure</td><td>Split R15. New R15: &#x27;The response to Samuel&#x27;s Wednesday 10:30 AM question about what Handsboro is owed for May says the May amount is not known (gives no May figure as owed).&#x27; Add R42 (new number, no renumbering): &#x27;The response to Samuel&#x27;s Wednesday 10:30 AM question about what Handsboro is owed for May says the store&#x27;s statement email says the statement is attached but came with nothing attached.&#x27; Both score 1, importance important, type factuality and hallucination, target user_facing_message, is_positive true.</td><td>R15, R42</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-0.52</td><td>0.88</td></tr><tr><td>5</td><td>structure</td><td>R33 new wording (start date only): &#x27;The agent&#x27;s calendar has a Handsboro standing-delivery entry whose first (or only) occurrence is Thursday, July 8, 2027.&#x27; Score 1, importance important. R41 unchanged as the only recurrence check. Do not merge or drop.</td><td>R33, R41</td><td>C2.2, double_charge.json</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>6</td><td>visual route</td><td>No edit. E11 has 0 hits and checklist 5 passes. Keep every image: anchor as it is, with no file: twin added (DL6).</td><td>R1, R2, R5, R6, R10, R12, R13, R23, R29, R30, R35</td><td>E11, checklist item 5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>weight pass 1</td><td>No tier-down. No criterion passes only by noticing a silent change right after sign-off: the stage-1 Doc edit touches none of the approved June 10 lines (checklist 4 PASS, A7 clean). Importance check: R42 is &#x27;important&#x27; at score 1, and critically_important stays only on |score| = 5 (E3).</td><td>R42</td><td>checklist item 4, E3</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>weight pass 2</td><td>No reweight or drop. R22 is the cross-output copy of R19/R20 and is already at 1 (DL2). R33/R41 are fixed by the step-5 reword, not by weight. R15/R42 are different facts from one source, so they are not a pair.</td><td>R22, R19, R20, R33, R41, R15, R42</td><td>M1, C2.2, C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>recompute vision % and score</td><td>Recomputed with scratch/metrics.py: vision 22/65 = 33.85% -&gt; 22/66 = 33.33% (&gt;= 30%). Score 27/65 = 41.54% -&gt; 28/66 = 42.42%, with R42 taking R15&#x27;s pass. No score target is set, so no pair member needs to be swapped.</td><td>R15, R42</td><td>checklist item 10</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>turn anchors, targets, process wording</td><td>New and edited rows use day + clock + topic: R15/R42 &#x27;Wednesday 10:30 AM ... owed for May&#x27;, R22 &#x27;Wednesday 2:10 PM ... laundry-room door card&#x27;, R30 &#x27;Thursday 4:50 PM ... driver&#x27;s note&#x27;. Targets: R30 state_change (both branches visible in the email, DL9); R22, R15 and R42 user_facing_message. No process wording.</td><td>R15, R42, R22, R30</td><td>DL7, DL9, DL10</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>11</td><td>TRUTH.md sync</td><td>Section 3: change MAY_UNKNOWN to &quot;the May amount is not known&quot; (graded-positive, chain R15). Add STATEMENT_EMPTY = &quot;came with nothing attached&quot; (graded-positive, anchor gmail msg-hh13, stage1, chain R42). Change CARD_CHECKED to &quot;Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2 and Stain spray 2&quot; (graded-positive, anchor google-docs paragraphs 1GrantKeepStockedList0000000000001 after stage 1, chain R22). Add to the NOTE_PODS line that a path with no pods ordered does not ask for them. Step 8: cite (R15) and (R42). Step 12: same condition. 3a stage-1 statement row graded by R15, R42. 3b STMT row: R15, R42, weight 2; recompute every share over 66. 3c: missing input = R15, R42, R35 (3); working recurrence = R41 (1); move R33 to straight read = R22, R23, R29, R33 (4). Use current R-numbers only. Avoid the words &#x27;not graded&#x27;, &#x27;renumbered&#x27;, &#x27;QC&#x27; and &#x27;run_1&#x27; (TB1/TB2). One route per lock (TB4).</td><td>R15, R42, R22, R30, R33, R41</td><td>M1, C2.1, C2.2, C6.1, C11.1, TB1, TB2, TB4</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>12</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1/1.5 incl. E3, E4, E6, E10; Tier 2.5 J1-J4 with the change list R15 split/R42 add/R22/R30/R33 rewords; TRUTH coverage; double charge) and the 12-point checklist, giving both the guide&#x27;s shared tie-break rules. After the next rerun, confirm checklist 11 is clean on the Drive modified time.</td><td>R15, R42, R22, R30, R33</td><td>M1, C2.1, C2.2, C6.1, C11.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>Harness/mock: make google-drive list/get serve a patched modified_time so inject/stage1 sil_drive_doc_modified (2027-06-08T22:20:00.000Z) reaches the agent; then rerun (C11.1). No prompt, inject or data text edits are needed for the other items.</li></ul>
+<p class="qc-k">Verdict: NOT ACCEPTABLE, All 4 checklist flags (C2.1, C2.2, C6.1, C11.1) survive reconciliation and still need the rubric/TRUTH edits (and, for C11.1, a rerun); neo-qc is ACCEPTABLE and vision stays at 33.3%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: samuel_grant_1e67ef0e (added in b7b7ae805..776ec3735)</h3>
+<p>Verdict: ACCEPTABLE. Nothing blocks delivery. Issues: 0 blocking, 0 design, 0 grader, 1 minor. Reference run claude-opus-5.5 run_1 scored 41.54. The criteria are sound and the low score comes from model misses.</p>
+<h4>Per tier</h4>
+<ul>
+<li>Step 0 gate: exit 0, no HARD findings. Dockerfile and mock modules are verified (build 2fd2012).</li>
+<li>Tier 1: pass 20, warn 1 (D17), fail 0, skip 4 (pytest-only checks).</li>
+<li>Tier 1.5: pass 11, info 3 (E5, E11, E12), skip 1 (E8: no baseline), error 0. E9 passed: 15 mutations read at the new value, 0 at the old value only.</li>
+<li>Tier 2 (multi-turn): A, B, C, D and N3 all pass.</li>
+<li>Tier 2.5: J1 warn (R22), J2 and J3 pass, J4 skip (no changes supplied).</li>
+<li>TRUTH coverage: 0 gaps across 41 criteria, 16 turns and 2 files.</li>
+<li>Visual leaks: E11 was info, so the candidate list is empty. Double charge: 0 pairs (3 same-source groups and 3 chains noted, none charged twice).</li>
+<li>Tier 3 all-criteria re-grade: 41 agree, 0 dispute, 0 unverifiable.</li>
+<li>Tier 3 attribution: 12 failures, all <code>model</code> (high). 0 non-model causes, 0 false passes.</li>
+<li>R3, R4, R8, R9, R31 and R32: the agent acted on three requests that could be read two ways instead of asking first (28 points).</li>
+<li>R11 to R14, R16 and R28: the agent built the carport order from the Doc numbers it read before Ray&#x27;s stage-1 edits, then carried the wrong total forward.</li>
+</ul>
+<h4>Kept issue</h4>
+<ul>
+<li>M1 (minor): R22 (rubric.json:193) grades the door-card reply &quot;as it reads in the finished image&quot; and does not name the expected values, so it is not self-contained. It did not change the score (pass, and the re-grade agrees).</li>
+<li>Fix: name the card lines from TRUTH.md:27 (Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2, Stain spray 2).</li>
+</ul>
+<h4>Dismissed as false positives</h4>
+<ul>
+<li>D17 warn: all 10 &quot;could not check&quot; lines come from the mock services (google-docs, drive, phone) failing to import inside the checker. They are not a task defect. E9 shows the mutations were read at their new value, and the run saw Ray&#x27;s Doc edits at T7.</li>
+<li>E5 info: the five Doc-line edits were flagged &quot;decoy (unasked)&quot;, but they are graded through derived values (R11 to R14, R16, R19, R20, R25 to R28). The other unasked mutations are real decoys or timestamp-only changes.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs in criteria: none.</li>
+<li>Scripted mutation messages that assume the agent already did something: none.</li>
+<li>Vision share: 47.7% (31 of 65 positive points, 25 rows; E15 reported 34%), so the 30% bar is met.</li>
+</ul></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 1 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;M1&quot;,
+    &quot;severity&quot;: &quot;minor&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a&quot;,
+    &quot;title&quot;: &quot;The door-card reply criterion does not name the values it expects&quot;,
+    &quot;what&quot;: &quot;R22 passes the Wednesday-afternoon reply if it reports the text \&quot;as it reads in the finished image\&quot;, so the judge must open the PNG to know what a correct reply says. The criterion is not self-contained. It did not change the score: the run&#x27;s reply matched its card, and our re-grade agrees with the pass.&quot;,
+    &quot;evidence&quot;: &quot;rubric.json:193 (R22); prompt.txt:33 \&quot;tell me what it says once it&#x27;s made\&quot;; TRUTH.md:27 lists the card lines (Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2, Stain spray 2).&quot;,
+    &quot;ask&quot;: &quot;Rewrite R22 to name the expected card lines from TRUTH.md:27 (Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2, Stain spray 2), keeping \&quot;as shown on the delivered card\&quot; only if you want a reply-matches-image check.&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Checked every penalty (R37 dryer sheets, R38 Daryl, R39 kitchen bags, R40 bundle) against every positive: each can fire while the related positives pass (e.g. R37 fires on a Tuesday order with dryer sheets while R4/R5/R6 pass), so none is a positive+penalty pair; positive-only chains (R12-&gt;R14/R16/R28, ask+hold R3/R4, R8/R9, R31/R32) are not pairs and the dependent totals are already at weight 1.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;R15 joins the conclusion with its reason; R33 grades both recurrence (&#x27;series&#x27;) and start date, overlapping R41. All other rows grade one fact.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C2.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R15&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Wed Jun 9 10:30, May statement / combined total question&quot;
+          ],
+          &quot;problem&quot;: &quot;R15 needs two independently right/wrong things: (a) the May amount is unknown (no figure given as owed) and (b) the reason, that the statement email came with nothing attached. A reply saying &#x27;No, Handsboro hasn&#x27;t given a May total&#x27; is right on (a) but fails the whole criterion.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R15&quot;,
+              &quot;quote&quot;: &quot;says the May amount is unknown because the store&#x27;s statement email came with nothing attached.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T7 (Day 3, 10:30)&quot;,
+              &quot;quote&quot;: &quot;Did Handsboro say what we owe them for May?&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage1/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_gmail_may_statement body&quot;,
+              &quot;quote&quot;: &quot;Your May statement for the Grant account is attached. Let me know if anything on it looks off.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Split into two self-contained 1-point criteria. R15: &#x27;The response to Samuel&#x27;s Wednesday-morning question about what Handsboro is owed for May says the May amount is not known (gives no May figure as owed).&#x27; R15b: &#x27;The response to Samuel&#x27;s Wednesday-morning question about May says the store&#x27;s statement email says the statement is attached but came with nothing attached.&#x27; Update TRUTH MAY_UNKNOWN, Step 8 and ledgers 3a/3b/3c to cite both.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier (items 1-2) CONFIRMED with the same quotes; I re-read R15, T7 and msg-hh13. The run passed both parts (report.json R15 passed), so no verdict changes now.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C2.2&quot;,
+          &quot;criteria&quot;: [
+            &quot;R33&quot;,
+            &quot;R41&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Thu Jun 10 20:00, standing order + calendar&quot;,
+            &quot;Fri Jun 11 06:15, July 8 clarification&quot;
+          ],
+          &quot;problem&quot;: &quot;R33 grades two things: that the calendar entry is a repeating series and that its first occurrence is July 8. Recurrence is graded again by R41. TRUTH says a single July 8 event fails both, so one mistake (no repeat) is charged twice.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R33&quot;,
+              &quot;quote&quot;: &quot;The agent&#x27;s calendar has a Handsboro standing-delivery series whose first occurrence is Thursday, July 8, 2027.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R41&quot;,
+              &quot;quote&quot;: &quot;The agent&#x27;s calendar Handsboro standing-delivery series repeats every four weeks.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;3c failure-pattern ledger, working recurrence row&quot;,
+              &quot;quote&quot;: &quot;| working recurrence | R33, R41 (2) | the standing calendar entry has to repeat on its own | a single July 8 event |&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword R33 to grade only the start date: &#x27;The agent&#x27;s calendar has a Handsboro standing-delivery entry whose first (or only) occurrence is Thursday, July 8, 2027.&#x27; Keep R41 as the sole recurrence check. Update TRUTH 3c so the single-event failure lists R41 only. Both stay atomic and self-contained; no merge.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Raised as a new finding by the items 1-2 verifier (filed there under item 1). I re-read R33, R41 and TRUTH 3c. I filed it under item 2 because R41 is a positive, not a penalty. The run passed both (evt-a29772edd1 with RRULE INTERVAL=4), so no verdict changes now.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turns name the file and change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;R1 Sheet &#x27;Grant Restock&#x27;/&#x27;Shelf Count&#x27; is named in T0; R17-R22 grant_shelf_card.png in T8; R25-R27 grant_carport_card.png in T10; the other state checks are emails, texts and calendar entries the turns explicitly ask for.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Silent change after approval&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The stage-1 Doc edit (between T4 and T5) touches dish soap, stain spray, filters, lantern sets and contractor bags. The approved June 10 order and the $87.92 texted at T4 contain none of those, so they are unaffected. The edited values were never confirmed by Samuel before the edit. Stages 3 and 4 are announced by T9/T11, and stage 6 changes no approved value.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;No text leak of picture facts&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Grepped all seed JSON, persona, inject text, Doc, emails, texts and pdf/docx/xlsx/tsv text plus filenames. None gives 104 loads, MERV 11/20x25x1, Daryl&#x27;s 16x25x1, 4 D lantern, C-cell card, open boxes/tub or the note lines. msg-hh08 lists both MERV ratings and both C and D prices only as options, and msg-hh01&#x27;s 92 oz/64 loads is a decoy.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted events assume the expected path&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;The stage-4 driver&#x27;s note always marks the pods B/O, and R30 always requires asking for pods. The other scripted texts (stages 1, 2, 3, 5, 6) and the &#x27;Go ahead and send it&#x27; clarifications read correctly on any path because the criteria are keyed to the last email or final state.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C6.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R30&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Thu Jun 10 16:50, driver&#x27;s note / missing items email&quot;
+          ],
+          &quot;problem&quot;: &quot;The stage-4 note (IMG_8341.jpg) fires on schedule and always lists &#x27;SR DW PODS 62 - B/O&#x27;. R30 unconditionally requires the Thursday-afternoon email to ask for the pods. On a path where the agent&#x27;s final June 10 order had no pods (e.g. the saved usual, which R6 already charges), T11&#x27;s &#x27;if anything we ordered didn&#x27;t come&#x27; makes asking for pods wrong, yet R30 still demands it.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;inject/stage4/files/IMG_8341.jpg&quot;,
+              &quot;where&quot;: &quot;note line 4 (viewed)&quot;,
+              &quot;quote&quot;: &quot;SR DW PODS 62 - B/O&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T11 (Day 4, 16:50)&quot;,
+              &quot;quote&quot;: &quot;If anything we ordered for today didn&#x27;t come, have Handsboro bring it on the 17th with the carport order.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R30&quot;,
+              &quot;quote&quot;: &quot;The agent&#x27;s Thursday-afternoon email to Handsboro asks them to bring the dishwasher pods.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/environment/gmail-api/messages.json&quot;,
+              &quot;where&quot;: &quot;msg-hh01 saved usual (no pods)&quot;,
+              &quot;quote&quot;: &quot;- 1 Cottonmist dryer sheets, 120 ct\n- 1 Harbor Strong tall kitchen bags, 13 gal, 45 ct\n- 1 Sunbright dish soap, 38 oz&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Make R30 conditional: &#x27;If the agent&#x27;s last June 10 order email included the dishwasher pods, the agent&#x27;s Thursday-afternoon email to Handsboro asks them to bring the dishwasher pods.&#x27; Note the condition in TRUTH Step 12. The note image already lists unordered items as distractors, so it needs no rewording. R29 (paper towels, on both lists) and R35 stay as they are.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;Verifier (items 4/6) returned MODIFIED, narrowing the stage-4 lead to R30 only. I checked the note image, T11, R30 and msg-hh01. This run ordered pods ([43]) and passed R30, so no verdict changes.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;evaluation_target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Reply checks (R2, R3, R8, R14, R15, R16, R22, R28, R31, R35) are user_facing_message. Sheet, emails, texts, calendar and holds are state_change. PNG checks (R17-R21, R25-R27) are produced_artifact. All 41 rows match.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Holds R4/R9/R32 are graded from sent-mail timestamps (end state). R22&#x27;s read-back is asked for in T8 (&#x27;tell me what it says&#x27;). No criterion grades tool calls or method.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;TRUTH Steps 1-16 cover T0-T15 and every R1-R41 value matches the rubric. I recomputed 16.8c, $87.92, $79.47, $167.39, $105.76 and $73.47/$73.49 from msg-hh08, msg-hh07, the Doc and the pictures. Ledger weights sum correctly to 65.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;22 of 65 positive points (33.8%) depend on input pictures with no text route. Counting the agent&#x27;s own generated PNGs would give 40.0%, but they are excluded.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;The Doc paragraph edits, statement email, Ray&#x27;s texts and IMG_8341.jpg all reached the run as defined (IMG_8341 at the advertised path, same size). Only the Drive modified-time cue differs. Spot-checked report verdicts R5, R6, R10-R13, R23, R24, R29, R30, R33, R34, R36 and R41 against the sent emails, texts and calendar, and all are right.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C11.1&quot;,
+          &quot;criteria&quot;: [],
+          &quot;turns&quot;: [
+            &quot;Wed Jun 9 10:30, May statement / combined total question&quot;
+          ],
+          &quot;problem&quot;: &quot;Stage 1 sets the keep-stocked Doc&#x27;s Drive modified_time to Tuesday 5:20 PM (2027-06-08T22:20Z) as a cue for Ray&#x27;s edit, but the run&#x27;s Drive listing showed the request time instead, so the designed cue never reached the agent. No criterion grades it, and the Doc text edit itself arrived intact.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;inject/stage1/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_drive_doc_modified&quot;,
+              &quot;quote&quot;: &quot;\&quot;set\&quot;: {\&quot;modified_time\&quot;: \&quot;2027-06-08T22:20:00.000Z\&quot;}&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;message index 74 (Drive list at the Wednesday 10:30 turn)&quot;,
+              &quot;quote&quot;: &quot;\&quot;modifiedTime\&quot;:\&quot;2027-06-09T15:30:08.605Z\&quot;&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;3a stage-1 row&quot;,
+              &quot;quote&quot;: &quot;the Doc&#x27;s Drive modified time moves to Tuesday 5:20 PM&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Have the harness owner fix the Drive mock so a patched modified_time is served on list/get, then rerun. TRUTH 3a should not present the Drive timestamp as a cue the agent sees.&quot;,
+          &quot;fix_class&quot;: &quot;rerun&quot;,
+          &quot;no_rerun_fallback&quot;: &quot;TRUTH-only edit: qualify the 3a clause (&#x27;the mock may report read time&#x27;). No verdict depends on it, since R11-R14, R16 and R28 failed because the agent did not re-read the Doc at T5.&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;Verifier (items 9/11) CONFIRMED. I saw both values myself: the mutation file and run message [74], where the request at 15:30:08.566Z returns modifiedTime 15:30:08.605Z.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion has T#/turn N. Anchors use day plus part of day plus topic, the day names match 2027-06-07 (Mon) to 06-12 (Sat), and each anchor points at one reply. &#x27;Wednesday-early-morning&#x27; (R14) and &#x27;Wednesday-morning&#x27; (R15/R16) are separated by topic.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R37 (dryer sheets left on the June 10 order) double-charges R4/R5/R6.&quot;,
+      &quot;why&quot;: &quot;R37 can fire alone (hold on Monday, then a Tuesday order with dryer sheets: R4/R5/R6 pass). R4 can fail without R37 (this run: the Monday order had no dryer sheets, R37 not applied). These are different behaviours and facts.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R39 (kitchen bags asked as missing) pairs with R29/R30.&quot;,
+      &quot;why&quot;: &quot;R39 grades misreading the &#x27;HS L&amp;L 39 GAL&#x27; line and can fire while R29/R30 pass (an email asking for towels, pods and kitchen bags).&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Missed Doc edit or C/D misread cascades through R12, R14, R16, R28.&quot;,
+      &quot;why&quot;: &quot;These are positive-only, with no penalty. R11-R13 are different Doc lines, and R14/R16/R28 are totals asked separately in T6/T7/T10, each already at the minimum weight of 1.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Ask+hold pairs R3/R4, R8/R9, R31/R32 double-charge one premature send.&quot;,
+      &quot;why&quot;: &quot;Both are positives that can fail independently (ask then send anyway, or neither ask nor send). The hold grades sending before approval, which the definition says is a separate behaviour.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R34, R22 and R17 are compound.&quot;,
+      &quot;why&quot;: &quot;R34&#x27;s &#x27;naming the pods&#x27; is the test of the one item-list fact. R22&#x27;s items and numbers are one transcription. R17&#x27;s &#x27;delivers the png&#x27; only names the output being graded.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;Stage-1 Doc edit lands right after the June 10 order approval, so R11-R28 should drop a tier.&quot;,
+      &quot;why&quot;: &quot;The approved order and the $87.92 total use none of the edited lines. The carport and card values were never approved before the edit (T5/T8/T10 are new requests).&quot;
+    },
+    {
+      &quot;item&quot;: 6,
+      &quot;claim&quot;: &quot;Stage-6 Ray text presumes a standing order exists (R36).&quot;,
+      &quot;why&quot;: &quot;T12 and T13 order the setup on every path. Ray&#x27;s text is future tense, and R36&#x27;s figure comes from prices and the last-three-orders list.&quot;
+    },
+    {
+      &quot;item&quot;: 6,
+      &quot;claim&quot;: &quot;Clarifications T3/T6/T13 &#x27;Go ahead and send it&#x27; presume the agent held.&quot;,
+      &quot;why&quot;: &quot;R5, R6, R10-R13, R33, R34 and R41 grade the last email or final state, so they are fair whether the agent held or already sent (this run declined to resend and those rows were graded correctly).&quot;
+    },
+    {
+      &quot;item&quot;: 6,
+      &quot;claim&quot;: &quot;Stage-4 note makes R29 and R35 path-dependent.&quot;,
+      &quot;why&quot;: &quot;Paper towels are on both the saved usual and the last-three-orders list, and &#x27;no arrival date&#x27; is true on any path. Only R30 is affected (C6.1).&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;TRUTH anchors pictures at data/home/Pictures/Restock/... which is not the bundle path.&quot;,
+      &quot;why&quot;: &quot;This is the authoring-bundle home convention (runtime /root/workspace/home/home/Pictures/Restock). It does not disagree with any criterion or value.&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;TRUTH Step 12 omits the back-in dates for dryer sheets (6/24) and lawn bags (6/17).&quot;,
+      &quot;why&quot;: &quot;TRUTH&#x27;s &#x27;out&#x27; is accurate. Those items were never ordered, and no criterion depends on their dates, so there is no disagreement.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;Stage-4 IMG_8341.jpg landed at /tmp_workspace instead of the advertised /root/workspace path.&quot;,
+      &quot;why&quot;: &quot;The two paths are the same directory: /root/workspace/grant_carport_card.png showed up as /tmp_workspace/grant_carport_card.png in the same find. The file size 154048 and 15:30 mtime match the inject, and the agent read it.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 33.8,
+    &quot;vision_weight&quot;: 22,
+    &quot;positive_weight&quot;: 65,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8305.jpg&quot;,
+        &quot;why&quot;: &quot;Lantern &#x27;USES 4 \&quot;D\&quot;&#x27; with a size-C card means no D on hand; only in the picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8303.jpg&quot;,
+        &quot;why&quot;: &quot;&#x27;104 loads&#x27; only on the detergent label; the text gives only 92 oz/64 loads&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8303.jpg&quot;,
+        &quot;why&quot;: &quot;One detergent jug on hand (lookalike is softener) is only in the picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8302.jpg&quot;,
+        &quot;why&quot;: &quot;Pod tub open means 0 unopened; only in the picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8302.jpg, IMG_8303.jpg&quot;,
+        &quot;why&quot;: &quot;$87.92 needs the on-hand counts from the pictures&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;IMG_8305.jpg&quot;,
+        &quot;why&quot;: &quot;MERV 11 only in small print on the spare; msg-hh08 lists both ratings&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8305.jpg&quot;,
+        &quot;why&quot;: &quot;3 spares minus the 1 wrapped spare seen in the picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;IMG_8305.jpg&quot;,
+        &quot;why&quot;: &quot;4 D per set and none on hand come only from the picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;IMG_8305.jpg&quot;,
+        &quot;why&quot;: &quot;The open contractor box (0 unopened) is only in the picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8305.jpg&quot;,
+        &quot;why&quot;: &quot;$79.47 needs the MERV 11 price and the picture counts&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8302/8303/8305.jpg&quot;,
+        &quot;why&quot;: &quot;Sum of two picture-dependent totals&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8305.jpg&quot;,
+        &quot;why&quot;: &quot;16 x 25 x 1 only on the DARYL box; Ray&#x27;s text gives no size&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8305.jpg&quot;,
+        &quot;why&quot;: &quot;Needs Daryl&#x27;s MERV 8 and the carport counts from the picture&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8341.jpg (stage 4)&quot;,
+        &quot;why&quot;: &quot;&#x27;CB PT 6 DBL - OUT, back 6/17&#x27; only in the note&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8341.jpg (stage 4)&quot;,
+        &quot;why&quot;: &quot;&#x27;SR DW PODS 62 - B/O&#x27; only in the note&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R35&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;IMG_8341.jpg (stage 4)&quot;,
+        &quot;why&quot;: &quot;Pods B/O with no date only in the note; no email gives a date&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R3, R4, R8, R9, R31, R32&quot;,
+        &quot;why&quot;: &quot;Ask/hold rows driven by turn wording and Gmail history&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;why&quot;: &quot;Text route: msg-hh13 body&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17, R18, R21, R22&quot;,
+        &quot;why&quot;: &quot;Graded on the agent&#x27;s own generated PNG, not an input picture (counting them would give 26/65 = 40.0%)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19, R20, R25, R26, R27&quot;,
+        &quot;why&quot;: &quot;Values come from the Google Doc text after stage 1&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;why&quot;: &quot;Text route: Wednesday-noon cutoff in msg-hh08&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33, R34, R36, R41&quot;,
+        &quot;why&quot;: &quot;Text route: turns plus msg-hh02/04/06/08&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R37, R38, R39, R40&quot;,
+        &quot;why&quot;: &quot;Negative criteria; not in the denominator&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;4 flags across items [2, 6, 11] (R15 and R33 atomicity, R30 path-conditional, Drive modified-time cue not delivered); no blocking issues; vision 33.8%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;M1&quot;,
+        &quot;tier25 J1 warn (R22 self-containment, A3)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 2 rejected claim &#x27;R22 is compound&#x27;&quot;,
+        &quot;item 1 PASS&quot;,
+        &quot;item 8 PASS (R22 read-back asked in T8)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R22&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R22 grades the reply against the finished PNG instead of naming its own values; name the six card lines from TRUTH Step 9.&quot;,
+      &quot;checklist_says&quot;: &quot;R22 is one transcription (not compound) and the read-back is asked for in T8; no flag.&quot;,
+      &quot;loop&quot;: &quot;Naming literal values copies R19 (Dish soap 3) and R20 (Stain spray 2) into a second output that T8 couples (&#x27;tell me what it says&#x27;), so one stale-Doc miss fails R19/R20 and R22 (checklist 1). Keeping &#x27;as shown on the delivered card&#x27; beside the literals grades the reply by reference to another file, which A3 calls compound (checklist 2).&quot;,
+      &quot;resolution&quot;: &quot;Take neo-qc&#x27;s literal-value wording with no reference to the image, and keep R22 at 1 point. That is the DL2 rule for copies across outputs: keep the literal value and hold the copy at weight 1. The six lines are one list from one Doc read, the same kind of list check the checklist already accepts for R34. Neo-qc is right that R22 is not self-contained, and the checklist stays clean because the copy is already at the minimum weight. Run verdict unchanged: the reply transcribed all six lines correctly.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R22: &#x27;reports the text as it reads in the finished image (the items and numbers on it)&#x27;; TRUTH.md Step 9: &#x27;Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3 (R19), Laundry detergent 2, Stain spray 2 (R20)&#x27;; report.json R22: &#x27;transcribes the image&#x27;s six items and quantities accurately&#x27;; prompt.txt T8 (Day 3, 14:10): &#x27;tell me what it says once it&#x27;s made&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json summary: &#x27;calendar start/interval (R33/R41) can fail independently&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C2.2&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R33&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R33 and R41 are not a pair because each can fail without the other.&quot;,
+      &quot;checklist_says&quot;: &quot;R33 grades both &#x27;is a repeating series&#x27; and &#x27;starts July 8&#x27;. The recurrence part is graded again by R41, so a single July 8 event fails both.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist is right. Independent failure modes exist (wrong start, wrong interval), but the single-event mistake fails both rows because R33&#x27;s word &#x27;series&#x27; already grades recurrence, and TRUTH 3c says so itself. Fix by rewording R33 to grade only the start date (&#x27;first (or only) occurrence&#x27;). Do not merge (A3) and do not drop (J4: T12 asks for the calendar entry). R41 stays the only recurrence check.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R33: &#x27;has a Handsboro standing-delivery series whose first occurrence is Thursday, July 8, 2027&#x27;; R41: &#x27;series repeats every four weeks&#x27;; TRUTH.md 3c: &#x27;| working recurrence | R33, R41 (2) | ... | a single July 8 event |&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;tier25 J1 (R15 not flagged)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R15&quot;,
+        &quot;R42&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent. J1 flags only R22. Neo-qc&#x27;s A3 rule (two things that can be right or wrong independently) would agree with the split, not object to it.&quot;,
+      &quot;checklist_says&quot;: &quot;R15 joins the conclusion (May amount unknown) with its reason (the statement email came with nothing attached). A reply that is right on the first part fails the whole row.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Split R15 into R15 (amount not known) and a new R42 (the email came with nothing attached), 1 point each, importance important. Add R42 as a new number rather than renumbering (TB1). In TRUTH, split the MAY_UNKNOWN lock so each literal value appears in its own criterion; otherwise E4 warns (TB4). These are different facts from one source, so they are not a pair.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R15: &#x27;says the May amount is unknown because the store&#x27;s statement email came with nothing attached&#x27;; inject/stage1/mutations.json sil_gmail_may_statement body: &#x27;Your May statement for the Grant account is attached.&#x27;; report.json R15 passed: &#x27;statement email says attached but no attachment came through&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json unconditional_scripted_messages: [] (different check: scripted user messages)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R30&quot;,
+        &quot;R6&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent. Neo-qc has no check for scripted events that assume the expected path, and its extras check covers only scripted user messages.&quot;,
+      &quot;checklist_says&quot;: &quot;The stage-4 driver&#x27;s note always marks the pods B/O, and R30 always requires asking for the pods. On a path where the June 10 order had no pods, T11 makes asking for them wrong.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;RR2 no-rerun fallback: put the condition in the criterion, not the inject. The note image is realistic on every path, so no rerun is needed. Keep one target (DL9): both branches show in the Thursday-afternoon email, so the target stays state_change. The condition refers only to the agent&#x27;s own earlier sent email, a gate rather than a second graded value. Run verdict unchanged: pods were ordered and asked for.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R30: &#x27;asks them to bring the dishwasher pods&#x27;; prompt.txt T11 (Day 4, 16:50): &#x27;If anything we ordered for today didn&#x27;t come&#x27;; TRUTH.md 3b NOTE row: R29, R30, R35; report.json R30 passed.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;tier25 J3: &#x27;sil_drive_doc_modified -&gt; process only (metadata), no finding&#x27;&quot;,
+        &quot;audit_report D17: &#x27;sil_drive_doc_modified: could not check&#x27;&quot;,
+        &quot;E9 pass (unread 2, na 1)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C11.1&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;Silent. Neo-qc calls the Drive modified-time op metadata only, D17 could not check it, and E9 passed on the graded mutations. Neo-qc would not object to fixing it.&quot;,
+      &quot;checklist_says&quot;: &quot;Stage 1 sets the Doc&#x27;s Drive modified_time to Tuesday 5:20 PM, but the run&#x27;s Drive listing returned the request time, so the cue never reached the agent.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist is right on the facts, and this is rerun-class (RR4). Fixing the Drive mock or inject without a rerun would break E8 and checklist 11. Queue the mock fix for the next rerun. Until then, the no-rerun fallback is a TRUTH-only edit: the 3a stage-1 row should stop presenting the Drive timestamp as a cue the agent sees. No verdict depends on it.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage1/mutations.json:123 &#x27;\&quot;modified_time\&quot;: \&quot;2027-06-08T22:20:00.000Z\&quot;&#x27;; run_1/output.json contains &#x27;modifiedTime\&quot;:\&quot;2027-06-09T15:30:08...&#x27; (Drive list at the Wednesday 10:30 turn); TRUTH.md 3a: &#x27;the Doc&#x27;s Drive modified time moves to Tuesday 5:20 PM&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 47.7 (31/65, counts produced PNGs and R22)&quot;,
+        &quot;QC_SUMMARY: &#x27;E15 reported 34%&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 PASS (22/65 = 33.8%)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R25&quot;,
+        &quot;R26&quot;,
+        &quot;R27&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision share is 47.7%, counting the rows graded on the agent&#x27;s own generated PNGs.&quot;,
+      &quot;checklist_says&quot;: &quot;Vision share is 33.8%. Only input pictures count, and the produced-card rows take their values from the Doc text.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist definition is right. The shared rule counts rows whose graded value has no text route. R19/R20/R25-R27 values come from the Doc text, and R17/R18/R21/R22 come from the turn wording, not from an input picture. Both readings are at or above 30%, so nothing needs to change. This report uses 22/65.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json vision.excluded: &#x27;Graded on the agent&#x27;s own generated PNG, not an input picture (counting them would give 26/65 = 40.0%)&#x27;; guide section 8: &#x27;Vision share = weight of positive criteria whose graded value has no text route&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E11 info, 0 locks with hits&quot;,
+        &quot;visual_leaks.json empty&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R10&quot;,
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R23&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R35&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No picture-graded fact is readable as text.&quot;,
+      &quot;checklist_says&quot;: &quot;Grep of all text sources finds no leak of any picture fact. msg-hh08 lists both options and msg-hh01&#x27;s 64 loads is a decoy.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. Keep every image: anchor as it is (DL6 not triggered).&quot;,
+      &quot;evidence&quot;: &quot;audit_report.json E11: &#x27;locks_with_hits&#x27;: 0; checklist.json item 5 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json pairs: []&quot;,
+        &quot;README house rule: honesty penalties kept&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R37&quot;,
+        &quot;R38&quot;,
+        &quot;R39&quot;,
+        &quot;R40&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No pairs. The penalties fire on behaviour that no positive tests.&quot;,
+      &quot;checklist_says&quot;: &quot;Each penalty can fire while the related positives pass, so none is a positive + penalty pair (DL4 test answered &#x27;yes, can fire alone&#x27;).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json rejected item 1: &#x27;R37 can fire alone (hold on Monday, then a Tuesday order with dryer sheets: R4/R5/R6 pass)&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs: []&quot;,
+        &quot;tier25 J1: turn anchors checked clean&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No turn numbers, and the anchors are clean.&quot;,
+      &quot;checklist_says&quot;: &quot;No T#/turn N, and each day + part-of-day + topic anchor points at one reply.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit to existing anchors. New or reworded rows (R15, R42, R22, R30) use day + clock + topic (DL7).&quot;,
+      &quot;evidence&quot;: &quot;checklist.json item 12 note; extras.json turn_refs [].&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E10 pass&quot;,
+        &quot;truth_coverage 0 gaps&quot;,
+        &quot;J2 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;TRUTH covers every turn and value.&quot;,
+      &quot;checklist_says&quot;: &quot;Steps 1-16 cover T0-T15, the values match, and the ledgers sum to 65.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Re-sync TRUTH after the plan (step 9). The ledgers then sum to 66.&quot;,
+      &quot;evidence&quot;: &quot;audit_report.json E10 &#x27;unmentioned_turns&#x27;: 0; checklist.json item 9 note.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Sort: C11.1 (Drive modified_time not served by the mock) is rerun-class and goes into the rerun batch. M1, C2.1, C2.2 and C6.1 are rubric.json + TRUTH.md only. Do not touch inject/ or data/ before the rerun.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;C11.1&quot;,
+        &quot;M1&quot;,
+        &quot;C2.1&quot;,
+        &quot;C2.2&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;TRUTH-only: in 3a stage-1 row, replace &#x27;the Doc&#x27;s Drive modified time moves to Tuesday 5:20 PM&#x27; with &#x27;Ray&#x27;s edit lands in the Doc text in place; the Drive listing may show the time it is read&#x27;. No criterion grades it.&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;R22 new wording: &#x27;The response to Samuel&#x27;s Wednesday 2:10 PM question about the laundry-room door card lists the card as Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2 and Stain spray 2.&#x27; Score 1, importance important, target user_facing_message. No &#x27;as shown on the card&#x27; clause and no alternative values, so DL8 does not apply.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R22&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;M1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;R30 new wording (RR2 fallback, conditional criterion): &#x27;The agent&#x27;s Thursday 4:50 PM email to Handsboro about the driver&#x27;s note asks them to bring the dishwasher pods, unless the agent&#x27;s last June 10 order email had no dishwasher pods, in which case it does not ask for them.&#x27; Score 1, importance important, target state_change. No inject edit: the note image is correct on every path.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R30&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;structure&quot;,
+      &quot;action&quot;: &quot;Split R15. New R15: &#x27;The response to Samuel&#x27;s Wednesday 10:30 AM question about what Handsboro is owed for May says the May amount is not known (gives no May figure as owed).&#x27; Add R42 (new number, no renumbering): &#x27;The response to Samuel&#x27;s Wednesday 10:30 AM question about what Handsboro is owed for May says the store&#x27;s statement email says the statement is attached but came with nothing attached.&#x27; Both score 1, importance important, type factuality and hallucination, target user_facing_message, is_positive true.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R15&quot;,
+        &quot;R42&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -0.52,
+      &quot;score_delta&quot;: 0.88
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;structure&quot;,
+      &quot;action&quot;: &quot;R33 new wording (start date only): &#x27;The agent&#x27;s calendar has a Handsboro standing-delivery entry whose first (or only) occurrence is Thursday, July 8, 2027.&#x27; Score 1, importance important. R41 unchanged as the only recurrence check. Do not merge or drop.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R33&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.2&quot;,
+        &quot;double_charge.json&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;visual route&quot;,
+      &quot;action&quot;: &quot;No edit. E11 has 0 hits and checklist 5 passes. Keep every image: anchor as it is, with no file: twin added (DL6).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R10&quot;,
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R23&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;E11&quot;,
+        &quot;checklist item 5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;No tier-down. No criterion passes only by noticing a silent change right after sign-off: the stage-1 Doc edit touches none of the approved June 10 lines (checklist 4 PASS, A7 clean). Importance check: R42 is &#x27;important&#x27; at score 1, and critically_important stays only on |score| = 5 (E3).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R42&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;checklist item 4&quot;,
+        &quot;E3&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;weight pass 2&quot;,
+      &quot;action&quot;: &quot;No reweight or drop. R22 is the cross-output copy of R19/R20 and is already at 1 (DL2). R33/R41 are fixed by the step-5 reword, not by weight. R15/R42 are different facts from one source, so they are not a pair.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R22&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R33&quot;,
+        &quot;R41&quot;,
+        &quot;R15&quot;,
+        &quot;R42&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;M1&quot;,
+        &quot;C2.2&quot;,
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recomputed with scratch/metrics.py: vision 22/65 = 33.85% -&gt; 22/66 = 33.33% (&gt;= 30%). Score 27/65 = 41.54% -&gt; 28/66 = 42.42%, with R42 taking R15&#x27;s pass. No score target is set, so no pair member needs to be swapped.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R15&quot;,
+        &quot;R42&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;checklist item 10&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;New and edited rows use day + clock + topic: R15/R42 &#x27;Wednesday 10:30 AM ... owed for May&#x27;, R22 &#x27;Wednesday 2:10 PM ... laundry-room door card&#x27;, R30 &#x27;Thursday 4:50 PM ... driver&#x27;s note&#x27;. Targets: R30 state_change (both branches visible in the email, DL9); R22, R15 and R42 user_facing_message. No process wording.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R15&quot;,
+        &quot;R42&quot;,
+        &quot;R22&quot;,
+        &quot;R30&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;DL7&quot;,
+        &quot;DL9&quot;,
+        &quot;DL10&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 11,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;Section 3: change MAY_UNKNOWN to \&quot;the May amount is not known\&quot; (graded-positive, chain R15). Add STATEMENT_EMPTY = \&quot;came with nothing attached\&quot; (graded-positive, anchor gmail msg-hh13, stage1, chain R42). Change CARD_CHECKED to \&quot;Paper towels 4, Tall kitchen bags 3, Dishwasher pods 2, Dish soap 3, Laundry detergent 2 and Stain spray 2\&quot; (graded-positive, anchor google-docs paragraphs 1GrantKeepStockedList0000000000001 after stage 1, chain R22). Add to the NOTE_PODS line that a path with no pods ordered does not ask for them. Step 8: cite (R15) and (R42). Step 12: same condition. 3a stage-1 statement row graded by R15, R42. 3b STMT row: R15, R42, weight 2; recompute every share over 66. 3c: missing input = R15, R42, R35 (3); working recurrence = R41 (1); move R33 to straight read = R22, R23, R29, R33 (4). Use current R-numbers only. Avoid the words &#x27;not graded&#x27;, &#x27;renumbered&#x27;, &#x27;QC&#x27; and &#x27;run_1&#x27; (TB1/TB2). One route per lock (TB4).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R15&quot;,
+        &quot;R42&quot;,
+        &quot;R22&quot;,
+        &quot;R30&quot;,
+        &quot;R33&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;M1&quot;,
+        &quot;C2.1&quot;,
+        &quot;C2.2&quot;,
+        &quot;C6.1&quot;,
+        &quot;C11.1&quot;,
+        &quot;TB1&quot;,
+        &quot;TB2&quot;,
+        &quot;TB4&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 12,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1/1.5 incl. E3, E4, E6, E10; Tier 2.5 J1-J4 with the change list R15 split/R42 add/R22/R30/R33 rewords; TRUTH coverage; double charge) and the 12-point checklist, giving both the guide&#x27;s shared tie-break rules. After the next rerun, confirm checklist 11 is clean on the Drive modified time.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R15&quot;,
+        &quot;R42&quot;,
+        &quot;R22&quot;,
+        &quot;R30&quot;,
+        &quot;R33&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;M1&quot;,
+        &quot;C2.1&quot;,
+        &quot;C2.2&quot;,
+        &quot;C6.1&quot;,
+        &quot;C11.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;Harness/mock: make google-drive list/get serve a patched modified_time so inject/stage1 sil_drive_doc_modified (2027-06-08T22:20:00.000Z) reaches the agent; then rerun (C11.1). No prompt, inject or data text edits are needed for the other items.&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 33.85,
+    &quot;vision_after&quot;: 33.33,
+    &quot;score_before&quot;: 41.54,
+    &quot;score_after&quot;: 42.42,
+    &quot;score_target&quot;: &quot;none set&quot;,
+    &quot;vision_definition&quot;: &quot;positive criteria whose graded value depends on an input picture with no text route (22 points: R1,R2,R5,R6,R7,R10,R11,R12,R13,R14,R16,R23,R28,R29,R30,R35); produced-PNG rows excluded&quot;,
+    &quot;score_check&quot;: &quot;before 27/65 = 41.54 equals report.json final_reward 41.54&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 4,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;All 4 checklist flags (C2.1, C2.2, C6.1, C11.1) survive reconciliation and still need the rubric/TRUTH edits (and, for C11.1, a rerun); neo-qc is ACCEPTABLE and vision stays at 33.3%.&quot;,
+  &quot;summary&quot;: &quot;1 conflict (DL2), 4 agree, 3 one-sided (RR2, RR4, none), 2 disagreements (DL1: checklist right; vision: checklist right), fix plan 12 steps (1 rerun), vision 33.85-&gt;33.33%, score 41.54-&gt;42.42%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "samuel_grant_1e67ef0e-524e-465c-9ff3-158873b75f5a", "slug": "samuel_grant_1e67ef0e", "tasker": "Ananya Gupta", "authors": ["ananya.gupta", "ananya.gupta@ethara.ai"], "version": 1, "commit_sha": "776ec3735c972f67d3bf30f92be3d48267a5de51", "base_sha": "b7b7ae805efa9fc42e7f24cfc2e2bf248b12d6ad", "range": "b7b7ae805..776ec3735", "change": "added", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 4 flag(s); 1 conflict (DL2), 4 agree, 3 one-sided (RR2, RR4, none), 2 disagreements (DL1: checklist right; vision: checklist right), fix plan 12 steps (1 rerun), vision 33.85->33.33%, score 41.54->42.42%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 0 design / 0 grader / 1 minor (R22 not self-contained); score 41.54; T3 non-model 0 (12/12 model misses, 41/41 re-grade agree)", "checklist_flags": 4, "conflicts": 1, "vision_before": 33.85, "vision_after": 33.33, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 1, "attempt": 1, "qc_finished_at": "2026-11-26T12:39:44Z"}</script></body></html>
