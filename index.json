@@ -1148,6 +1148,14 @@
     "started": "2026-11-26 08:00",
     "v": 1,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1600_a1",
+    "score": 25.37,
+    "started": "2026-11-26 10:30",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/jack_singleton_3a5978b7-d807-4f8f-a764-bc70f09f9abd": [
