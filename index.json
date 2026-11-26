@@ -86,6 +86,16 @@
     "verdict": "NOT ACCEPTABLE"
    }
   ],
+  "ashmi/wayne_guerrero_89a26e2a-9668-4f02-a600-195aa990d021": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1700_a1",
+    "score": 32.39,
+    "started": "2026-11-26 11:30",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
   "ayush/ada_nakamura-jones_8fc10382-39cf-400f-b804-e50ce6ca9ad1": [
    {
     "started": "2026-11-19 11:47",
@@ -1915,5 +1925,5 @@
    }
   ]
  },
- "updated": "2026-11-26 11:22 UTC"
+ "updated": "2026-11-26 11:41 UTC"
 }
