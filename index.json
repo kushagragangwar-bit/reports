@@ -1048,6 +1048,16 @@
     "verdict": "NOT ACCEPTABLE"
    }
   ],
+  "mohit/greg_matthews_3b2d144d-691f-4f42-bb4c-94385a922fff": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1330_a1",
+    "score": 29.58,
+    "started": "2026-11-26 08:00",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
   "mohit/jack_singleton_3a5978b7-d807-4f8f-a764-bc70f09f9abd": [
    {
     "started": "2026-11-21 15:01",
@@ -1733,5 +1743,5 @@
    }
   ]
  },
- "updated": "2026-11-26 07:54 UTC"
+ "updated": "2026-11-26 08:10 UTC"
 }
