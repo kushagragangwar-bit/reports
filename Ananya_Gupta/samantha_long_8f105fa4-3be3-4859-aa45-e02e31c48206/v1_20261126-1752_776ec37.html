@@ -1,0 +1,1002 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: samantha_long_8f105fa4 (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>samantha_long_8f105fa4-3be3-4859-aa45-e02e31c48206</code></span>
+<span><span class="k">Tasker</span>Ananya Gupta</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>776ec3735</code> (added, range <code>b7b7ae805..776ec3735</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 12:38:16 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>4</span>
+<span><span class="k">Conflicts</span>0</span>
+<span><span class="k">Vision</span>51.56% → 50.0%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 4 flag(s); 0 conflicts, 3 agree (DL4, DL6, RR2), 4 one-sided (C2.1, C2.2, C4.1/DL5, C12.1/DL7), 1 disagreement (vision definition); fix plan 10 steps (0 rerun), vision 51.56-&gt;50.0%, score 53.13-&gt;56.25%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: samantha_long_8f105fa4</h1>
+<p class="sub">obsidian-infinity-stage-1 b7b7ae805..776ec3735 (added)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>39</b><span>rubrics</span></div><div class="stat"><b>53.1</b><span>mean reference score %</span></div><div class="stat"><b>21/0/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>12/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>11/0/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>3/0/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>39/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 0 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 12 failed criteria across 1 task(s): <b>12 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 0 failure(s) and 0 warning(s). Tier 2.5 flagged 0 of 4 checks on 0 task(s); 0 pending. Tier 3 re-graded 39 criteria: 39 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 0 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending.</p>
+
+<h3>Issue log</h3><p class='muted'>No <code>issues.json</code> was supplied. Write one (see report_format.md) and re-run.</p>
+
+<h3>Checks</h3>
+
+
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-samantha_long_8f105fa4-3be3-4859-aa45-e02e31c48206'><td>samantha_long_8f105fa4-3be3-4859-aa45-e02e31c48206</td><td class='n'>20</td><td class='n'>39</td><td class='n'>53.13</td><td>21/0/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 12</td><td>11/0/0</td><td><span class="b b-ok">pass</span></td><td>39/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>4 flags across items [2, 4, 12] (R16 and R5 atomicity, R32 weight after silent change, R6/R15/R19 anchor collisions); vision 51.6%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Checked the 3 penalties (R37, R38, R39) against all positives. R38 has no mirror positive. R37 is independent of R5. R39 grades a request that was never withdrawn and is already at -1. Same-value outputs (R12/R28, R14/R27) are separate outputs that no turn couples.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag bad">FLAG</span></td><td>C2.1, C2.2</td><td>Swept R1-R39. Two criteria each bundle two independently gradable things.</td></tr><tr><td>3</td><td>Turns name the file and change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every file criterion is named in its turn: R1 perks_may2027.xlsx (Mon 08:40), R10-R12 and R38 perks_bookmark.png (Wed 08:30), R36 perks_bookmark_signed.png (Sat 13:00). No criterion checks a file update the turn describes only vaguely.</td></tr><tr><td>4</td><td>Lower weight after silent change of a settled value</td><td><span class="qc-tag bad">FLAG</span></td><td>C4.1</td><td>Checked every criterion tied to stages 2-5. Only R32 is above the floor and re-asks a value settled earlier. R24, R33 and R34 follow the same pattern but are already at 1. R17&#x27;s $5 rate was never asked for or graded before the change.</td></tr><tr><td>5</td><td>No text leak of picture-graded facts</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Scanned seed JSON for all services, persona, filler docx/pptx/xlsx/pdf/tsv, jpg bytes, inject text and filenames for $18.40, 1,140, 3,380, $3/300 clipped, June 16, June 20, $62.00, 4:45, the struck line, the gift-card and half-price rules. None appear outside the images. The emails carry only separate preconditions.</td></tr><tr><td>6</td><td>Scripted messages assume the expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every clarifying follow-up states the meant reading outright (T5 pantry, T9 &#x27;not Mill Cove&#x27;s certificate&#x27;, T11 Plus, T13 &#x27;Only tomorrow&#x27;s lunch&#x27;), so each reads correctly whether the agent asked or guessed. The WhatsApp and photo mutations do not depend on any agent action. R7, R16 and R39 already handle earlier guessed emails.</td></tr><tr><td>7</td><td>Evaluation target</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Reply contents are user_facing_message; sent emails, texts and calendar end states are state_change (R3, R7, R14, R16, R20-R22, R24-R28, R37, R39); xlsx and png deliverables are produced_artifact (R1, R10-R12, R36, R38).</td></tr><tr><td>8</td><td>No unasked process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The ask-first criteria R6, R13, R15 and R19 come from the AGENTS.md ambiguity rule and are graded on the visible reply. R37 and R39 are graded on end state. No criterion grades the tool used or the method.</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Steps 1-20 cover all 20 turns and the Value Lock covers R1-R36. Every figure recomputed from images, emails and in-force stages matches TRUTH and the rubric (e.g. R17 $13.00, R32 $61.89, R33 54, R35 $61.44). Ledger weights sum correctly (positive 64, penalties -9).</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Vision share is 33/64 = 51.6%. Output-only image checks (R10, R11, R36) and R30 are excluded.</td></tr><tr><td>11</td><td>Run matches delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Seed reads in the run equal the seed bodies. The stage1 email, stage4/6 WhatsApp rows and stage5 photo (225422 bytes at 14:30) match inject exactly. The run never re-read the mutated emails, so its stale answers come from reusing old reads, not from a different environment. report.json verdicts agree with the values in force.</td></tr><tr><td>12</td><td>No turn numbers / unique anchors</td><td><span class="qc-tag bad">FLAG</span></td><td>C12.1</td><td>No criterion contains a turn number. But three anchors (day-part + topic) match two different turns each.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C2.1"><div><strong>C2.1</strong> · item 2 Non-atomic rubrics
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R16
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Thursday 10:00 AM: take the Plus step-up and tell Bay Colony what she&#x27;ll pay</div>
+<p style="margin:.4rem 0">R16 only counts an email that asks for the Plus step-up, and then checks that it gives $62.00. The turn makes two separate asks: take Plus, and state the amount. A Thursday email giving the correct $62.00 without asking for Plus fails R16 entirely. No other criterion grades the Plus request in the email (R15 grades only the earlier clarifying question).</p><div class="ev"><span class="qc-k">rubric.json R16</span><code>The agent&#x27;s Thursday email to Bay Colony Auto Club that asks for the Plus step-up (the last one, if more than one is sent) gives $62.00 as what she will pay.</code></div><div class="ev"><span class="qc-k">prompt.txt T11 (Day 4, 10:00)</span><code>I should have said: take their Plus step-up. It&#x27;s the same money, and Tom says the towing alone pays for it. Tell them what I&#x27;ll be paying, and send it.</code></div>
+<div><span class="qc-k">Fix plan</span>Reword R16 to: &#x27;The agent&#x27;s last Thursday email to Bay Colony Auto Club gives $62.00 as what she will pay.&#x27; (+1, important). Add a new +1 criterion: &#x27;The agent&#x27;s last Thursday email to Bay Colony Auto Club asks for the Plus step-up.&#x27; (+1, important, state_change). Both stay self-contained; do not merge them. Add the new value to the TRUTH Value Lock and ledgers.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier V1 CONFIRMED. I re-read R16 and the Thursday 10:00 turn: the Plus qualifier and the amount can be right or wrong independently.</div></div><div class="qc-flag" id="C2.2"><div><strong>C2.2</strong> · item 2 Non-atomic rubrics
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R5
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Tuesday 7:45 AM: is the points-expire-tonight email right</div>
+<p style="margin:.4rem 0">R5 grades both the count (1,140) and the timing (end of May, not tonight). These are independent: TRUTH lists a separate wrong path for each (&#x27;the points expiring tonight or June&#x27;s counted&#x27;). A reply that correctly says &#x27;No, they run out May 31, not tonight&#x27; but gives no count fails, and so does a reply with 1,140 and the wrong timing.</p><div class="ev"><span class="qc-k">rubric.json R5</span><code>The response to Samantha&#x27;s Tuesday-early-morning question about the points email says 1,140 of her points run out, at the end of May.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Failure-pattern ledger, picture misread row</span><code>the points expiring tonight or June&#x27;s counted</code></div>
+<div><span class="qc-k">Fix plan</span>Split R5 into two +1 criteria, each standing alone: (a) &#x27;The response to Samantha&#x27;s Tuesday 7:45 AM question about the email saying her points run out tonight says 1,140 of her points run out this month.&#x27; (b) &#x27;The response to Samantha&#x27;s Tuesday 7:45 AM question about the email saying her points run out tonight says her points run out at the end of May, not tonight.&#x27; Update the TRUTH Value Lock.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: V1 CONFIRMED; V4 called it borderline. I decided to flag: count and date are separate receipt lines that can be independently wrong, and TRUTH itself treats them as separate failure modes.</div></div><div class="qc-flag" id="C4.1"><div><strong>C4.1</strong> · item 4 Lower weight after silent change of a settled value
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R32
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Tuesday 4:00 PM: what will Saturday&#x27;s pickup order come to, stage2 (between Tue 16:00 and Wed 08:30), Friday 5:30 PM: two collections, what she hands over</div>
+<p style="margin:.4rem 0">In the Tuesday 4 PM turn the user asks for the pickup order total and gets it (R8 grades $58.47 on the first terms). Stage 2 silently rewrites that email to $57.89 right after that turn. Friday&#x27;s 5:30 PM question asks for the same order again inside R32, at 3 points. R32 also depends on the held-book price, which was given at Monday 10:30 (R2 $16.00) and silently changed to $14.00 at stage 3. The value was settled in conversation, changed silently, then re-asked, so R32 should drop one tier.</p><div class="ev"><span class="qc-k">prompt.txt T6 (Day 2, 16:00)</span><code>What will Saturday&#x27;s pickup order come to when I pay for it? And how many of my points will it take?</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json sil_gmail_pickup_total_may26 (applies_between_turns T6,T7)</span><code>Estimated total: $57.89 (updated May 26: we are out of the 12 oz ground coffee and have put in the 10 oz bag)</code></div><div class="ev"><span class="qc-k">rubric.json R32</span><code>The response to Samantha&#x27;s Friday-evening question about her two collections gives $61.89, before any sales tax, as what she hands over at the counters for both.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md 3b Carrier ledger, anchors row</span><code>the first terms, graded before their stage</code></div>
+<div><span class="qc-k">Fix plan</span>rubric.json: R32 score 3 -&gt; 1 (importance stays &#x27;important&#x27;). TRUTH.md: update the 3b carrier ledger (S1 weight 5 -&gt; 3, S2 weight 4 -&gt; 2, with recomputed shares) and the failure-pattern row &#x27;restated email and precondition together&#x27; (6 -&gt; 4).</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: V2 CONFIRMED; V4 disagreed because the user never explicitly approved the value. I decided to flag: the user asked for this exact value, received it, and TRUTH deliberately uses R2/R8 as anchors set before the silent change. That is the settled-then-silently-changed-then-re-asked pattern item 4 targets.</div></div><div class="qc-flag" id="C12.1"><div><strong>C12.1</strong> · item 12 No turn numbers / unique anchors
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R6, R15, R19
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Tue 07:45 points email vs Tue 09:30 use the points, Thu 08:15 renew Bay Colony vs Thu 10:00 take Plus, Thu 13:00 move Friday lunch vs Thu 16:00 only tomorrow&#x27;s lunch</div>
+<p style="margin:.4rem 0">Each of these score-5/3 ask criteria uses an anchor that fits two turns. R6 (&#x27;Tuesday-morning question about the Hallett&#x27;s points&#x27;) also fits Tuesday 07:45, which is about the same points. R15 (&#x27;Thursday-morning question about renewing with Bay Colony&#x27;) also fits Thursday 10:00, where the reply should send, not ask. R19 (&#x27;Thursday-afternoon question about the Friday lunch&#x27;) also fits Thursday 16:00, &#x27;Only tomorrow&#x27;s lunch&#x27;. A grader could check the wrong reply.</p><div class="ev"><span class="qc-k">rubric.json R6</span><code>The response to Samantha&#x27;s Tuesday-morning question about the Hallett&#x27;s points asks her whether she means Points for Pantries or Saturday&#x27;s pickup order, rather than choosing one itself.</code></div><div class="ev"><span class="qc-k">rubric.json R15</span><code>The response to Samantha&#x27;s Thursday-morning question about renewing with Bay Colony asks her whether she wants Classic or the Plus step-up, rather than choosing one itself.</code></div><div class="ev"><span class="qc-k">rubric.json R19</span><code>The response to Samantha&#x27;s Thursday-afternoon question about the Friday lunch asks her whether she means only this Friday&#x27;s lunch with Frank or every Friday&#x27;s, rather than choosing one itself.</code></div><div class="ev"><span class="qc-k">prompt.txt T10 / T11 headers</span><code>--- TURN T10 (Day 4, 08:15) ---</code></div><div class="ev"><span class="qc-k">prompt.txt T12 / T13</span><code>Only tomorrow&#x27;s lunch, I meant; his daughter is back from Boston next week.</code></div>
+<div><span class="qc-k">Fix plan</span>Re-anchor on clock time and topic, with no turn numbers. R6: &#x27;The response to Samantha&#x27;s Tuesday 9:30 AM request to use the Hallett&#x27;s points that run out this month asks her whether ...&#x27;. R15: &#x27;The response to Samantha&#x27;s Thursday 8:15 AM request to renew her with Bay Colony asks her whether ...&#x27;. R19: &#x27;The response to Samantha&#x27;s Thursday 1:00 PM request to move the Friday lunch to one o&#x27;clock asks her whether ...&#x27;. Keep each criterion&#x27;s wording otherwise unchanged.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: V4 found and CONFIRMED all three. I checked the prompt.txt turn headers: T3 07:45 and T4 09:30 are both Tuesday morning, T10 08:15 and T11 10:00 both Thursday morning, T12 13:00 and T13 16:00 both Thursday afternoon, each pair on the same topic.</div></div>
+<h3>Vision share <span class="qc-tag ok">51.6%</span></h3>
+<p>33 of 64 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>Pictures/Perks/IMG_6732.jpg</td><td>$18.40 corrected credit beside struck $21.40 only on the slip</td></tr><tr><td>R4</td><td>1</td><td>Pictures/Perks/IMG_6734.jpg</td><td>list total $36.44 without the struck line only in the handwritten list</td></tr><tr><td>R5</td><td>1</td><td>Pictures/Perks/IMG_6731.jpg</td><td>1,140 expiring 05/31/27 only in the receipt rewards box</td></tr><tr><td>R7</td><td>1</td><td>Pictures/Perks/IMG_6731.jpg</td><td>1,100 derives from the receipt-only 1,140</td></tr><tr><td>R8</td><td>1</td><td>Pictures/Perks/IMG_6731.jpg</td><td>$3.00 clipped reward only on the receipt</td></tr><tr><td>R9</td><td>1</td><td>Pictures/Perks/IMG_6731.jpg</td><td>300 clipped points and the rule that they leave at the next order only on the receipt</td></tr><tr><td>R12</td><td>1</td><td>Pictures/Perks/IMG_6733.jpg</td><td>June 19 needs &#x27;Valid through June 20&#x27;, which is only on the certificate</td></tr><tr><td>R14</td><td>3</td><td>Pictures/Perks/IMG_6735.jpg</td><td>voucher &#x27;Good through June 16&#x27; only on the voucher</td></tr><tr><td>R16</td><td>1</td><td>Pictures/Perks/IMG_6736.jpg</td><td>$62.00 dues with credits already taken off only on the notice</td></tr><tr><td>R17</td><td>3</td><td>Pictures/Perks/IMG_6731.jpg</td><td>balance and 06/30 expiring line only on the receipt</td></tr><tr><td>R22</td><td>1</td><td>inject/stage5/files/IMG_6738.jpg</td><td>4:45 PM only on the pass</td></tr><tr><td>R23</td><td>1</td><td>inject/stage5/files/IMG_6738.jpg</td><td>room hidden under her thumb is visible only in the photo</td></tr><tr><td>R24</td><td>1</td><td>Pictures/Perks/IMG_6732.jpg</td><td>$18.40 and the half-of-a-used-book rule only on the slip</td></tr><tr><td>R26</td><td>1</td><td>Pictures/Perks/IMG_6731.jpg</td><td>3,380 balance and 300 clipped only on the receipt</td></tr><tr><td>R27</td><td>1</td><td>Pictures/Perks/IMG_6735.jpg</td><td>June 16 end date only on the voucher</td></tr><tr><td>R28</td><td>3</td><td>Pictures/Perks/IMG_6733.jpg</td><td>June 20 valid-through only on the certificate</td></tr><tr><td>R29</td><td>1</td><td>Pictures/Perks/IMG_6734.jpg</td><td>list total only in the handwritten list</td></tr><tr><td>R32</td><td>3</td><td>Pictures/Perks/IMG_6732.jpg + IMG_6731.jpg</td><td>half-book rule and the $3 clipped reward appear only in the images</td></tr><tr><td>R33</td><td>1</td><td>Pictures/Perks/IMG_6731.jpg</td><td>point per whole dollar (+41 on $41.62) and the clipped reward only on the receipt</td></tr><tr><td>R34</td><td>1</td><td>Pictures/Perks/IMG_6732.jpg</td><td>$18.40 and the half-book rule only on the slip</td></tr><tr><td>R35</td><td>5</td><td>Pictures/Perks/IMG_6734.jpg + IMG_6733.jpg</td><td>list total and the gift-card small print appear only in the images</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (7)</summary><ul><li>item 1: R39 (-1) double-charges the guess R6 (+5) charges <span class='qc-k'>dismissed:</span>R39 grades a separate end state: a guessed request left with no withdrawal. In this run R6 failed but the agent withdrew (&#x27;Please disregard my earlier email...&#x27;), so R39 did not fire. R39 is already at -1, the prescribed floor, so there is nothing to fix.</li><li>item 1: R20 double-charges the wrong series move R19 charges <span class='qc-k'>dismissed:</span>Both are positives that can each fail alone. R19 can pass while R20 fails (asks, then edits the series wrongly), and R19 can fail while R20 passes (this run restored 11:30 with an EXDATE). R20 is already +1.</li><li>item 2: R14 date + time non-atomic <span class='qc-k'>dismissed:</span>One event start datetime. TRUTH types VOUCHER_EVENT as a datetime and the 1:30 comes straight from her ask; all the wrong paths are about the date.</li><li>item 4: R17 (3) depends on the msg-pk15 rate restated at stage2 after being confirmed <span class='qc-k'>dismissed:</span>No turn asks about or grades the $5 block rate before the change. Only the agent mentioned it, unprompted. T11 is the first turn to ask about block value.</li><li>item 6: T9 &#x27;Sorry, I meant the other one&#x27; presumes the agent picked Mill Cove <span class='qc-k'>dismissed:</span>The turn says &#x27;not Mill Cove&#x27;s certificate&#x27; explicitly, so it resolves to the voucher on every path. &#x27;Put it on&#x27; works whether or not an event exists. TRUTH line 7 documents this design.</li><li>item 6: T5/T11/T13 follow-ups or WhatsApp mutations assume the expected path <span class='qc-k'>dismissed:</span>Each states its reading outright. The WhatsApp rows are routine or a planned missing-attachment gap. The stage5 photo is announced by the turn that follows it.</li><li>item 9: Stage2/4 email texts say &#x27;updated May 26&#x27; / &#x27;From May 27&#x27; but are applied May 25 20:15 / May 26 19:00 <span class='qc-k'>dismissed:</span>This is a realism nit in the mutation text, not a TRUTH-vs-rubric disagreement. Both are in force at the turns that grade them, so no answer changes.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>0 conflicts, 3 agree (DL4, DL6, RR2), 4 one-sided (C2.1, C2.2, C4.1/DL5, C12.1/DL7), 1 disagreement (vision definition); fix plan 10 steps (0 rerun), vision 51.56-&gt;50.0%, score 53.13-&gt;56.25%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">51.56% → 50.0%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">53.13% → 56.25%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag warn">disagreement</span></td><td>vision</td><td>extras.json vision_pct 60.94 (39/64), QC_SUMMARY E15 56%</td><td>item 10 (PASS, 51.6%)</td><td>R10, R11, R36, R30</td><td><div><span class=qc-k>neo-qc</span>Vision 60.94%: counts R10, R11, R36 (output images) and R30.</div><div><span class=qc-k>checklist</span>Vision 51.6% (33/64): excludes R10, R11, R36 (graded value comes from prompt text) and R30 ($8 + $9 from the prompt).</div><div><span class=qc-k>resolution</span>Checklist definition wins under the shared tie-break rule (vision = positive weight whose graded value has no text route): thyme, clean lettering and the signed line are given in prompt text, and $17.00 is reachable from the prompt alone. No verdict impact: both readings are above 30% before and after the plan (51.56 -&gt; 50.00; neo reading 60.94 -&gt; 59.38).</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>audit_report_tier25.json J1 (A3) pass, no finding</td><td>C2.1</td><td>R16</td><td><div><span class=qc-k>neo-qc</span>J1 passes R16; A3 does not flag the &#x27;that asks for the Plus step-up&#x27; qualifier. neo-qc is silent rather than objecting.</div><div><span class=qc-k>checklist</span>R16 bundles two asks from the Thursday 10:00 AM turn (take Plus; say what she pays). A $62.00 email that does not ask for Plus fails outright, and nothing else grades the Plus request.</div><div><span class=qc-k>resolution</span>Checklist is right: the Plus request and the $62.00 can each be right or wrong on their own (Classic dues are also $62.00), which is the A3 test as well. Split, never merge (DL1): R16 keeps only $62.00; new R41 grades the Plus ask. Not a double-charge pair afterwards: the only shared failure is &#x27;no email sent&#x27;, which is the NOT-a-pair &#x27;output never produced&#x27; case. Append as R41 so nothing renumbers (TB1).</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>audit_report_tier25.json J1 (A3) pass, no finding</td><td>C2.2</td><td>R5</td><td><div><span class=qc-k>neo-qc</span>J1 passes R5. Silent.</div><div><span class=qc-k>checklist</span>R5 grades the count (1,140) and the timing (end of May, not tonight). These can fail independently, and TRUTH lists them as separate wrong paths.</div><div><span class=qc-k>resolution</span>Checklist is right, minor: the &#x27;tonight&#x27; timing is the core of the T3 question and is independent of the count. Split into R5 (count, keeps the literal &#x27;1,140 of her points&#x27; for E4) and new R40 (timing). Both read IMG_6731 only (no text gives May 31 for Hallett&#x27;s), so vision weight rises by 1. Same source, different facts, so not a double-charge pair.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL5</td><td>audit_report_tier25.json J1 evidence: &quot;A7 n/a: no stage right after a sign-off ... changes the approved item&quot;</td><td>C4.1</td><td>R32</td><td><div><span class=qc-k>neo-qc</span>A7 (narrow: only after a send/sign-off) does not apply, so R32 stays at 3. neo-qc would not object to a lower weight.</div><div><span class=qc-k>checklist</span>Tue 4:00 PM asks the pickup total (R8, $58.47); stage 2 silently changes it to $57.89 right after; Fri 5:30 PM re-asks it inside R32 at 3 points. R32 also rests on the $16 held-book price (R2) changed at stage 3. Lower R32 3 -&gt; 1.</div><div><span class=qc-k>loop</span>Lowering 3 -&gt; 1 with a stale TRUTH ledger would trip neo-qc J2 (TRUTH 3b and failure-pattern weights no longer sum); R32 is a picture criterion, so vision drops; R32 failed in run_1, so the score rises.</div><div><span class=qc-k>resolution</span>Checklist is right. The guide&#x27;s DL5 note says to use the broader checklist rule as the bar, and tie-break rule 5 (broad silent-after-sign-off) covers it. Do it in weight pass 1: R32 3 -&gt; 1, importance stays &#x27;important&#x27; (|score| != 5, E3 holds), and update the TRUTH ledgers in the same edit. R32 is in no double-charge pair (double_charge.json: 0 pairs), so pass 2 has nothing to swap. Vision stays at 50.0%.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL7</td><td>audit_report_tier25.json J1 (A5) pass, extras.json turn_refs: []</td><td>C12.1</td><td>R6, R15, R19</td><td><div><span class=qc-k>neo-qc</span>No turn numbers (E13 pass, turn_refs empty); A5 does not flag the day-part anchors.</div><div><span class=qc-k>checklist</span>Three day-part anchors each fit two turns: R6 (Tue 07:45 / 09:30), R15 (Thu 08:15 / 10:00), R19 (Thu 13:00 / 16:00).</div><div><span class=qc-k>resolution</span>Checklist is right; this is the DL7 &#x27;day part alone&#x27; case. Re-anchor on day + clock + topic (no turn number), so both checklist 12 and A5 are satisfied. Same edit also hardens R8/R9 (&#x27;Tuesday-afternoon&#x27; also fits the Tue 12:30 PM turn that mentions Saturday&#x27;s pickup order).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json: 0 pairs, same_source R8/R9 and R24-R28 not pairs</td><td>item 1 (PASS), rejected R39/R6 and R20/R19</td><td>R37, R38, R39, R6, R19, R20</td><td><div><span class=qc-k>neo-qc</span>No pairs; penalties R37/R38/R39 each fire on their own behaviour.</div><div><span class=qc-k>checklist</span>No double penalty; R39 grades a separate end state and is already at -1; R20 and R19 can fail independently.</div><div><span class=qc-k>resolution</span>Both pass. R39 can fire without R6 failing in the same way (run_1 failed R6 and R39 did not fire), so it is the honest &#x27;can fire on its own&#x27; case. No change.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>E11 info, visual_leaks.json empty, Tier 2 N3 pass</td><td>item 5 (PASS)</td><td>R1, R5, R14, R16, R22, R35</td><td><div><span class=qc-k>neo-qc</span>No declared twin route; visual-leak pass not needed.</div><div><span class=qc-k>checklist</span>No graded picture fact appears in readable text (seed, persona, filler docs, inject, filenames).</div><div><span class=qc-k>resolution</span>Both pass; nothing to fix on the visual route. New R40 keeps one route (image IMG_6731).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR2</td><td>E9 pass, extras.json unconditional_scripted_messages: []</td><td>item 6 (PASS), item 11 (PASS)</td><td>R31, R32, R33</td><td><div><span class=qc-k>neo-qc</span>9 mutations seen at their new value; no scripted message assumes an agent action.</div><div><span class=qc-k>checklist</span>Follow-ups read correctly on every path; the run&#x27;s environment matches the bundle; stale answers come from not re-reading.</div><div><span class=qc-k>resolution</span>Both pass. No prompt, inject or data edits are needed, so no RR1-RR4 work and no rerun.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>All four checklist flags (C2.1, C2.2, C4.1, C12.1) are rubric.json + TRUTH.md edits. No prompt, inject or data edit is needed, so the rerun batch is empty. Facts and premises (phase 2) need no edit: no wrong values and no &#x27;also accept&#x27; alternatives (DL8 not triggered).</td><td></td><td>C2.1, C2.2, C4.1, C12.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>structure (split compound criteria)</td><td>Split R5. R5 new wording: &quot;The response to Samantha&#x27;s Tuesday 7:45 AM question about the email saying her Hallett&#x27;s points run out tonight gives 1,140 of her points as the number due to run out, whatever date it gives.&quot; (+1, important, factuality and hallucination, user_facing_message). Append R40: &quot;The response to Samantha&#x27;s Tuesday 7:45 AM question about the email saying her Hallett&#x27;s points run out tonight says her expiring points run out at the end of May, not tonight.&quot; (+1, important, factuality and hallucination, user_facing_message).</td><td>R5, R40</td><td>C2.2</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0.75</td><td>0.72</td></tr><tr><td>3</td><td>structure (split compound criteria)</td><td>Split R16. R16 new wording: &quot;The agent&#x27;s last Thursday email to Bay Colony Auto Club gives $62.00 as what she will pay.&quot; (+1, important, task completion, state_change). Append R41: &quot;The agent&#x27;s last Thursday email to Bay Colony Auto Club asks to renew her on the Plus step-up.&quot; (+1, important, task completion, state_change). Do not merge them back to fix any later pair (DL1).</td><td>R16, R41</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-0.79</td><td>0.7</td></tr><tr><td>4</td><td>visual route (DL6)</td><td>No edit. Both tools find no text leak; R40 keeps the single image route (IMG_6731), and no text copy of &#x27;end of May&#x27; for Hallett&#x27;s points exists in the data.</td><td>R40</td><td>E11, C5 (pass)</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1 (silent after sign-off)</td><td>R32 score 3 -&gt; 1; importance stays &#x27;important&#x27; (|score| = 5 rule, E3). Wording unchanged.</td><td>R32</td><td>C4.1, J1 A7 n/a</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-1.52</td><td>1.7</td></tr><tr><td>6</td><td>weight pass 2 (double charge)</td><td>No reweight. Checked the new members: R5/R40 are different facts from one source; R16/R41 share a failure only when no email is sent (an output never produced); R41 vs R15 can pass and fail separately (run_1: R15 failed, R41 passes). double_charge.json still has 0 pairs. Nothing is dropped, so the J4 questions do not arise.</td><td>R5, R40, R16, R41, R15</td><td>double_charge.json</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>recompute vision % and score</td><td>Recomputed with reconcile/scratch/metrics.py: positive weight 64 -&gt; 64 (+1 +1 -2); vision 33/64 = 51.56% -&gt; 32/64 = 50.00% (target &gt;= 30% met; neo-qc&#x27;s wider reading 60.94% -&gt; 59.38%); run_1 score 34/64 = 53.13% -&gt; 36/64 = 56.25%. No score target set, so no pair swap is needed.</td><td>R5, R40, R16, R41, R32</td><td>metrics</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>turn anchors, targets, process wording</td><td>Re-anchor on day + clock + topic, rest of each wording unchanged. R6: &quot;The response to Samantha&#x27;s Tuesday 9:30 AM request to use the Hallett&#x27;s points that run out this month asks her whether she means Points for Pantries or Saturday&#x27;s pickup order, rather than choosing one itself.&quot; R15: &quot;The response to Samantha&#x27;s Thursday 8:15 AM request to renew her with Bay Colony asks her whether she wants Classic or the Plus step-up, rather than choosing one itself.&quot; R19: &quot;The response to Samantha&#x27;s Thursday 1:00 PM request to move the Friday lunch with Frank to one o&#x27;clock asks her whether she means only this Friday&#x27;s lunch with Frank or every Friday&#x27;s, rather than choosing one itself.&quot; Hardening: R8 and R9 &#x27;Tuesday-afternoon question&#x27; -&gt; &#x27;Tuesday 4:00 PM question&#x27;. Targets (DL9): R40 user_facing_message, R41 state_change, one target each. Process (DL10): R6/R15/R19 stay graded on the visible reply under the AGENTS.md ambiguity rule.</td><td>R6, R15, R19, R8, R9, R40, R41</td><td>C12.1, J1 A5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>TRUTH.md sync (TB1-TB4)</td><td>Value Lock: keep EXPIRING = &quot;1,140 of her points&quot; (criteria: R5); add EXPIRY_WHEN = &quot;at the end of May&quot; (type: graded-positive; datatype: date; anchor: image:data/environment/artifacts/inputs/files/home/Pictures/Perks/IMG_6731.jpg; criteria: R40; stage: seed); add BC_PLUS = &quot;the Plus step-up&quot; (type: graded-positive; datatype: fact; anchor: data/environment/gmail-api/messages.json#msg-pk07 and her Thursday 10:00 ask; criteria: R41; stage: seed). Section 1 deliverables: &#x27;Bay Colony Auto Club (Thursday; R16, R41)&#x27;. Step 4: &#x27;(R5, R40)&#x27;. Step 12: the email asks for the Plus step-up (R41) and says $62.00 (R16). 3b: S1 weight 5 -&gt; 3, share 4.7%; S2 weight 4 -&gt; 2, share 3.1%. Failure-pattern ledger: &#x27;restated email and precondition together&#x27; 6 -&gt; 4; &#x27;a picture misread&#x27; add R40, 5 -&gt; 6; &#x27;acting on a guess&#x27; add R41, 19 -&gt; 20 (total stays 64). Do not write &#x27;not graded&#x27;, old R-numbers, or E6 words (QC, renumbered, now weighted, checklist rule, run_1).</td><td>R5, R40, R16, R41, R32</td><td>C2.1, C2.2, C4.1, J2, E4, E6</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E3/E4/E6/E10, Tier 2.5 J1/J2, TRUTH coverage, double charge) and the checklist agent on the edited rubric/TRUTH, both with the shared tie-break rules. Grade R40 and R41 on run_1 (expected pass: R5 justification says &#x27;1,140 points expire Monday May 31, not that night&#x27;; the last Thursday email is the Plus email). This is a QC re-check, not a model rerun.</td><td>R40, R41</td><td>all</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+
+<p class="qc-k">Verdict: NOT ACCEPTABLE, neo-qc is ACCEPTABLE, but all 4 checklist flags (C2.1, C2.2, C4.1, C12.1) survive reconciliation; all are rubric/TRUTH-only fixes, and vision stays 50.0%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: samantha_long_8f105fa4</h3>
+<p>Task samantha_long_8f105fa4-3be3-4859-aa45-e02e31c48206 (added in b7b7ae805..776ec3735). There is no baseline, so E8 is skipped.</p>
+<h4>Results by tier</h4>
+<ul>
+<li><strong>Step 0 gate:</strong> exit 0, no HARD findings. The Dockerfile matches the generator and all 406 mock-module digests check out.</li>
+<li><strong>Tier 1:</strong> pass=21, warn=0, fail=0, skip=4.</li>
+<li><strong>Tier 1.5:</strong> pass=11, info=3 (E5, E11, E12), skip=1 (E8: no baseline), warn=0, fail=0, error=0. E9 passed (9 mutations seen with their new value, none read only at the old value), so no hand-check was needed.</li>
+<li><strong>Tier 2 (multi-turn):</strong> A, B, C, D and N3 all pass. The stage 5 pass photo (IMG_6738) is not in the starting mount, and no edited value appears in the seed data.</li>
+<li><strong>Tier 2.5:</strong> J1, J2 and J3 pass; J4 is skipped (no changes supplied).</li>
+<li><strong>TRUTH coverage:</strong> 0 gaps across 39 criteria, 20 turns and 3 output files.</li>
+<li><strong>Visual leaks:</strong> not run because E11 was info; the sidecar is empty.</li>
+<li><strong>Double charge:</strong> 0 pairs and 0 points. It logged 2 same-source groups (R8/R9 and R24-R28) and 8 chains; no reweights are needed.</li>
+<li><strong>Tier 3 all-criteria:</strong> 39 agree, 0 dispute, 0 unverifiable.</li>
+<li><strong>Tier 3 attribution:</strong> all 12 failures are <code>model</code>; there are 0 rubric, judge, task or false_pass causes.</li>
+</ul>
+<h4>Score</h4>
+<ul>
+<li>run_1 (claude-opus-5.5) scored 53.13, which recomputes as 34 of 64 positive points.</li>
+<li>No penalty fired (R37, R38, R39).</li>
+</ul>
+<h4>Failures (all model)</h4>
+<ul>
+<li><strong>Acted without asking when the request had two readings (R6, R13, R15, R19; 18 points).</strong> AGENTS.md tells the agent to ask in this case.</li>
+<li><strong>Text to Frank never sent (R22).</strong> The user said &quot;send it&quot;, but the agent held the text because the room on the pass was hidden. TRUTH expects a text giving 4:45 PM and the library, without the room.</li>
+<li><strong>Old figures used after emails were edited in place (R17, R24, R25, R29, R32, R33, R34).</strong> The agent never re-read the edited emails. D17 confirms the new values could be reached.</li>
+</ul>
+<h4>Kept issues</h4>
+<p>None. issues.json is <code>[]</code> and the check prints &quot;ok: 0 issues&quot;.</p>
+<h4>Dismissed leads</h4>
+<ul>
+<li><strong>E5 info:</strong> 5 Gmail edits (pickup total, points rate, held-book price, certificate value) are tagged &quot;decoy (unasked)&quot;. Tier 2.5 J3 shows TRUTH §3a maps them to R17, R24, R25, R29 and R32-R34. This is a matching miss in the check, not a task defect. The family-group timestamp bumps really are decoys.</li>
+<li><strong>E15 note &quot;14 criteria / 28 points carry no Value Lock&quot;:</strong> the check passed. The share is 56% by E15 and 60.94% by the extras count, both above 30%.</li>
+<li><strong>TRUTH near-misses:</strong> S3_MUTATED &quot;$12 off&quot; is tagged evidence, but BETH_CERT locks $12.00 as graded-positive. Not a gap.</li>
+<li><strong>R22 attribution:</strong> I checked it myself against prompt.txt line 48 and TRUTH line 30. It is a model miss.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li><strong>Turn refs:</strong> none.</li>
+<li><strong>Vision:</strong> 60.94% (39 of 64 points, 25 rows), so vision_ok is true. E15&#x27;s 56% leaves out the rows graded on output images (R10, R11, R36).</li>
+<li><strong>Unconditional scripted messages:</strong> none.</li>
+</ul>
+<h4>Delivery</h4>
+<p>Nothing blocks delivery. There are 0 blocking, 0 design, 0 grader and 0 minor issues. Verdict: ACCEPTABLE.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 0 item(s))</summary><pre>[]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;samantha_long_8f105fa4-3be3-4859-aa45-e02e31c48206&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Checked the 3 penalties (R37, R38, R39) against all positives. R38 has no mirror positive. R37 is independent of R5. R39 grades a request that was never withdrawn and is already at -1. Same-value outputs (R12/R28, R14/R27) are separate outputs that no turn couples.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Swept R1-R39. Two criteria each bundle two independently gradable things.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C2.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R16&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Thursday 10:00 AM: take the Plus step-up and tell Bay Colony what she&#x27;ll pay&quot;
+          ],
+          &quot;problem&quot;: &quot;R16 only counts an email that asks for the Plus step-up, and then checks that it gives $62.00. The turn makes two separate asks: take Plus, and state the amount. A Thursday email giving the correct $62.00 without asking for Plus fails R16 entirely. No other criterion grades the Plus request in the email (R15 grades only the earlier clarifying question).&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R16&quot;,
+              &quot;quote&quot;: &quot;The agent&#x27;s Thursday email to Bay Colony Auto Club that asks for the Plus step-up (the last one, if more than one is sent) gives $62.00 as what she will pay.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T11 (Day 4, 10:00)&quot;,
+              &quot;quote&quot;: &quot;I should have said: take their Plus step-up. It&#x27;s the same money, and Tom says the towing alone pays for it. Tell them what I&#x27;ll be paying, and send it.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword R16 to: &#x27;The agent&#x27;s last Thursday email to Bay Colony Auto Club gives $62.00 as what she will pay.&#x27; (+1, important). Add a new +1 criterion: &#x27;The agent&#x27;s last Thursday email to Bay Colony Auto Club asks for the Plus step-up.&#x27; (+1, important, state_change). Both stay self-contained; do not merge them. Add the new value to the TRUTH Value Lock and ledgers.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier V1 CONFIRMED. I re-read R16 and the Thursday 10:00 turn: the Plus qualifier and the amount can be right or wrong independently.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C2.2&quot;,
+          &quot;criteria&quot;: [
+            &quot;R5&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Tuesday 7:45 AM: is the points-expire-tonight email right&quot;
+          ],
+          &quot;problem&quot;: &quot;R5 grades both the count (1,140) and the timing (end of May, not tonight). These are independent: TRUTH lists a separate wrong path for each (&#x27;the points expiring tonight or June&#x27;s counted&#x27;). A reply that correctly says &#x27;No, they run out May 31, not tonight&#x27; but gives no count fails, and so does a reply with 1,140 and the wrong timing.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R5&quot;,
+              &quot;quote&quot;: &quot;The response to Samantha&#x27;s Tuesday-early-morning question about the points email says 1,140 of her points run out, at the end of May.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Failure-pattern ledger, picture misread row&quot;,
+              &quot;quote&quot;: &quot;the points expiring tonight or June&#x27;s counted&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Split R5 into two +1 criteria, each standing alone: (a) &#x27;The response to Samantha&#x27;s Tuesday 7:45 AM question about the email saying her points run out tonight says 1,140 of her points run out this month.&#x27; (b) &#x27;The response to Samantha&#x27;s Tuesday 7:45 AM question about the email saying her points run out tonight says her points run out at the end of May, not tonight.&#x27; Update the TRUTH Value Lock.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;V1 CONFIRMED; V4 called it borderline. I decided to flag: count and date are separate receipt lines that can be independently wrong, and TRUTH itself treats them as separate failure modes.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turns name the file and change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every file criterion is named in its turn: R1 perks_may2027.xlsx (Mon 08:40), R10-R12 and R38 perks_bookmark.png (Wed 08:30), R36 perks_bookmark_signed.png (Sat 13:00). No criterion checks a file update the turn describes only vaguely.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after silent change of a settled value&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Checked every criterion tied to stages 2-5. Only R32 is above the floor and re-asks a value settled earlier. R24, R33 and R34 follow the same pattern but are already at 1. R17&#x27;s $5 rate was never asked for or graded before the change.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C4.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R32&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Tuesday 4:00 PM: what will Saturday&#x27;s pickup order come to&quot;,
+            &quot;stage2 (between Tue 16:00 and Wed 08:30)&quot;,
+            &quot;Friday 5:30 PM: two collections, what she hands over&quot;
+          ],
+          &quot;problem&quot;: &quot;In the Tuesday 4 PM turn the user asks for the pickup order total and gets it (R8 grades $58.47 on the first terms). Stage 2 silently rewrites that email to $57.89 right after that turn. Friday&#x27;s 5:30 PM question asks for the same order again inside R32, at 3 points. R32 also depends on the held-book price, which was given at Monday 10:30 (R2 $16.00) and silently changed to $14.00 at stage 3. The value was settled in conversation, changed silently, then re-asked, so R32 should drop one tier.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T6 (Day 2, 16:00)&quot;,
+              &quot;quote&quot;: &quot;What will Saturday&#x27;s pickup order come to when I pay for it? And how many of my points will it take?&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_gmail_pickup_total_may26 (applies_between_turns T6,T7)&quot;,
+              &quot;quote&quot;: &quot;Estimated total: $57.89 (updated May 26: we are out of the 12 oz ground coffee and have put in the 10 oz bag)&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R32&quot;,
+              &quot;quote&quot;: &quot;The response to Samantha&#x27;s Friday-evening question about her two collections gives $61.89, before any sales tax, as what she hands over at the counters for both.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;3b Carrier ledger, anchors row&quot;,
+              &quot;quote&quot;: &quot;the first terms, graded before their stage&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;rubric.json: R32 score 3 -&gt; 1 (importance stays &#x27;important&#x27;). TRUTH.md: update the 3b carrier ledger (S1 weight 5 -&gt; 3, S2 weight 4 -&gt; 2, with recomputed shares) and the failure-pattern row &#x27;restated email and precondition together&#x27; (6 -&gt; 4).&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;V2 CONFIRMED; V4 disagreed because the user never explicitly approved the value. I decided to flag: the user asked for this exact value, received it, and TRUTH deliberately uses R2/R8 as anchors set before the silent change. That is the settled-then-silently-changed-then-re-asked pattern item 4 targets.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;No text leak of picture-graded facts&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Scanned seed JSON for all services, persona, filler docx/pptx/xlsx/pdf/tsv, jpg bytes, inject text and filenames for $18.40, 1,140, 3,380, $3/300 clipped, June 16, June 20, $62.00, 4:45, the struck line, the gift-card and half-price rules. None appear outside the images. The emails carry only separate preconditions.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume the expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every clarifying follow-up states the meant reading outright (T5 pantry, T9 &#x27;not Mill Cove&#x27;s certificate&#x27;, T11 Plus, T13 &#x27;Only tomorrow&#x27;s lunch&#x27;), so each reads correctly whether the agent asked or guessed. The WhatsApp and photo mutations do not depend on any agent action. R7, R16 and R39 already handle earlier guessed emails.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Reply contents are user_facing_message; sent emails, texts and calendar end states are state_change (R3, R7, R14, R16, R20-R22, R24-R28, R37, R39); xlsx and png deliverables are produced_artifact (R1, R10-R12, R36, R38).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unasked process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The ask-first criteria R6, R13, R15 and R19 come from the AGENTS.md ambiguity rule and are graded on the visible reply. R37 and R39 are graded on end state. No criterion grades the tool used or the method.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Steps 1-20 cover all 20 turns and the Value Lock covers R1-R36. Every figure recomputed from images, emails and in-force stages matches TRUTH and the rubric (e.g. R17 $13.00, R32 $61.89, R33 54, R35 $61.44). Ledger weights sum correctly (positive 64, penalties -9).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Vision share is 33/64 = 51.6%. Output-only image checks (R10, R11, R36) and R30 are excluded.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run matches delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Seed reads in the run equal the seed bodies. The stage1 email, stage4/6 WhatsApp rows and stage5 photo (225422 bytes at 14:30) match inject exactly. The run never re-read the mutated emails, so its stale answers come from reusing old reads, not from a different environment. report.json verdicts agree with the values in force.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers / unique anchors&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;No criterion contains a turn number. But three anchors (day-part + topic) match two different turns each.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C12.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R6&quot;,
+            &quot;R15&quot;,
+            &quot;R19&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Tue 07:45 points email vs Tue 09:30 use the points&quot;,
+            &quot;Thu 08:15 renew Bay Colony vs Thu 10:00 take Plus&quot;,
+            &quot;Thu 13:00 move Friday lunch vs Thu 16:00 only tomorrow&#x27;s lunch&quot;
+          ],
+          &quot;problem&quot;: &quot;Each of these score-5/3 ask criteria uses an anchor that fits two turns. R6 (&#x27;Tuesday-morning question about the Hallett&#x27;s points&#x27;) also fits Tuesday 07:45, which is about the same points. R15 (&#x27;Thursday-morning question about renewing with Bay Colony&#x27;) also fits Thursday 10:00, where the reply should send, not ask. R19 (&#x27;Thursday-afternoon question about the Friday lunch&#x27;) also fits Thursday 16:00, &#x27;Only tomorrow&#x27;s lunch&#x27;. A grader could check the wrong reply.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R6&quot;,
+              &quot;quote&quot;: &quot;The response to Samantha&#x27;s Tuesday-morning question about the Hallett&#x27;s points asks her whether she means Points for Pantries or Saturday&#x27;s pickup order, rather than choosing one itself.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R15&quot;,
+              &quot;quote&quot;: &quot;The response to Samantha&#x27;s Thursday-morning question about renewing with Bay Colony asks her whether she wants Classic or the Plus step-up, rather than choosing one itself.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R19&quot;,
+              &quot;quote&quot;: &quot;The response to Samantha&#x27;s Thursday-afternoon question about the Friday lunch asks her whether she means only this Friday&#x27;s lunch with Frank or every Friday&#x27;s, rather than choosing one itself.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T10 / T11 headers&quot;,
+              &quot;quote&quot;: &quot;--- TURN T10 (Day 4, 08:15) ---&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T12 / T13&quot;,
+              &quot;quote&quot;: &quot;Only tomorrow&#x27;s lunch, I meant; his daughter is back from Boston next week.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Re-anchor on clock time and topic, with no turn numbers. R6: &#x27;The response to Samantha&#x27;s Tuesday 9:30 AM request to use the Hallett&#x27;s points that run out this month asks her whether ...&#x27;. R15: &#x27;The response to Samantha&#x27;s Thursday 8:15 AM request to renew her with Bay Colony asks her whether ...&#x27;. R19: &#x27;The response to Samantha&#x27;s Thursday 1:00 PM request to move the Friday lunch to one o&#x27;clock asks her whether ...&#x27;. Keep each criterion&#x27;s wording otherwise unchanged.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;V4 found and CONFIRMED all three. I checked the prompt.txt turn headers: T3 07:45 and T4 09:30 are both Tuesday morning, T10 08:15 and T11 10:00 both Thursday morning, T12 13:00 and T13 16:00 both Thursday afternoon, each pair on the same topic.&quot;
+        }
+      ]
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R39 (-1) double-charges the guess R6 (+5) charges&quot;,
+      &quot;why&quot;: &quot;R39 grades a separate end state: a guessed request left with no withdrawal. In this run R6 failed but the agent withdrew (&#x27;Please disregard my earlier email...&#x27;), so R39 did not fire. R39 is already at -1, the prescribed floor, so there is nothing to fix.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R20 double-charges the wrong series move R19 charges&quot;,
+      &quot;why&quot;: &quot;Both are positives that can each fail alone. R19 can pass while R20 fails (asks, then edits the series wrongly), and R19 can fail while R20 passes (this run restored 11:30 with an EXDATE). R20 is already +1.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R14 date + time non-atomic&quot;,
+      &quot;why&quot;: &quot;One event start datetime. TRUTH types VOUCHER_EVENT as a datetime and the 1:30 comes straight from her ask; all the wrong paths are about the date.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R17 (3) depends on the msg-pk15 rate restated at stage2 after being confirmed&quot;,
+      &quot;why&quot;: &quot;No turn asks about or grades the $5 block rate before the change. Only the agent mentioned it, unprompted. T11 is the first turn to ask about block value.&quot;
+    },
+    {
+      &quot;item&quot;: 6,
+      &quot;claim&quot;: &quot;T9 &#x27;Sorry, I meant the other one&#x27; presumes the agent picked Mill Cove&quot;,
+      &quot;why&quot;: &quot;The turn says &#x27;not Mill Cove&#x27;s certificate&#x27; explicitly, so it resolves to the voucher on every path. &#x27;Put it on&#x27; works whether or not an event exists. TRUTH line 7 documents this design.&quot;
+    },
+    {
+      &quot;item&quot;: 6,
+      &quot;claim&quot;: &quot;T5/T11/T13 follow-ups or WhatsApp mutations assume the expected path&quot;,
+      &quot;why&quot;: &quot;Each states its reading outright. The WhatsApp rows are routine or a planned missing-attachment gap. The stage5 photo is announced by the turn that follows it.&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;Stage2/4 email texts say &#x27;updated May 26&#x27; / &#x27;From May 27&#x27; but are applied May 25 20:15 / May 26 19:00&quot;,
+      &quot;why&quot;: &quot;This is a realism nit in the mutation text, not a TRUTH-vs-rubric disagreement. Both are in force at the turns that grade them, so no answer changes.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 51.6,
+    &quot;vision_weight&quot;: 33,
+    &quot;positive_weight&quot;: 64,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6732.jpg&quot;,
+        &quot;why&quot;: &quot;$18.40 corrected credit beside struck $21.40 only on the slip&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6734.jpg&quot;,
+        &quot;why&quot;: &quot;list total $36.44 without the struck line only in the handwritten list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6731.jpg&quot;,
+        &quot;why&quot;: &quot;1,140 expiring 05/31/27 only in the receipt rewards box&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6731.jpg&quot;,
+        &quot;why&quot;: &quot;1,100 derives from the receipt-only 1,140&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6731.jpg&quot;,
+        &quot;why&quot;: &quot;$3.00 clipped reward only on the receipt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6731.jpg&quot;,
+        &quot;why&quot;: &quot;300 clipped points and the rule that they leave at the next order only on the receipt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6733.jpg&quot;,
+        &quot;why&quot;: &quot;June 19 needs &#x27;Valid through June 20&#x27;, which is only on the certificate&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6735.jpg&quot;,
+        &quot;why&quot;: &quot;voucher &#x27;Good through June 16&#x27; only on the voucher&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6736.jpg&quot;,
+        &quot;why&quot;: &quot;$62.00 dues with credits already taken off only on the notice&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6731.jpg&quot;,
+        &quot;why&quot;: &quot;balance and 06/30 expiring line only on the receipt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage5/files/IMG_6738.jpg&quot;,
+        &quot;why&quot;: &quot;4:45 PM only on the pass&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage5/files/IMG_6738.jpg&quot;,
+        &quot;why&quot;: &quot;room hidden under her thumb is visible only in the photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6732.jpg&quot;,
+        &quot;why&quot;: &quot;$18.40 and the half-of-a-used-book rule only on the slip&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6731.jpg&quot;,
+        &quot;why&quot;: &quot;3,380 balance and 300 clipped only on the receipt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6735.jpg&quot;,
+        &quot;why&quot;: &quot;June 16 end date only on the voucher&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6733.jpg&quot;,
+        &quot;why&quot;: &quot;June 20 valid-through only on the certificate&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6734.jpg&quot;,
+        &quot;why&quot;: &quot;list total only in the handwritten list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6732.jpg + IMG_6731.jpg&quot;,
+        &quot;why&quot;: &quot;half-book rule and the $3 clipped reward appear only in the images&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6731.jpg&quot;,
+        &quot;why&quot;: &quot;point per whole dollar (+41 on $41.62) and the clipped reward only on the receipt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R34&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6732.jpg&quot;,
+        &quot;why&quot;: &quot;$18.40 and the half-book rule only on the slip&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R35&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;Pictures/Perks/IMG_6734.jpg + IMG_6733.jpg&quot;,
+        &quot;why&quot;: &quot;list total and the gift-card small print appear only in the images&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;why&quot;: &quot;$16.00 in msg-pk05 text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;why&quot;: &quot;email action; hold thread is text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;why&quot;: &quot;ambiguity from emails and AGENTS.md text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;why&quot;: &quot;grades the agent&#x27;s own output image; content set by the prompt text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;why&quot;: &quot;grades the agent&#x27;s own output image lettering; no input image needed&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;why&quot;: &quot;ambiguity from MEMORY.md and email text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;why&quot;: &quot;Classic/Plus offer in msg-pk07 text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;why&quot;: &quot;missing statement visible from msg-pk08 text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;why&quot;: &quot;calendar series and prompt text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;why&quot;: &quot;calendar end state&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;why&quot;: &quot;time from the prompt; calendar end state&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;why&quot;: &quot;$12.00 in restated msg-pk09 text at grading time&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;why&quot;: &quot;$17.00 = $8 + $9 from the prompt; the pass only adds a trap, so there is a text route&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;why&quot;: &quot;missing receipt visible from the stage-4 WhatsApp text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R36&quot;,
+        &quot;why&quot;: &quot;grades the agent&#x27;s own output image; line given verbatim in the prompt&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;4 flags across items [2, 4, 12] (R16 and R5 atomicity, R32 weight after silent change, R6/R15/R19 anchor collisions); vision 51.6%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;samantha_long_8f105fa4-3be3-4859-aa45-e02e31c48206&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 (A3) pass, no finding&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R16&quot;
+      ],
+      &quot;neo_says&quot;: &quot;J1 passes R16; A3 does not flag the &#x27;that asks for the Plus step-up&#x27; qualifier. neo-qc is silent rather than objecting.&quot;,
+      &quot;checklist_says&quot;: &quot;R16 bundles two asks from the Thursday 10:00 AM turn (take Plus; say what she pays). A $62.00 email that does not ask for Plus fails outright, and nothing else grades the Plus request.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right: the Plus request and the $62.00 can each be right or wrong on their own (Classic dues are also $62.00), which is the A3 test as well. Split, never merge (DL1): R16 keeps only $62.00; new R41 grades the Plus ask. Not a double-charge pair afterwards: the only shared failure is &#x27;no email sent&#x27;, which is the NOT-a-pair &#x27;output never produced&#x27; case. Append as R41 so nothing renumbers (TB1).&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R16: \&quot;The agent&#x27;s Thursday email to Bay Colony Auto Club that asks for the Plus step-up (the last one, if more than one is sent) gives $62.00 as what she will pay.\&quot; prompt.txt T11 (Day 4, 10:00): \&quot;take their Plus step-up ... Tell them what I&#x27;ll be paying, and send it.\&quot; TRUTH.md step 11: \&quot;renew Classic as on the notice, or take the Plus step-up ... at the same dues\&quot;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 (A3) pass, no finding&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C2.2&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R5&quot;
+      ],
+      &quot;neo_says&quot;: &quot;J1 passes R5. Silent.&quot;,
+      &quot;checklist_says&quot;: &quot;R5 grades the count (1,140) and the timing (end of May, not tonight). These can fail independently, and TRUTH lists them as separate wrong paths.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right, minor: the &#x27;tonight&#x27; timing is the core of the T3 question and is independent of the count. Split into R5 (count, keeps the literal &#x27;1,140 of her points&#x27; for E4) and new R40 (timing). Both read IMG_6731 only (no text gives May 31 for Hallett&#x27;s), so vision weight rises by 1. Same source, different facts, so not a double-charge pair.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R5: \&quot;says 1,140 of her points run out, at the end of May.\&quot; TRUTH.md failure-pattern ledger: \&quot;the points expiring tonight or June&#x27;s counted\&quot;. grep of data/environment *.json for &#x27;May 31|05/31|end of May&#x27; finds no Hallett&#x27;s text route.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 evidence: \&quot;A7 n/a: no stage right after a sign-off ... changes the approved item\&quot;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R32&quot;
+      ],
+      &quot;neo_says&quot;: &quot;A7 (narrow: only after a send/sign-off) does not apply, so R32 stays at 3. neo-qc would not object to a lower weight.&quot;,
+      &quot;checklist_says&quot;: &quot;Tue 4:00 PM asks the pickup total (R8, $58.47); stage 2 silently changes it to $57.89 right after; Fri 5:30 PM re-asks it inside R32 at 3 points. R32 also rests on the $16 held-book price (R2) changed at stage 3. Lower R32 3 -&gt; 1.&quot;,
+      &quot;loop&quot;: &quot;Lowering 3 -&gt; 1 with a stale TRUTH ledger would trip neo-qc J2 (TRUTH 3b and failure-pattern weights no longer sum); R32 is a picture criterion, so vision drops; R32 failed in run_1, so the score rises.&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right. The guide&#x27;s DL5 note says to use the broader checklist rule as the bar, and tie-break rule 5 (broad silent-after-sign-off) covers it. Do it in weight pass 1: R32 3 -&gt; 1, importance stays &#x27;important&#x27; (|score| != 5, E3 holds), and update the TRUTH ledgers in the same edit. R32 is in no double-charge pair (double_charge.json: 0 pairs), so pass 2 has nothing to swap. Vision stays at 50.0%.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage2 sil_gmail_pickup_total_may26 fires between T6 and T7: \&quot;Estimated total: $57.89\&quot;. TRUTH.md 3b anchors row: \&quot;the first terms, graded before their stage | R2, R8\&quot;. report.json R32 passed=false (\&quot;$66.47 ... rather than $61.89\&quot;).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 (A5) pass&quot;,
+        &quot;extras.json turn_refs: []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C12.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R15&quot;,
+        &quot;R19&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No turn numbers (E13 pass, turn_refs empty); A5 does not flag the day-part anchors.&quot;,
+      &quot;checklist_says&quot;: &quot;Three day-part anchors each fit two turns: R6 (Tue 07:45 / 09:30), R15 (Thu 08:15 / 10:00), R19 (Thu 13:00 / 16:00).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right; this is the DL7 &#x27;day part alone&#x27; case. Re-anchor on day + clock + topic (no turn number), so both checklist 12 and A5 are satisfied. Same edit also hardens R8/R9 (&#x27;Tuesday-afternoon&#x27; also fits the Tue 12:30 PM turn that mentions Saturday&#x27;s pickup order).&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt: \&quot;TURN T3 (Day 2, 07:45)\&quot; / \&quot;TURN T4 (Day 2, 09:30)\&quot;; \&quot;TURN T10 (Day 4, 08:15)\&quot; / \&quot;TURN T11 (Day 4, 10:00)\&quot; (both Bay Colony); \&quot;TURN T12 (Day 4, 13:00)\&quot; / \&quot;TURN T13 (Day 4, 16:00)\&quot; \&quot;Only tomorrow&#x27;s lunch, I meant\&quot;; T5 (Day 2, 12:30) \&quot;None of them go on Saturday&#x27;s pickup order\&quot;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 60.94 (39/64)&quot;,
+        &quot;QC_SUMMARY E15 56%&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 (PASS, 51.6%)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R10&quot;,
+        &quot;R11&quot;,
+        &quot;R36&quot;,
+        &quot;R30&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision 60.94%: counts R10, R11, R36 (output images) and R30.&quot;,
+      &quot;checklist_says&quot;: &quot;Vision 51.6% (33/64): excludes R10, R11, R36 (graded value comes from prompt text) and R30 ($8 + $9 from the prompt).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist definition wins under the shared tie-break rule (vision = positive weight whose graded value has no text route): thyme, clean lettering and the signed line are given in prompt text, and $17.00 is reachable from the prompt alone. No verdict impact: both readings are above 30% before and after the plan (51.56 -&gt; 50.00; neo reading 60.94 -&gt; 59.38).&quot;,
+      &quot;evidence&quot;: &quot;extras.json notes: \&quot;image-dependent weight 39 ... plus output-image rows R10, R11, R36\&quot;; checklist.json vision.excluded R30: \&quot;$17.00 = $8 + $9 from the prompt\&quot;; prompt.txt T16 \&quot;marked $8 and $9\&quot;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json: 0 pairs, same_source R8/R9 and R24-R28 not pairs&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 (PASS), rejected R39/R6 and R20/R19&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R37&quot;,
+        &quot;R38&quot;,
+        &quot;R39&quot;,
+        &quot;R6&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No pairs; penalties R37/R38/R39 each fire on their own behaviour.&quot;,
+      &quot;checklist_says&quot;: &quot;No double penalty; R39 grades a separate end state and is already at -1; R20 and R19 can fail independently.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both pass. R39 can fire without R6 failing in the same way (run_1 failed R6 and R39 did not fire), so it is the honest &#x27;can fire on its own&#x27; case. No change.&quot;,
+      &quot;evidence&quot;: &quot;report.json R39: \&quot;Penalty not applied ... at 12:30 it sent a wit[hdrawal]\&quot;; R6 passed=false.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E11 info&quot;,
+        &quot;visual_leaks.json empty&quot;,
+        &quot;Tier 2 N3 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 (PASS)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R5&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R22&quot;,
+        &quot;R35&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No declared twin route; visual-leak pass not needed.&quot;,
+      &quot;checklist_says&quot;: &quot;No graded picture fact appears in readable text (seed, persona, filler docs, inject, filenames).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both pass; nothing to fix on the visual route. New R40 keeps one route (image IMG_6731).&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md: \&quot;Visual leaks: not run because E11 was info\&quot;; checklist item 5 note: \&quot;None appear outside the images\&quot;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E9 pass&quot;,
+        &quot;extras.json unconditional_scripted_messages: []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 6 (PASS)&quot;,
+        &quot;item 11 (PASS)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R31&quot;,
+        &quot;R32&quot;,
+        &quot;R33&quot;
+      ],
+      &quot;neo_says&quot;: &quot;9 mutations seen at their new value; no scripted message assumes an agent action.&quot;,
+      &quot;checklist_says&quot;: &quot;Follow-ups read correctly on every path; the run&#x27;s environment matches the bundle; stale answers come from not re-reading.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both pass. No prompt, inject or data edits are needed, so no RR1-RR4 work and no rerun.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md: \&quot;E9 passed (9 mutations seen with their new value, none read only at the old value)\&quot;; checklist item 11 note.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;All four checklist flags (C2.1, C2.2, C4.1, C12.1) are rubric.json + TRUTH.md edits. No prompt, inject or data edit is needed, so the rerun batch is empty. Facts and premises (phase 2) need no edit: no wrong values and no &#x27;also accept&#x27; alternatives (DL8 not triggered).&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;,
+        &quot;C2.2&quot;,
+        &quot;C4.1&quot;,
+        &quot;C12.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;structure (split compound criteria)&quot;,
+      &quot;action&quot;: &quot;Split R5. R5 new wording: \&quot;The response to Samantha&#x27;s Tuesday 7:45 AM question about the email saying her Hallett&#x27;s points run out tonight gives 1,140 of her points as the number due to run out, whatever date it gives.\&quot; (+1, important, factuality and hallucination, user_facing_message). Append R40: \&quot;The response to Samantha&#x27;s Tuesday 7:45 AM question about the email saying her Hallett&#x27;s points run out tonight says her expiring points run out at the end of May, not tonight.\&quot; (+1, important, factuality and hallucination, user_facing_message).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R5&quot;,
+        &quot;R40&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.2&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0.75,
+      &quot;score_delta&quot;: 0.72
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure (split compound criteria)&quot;,
+      &quot;action&quot;: &quot;Split R16. R16 new wording: \&quot;The agent&#x27;s last Thursday email to Bay Colony Auto Club gives $62.00 as what she will pay.\&quot; (+1, important, task completion, state_change). Append R41: \&quot;The agent&#x27;s last Thursday email to Bay Colony Auto Club asks to renew her on the Plus step-up.\&quot; (+1, important, task completion, state_change). Do not merge them back to fix any later pair (DL1).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R16&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -0.79,
+      &quot;score_delta&quot;: 0.7
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route (DL6)&quot;,
+      &quot;action&quot;: &quot;No edit. Both tools find no text leak; R40 keeps the single image route (IMG_6731), and no text copy of &#x27;end of May&#x27; for Hallett&#x27;s points exists in the data.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R40&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;E11&quot;,
+        &quot;C5 (pass)&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;R32 score 3 -&gt; 1; importance stays &#x27;important&#x27; (|score| = 5 rule, E3). Wording unchanged.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R32&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;,
+        &quot;J1 A7 n/a&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -1.52,
+      &quot;score_delta&quot;: 1.7
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 2 (double charge)&quot;,
+      &quot;action&quot;: &quot;No reweight. Checked the new members: R5/R40 are different facts from one source; R16/R41 share a failure only when no email is sent (an output never produced); R41 vs R15 can pass and fail separately (run_1: R15 failed, R41 passes). double_charge.json still has 0 pairs. Nothing is dropped, so the J4 questions do not arise.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R5&quot;,
+        &quot;R40&quot;,
+        &quot;R16&quot;,
+        &quot;R41&quot;,
+        &quot;R15&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;double_charge.json&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recomputed with reconcile/scratch/metrics.py: positive weight 64 -&gt; 64 (+1 +1 -2); vision 33/64 = 51.56% -&gt; 32/64 = 50.00% (target &gt;= 30% met; neo-qc&#x27;s wider reading 60.94% -&gt; 59.38%); run_1 score 34/64 = 53.13% -&gt; 36/64 = 56.25%. No score target set, so no pair swap is needed.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R5&quot;,
+        &quot;R40&quot;,
+        &quot;R16&quot;,
+        &quot;R41&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;metrics&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;Re-anchor on day + clock + topic, rest of each wording unchanged. R6: \&quot;The response to Samantha&#x27;s Tuesday 9:30 AM request to use the Hallett&#x27;s points that run out this month asks her whether she means Points for Pantries or Saturday&#x27;s pickup order, rather than choosing one itself.\&quot; R15: \&quot;The response to Samantha&#x27;s Thursday 8:15 AM request to renew her with Bay Colony asks her whether she wants Classic or the Plus step-up, rather than choosing one itself.\&quot; R19: \&quot;The response to Samantha&#x27;s Thursday 1:00 PM request to move the Friday lunch with Frank to one o&#x27;clock asks her whether she means only this Friday&#x27;s lunch with Frank or every Friday&#x27;s, rather than choosing one itself.\&quot; Hardening: R8 and R9 &#x27;Tuesday-afternoon question&#x27; -&gt; &#x27;Tuesday 4:00 PM question&#x27;. Targets (DL9): R40 user_facing_message, R41 state_change, one target each. Process (DL10): R6/R15/R19 stay graded on the visible reply under the AGENTS.md ambiguity rule.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R15&quot;,
+        &quot;R19&quot;,
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R40&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C12.1&quot;,
+        &quot;J1 A5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;TRUTH.md sync (TB1-TB4)&quot;,
+      &quot;action&quot;: &quot;Value Lock: keep EXPIRING = \&quot;1,140 of her points\&quot; (criteria: R5); add EXPIRY_WHEN = \&quot;at the end of May\&quot; (type: graded-positive; datatype: date; anchor: image:data/environment/artifacts/inputs/files/home/Pictures/Perks/IMG_6731.jpg; criteria: R40; stage: seed); add BC_PLUS = \&quot;the Plus step-up\&quot; (type: graded-positive; datatype: fact; anchor: data/environment/gmail-api/messages.json#msg-pk07 and her Thursday 10:00 ask; criteria: R41; stage: seed). Section 1 deliverables: &#x27;Bay Colony Auto Club (Thursday; R16, R41)&#x27;. Step 4: &#x27;(R5, R40)&#x27;. Step 12: the email asks for the Plus step-up (R41) and says $62.00 (R16). 3b: S1 weight 5 -&gt; 3, share 4.7%; S2 weight 4 -&gt; 2, share 3.1%. Failure-pattern ledger: &#x27;restated email and precondition together&#x27; 6 -&gt; 4; &#x27;a picture misread&#x27; add R40, 5 -&gt; 6; &#x27;acting on a guess&#x27; add R41, 19 -&gt; 20 (total stays 64). Do not write &#x27;not graded&#x27;, old R-numbers, or E6 words (QC, renumbered, now weighted, checklist rule, run_1).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R5&quot;,
+        &quot;R40&quot;,
+        &quot;R16&quot;,
+        &quot;R41&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;,
+        &quot;C2.2&quot;,
+        &quot;C4.1&quot;,
+        &quot;J2&quot;,
+        &quot;E4&quot;,
+        &quot;E6&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E3/E4/E6/E10, Tier 2.5 J1/J2, TRUTH coverage, double charge) and the checklist agent on the edited rubric/TRUTH, both with the shared tie-break rules. Grade R40 and R41 on run_1 (expected pass: R5 justification says &#x27;1,140 points expire Monday May 31, not that night&#x27;; the last Thursday email is the Plus email). This is a QC re-check, not a model rerun.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R40&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;all&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 51.56,
+    &quot;vision_after&quot;: 50.0,
+    &quot;score_before&quot;: 53.13,
+    &quot;score_after&quot;: 56.25,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 4,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;neo-qc is ACCEPTABLE, but all 4 checklist flags (C2.1, C2.2, C4.1, C12.1) survive reconciliation; all are rubric/TRUTH-only fixes, and vision stays 50.0%.&quot;,
+  &quot;summary&quot;: &quot;0 conflicts, 3 agree (DL4, DL6, RR2), 4 one-sided (C2.1, C2.2, C4.1/DL5, C12.1/DL7), 1 disagreement (vision definition); fix plan 10 steps (0 rerun), vision 51.56-&gt;50.0%, score 53.13-&gt;56.25%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "samantha_long_8f105fa4-3be3-4859-aa45-e02e31c48206", "slug": "samantha_long_8f105fa4", "tasker": "Ananya Gupta", "authors": ["ananya.gupta", "ananya.gupta@ethara.ai"], "version": 1, "commit_sha": "776ec3735c972f67d3bf30f92be3d48267a5de51", "base_sha": "b7b7ae805efa9fc42e7f24cfc2e2bf248b12d6ad", "range": "b7b7ae805..776ec3735", "change": "added", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 4 flag(s); 0 conflicts, 3 agree (DL4, DL6, RR2), 4 one-sided (C2.1, C2.2, C4.1/DL5, C12.1/DL7), 1 disagreement (vision definition); fix plan 10 steps (0 rerun), vision 51.56->50.0%, score 53.13->56.25%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 0 design / 0 grader / 0 minor; score 53.13; T3 non-model 0 (12/12 failures model, 39/39 all-criteria agree)", "checklist_flags": 4, "conflicts": 0, "vision_before": 51.56, "vision_after": 50.0, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 0, "attempt": 1, "qc_finished_at": "2026-11-26T12:38:16Z"}</script></body></html>
