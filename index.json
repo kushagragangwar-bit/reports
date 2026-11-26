@@ -678,6 +678,14 @@
     "started": "2026-11-23 08:26",
     "v": 3,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1411_a1",
+    "score": 19.7,
+    "started": "2026-11-26 08:41",
+    "v": 4,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/susan_morris_518a9e88-9f82-4a9a-8ca8-6b8da288fab4": [
