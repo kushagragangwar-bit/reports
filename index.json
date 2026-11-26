@@ -506,6 +506,14 @@
     "started": "2026-11-23 08:26",
     "v": 2,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1411_a1",
+    "score": 11.43,
+    "started": "2026-11-26 08:41",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/kevin_wood_cb360a63-5ffc-4402-adc3-d466c6731295": [
@@ -1841,5 +1849,5 @@
    }
   ]
  },
- "updated": "2026-11-26 08:49 UTC"
+ "updated": "2026-11-26 08:50 UTC"
 }
