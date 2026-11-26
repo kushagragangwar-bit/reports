@@ -1418,6 +1418,16 @@
     "verdict": "ACCEPTABLE"
    }
   ],
+  "mohit/patrick_campbell_799f19cd-a4bf-4e42-b2e3-ffc89794e310": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261126-1342_a1",
+    "score": 26.47,
+    "started": "2026-11-26 08:12",
+    "v": 1,
+    "verdict": "NOT ACCEPTABLE"
+   }
+  ],
   "mohit/paul_johnson_3e1a99fe-5567-42e6-95dd-f3353cd6f033": [
    {
     "started": "2026-11-20 09:55",
