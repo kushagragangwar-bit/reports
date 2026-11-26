@@ -1,0 +1,1105 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: samantha_long_fddf6f1e (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f</code></span>
+<span><span class="k">Tasker</span>Anuj Mishra</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>21be269e5</code> (modified, range <code>8e0c52507..21be269e5</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 13:25:14 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>1</span>
+<span><span class="k">Conflicts</span>1</span>
+<span><span class="k">Vision</span>59.6% → 60.8%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 1 flag(s); 1 conflict (RR2), 9 agree, 1 one-sided (TB1), 2 disagreements (checklist right on T11 premise, neo right on D1 weights); fix plan 10 steps (1 rerun); vision 59.6-&gt;60.8%, score 17.54-&gt;12.66%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: samantha_long_fddf6f1e</h1>
+<p class="sub">obsidian-infinity-stage-1 8e0c52507..21be269e5 (modified)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>43</b><span>rubrics</span></div><div class="stat"><b>17.5</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>31/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>11/0/1</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>3/1/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>43/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 31 failed criteria across 1 task(s): <b>31 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 1 failure(s) and 0 warning(s). Tier 2.5 flagged 1 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 43 criteria: 43 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 0 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 1 item(s): 1 design.</p>
+<h3>Low scores (under 35%)</h3><table><tr><th>task</th><th>score</th><th>what drove it</th><th>tier 3</th></tr><tr><td><a href='#t-samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f'>samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f</a></td><td class='n'>17.54</td><td>The agent never re-read Nora Kessling&#x27;s edited email (30 to 45-day window), so it declared both lamps unreturnable, skipped the return email and zeroed every lamp figure; the criteria are right, the agent is wrong.</td><td class='muted'>model 31</td></tr></table>
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#D1'><code>D1</code></a></td><td><span class="b b-sev-design">design</span></td><td class='muted'>rubric</td><td class='muted'>samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f</td><td>Totals she finally asks for were cut to 1 point as if they were double charges</td></tr></table><div class='issue' id='D1'><h4><code>D1</code> Totals she finally asks for were cut to 1 point as if they were double charges <span class="b b-sev-design">design</span> <span class='muted'>samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f</span></h4><p>This version lowers 14 criteria to 1 point as the &#x27;derived member&#x27; of a pair, but none of them is a pair under the pair test. R20, R26, R34 and R36 are sums of two or more separately graded values, and R4, R13, R14, R16, R18, R19, R23, R24, R28 and R33 sit on a different output from their supposed source with no turn coupling the two. R33 and R34 are the values the Friday 4:30 PM and Friday 7:45 PM turns finally ask for, yet they now weigh the same as a one-message lookup (R37). Positive weight fell from 139 to 57 with no criterion above 3, so the drift-free lookups now carry 17.5% of the positive weight instead of 7.2%. No criterion verdict changes, and the run scores low (17.54%) either way, but the weights no longer reflect the asks.</p><p><b>Evidence.</b> TRUTH.md section 1: &#x27;fourteen values are an exact copy, complement, sum or fixed step of another graded value on another surface ... the derived member of each carries 1 point&#x27;; double_charge_prompt.md &#x27;A derived value with two or more inputs ... Two criteria, no pair&#x27; and &#x27;The same value in two outputs no turn couples ... is two separate asks&#x27;; prompt.txt:54 &#x27;what do my four Narrow Lane orders end up costing me in all&#x27;, prompt.txt:57 &#x27;What&#x27;s coming back to me on the four orders, all told? Just the number.&#x27;; changes.txt R20/R26/R33/R34/R36 5 -&gt; 1; double_charge.json found 0 pairs.</p><p><b>Ask.</b> Restore R4, R13, R14, R16, R18, R19, R20, R23, R24, R26, R28, R33, R34 and R36 to the weight their own ask merits (at least the one-tier-down level of 3 if the A7 tier-down is kept), and drop the &#x27;derived member&#x27; sentence from TRUTH.md section 1.</p></div>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f</td><td><code>E8_change_diff</code></td><td><span class="b b-fail">fail</span></td><td class='muted'>UNEXPECTED: trajectories/claude-opus-5.5/run_1/usage.json</td></tr></table></details><details><summary>Tier 2.5 findings (1)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R20, R26, R34, R36 (5 to 1) are lowered as &#x27;derived members&#x27; but each sums two or more separately graded inputs (R20 = R13 + R14; R26 = R29 + R30; R34 = R29 + R30 + R7 + R21; R36 = R30 + R7 + R21): the pair test says &#x27;Two criteria, no pair&#x27;; restore their w...</td><td class='muted'>data/solution/TRUTH.md:5: &quot;fourteen values are an exact copy, complement, sum or fixed step of another graded value on another surface&quot;</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 sil_sms_frank_mon_bump: could not check (phone-api/conversations: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f'><td>samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f</td><td class='n'>20</td><td class='n'>43</td><td class='n'>17.54</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 31</td><td>11/0/1</td><td><span class="b b-warn">J1</span></td><td>43/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>1 flag across items [6] (T11 presupposes a counter drop-off, design/rerun), vision 59.6%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Each penalty can fire on its own and grades a different behaviour: R40 (amount in Beth&#x27;s text) vs R4, R39 (amount on the post) vs R28, R41 (DM to Wickford) vs R17, and R42 (post before the go-ahead). The positive chains (R13/R14 vs R29/R30, R20, R33 vs R34) are on separate outputs, and each derived member is already at 1 point. R43 grades only the form of the reply.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Each criterion grades one value. The &#x27;or&#x27; clauses (R13, R20, R26, R29, R31-R34, R36) are accepted readings of the same value. R39 is one violation that can appear in the image or the caption. R4, R5 and R6 are already split.</td></tr><tr><td>3</td><td>Turn names the file and the change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every artifact criterion matches a turn that names the file or tab: returns_april_2027.xlsx sheets (T0, T7, T8, T12), Money back tab (T0, T15), When it lands tab (T12), plot14_bed_two.png (T13), plot14_bed_two_post.png (T14).</td></tr><tr><td>4</td><td>Lower points after approval + silent change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No turn approves a value. The go-aheads in T4, T9 and T14 approve sends, and the edits that touch them fire before those turns. The Monday values asked for again later (R4-R12, R16, R17, R19, R21, R22, R25, R29-R32) are already at 3 or 1, and critically_important appears only on R39 (-5).</td></tr><tr><td>5</td><td>Visual answer leaked in text</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>I grepped all seed and inject text (Gmail, Instagram, WhatsApp, phone, sheets, persona) for the slip prices, totals, delivery dates 3/18 and 3/16, the missing-piece count and the $35.45 owed. None appear: the order emails carry no prices, the Lamp returns sheet is empty, and MEMORY.md gives file locations only.</td></tr><tr><td>6</td><td>Scripted messages assume expected path</td><td><span class="qc-tag bad">FLAG</span></td><td>C6.1</td><td>One user turn presupposes an action that only happens on the expected path. The mutations are routine news or term edits and read correctly on any path.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>produced_artifact: R8-R12, R21, R22 (xlsx) and R25, R27 (PNG). state_change: sends, emails, calendar event, post and caption, Google Sheet tabs (R4-R7, R16-R18, R28-R32, R39-R42). user_facing_message: every reply criterion.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion grades the tool log. R18 and R29-R32 are typed &#x27;tool use&#x27; but grade end-state values. R41 and R42 grade persona and turn rules by their visible outcome.</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>I recomputed every graded value from the seed and mutated data (prices from the images, 10%/7%/$12.40, 4x$12, 3+4 business days, $1.50, 6%, 5 business days) and all match the rubric and TRUTH. TRUTH Steps 1-20 cover T0-T19. Stage firing turns match mutations.json. The ledger weights total 57.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>59.6% (34/57). This counts only positives whose value needs the slip or screenshot images with no text route. Without the gating-only rows it is still 43.9%.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every read the run made after a mutation returned the mutated content: the kit slip &#x27;only 15&#x27; at T6, the seed screenshot &#x27;$35.45 owed&#x27; at T10, and the Frank, Beth, library and family messages. The stale 30-day, 15%, $8 and 2-day figures came from reads made at T0, before any stage fired. The agent never re-read the edited records, which is a model miss, not an environment mismatch. The report.json verdicts match the run.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion has a T-number. Reply criteria anchor on day + clock time + topic, each matching exactly one turn. Send criteria anchor on day + recipient or topic, and each is unique (Tuesday text to Beth, Wednesday help-desk email, and so on).</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C6.1"><div><strong>C6.1</strong> · item 6 Scripted messages assume expected path
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">needs rerun</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R19
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Thursday 3:30 PM, what went to the counter that morning</div>
+<p style="margin:.4rem 0">The Thursday 3:30 PM turn states as fact that Samantha took something to the counter that morning. That is only true on the expected path, where the 45-day window is seen and the lamp returns are opened. On the stale path (TRUTH ST_THU: &#x27;nothing at the shop ... (none sent)&#x27;) the agent has already called off the drop-off, so the scripted line contradicts the conversation. It also hints that a lamp is returnable. The recorded run hit this branch and had to hedge.</p><div class="ev"><span class="qc-k">prompt.txt T11 (Day 4, 15:30)</span><code>And when does what I took to the counter this morning reach the shop</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Value Lock ST_THU</span><code>nothing at the shop and no landing day for either lamp (none sent)</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Value Lock DK_ARR</span><code>dropped 4/22 at ten (her own report at T11) + 4 business days in transit</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json T11 reply (run_dump line ~1640)</span><code>I have nothing on file saying anything went to Rolfe Square today. On Tuesday we called off the 10:00 drop-off</code></div>
+<div><span class="qc-k">Fix plan</span>Reword the turn so it reads correctly on either path, e.g. &#x27;And if anything went to the Rolfe Square counter this morning, when does it reach the shop?&#x27; Keep R19 at 1 point and keep it atomic and self-contained.</div><div><span class="qc-k">No-rerun fallback</span>Make R19 conditional and leave the prompt alone: &#x27;The response to Samantha&#x27;s Thursday 3:30 PM question about when what went to the counter that morning reaches the shop gives Wednesday, April 28 for the desk lamp&#x27;s parcel (giving it conditionally on the desk lamp having gone also counts).&#x27;</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier 1 independently CONFIRMED this with the T11, TRUTH ST_THU and run quotes. I re-read prompt T2/T11 and the T4/T5 run replies (the agent told Beth not to bring the box and sent no return email). R19&#x27;s graded value (Apr 28) is unaffected, so the verdict does not change: design, not blocking.</div></div>
+<h3>Vision share <span class="qc-tag ok">59.6%</span></h3>
+<p>34 of 57 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R4</td><td>1</td><td>Documents/Returns/floor_lamp_packing_slip.jpg</td><td>the pencilled &#x27;came Thurs 3/18&#x27; decides the 45-day window</td></tr><tr><td>R5</td><td>1</td><td>Documents/Returns/floor_lamp_packing_slip.jpg</td><td>eligibility depends on the 3/18 delivery date</td></tr><tr><td>R6</td><td>1</td><td>Documents/Returns/desk_lamp_packing_slip.jpg</td><td>eligibility depends on &#x27;came Tues 3/16&#x27;</td></tr><tr><td>R7</td><td>1</td><td>Documents/Returns/cedar_kit_packing_slip.jpg (stage 1)</td><td>4 pieces short only on the re-counted slip</td></tr><tr><td>R8</td><td>3</td><td>Documents/Returns/floor_lamp_packing_slip.jpg</td><td>$149.00</td></tr><tr><td>R9</td><td>3</td><td>Documents/Returns/floor_lamp_packing_slip.jpg</td><td>$32.00</td></tr><tr><td>R10</td><td>1</td><td>Documents/Returns/desk_lamp_packing_slip.jpg</td><td>$56.00</td></tr><tr><td>R11</td><td>1</td><td>Documents/Returns/desk_lamp_packing_slip.jpg</td><td>$11.00</td></tr><tr><td>R13</td><td>1</td><td>Documents/Returns/floor_lamp_packing_slip.jpg</td><td>$193.67 charged + prices</td></tr><tr><td>R14</td><td>1</td><td>Documents/Returns/desk_lamp_packing_slip.jpg</td><td>$71.69 charged + prices</td></tr><tr><td>R20</td><td>1</td><td>both lamp slips</td><td>charged totals and prices</td></tr><tr><td>R21</td><td>1</td><td>Downloads/narrow_lane_seed_order.png (stage 2)</td><td>$35.45 still owed</td></tr><tr><td>R22</td><td>1</td><td>Downloads/narrow_lane_seed_order.png (stage 2)</td><td>$35.45 still owed</td></tr><tr><td>R23</td><td>1</td><td>Documents/Returns/cedar_kit_packing_slip.jpg (stage 1)</td><td>$309.23 and 4 pieces</td></tr><tr><td>R26</td><td>1</td><td>both lamp slips</td><td>prices and delivery dates</td></tr><tr><td>R29</td><td>3</td><td>Documents/Returns/floor_lamp_packing_slip.jpg</td><td>prices and delivery date</td></tr><tr><td>R30</td><td>3</td><td>Documents/Returns/desk_lamp_packing_slip.jpg</td><td>prices and delivery date</td></tr><tr><td>R31</td><td>3</td><td>Documents/Returns/floor_lamp_packing_slip.jpg</td><td>a landing date exists only if the lamp goes back (3/18)</td></tr><tr><td>R32</td><td>3</td><td>Documents/Returns/desk_lamp_packing_slip.jpg</td><td>a landing date exists only if the lamp goes back (3/16)</td></tr><tr><td>R33</td><td>1</td><td>three slips + seed screenshot</td><td>charged totals, prices, piece count</td></tr><tr><td>R34</td><td>1</td><td>three slips + seed screenshot</td><td>prices, piece count, amount owed</td></tr><tr><td>R36</td><td>1</td><td>desk slip, kit slip, seed screenshot</td><td>desk refund, piece count, amount owed</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (7)</summary><ul><li>item 4: R8, R9, R17, R25 and R29-R32 (3 points) should drop a tier because they depend on Monday values moved by silent edits. <span class='qc-k'>dismissed:</span>No turn approves a value. T4, T9 and T14 grant sends, and the edits that touch them fire before those turns. TRUTH section 1 already tiers these Monday values down, and none sits at 5.</li><li>item 6: T5 &#x27;open returns on the lamps that are going back&#x27; presupposes the expected path. <span class='qc-k'>dismissed:</span>The wording defines the set conditionally and reads correctly even if no lamp goes back (nothing to send). R5 and R6 grade the outcome directly.</li><li>item 1: Complement/sum chains R13/R14 vs R29/R30, R20, R33 vs R34, R43 vs R34 double-charge one error. <span class='qc-k'>dismissed:</span>Positive-only chains on separate outputs with derived members already at 1 point. No negative mirrors them. R43 grades form, not value.</li><li>item 1: Negatives R39-R42 pair with R28, R4, R17 and R27/R28. <span class='qc-k'>dismissed:</span>Each penalty can fire with its positive passing (e.g. a box request containing a dollar amount, a correct caption with an amount, a card email plus a DM).</li><li>item 9: TRUTH says Tom&#x27;s message is &#x27;Mar 12&#x27; while sent_at is 2027-03-13T01:15Z. <span class='qc-k'>dismissed:</span>That is Mar 12 at 20:15 EST in the task&#x27;s America/New_York timezone (DST starts Mar 14, 2027). The date is correct.</li><li>item 5: R27&#x27;s banner words and R25&#x27;s stake date are in readable text. <span class='qc-k'>dismissed:</span>Neither is counted as a vision criterion. R27&#x27;s words are the user&#x27;s instruction, not a leaked answer. The image-graded slip and screenshot facts have no text copy.</li><li>item 11: The run used 30 days, 15% and $8 after the mutations, so the environment may not have delivered the changes. <span class='qc-k'>dismissed:</span>Those values were read at T0, before stage 1. Every post-mutation read returned the mutated content, and the agent simply never re-read the edited records.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>1 conflict (RR2), 9 agree, 1 one-sided (TB1), 2 disagreements (checklist right on T11 premise, neo right on D1 weights); fix plan 10 steps (1 rerun); vision 59.6-&gt;60.8%, score 17.54-&gt;12.66%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">59.6% → 60.8%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">17.54% → 12.66%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>RR2</td><td>E8 (allowed set: rubric.json, report.json, pass_summary.json, TRUTH.md), integrity turn-delivery gate (TURN_MATCH_CHARS = 120), J1 A4 (one evaluation target)</td><td>C6.1</td><td>R19</td><td><div><span class=qc-k>neo-qc</span>Any prompt.txt edit without a rerun is UNEXPECTED under E8; the T11 wording sits about 60 characters into the turn, inside the 120-character match window, so a no-rerun edit makes the turn read as never sent. A conditional criterion must keep one target (A4).</div><div><span class=qc-k>checklist</span>Item 6 flag: the Thursday 3:30 PM turn states as fact that Samantha took something to the counter that morning, which is true only on the expected path (TRUTH ST_THU: none sent). Fix is a turn reword (rerun), or a conditional R19 as the fallback.</div><div><span class=qc-k>loop</span>Rewording T11 without a rerun clears checklist 6 but fails E8 and the turn-delivery gate, and checklist 11 then flags a run that answered a turn not in the bundle. Leaving the turn as is keeps checklist 6 open.</div><div><span class=qc-k>resolution</span>Batch the T11 reword for the next rerun. Until then, use the checklist&#x27;s no-rerun fallback: make R19 conditional and keep it a single user_facing_message target (both branches show in the same reply, DL9). No new money value, so E10 is unaffected.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>gap</td><td>QC_SUMMARY.md Dismissed: T11 premise, extras.json notes (T11 user prompt, not a mutation)</td><td>C6.1</td><td>R19</td><td><div><span class=qc-k>neo-qc</span>Dismissed: &#x27;it is a user turn, not a mutation. The agent answered on its premise, so R19 stays a model miss.&#x27; Its unconditional-scripted-message scan covers mutations only.</div><div><span class=qc-k>checklist</span>Item 6 covers &#x27;scripted messages/mutations&#x27;; a scripted user turn that presupposes the expected path is in scope.</div><div><span class=qc-k>resolution</span>Checklist is right. The guide&#x27;s map marks checklist 6 as NOT IN NEO-QC, so neo-qc&#x27;s dismissal is a scope gap, not counter-evidence. neo-qc&#x27;s extras.json itself confirms the presupposition (&#x27;it presumes the desk lamp went on Thursday ... even though in run_1 the agent had called the drop-off off&#x27;). The flag survives (design severity). R19&#x27;s verdict and graded value (Apr 28) do not change.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>none</td><td>D1, J1 (tier25), double_charge.json (0 pairs)</td><td>item 1 note + rejected claim (chains), C6.1 fix_plan &#x27;Keep R19 at 1 point&#x27;</td><td>R4, R13, R14, R16, R18, R19, R20, R23, R24, R26, R28, R33, R34, R36</td><td><div><span class=qc-k>neo-qc</span>The 14 &#x27;derived member&#x27; cuts to 1 are not pairs: R20, R26, R34, R36 are multi-input sums, and the other ten sit on outputs that no turn couples. R33/R34 are the totals the Friday turns finally ask for. Restore them to at least the one-tier-down level (3).</div><div><span class=qc-k>checklist</span>Item 1 PASS partly because &#x27;each derived member is already at 1 point&#x27;; rejected the chain double-charge claim on that ground; C6.1 says keep R19 at 1.</div><div><span class=qc-k>loop</span>Restoring the weights removes the checklist&#x27;s &#x27;already at 1&#x27; reason, so a later checklist pass could flag R13/R14 vs R29/R30, R20, R33 vs R34 as one value penalized twice; lowering them again re-opens D1.</div><div><span class=qc-k>resolution</span>neo-qc is right, settled by the shared tie-break list: &#x27;NOT a pair: different facts from one source ... the same value in two outputs that no turn couples&#x27;. Each of these is a different fact, asked by its own turn and graded on its own output; one hidden edit moving several facts is a same-source group, not a pair. The checklist&#x27;s item-1 PASS still holds after the restore on the tie-break ground, so it does not loop. The broad one-tier-down is kept: originally-5 criteria go to 3. R4, R23 and R24 (originally 3) stay at 1 as their one-tier-down, not as derived members. R19 at 3 is fair once its wording is conditional, so &#x27;keep at 1&#x27; is not needed.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>TB1</td><td>D1 ask (drop the &#x27;derived member&#x27; sentence), J2 (3b ledger weights recompute from rubric.json)</td><td>item 9 PASS (&#x27;The ledger weights total 57&#x27;)</td><td>R4, R13, R14, R16, R18, R19, R20, R23, R24, R26, R28, R33, R34, R36</td><td><div><span class=qc-k>neo-qc</span>TRUTH section 1 gives a false reason (&#x27;the derived member of each carries 1 point&#x27;). The 3a paragraph and the NUMBER_ONLY lock repeat it.</div><div><span class=qc-k>checklist</span>Silent: TRUTH matches the current rubric weights, so item 9 passes. It would flag once the weights change and the ledger still totals 57.</div><div><span class=qc-k>resolution</span>Sync TRUTH in the same edit as the weights. Use current R-numbers only and none of the E6 words (&#x27;now weighted&#x27;, &#x27;no longer graded&#x27;, &#x27;QC&#x27;, &#x27;run_1&#x27;, &#x27;reference run&#x27;). Recompute the 3b Weight and Share columns over 79 positive points.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>extras.json vision_pct 68.4, E15 81%</td><td>item 10 (59.6%)</td><td>R17, R18, R24</td><td><div><span class=qc-k>neo-qc</span>Vision 68.4% (39/57) by Tier 3; 81% by E15 anchor mapping.</div><div><span class=qc-k>checklist</span>59.6% (34/57) on the dependency definition; excludes R17, R18 and R24 because the card wins for any amount owed under about $58, and R24 equals the $1.50 fee.</div><div><span class=qc-k>resolution</span>Both pass 30%. The checklist&#x27;s count follows the shared definition (no text route, value depends on the picture). Checked: the card refund (X - 1.50) and the credit (1.06X) are less than $5 apart for any X under $58.33, so R17, R18 and R24 do not depend on the screenshot value. Used 59.6% as the before figure.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL5</td><td>J1 A7 (strict: no trigger; broad tier-downs allowed), E3</td><td>item 4 PASS, rejected item-4 claim</td><td>R4, R5, R6, R7, R8, R9, R10, R11, R12, R16, R17, R19, R21, R22, R25, R29, R30, R31, R32</td><td><div><span class=qc-k>neo-qc</span>No stage after a sign-off moves a signed-off output; the broad one-tier-downs are allowed and not flagged.</div><div><span class=qc-k>checklist</span>No turn approves a value; no further tier-down needed.</div><div><span class=qc-k>resolution</span>Keep the existing broad tier-downs. Put the restored criteria at 3 (one tier down from 5), so importance stays &#x27;important&#x27; and E3 holds (critically_important only on R39 at -5). No member of any pair is post-sign-off, because there are no pairs.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json summary (no trap-value pairs)</td><td>item 1 PASS, rejected item-1 negatives claim</td><td>R39, R40, R41, R42, R4, R17, R27, R28</td><td><div><span class=qc-k>neo-qc</span>The four penalties fire on behaviour that no positive tests.</div><div><span class=qc-k>checklist</span>Each penalty can fire while its positive passes.</div><div><span class=qc-k>resolution</span>No change. A penalty that can fire on its own is not a pair (tie-break 3).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>E11 (no items), visual_leaks.json candidates []</td><td>item 5 PASS</td><td>R8, R9, R10, R11, R21, R22, R23</td><td><div><span class=qc-k>neo-qc</span>No declared twin route and no leak candidates.</div><div><span class=qc-k>checklist</span>Slip prices, totals, delivery dates, piece count and $35.45 appear in no seed or inject text.</div><div><span class=qc-k>resolution</span>No change. No anchor rewrite is needed.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>E13 pass (turn refs none), D18 pass, J1 A5</td><td>item 12 PASS</td><td>R19, R20</td><td><div><span class=qc-k>neo-qc</span>No turn numbers; anchors name weekday and clock time.</div><div><span class=qc-k>checklist</span>Reply criteria anchor on day + clock + topic, each matching exactly one turn.</div><div><span class=qc-k>resolution</span>Keep the anchors. The R19 conditional rewording keeps &#x27;Thursday 3:30 PM&#x27; plus its topic (the counter parcel), which tells it apart from R20 on the same turn (the two lamps&#x27; cost).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL8</td><td>E10, E12 (no candidates)</td><td>item 2 PASS, item 9 PASS</td><td>R31, R32, R34, R36</td><td><div><span class=qc-k>neo-qc</span>Alternative readings are in TRUTH next to the main values; E12 has no candidates.</div><div><span class=qc-k>checklist</span>The &#x27;or&#x27; clauses are accepted readings of one value.</div><div><span class=qc-k>resolution</span>No change. Checked: no accepted alternate equals a stale value. R36&#x27;s $81.95 is accepted only when the same reply has both lamps going back, and TRUTH notes the 30-day stale answer is not accepted.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL9</td><td>J1 A4, J1 A1/A6</td><td>item 7 PASS, item 8 PASS</td><td>R18, R29, R30, R31, R32, R41, R42</td><td><div><span class=qc-k>neo-qc</span>No target or process findings.</div><div><span class=qc-k>checklist</span>Targets are correct; &#x27;tool use&#x27; criteria grade end-state values; R41 and R42 grade a visible outcome.</div><div><span class=qc-k>resolution</span>No change (DL10 is also satisfied).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR1</td><td>J1 A8 (no warn)</td><td>item 3 PASS</td><td>R8, R21, R25, R27, R29, R31</td><td><div><span class=qc-k>neo-qc</span>No unnamed-file warning.</div><div><span class=qc-k>checklist</span>Every artifact criterion matches a turn that names the file or tab.</div><div><span class=qc-k>resolution</span>No change.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR4</td><td>E8 fail (usage.json, dismissed), E9 pass</td><td>item 11 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>The usage.json diff is only the judge-cost block from the regrade; output.json is byte-identical. E9 passes.</div><div><span class=qc-k>checklist</span>Every post-mutation read returned the mutated content; the stale figures came from T0 reads.</div><div><span class=qc-k>resolution</span>No change. The plan edits only rubric.json, report.json, pass_summary.json and TRUTH.md (E8 allowed set), plus the queued T11 rerun.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>TB2</td><td>truth_coverage.json gaps []</td><td>item 9 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>All 43 criteria and 20 turns are covered; no &#x27;not graded&#x27; label on a graded fact.</div><div><span class=qc-k>checklist</span>Steps 1-20 cover T0-T19.</div><div><span class=qc-k>resolution</span>No change to coverage. The new R19 reading goes into Step 12 as an expected reply, without any graded or ungraded label.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Sort the flags. C6.1 (T11 turn wording) is rerun-class and goes to the rerun batch. D1 and the TRUTH sync are rubric/TRUTH only. No other prompt, inject or data edit is needed.</td><td>R19, R4, R13, R14, R16, R18, R19, R20, R23, R24, R26, R28, R33, R34, R36</td><td>C6.1, D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>At the next rerun, reword T11 (prompt.txt:42) to: &#x27;Put the day the seed money should be back on my calendar. And if anything went to the Rolfe Square counter this morning, when does it reach the shop, and what will the two lamps end up costing me together?&#x27; R19 then grades the plain Wednesday, April 28 value.<div><span class=qc-k>no-rerun fallback</span>Leave prompt.txt alone and reword R19 to: &quot;The response to Samantha&#x27;s Thursday 3:30 PM question about when what went to the counter that morning reaches the shop gives Wednesday, April 28 for the desk lamp&#x27;s parcel (giving it conditionally on the desk lamp having gone also counts).&quot; Target stays user_facing_message (DL9). No new money value, so E10 is unaffected. Keep the T11 edit queued.</div></td><td>R19</td><td>C6.1</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>structure (split compound criteria)</td><td>No split. Item 2 and A3 both pass. The conditional R19 is one value (the desk lamp parcel&#x27;s shop day) in one reply, so it stays atomic.</td><td>R19</td><td>C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>visual route (DL6)</td><td>No change. There are no leaks (item 5 pass, visual_leaks empty, E11 no items). Do not touch any image: anchor.</td><td></td><td></td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1 (silent after sign-off, importance in the same edit)</td><td>Keep the broad one-tier-down from the original weights and replace the &#x27;derived member&#x27; cuts with it. Set R13, R14, R16, R18, R19, R20, R26, R28, R33, R34 and R36 from 1 to 3 (originally 5). Keep importance &#x27;important&#x27; (|score| = 3, E3). R4, R23 and R24 (originally 3) stay at 1 as their one-tier-down. All other weights stay as they are. Positive total goes from 57 to 79.</td><td>R13, R14, R16, R18, R19, R20, R26, R28, R33, R34, R36, R4, R23, R24</td><td>D1, C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>1.2</td><td>-4.88</td></tr><tr><td>6</td><td>weight pass 2 (double charge: reweight, not drop)</td><td>No pairs (double_charge.json 0 pairs; tie-break &#x27;NOT a pair: different facts from one source; same value in two outputs no turn couples&#x27;). Do not lower any restored criterion again, and drop nothing. Do not take the optional same-source levers (R9, R30, R32 to 1): those are not pairs and would lower vision.</td><td>R9, R13, R14, R20, R29, R30, R32, R33, R34</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>recompute vision % and score</td><td>Recompute. Vision 34/57 = 59.6% becomes 48/79 = 60.8% (over 30%). Score 10/57 = 17.54% becomes 10/79 = 12.66% (no target set). Update report.json: set the 11 restored rows to score 3 with their verdicts unchanged, and set final_reward and rubric_weights_percentage to 12.66. Update pass_summary.json to match. If R19 is reworded (step 2 fallback), regrade it with a first-grading justification (TB3: none of &#x27;regraded&#x27;, &#x27;now fails&#x27;, &#x27;originally&#x27;). Its verdict stays fail on the run&#x27;s stale-transit answer.</td><td>R13, R14, R16, R18, R19, R20, R26, R28, R33, R34, R36</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>turn anchors, targets (DL9), process wording (DL10)</td><td>Check that every restored criterion keeps its day + clock + topic anchor (no T-numbers). R19 and R20 share Thursday 3:30 PM and differ by topic (counter parcel vs the two lamps&#x27; cost). R19 target stays user_facing_message. No process wording is added.</td><td>R19, R20</td><td>C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>TRUTH.md sync (TB1-TB4)</td><td>TRUTH.md sections 1-3, current R-numbers only, no E6 words. (a) Section 1: replace &#x27;, and the derived member of each carries 1 point&#x27; with &#x27;, and each is asked for by its own turn and graded by its own criterion on its own output, with no coupling words&#x27;. (b) Section 1: replace &#x27;the other derived members (R13, R14, R18, R20, R23, R24, R26, R28, R33, R34, R36) apply moved Monday values as well and already sit at the 1-point floor&#x27; with &#x27;R13, R14, R18, R20, R23, R24, R26, R28, R33, R34 and R36 apply moved Monday values as well and sit one tier down in the same way&#x27;. (c) 3a paragraph: replace &#x27;are graded on separate surfaces at 1 point&#x27; with &#x27;are each graded on a separate output by their own criterion&#x27;. (d) NUMBER_ONLY lock: replace &#x27;R34, 1 point as the sum of the separately graded R29, R30, R7 and R21; its complement, what the four orders cost in all, R33, also carries 1 point&#x27; with &#x27;R34, the sum of the separately graded R29, R30, R7 and R21; its complement, what the four orders cost in all, is R33&#x27;. (e) 3b ledger Weight/Share over 79: P3 11 13.9%, P4 2 2.5%, E1 44 55.7%, E3 10 12.7%, C2 11 13.9%, W1 24 30.4%, C1 35 44.3%, E2 27 34.2%, E4 17 21.5%, D1 17 21.5%, L1 3 3.8%, L2 2 2.5%, AN 2 2.5%, AE 3 3.8%, DIR 1 1.3%. (f) Only if the step-2 fallback is used: in Step 12 and the DK_ARR lock add &#x27;a reply that gives Wednesday, April 28 on the condition that the desk lamp went to the counter that morning also counts&#x27;. Lock types unchanged (graded-positive; the literal values stay in the criteria, TB4).</td><td>R4, R13, R14, R16, R18, R19, R20, R23, R24, R26, R28, R33, R34, R36</td><td>D1, C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E3/E4/E6/E8/E10, Tier 2.5 J1/J2, TRUTH coverage, double charge) and the checklist agent, both with the shared tie-break rules (especially the NOT-a-pair list, so item 1 does not re-flag the restored chains). After the T11 rerun, re-check item 6 and E9.</td><td></td><td>D1, C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>prompt.txt T11 (Day 4, 15:30): &#x27;And when does what I took to the counter this morning reach the shop&#x27; -&gt; &#x27;And if anything went to the Rolfe Square counter this morning, when does it reach the shop&#x27; (inside the first 120 characters of the turn, so rerun only)</li></ul>
+<p class="qc-k">Verdict: NOT ACCEPTABLE, Checklist flag C6.1 (T11 presupposes a counter drop-off) survives reconciliation; its real fix is rerun-class. neo-qc ACCEPTABLE, vision 60.8%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc: samantha_long_fddf6f1e (8e0c52507..21be269e5, modified)</h3>
+<p><strong>Verdict: ACCEPTABLE.</strong> 0 blocking, 1 design, 0 grader, 0 minor. Score 17.54% (was 7.19%; same trajectory, regrade + reweight only).</p>
+<h4>Per tier</h4>
+<ul>
+<li>Step 0 gate: exit 0, HARD-clean, 1 informational.</li>
+<li>Tier 1: pass 20, warn 1, skip 4. Warn = D17 &quot;service did not import&quot; for 6 silent mutations; Tier 3 confirmed each patch target exists in data/environment (e.g. <code>wamid.TOMLONG...</code>, comment <code>17987100000017122</code>), so not an issue.</li>
+<li>Tier 1.5: pass 11, fail 1 (E8), info 3 (E5 decoys, E11 no items, E12 no items). E9 pass (no hand-check needed). E15 vision 81%.</li>
+<li>Tier 2: 5/5 pass. Pivotal decision: the run never re-read the edited records, so it kept the stale terms.</li>
+<li>Tier 2.5: J1 warn (the reweights), J2/J3/J4 pass.</li>
+<li>TRUTH coverage: 0 gaps. Visual leaks: stub (E11 had no candidates). Double charge: 0 pairs, 0 surplus points, 6 same-source groups and 5 chains recorded.</li>
+<li>Tier 3 all-criteria: 43 agree, 0 dispute. Sub-agent D&#x27;s prose said &quot;32 failures&quot;; report.json has 31, and its per-criterion verdicts match.</li>
+<li>Tier 3 attribution: 31 failures, all <code>model</code> (high); 0 rubric/judge/task/false_pass. Riskiest passes (R27, R39–R42 and others) were checked and earned.</li>
+</ul>
+<h4>Kept issue</h4>
+<ul>
+<li><strong>D1 (design): 14 criteria were cut to 1 point as &quot;derived members&quot;, but none of them is a pair.</strong></li>
+<li><strong>Evidence:</strong> TRUTH.md §1 says &quot;the derived member of each carries 1 point&quot;. But R20, R26, R34 and R36 are sums of several inputs, and the other ten sit on outputs that no turn couples. double_charge.json independently finds 0 pairs.</li>
+<li><strong>Finally-asked totals lowered:</strong> R33 and R34 are the totals the turns finally ask for (prompt.txt:54 and :57), yet they weigh the same as the lookup R37.</li>
+<li><strong>Weight shift:</strong> positive weight went from 139 to 57.</li>
+<li><strong>Fix:</strong> restore those 14 to at least 3 and drop the TRUTH sentence.</li>
+<li><strong>No change to a graded outcome:</strong> no criterion verdict changes. With the weights restored the score is about 11.8% instead of 17.54%, so the run is a low-scoring model miss either way.</li>
+</ul>
+<h4>Dismissed</h4>
+<ul>
+<li><strong>E8 UNEXPECTED <code>usage.json</code>:</strong> the diff is only the judge-cost block and the totals (judge requests 54→73). The agent block and output.json are byte-identical, so this is a regrade byproduct, not a rerun. The other changed files are in the allowed set.</li>
+<li><strong>Tier 2.5 A7 one-tier-downs</strong> (R4–R12, R16, R17, R19, R21, R22, R25, R29–R32): allowed under the broad A7 reading, so not flagged on their own.</li>
+<li><strong>T11 premise</strong> (&quot;what I took to the counter this morning&quot;): it is a user turn, not a mutation. The agent answered on its premise, so R19 stays a model miss.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs: none (E13 pass).</li>
+<li>Vision: 68.4% by Tier 3 (39/57) and 81% by E15. Either way vision_ok = true. The difference is that R16, R19, R25, R28 and R43 are text-derived.</li>
+<li>Unconditional scripted messages: none.</li>
+</ul>
+<h4>Delivery</h4>
+<p>Nothing blocks delivery. D1 is a weighting fix (rubric/TRUTH only, no rerun needed).</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 1 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;D1&quot;,
+    &quot;severity&quot;: &quot;design&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f&quot;,
+    &quot;title&quot;: &quot;Totals she finally asks for were cut to 1 point as if they were double charges&quot;,
+    &quot;what&quot;: &quot;This version lowers 14 criteria to 1 point as the &#x27;derived member&#x27; of a pair, but none of them is a pair under the pair test. R20, R26, R34 and R36 are sums of two or more separately graded values, and R4, R13, R14, R16, R18, R19, R23, R24, R28 and R33 sit on a different output from their supposed source with no turn coupling the two. R33 and R34 are the values the Friday 4:30 PM and Friday 7:45 PM turns finally ask for, yet they now weigh the same as a one-message lookup (R37). Positive weight fell from 139 to 57 with no criterion above 3, so the drift-free lookups now carry 17.5% of the positive weight instead of 7.2%. No criterion verdict changes, and the run scores low (17.54%) either way, but the weights no longer reflect the asks.&quot;,
+    &quot;evidence&quot;: &quot;TRUTH.md section 1: &#x27;fourteen values are an exact copy, complement, sum or fixed step of another graded value on another surface ... the derived member of each carries 1 point&#x27;; double_charge_prompt.md &#x27;A derived value with two or more inputs ... Two criteria, no pair&#x27; and &#x27;The same value in two outputs no turn couples ... is two separate asks&#x27;; prompt.txt:54 &#x27;what do my four Narrow Lane orders end up costing me in all&#x27;, prompt.txt:57 &#x27;What&#x27;s coming back to me on the four orders, all told? Just the number.&#x27;; changes.txt R20/R26/R33/R34/R36 5 -&gt; 1; double_charge.json found 0 pairs.&quot;,
+    &quot;ask&quot;: &quot;Restore R4, R13, R14, R16, R18, R19, R20, R23, R24, R26, R28, R33, R34 and R36 to the weight their own ask merits (at least the one-tier-down level of 3 if the A7 tier-down is kept), and drop the &#x27;derived member&#x27; sentence from TRUTH.md section 1.&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Each penalty can fire on its own and grades a different behaviour: R40 (amount in Beth&#x27;s text) vs R4, R39 (amount on the post) vs R28, R41 (DM to Wickford) vs R17, and R42 (post before the go-ahead). The positive chains (R13/R14 vs R29/R30, R20, R33 vs R34) are on separate outputs, and each derived member is already at 1 point. R43 grades only the form of the reply.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Each criterion grades one value. The &#x27;or&#x27; clauses (R13, R20, R26, R29, R31-R34, R36) are accepted readings of the same value. R39 is one violation that can appear in the image or the caption. R4, R5 and R6 are already split.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turn names the file and the change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every artifact criterion matches a turn that names the file or tab: returns_april_2027.xlsx sheets (T0, T7, T8, T12), Money back tab (T0, T15), When it lands tab (T12), plot14_bed_two.png (T13), plot14_bed_two_post.png (T14).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower points after approval + silent change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No turn approves a value. The go-aheads in T4, T9 and T14 approve sends, and the edits that touch them fire before those turns. The Monday values asked for again later (R4-R12, R16, R17, R19, R21, R22, R25, R29-R32) are already at 3 or 1, and critically_important appears only on R39 (-5).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Visual answer leaked in text&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;I grepped all seed and inject text (Gmail, Instagram, WhatsApp, phone, sheets, persona) for the slip prices, totals, delivery dates 3/18 and 3/16, the missing-piece count and the $35.45 owed. None appear: the order emails carry no prices, the Lamp returns sheet is empty, and MEMORY.md gives file locations only.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume expected path&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;One user turn presupposes an action that only happens on the expected path. The mutations are routine news or term edits and read correctly on any path.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C6.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R19&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Thursday 3:30 PM, what went to the counter that morning&quot;
+          ],
+          &quot;problem&quot;: &quot;The Thursday 3:30 PM turn states as fact that Samantha took something to the counter that morning. That is only true on the expected path, where the 45-day window is seen and the lamp returns are opened. On the stale path (TRUTH ST_THU: &#x27;nothing at the shop ... (none sent)&#x27;) the agent has already called off the drop-off, so the scripted line contradicts the conversation. It also hints that a lamp is returnable. The recorded run hit this branch and had to hedge.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T11 (Day 4, 15:30)&quot;,
+              &quot;quote&quot;: &quot;And when does what I took to the counter this morning reach the shop&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Value Lock ST_THU&quot;,
+              &quot;quote&quot;: &quot;nothing at the shop and no landing day for either lamp (none sent)&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Value Lock DK_ARR&quot;,
+              &quot;quote&quot;: &quot;dropped 4/22 at ten (her own report at T11) + 4 business days in transit&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;T11 reply (run_dump line ~1640)&quot;,
+              &quot;quote&quot;: &quot;I have nothing on file saying anything went to Rolfe Square today. On Tuesday we called off the 10:00 drop-off&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword the turn so it reads correctly on either path, e.g. &#x27;And if anything went to the Rolfe Square counter this morning, when does it reach the shop?&#x27; Keep R19 at 1 point and keep it atomic and self-contained.&quot;,
+          &quot;fix_class&quot;: &quot;rerun&quot;,
+          &quot;no_rerun_fallback&quot;: &quot;Make R19 conditional and leave the prompt alone: &#x27;The response to Samantha&#x27;s Thursday 3:30 PM question about when what went to the counter that morning reaches the shop gives Wednesday, April 28 for the desk lamp&#x27;s parcel (giving it conditionally on the desk lamp having gone also counts).&#x27;&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier 1 independently CONFIRMED this with the T11, TRUTH ST_THU and run quotes. I re-read prompt T2/T11 and the T4/T5 run replies (the agent told Beth not to bring the box and sent no return email). R19&#x27;s graded value (Apr 28) is unaffected, so the verdict does not change: design, not blocking.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;produced_artifact: R8-R12, R21, R22 (xlsx) and R25, R27 (PNG). state_change: sends, emails, calendar event, post and caption, Google Sheet tabs (R4-R7, R16-R18, R28-R32, R39-R42). user_facing_message: every reply criterion.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion grades the tool log. R18 and R29-R32 are typed &#x27;tool use&#x27; but grade end-state values. R41 and R42 grade persona and turn rules by their visible outcome.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;I recomputed every graded value from the seed and mutated data (prices from the images, 10%/7%/$12.40, 4x$12, 3+4 business days, $1.50, 6%, 5 business days) and all match the rubric and TRUTH. TRUTH Steps 1-20 cover T0-T19. Stage firing turns match mutations.json. The ledger weights total 57.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;59.6% (34/57). This counts only positives whose value needs the slip or screenshot images with no text route. Without the gating-only rows it is still 43.9%.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every read the run made after a mutation returned the mutated content: the kit slip &#x27;only 15&#x27; at T6, the seed screenshot &#x27;$35.45 owed&#x27; at T10, and the Frank, Beth, library and family messages. The stale 30-day, 15%, $8 and 2-day figures came from reads made at T0, before any stage fired. The agent never re-read the edited records, which is a model miss, not an environment mismatch. The report.json verdicts match the run.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion has a T-number. Reply criteria anchor on day + clock time + topic, each matching exactly one turn. Send criteria anchor on day + recipient or topic, and each is unique (Tuesday text to Beth, Wednesday help-desk email, and so on).&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R8, R9, R17, R25 and R29-R32 (3 points) should drop a tier because they depend on Monday values moved by silent edits.&quot;,
+      &quot;why&quot;: &quot;No turn approves a value. T4, T9 and T14 grant sends, and the edits that touch them fire before those turns. TRUTH section 1 already tiers these Monday values down, and none sits at 5.&quot;
+    },
+    {
+      &quot;item&quot;: 6,
+      &quot;claim&quot;: &quot;T5 &#x27;open returns on the lamps that are going back&#x27; presupposes the expected path.&quot;,
+      &quot;why&quot;: &quot;The wording defines the set conditionally and reads correctly even if no lamp goes back (nothing to send). R5 and R6 grade the outcome directly.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Complement/sum chains R13/R14 vs R29/R30, R20, R33 vs R34, R43 vs R34 double-charge one error.&quot;,
+      &quot;why&quot;: &quot;Positive-only chains on separate outputs with derived members already at 1 point. No negative mirrors them. R43 grades form, not value.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Negatives R39-R42 pair with R28, R4, R17 and R27/R28.&quot;,
+      &quot;why&quot;: &quot;Each penalty can fire with its positive passing (e.g. a box request containing a dollar amount, a correct caption with an amount, a card email plus a DM).&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;TRUTH says Tom&#x27;s message is &#x27;Mar 12&#x27; while sent_at is 2027-03-13T01:15Z.&quot;,
+      &quot;why&quot;: &quot;That is Mar 12 at 20:15 EST in the task&#x27;s America/New_York timezone (DST starts Mar 14, 2027). The date is correct.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;R27&#x27;s banner words and R25&#x27;s stake date are in readable text.&quot;,
+      &quot;why&quot;: &quot;Neither is counted as a vision criterion. R27&#x27;s words are the user&#x27;s instruction, not a leaked answer. The image-graded slip and screenshot facts have no text copy.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;The run used 30 days, 15% and $8 after the mutations, so the environment may not have delivered the changes.&quot;,
+      &quot;why&quot;: &quot;Those values were read at T0, before stage 1. Every post-mutation read returned the mutated content, and the agent simply never re-read the edited records.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 59.6,
+    &quot;vision_weight&quot;: 34,
+    &quot;positive_weight&quot;: 57,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/floor_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;the pencilled &#x27;came Thurs 3/18&#x27; decides the 45-day window&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/floor_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;eligibility depends on the 3/18 delivery date&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/desk_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;eligibility depends on &#x27;came Tues 3/16&#x27;&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/cedar_kit_packing_slip.jpg (stage 1)&quot;,
+        &quot;why&quot;: &quot;4 pieces short only on the re-counted slip&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/Returns/floor_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;$149.00&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/Returns/floor_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;$32.00&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/desk_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;$56.00&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/desk_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;$11.00&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/floor_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;$193.67 charged + prices&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/desk_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;$71.69 charged + prices&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;both lamp slips&quot;,
+        &quot;why&quot;: &quot;charged totals and prices&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Downloads/narrow_lane_seed_order.png (stage 2)&quot;,
+        &quot;why&quot;: &quot;$35.45 still owed&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Downloads/narrow_lane_seed_order.png (stage 2)&quot;,
+        &quot;why&quot;: &quot;$35.45 still owed&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/Returns/cedar_kit_packing_slip.jpg (stage 1)&quot;,
+        &quot;why&quot;: &quot;$309.23 and 4 pieces&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;both lamp slips&quot;,
+        &quot;why&quot;: &quot;prices and delivery dates&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/Returns/floor_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;prices and delivery date&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/Returns/desk_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;prices and delivery date&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/Returns/floor_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;a landing date exists only if the lamp goes back (3/18)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/Returns/desk_lamp_packing_slip.jpg&quot;,
+        &quot;why&quot;: &quot;a landing date exists only if the lamp goes back (3/16)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;three slips + seed screenshot&quot;,
+        &quot;why&quot;: &quot;charged totals, prices, piece count&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R34&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;three slips + seed screenshot&quot;,
+        &quot;why&quot;: &quot;prices, piece count, amount owed&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R36&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;desk slip, kit slip, seed screenshot&quot;,
+        &quot;why&quot;: &quot;desk refund, piece count, amount owed&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;why&quot;: &quot;Instagram comment text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;why&quot;: &quot;WhatsApp text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;why&quot;: &quot;SMS text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;why&quot;: &quot;Gail email + prompt day&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;why&quot;: &quot;WhatsApp text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;why&quot;: &quot;text terms + garden days in prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;why&quot;: &quot;the card wins for any owed amount under about $58, so it does not depend on the image value&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;why&quot;: &quot;help-desk 5 business days + prompt day&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;why&quot;: &quot;Tom&#x27;s 4 business days + drop day from prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;why&quot;: &quot;equals the $1.50 fee whatever the image amount&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;why&quot;: &quot;the date comes from text; produced image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;why&quot;: &quot;the words come from the prompt; produced image only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;why&quot;: &quot;text-derived 9 days&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R35&quot;,
+        &quot;why&quot;: &quot;email text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R37&quot;,
+        &quot;why&quot;: &quot;WhatsApp text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R38&quot;,
+        &quot;why&quot;: &quot;WhatsApp text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R43&quot;,
+        &quot;why&quot;: &quot;format directive&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;1 flag across items [6] (T11 presupposes a counter drop-off, design/rerun), vision 59.6%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E8 (allowed set: rubric.json, report.json, pass_summary.json, TRUTH.md)&quot;,
+        &quot;integrity turn-delivery gate (TURN_MATCH_CHARS = 120)&quot;,
+        &quot;J1 A4 (one evaluation target)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Any prompt.txt edit without a rerun is UNEXPECTED under E8; the T11 wording sits about 60 characters into the turn, inside the 120-character match window, so a no-rerun edit makes the turn read as never sent. A conditional criterion must keep one target (A4).&quot;,
+      &quot;checklist_says&quot;: &quot;Item 6 flag: the Thursday 3:30 PM turn states as fact that Samantha took something to the counter that morning, which is true only on the expected path (TRUTH ST_THU: none sent). Fix is a turn reword (rerun), or a conditional R19 as the fallback.&quot;,
+      &quot;loop&quot;: &quot;Rewording T11 without a rerun clears checklist 6 but fails E8 and the turn-delivery gate, and checklist 11 then flags a run that answered a turn not in the bundle. Leaving the turn as is keeps checklist 6 open.&quot;,
+      &quot;resolution&quot;: &quot;Batch the T11 reword for the next rerun. Until then, use the checklist&#x27;s no-rerun fallback: make R19 conditional and keep it a single user_facing_message target (both branches show in the same reply, DL9). No new money value, so E10 is unaffected.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt:42 &#x27;And when does what I took to the counter this morning reach the shop&#x27;; TRUTH.md ST_THU &#x27;nothing at the shop and no landing day for either lamp (none sent)&#x27;; run_1 T11 reply &#x27;I have nothing on file saying anything went to Rolfe Square today&#x27; (checklist C6.1 evidence).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;QC_SUMMARY.md Dismissed: T11 premise&quot;,
+        &quot;extras.json notes (T11 user prompt, not a mutation)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Dismissed: &#x27;it is a user turn, not a mutation. The agent answered on its premise, so R19 stays a model miss.&#x27; Its unconditional-scripted-message scan covers mutations only.&quot;,
+      &quot;checklist_says&quot;: &quot;Item 6 covers &#x27;scripted messages/mutations&#x27;; a scripted user turn that presupposes the expected path is in scope.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right. The guide&#x27;s map marks checklist 6 as NOT IN NEO-QC, so neo-qc&#x27;s dismissal is a scope gap, not counter-evidence. neo-qc&#x27;s extras.json itself confirms the presupposition (&#x27;it presumes the desk lamp went on Thursday ... even though in run_1 the agent had called the drop-off off&#x27;). The flag survives (design severity). R19&#x27;s verdict and graded value (Apr 28) do not change.&quot;,
+      &quot;evidence&quot;: &quot;extras.json notes: &#x27;the T11 user prompt (not a mutation) ... presumes the desk lamp went on Thursday per Samantha&#x27;s own T2 plan even though in run_1 the agent had called the drop-off off&#x27;; checklist.md item 6 &#x27;Some scripted messages/mutations assume the expected path&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;J1 (tier25)&quot;,
+        &quot;double_charge.json (0 pairs)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 note + rejected claim (chains)&quot;,
+        &quot;C6.1 fix_plan &#x27;Keep R19 at 1 point&#x27;&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R4&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R26&quot;,
+        &quot;R28&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R36&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The 14 &#x27;derived member&#x27; cuts to 1 are not pairs: R20, R26, R34, R36 are multi-input sums, and the other ten sit on outputs that no turn couples. R33/R34 are the totals the Friday turns finally ask for. Restore them to at least the one-tier-down level (3).&quot;,
+      &quot;checklist_says&quot;: &quot;Item 1 PASS partly because &#x27;each derived member is already at 1 point&#x27;; rejected the chain double-charge claim on that ground; C6.1 says keep R19 at 1.&quot;,
+      &quot;loop&quot;: &quot;Restoring the weights removes the checklist&#x27;s &#x27;already at 1&#x27; reason, so a later checklist pass could flag R13/R14 vs R29/R30, R20, R33 vs R34 as one value penalized twice; lowering them again re-opens D1.&quot;,
+      &quot;resolution&quot;: &quot;neo-qc is right, settled by the shared tie-break list: &#x27;NOT a pair: different facts from one source ... the same value in two outputs that no turn couples&#x27;. Each of these is a different fact, asked by its own turn and graded on its own output; one hidden edit moving several facts is a same-source group, not a pair. The checklist&#x27;s item-1 PASS still holds after the restore on the tie-break ground, so it does not loop. The broad one-tier-down is kept: originally-5 criteria go to 3. R4, R23 and R24 (originally 3) stay at 1 as their one-tier-down, not as derived members. R19 at 3 is fair once its wording is conditional, so &#x27;keep at 1&#x27; is not needed.&quot;,
+      &quot;evidence&quot;: &quot;issues.json D1; double_charge.json summary &#x27;The section-1 complements (...) all sit on different outputs with no coupling turn, and the sums R20, R26, R34, R36 have two or more inputs&#x27;; checklist.json item 1 note &#x27;each derived member is already at 1 point&#x27;; guide tie-break rule 4; baseline rubric.json R13/R14/R16/R18/R19/R20/R26/R28/R33/R34/R36 score 5.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;TB1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1 ask (drop the &#x27;derived member&#x27; sentence)&quot;,
+        &quot;J2 (3b ledger weights recompute from rubric.json)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 PASS (&#x27;The ledger weights total 57&#x27;)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R4&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R26&quot;,
+        &quot;R28&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R36&quot;
+      ],
+      &quot;neo_says&quot;: &quot;TRUTH section 1 gives a false reason (&#x27;the derived member of each carries 1 point&#x27;). The 3a paragraph and the NUMBER_ONLY lock repeat it.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent: TRUTH matches the current rubric weights, so item 9 passes. It would flag once the weights change and the ledger still totals 57.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Sync TRUTH in the same edit as the weights. Use current R-numbers only and none of the E6 words (&#x27;now weighted&#x27;, &#x27;no longer graded&#x27;, &#x27;QC&#x27;, &#x27;run_1&#x27;, &#x27;reference run&#x27;). Recompute the 3b Weight and Share columns over 79 positive points.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md:5 &#x27;and the derived member of each carries 1 point&#x27;; TRUTH.md:136 &#x27;are graded on separate surfaces at 1 point&#x27;; TRUTH.md:95 &#x27;R34, 1 point as the sum ... R33, also carries 1 point&#x27;; TRUTH.md:147 E1 row &#x27;| 30 | 52.6% |&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 68.4&quot;,
+        &quot;E15 81%&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 (59.6%)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision 68.4% (39/57) by Tier 3; 81% by E15 anchor mapping.&quot;,
+      &quot;checklist_says&quot;: &quot;59.6% (34/57) on the dependency definition; excludes R17, R18 and R24 because the card wins for any amount owed under about $58, and R24 equals the $1.50 fee.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both pass 30%. The checklist&#x27;s count follows the shared definition (no text route, value depends on the picture). Checked: the card refund (X - 1.50) and the credit (1.06X) are less than $5 apart for any X under $58.33, so R17, R18 and R24 do not depend on the screenshot value. Used 59.6% as the before figure.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json vision.excluded R17/R24; extras.json notes; metrics script (34/57 = 59.6%).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A7 (strict: no trigger; broad tier-downs allowed)&quot;,
+        &quot;E3&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 4 PASS&quot;,
+        &quot;rejected item-4 claim&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R4&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R7&quot;,
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R11&quot;,
+        &quot;R12&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R19&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R25&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R31&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No stage after a sign-off moves a signed-off output; the broad one-tier-downs are allowed and not flagged.&quot;,
+      &quot;checklist_says&quot;: &quot;No turn approves a value; no further tier-down needed.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Keep the existing broad tier-downs. Put the restored criteria at 3 (one tier down from 5), so importance stays &#x27;important&#x27; and E3 holds (critically_important only on R39 at -5). No member of any pair is post-sign-off, because there are no pairs.&quot;,
+      &quot;evidence&quot;: &quot;audit_report_tier25.json J1 evidence &#x27;A7 strict: no trigger&#x27;; checklist.json item 4 note &#x27;No turn approves a value&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json summary (no trap-value pairs)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;rejected item-1 negatives claim&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R39&quot;,
+        &quot;R40&quot;,
+        &quot;R41&quot;,
+        &quot;R42&quot;,
+        &quot;R4&quot;,
+        &quot;R17&quot;,
+        &quot;R27&quot;,
+        &quot;R28&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The four penalties fire on behaviour that no positive tests.&quot;,
+      &quot;checklist_says&quot;: &quot;Each penalty can fire while its positive passes.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. A penalty that can fire on its own is not a pair (tie-break 3).&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json summary; checklist.json rejected item 1 &#x27;Each penalty can fire with its positive passing&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E11 (no items)&quot;,
+        &quot;visual_leaks.json candidates []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R11&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R23&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No declared twin route and no leak candidates.&quot;,
+      &quot;checklist_says&quot;: &quot;Slip prices, totals, delivery dates, piece count and $35.45 appear in no seed or inject text.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. No anchor rewrite is needed.&quot;,
+      &quot;evidence&quot;: &quot;visual_leaks.json &#x27;\&quot;candidates\&quot;: []&#x27;; checklist.json item 5 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E13 pass (turn refs none)&quot;,
+        &quot;D18 pass&quot;,
+        &quot;J1 A5&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R19&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No turn numbers; anchors name weekday and clock time.&quot;,
+      &quot;checklist_says&quot;: &quot;Reply criteria anchor on day + clock + topic, each matching exactly one turn.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Keep the anchors. The R19 conditional rewording keeps &#x27;Thursday 3:30 PM&#x27; plus its topic (the counter parcel), which tells it apart from R20 on the same turn (the two lamps&#x27; cost).&quot;,
+      &quot;evidence&quot;: &quot;extras.json turn_refs []; checklist.json item 12 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL8&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E10&quot;,
+        &quot;E12 (no candidates)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 2 PASS&quot;,
+        &quot;item 9 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R31&quot;,
+        &quot;R32&quot;,
+        &quot;R34&quot;,
+        &quot;R36&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Alternative readings are in TRUTH next to the main values; E12 has no candidates.&quot;,
+      &quot;checklist_says&quot;: &quot;The &#x27;or&#x27; clauses are accepted readings of one value.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. Checked: no accepted alternate equals a stale value. R36&#x27;s $81.95 is accepted only when the same reply has both lamps going back, and TRUTH notes the 30-day stale answer is not accepted.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md BY30 note &#x27;without both lamps going back $81.95 is the 30-day stale answer and is not accepted&#x27;; ST_FRI_SAT stale values.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL9&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A4&quot;,
+        &quot;J1 A1/A6&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 7 PASS&quot;,
+        &quot;item 8 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R18&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R31&quot;,
+        &quot;R32&quot;,
+        &quot;R41&quot;,
+        &quot;R42&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No target or process findings.&quot;,
+      &quot;checklist_says&quot;: &quot;Targets are correct; &#x27;tool use&#x27; criteria grade end-state values; R41 and R42 grade a visible outcome.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change (DL10 is also satisfied).&quot;,
+      &quot;evidence&quot;: &quot;checklist.json items 7 and 8 notes; audit_report_tier25.json J1 has no A1/A4 findings.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A8 (no warn)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 3 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R8&quot;,
+        &quot;R21&quot;,
+        &quot;R25&quot;,
+        &quot;R27&quot;,
+        &quot;R29&quot;,
+        &quot;R31&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No unnamed-file warning.&quot;,
+      &quot;checklist_says&quot;: &quot;Every artifact criterion matches a turn that names the file or tab.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json item 3 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E8 fail (usage.json, dismissed)&quot;,
+        &quot;E9 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 11 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;The usage.json diff is only the judge-cost block from the regrade; output.json is byte-identical. E9 passes.&quot;,
+      &quot;checklist_says&quot;: &quot;Every post-mutation read returned the mutated content; the stale figures came from T0 reads.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. The plan edits only rubric.json, report.json, pass_summary.json and TRUTH.md (E8 allowed set), plus the queued T11 rerun.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md Dismissed E8; checklist.json item 11 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json gaps []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;All 43 criteria and 20 turns are covered; no &#x27;not graded&#x27; label on a graded fact.&quot;,
+      &quot;checklist_says&quot;: &quot;Steps 1-20 cover T0-T19.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change to coverage. The new R19 reading goes into Step 12 as an expected reply, without any graded or ungraded label.&quot;,
+      &quot;evidence&quot;: &quot;truth_coverage.json summary &#x27;No gaps&#x27;.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Sort the flags. C6.1 (T11 turn wording) is rerun-class and goes to the rerun batch. D1 and the TRUTH sync are rubric/TRUTH only. No other prompt, inject or data edit is needed.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;,
+        &quot;R4&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R26&quot;,
+        &quot;R28&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R36&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;,
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;At the next rerun, reword T11 (prompt.txt:42) to: &#x27;Put the day the seed money should be back on my calendar. And if anything went to the Rolfe Square counter this morning, when does it reach the shop, and what will the two lamps end up costing me together?&#x27; R19 then grades the plain Wednesday, April 28 value.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;Leave prompt.txt alone and reword R19 to: \&quot;The response to Samantha&#x27;s Thursday 3:30 PM question about when what went to the counter that morning reaches the shop gives Wednesday, April 28 for the desk lamp&#x27;s parcel (giving it conditionally on the desk lamp having gone also counts).\&quot; Target stays user_facing_message (DL9). No new money value, so E10 is unaffected. Keep the T11 edit queued.&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure (split compound criteria)&quot;,
+      &quot;action&quot;: &quot;No split. Item 2 and A3 both pass. The conditional R19 is one value (the desk lamp parcel&#x27;s shop day) in one reply, so it stays atomic.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route (DL6)&quot;,
+      &quot;action&quot;: &quot;No change. There are no leaks (item 5 pass, visual_leaks empty, E11 no items). Do not touch any image: anchor.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off, importance in the same edit)&quot;,
+      &quot;action&quot;: &quot;Keep the broad one-tier-down from the original weights and replace the &#x27;derived member&#x27; cuts with it. Set R13, R14, R16, R18, R19, R20, R26, R28, R33, R34 and R36 from 1 to 3 (originally 5). Keep importance &#x27;important&#x27; (|score| = 3, E3). R4, R23 and R24 (originally 3) stay at 1 as their one-tier-down. All other weights stay as they are. Positive total goes from 57 to 79.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R26&quot;,
+        &quot;R28&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R36&quot;,
+        &quot;R4&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 1.2,
+      &quot;score_delta&quot;: -4.88
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 2 (double charge: reweight, not drop)&quot;,
+      &quot;action&quot;: &quot;No pairs (double_charge.json 0 pairs; tie-break &#x27;NOT a pair: different facts from one source; same value in two outputs no turn couples&#x27;). Do not lower any restored criterion again, and drop nothing. Do not take the optional same-source levers (R9, R30, R32 to 1): those are not pairs and would lower vision.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R9&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R20&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R32&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute. Vision 34/57 = 59.6% becomes 48/79 = 60.8% (over 30%). Score 10/57 = 17.54% becomes 10/79 = 12.66% (no target set). Update report.json: set the 11 restored rows to score 3 with their verdicts unchanged, and set final_reward and rubric_weights_percentage to 12.66. Update pass_summary.json to match. If R19 is reworded (step 2 fallback), regrade it with a first-grading justification (TB3: none of &#x27;regraded&#x27;, &#x27;now fails&#x27;, &#x27;originally&#x27;). Its verdict stays fail on the run&#x27;s stale-transit answer.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R26&quot;,
+        &quot;R28&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R36&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;turn anchors, targets (DL9), process wording (DL10)&quot;,
+      &quot;action&quot;: &quot;Check that every restored criterion keeps its day + clock + topic anchor (no T-numbers). R19 and R20 share Thursday 3:30 PM and differ by topic (counter parcel vs the two lamps&#x27; cost). R19 target stays user_facing_message. No process wording is added.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;TRUTH.md sync (TB1-TB4)&quot;,
+      &quot;action&quot;: &quot;TRUTH.md sections 1-3, current R-numbers only, no E6 words. (a) Section 1: replace &#x27;, and the derived member of each carries 1 point&#x27; with &#x27;, and each is asked for by its own turn and graded by its own criterion on its own output, with no coupling words&#x27;. (b) Section 1: replace &#x27;the other derived members (R13, R14, R18, R20, R23, R24, R26, R28, R33, R34, R36) apply moved Monday values as well and already sit at the 1-point floor&#x27; with &#x27;R13, R14, R18, R20, R23, R24, R26, R28, R33, R34 and R36 apply moved Monday values as well and sit one tier down in the same way&#x27;. (c) 3a paragraph: replace &#x27;are graded on separate surfaces at 1 point&#x27; with &#x27;are each graded on a separate output by their own criterion&#x27;. (d) NUMBER_ONLY lock: replace &#x27;R34, 1 point as the sum of the separately graded R29, R30, R7 and R21; its complement, what the four orders cost in all, R33, also carries 1 point&#x27; with &#x27;R34, the sum of the separately graded R29, R30, R7 and R21; its complement, what the four orders cost in all, is R33&#x27;. (e) 3b ledger Weight/Share over 79: P3 11 13.9%, P4 2 2.5%, E1 44 55.7%, E3 10 12.7%, C2 11 13.9%, W1 24 30.4%, C1 35 44.3%, E2 27 34.2%, E4 17 21.5%, D1 17 21.5%, L1 3 3.8%, L2 2 2.5%, AN 2 2.5%, AE 3 3.8%, DIR 1 1.3%. (f) Only if the step-2 fallback is used: in Step 12 and the DK_ARR lock add &#x27;a reply that gives Wednesday, April 28 on the condition that the desk lamp went to the counter that morning also counts&#x27;. Lock types unchanged (graded-positive; the literal values stay in the criteria, TB4).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R4&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R26&quot;,
+        &quot;R28&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R36&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E3/E4/E6/E8/E10, Tier 2.5 J1/J2, TRUTH coverage, double charge) and the checklist agent, both with the shared tie-break rules (especially the NOT-a-pair list, so item 1 does not re-flag the restored chains). After the T11 rerun, re-check item 6 and E9.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;prompt.txt T11 (Day 4, 15:30): &#x27;And when does what I took to the counter this morning reach the shop&#x27; -&gt; &#x27;And if anything went to the Rolfe Square counter this morning, when does it reach the shop&#x27; (inside the first 120 characters of the turn, so rerun only)&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 59.6,
+    &quot;vision_after&quot;: 60.8,
+    &quot;score_before&quot;: 17.54,
+    &quot;score_after&quot;: 12.66,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 1,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;Checklist flag C6.1 (T11 presupposes a counter drop-off) survives reconciliation; its real fix is rerun-class. neo-qc ACCEPTABLE, vision 60.8%.&quot;,
+  &quot;summary&quot;: &quot;1 conflict (RR2), 9 agree, 1 one-sided (TB1), 2 disagreements (checklist right on T11 premise, neo right on D1 weights); fix plan 10 steps (1 rerun); vision 59.6-&gt;60.8%, score 17.54-&gt;12.66%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "samantha_long_fddf6f1e-b326-4333-9bf2-f142fd4f949f", "slug": "samantha_long_fddf6f1e", "tasker": "Anuj Mishra", "authors": ["Anuj Mishra", "anuj.mishra2005@ethara.ai"], "version": 1, "commit_sha": "21be269e54820a7ba808fec1c5a4daf93f08af0d", "base_sha": "8e0c5250767255dd8a7ee7a81c740501022f41ca", "range": "8e0c52507..21be269e5", "change": "modified", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 1 flag(s); 1 conflict (RR2), 9 agree, 1 one-sided (TB1), 2 disagreements (checklist right on T11 premise, neo right on D1 weights); fix plan 10 steps (1 rerun); vision 59.6->60.8%, score 17.54->12.66%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 1 design (14 non-pair criteria cut to 1pt, no verdict change) / 0 grader / 0 minor; score 17.54%; T3 non-model 0 of 31 failures", "checklist_flags": 1, "conflicts": 1, "vision_before": 59.6, "vision_after": 60.8, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 1, "attempt": 1, "qc_finished_at": "2026-11-26T13:25:14Z"}</script></body></html>
