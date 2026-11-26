@@ -1,0 +1,1285 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: nicole_campbell_eef30e5c (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</code></span>
+<span><span class="k">Tasker</span>Nikhil Satyam</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>f210adef0</code> (modified, range <code>b5f5b28ae..f210adef0</code>)</span>
+<span><span class="k">QC finished</span>2026-11-26 10:30:34 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>5</span>
+<span><span class="k">Conflicts</span>0</span>
+<span><span class="k">Vision</span>76.6% → 67.65%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 5 flag(s); 0 conflicts, 6 disagreements (5x DL5 checklist right, 1x DL6 neo-qc right), 4 agree, 2 one-sided (TB4, score); fix plan 14 steps (1 rerun, optional); vision 76.6-&gt;67.65%, score 35.11-&gt;48.53%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: nicole_campbell_eef30e5c</h1>
+<p class="sub">obsidian-infinity-stage-1 b5f5b28ae..f210adef0 (modified)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>39</b><span>rubrics</span></div><div class="stat"><b>35.1</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>15/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>12/1/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>3/0/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>39/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/2</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 15 failed criteria across 1 task(s): <b>15 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 0 failure(s) and 1 warning(s). Tier 2.5 flagged 0 of 4 checks on 0 task(s); 0 pending. Tier 3 re-graded 39 criteria: 39 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 2 gap(s), 0 serious, 2 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 69 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 1 item(s): 1 minor.</p>
+
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#M1'><code>M1</code></a></td><td><span class="b b-sev-minor">minor</span></td><td class='muted'>truth</td><td class='muted'>nicole_campbell_eef30e5c</td><td>Two book-title locks in TRUTH are typed evidence although a criterion grades them</td></tr></table><div class='issue' id='M1'><h4><code>M1</code> Two book-title locks in TRUTH are typed evidence although a criterion grades them <span class="b b-sev-minor">minor</span> <span class='muted'>nicole_campbell_eef30e5c</span></h4><p>TRUTH.md types <code>BOOK_WHALE</code> (&quot;Moby-Dick&quot;) and <code>BOOK_GATSBY</code> (&quot;The Great Gatsby&quot;) as <code>evidence</code>, but R4 names both titles literally when it grades the Crates sheet. The fact itself is stated in the solve path, so scoring is unaffected; only the lock tag is wrong.</p><p><b>Evidence.</b> data/solution/TRUTH.md lines 50-51 (<code># type: evidence</code>); rubric.json R4 criterion text names both titles.</p><p><b>Ask.</b> Retype <code>BOOK_WHALE</code> and <code>BOOK_GATSBY</code> as <code>graded-positive</code> in TRUTH.md (TRUTH-only edit, no rerun needed).</p></div>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>E11_visual_leak_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>L55 FRIDAY_DOORS 12:00: 8 readable copies (api 8)</td></tr></table></details><details><summary>TRUTH coverage gaps (2: 0 serious, 2 minor)</summary><table><tr><th>task</th><th>gaps by kind</th><th>kind</th><th>ref</th><th>weight</th><th>fact</th><th>truth quote / expected reply</th></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td class='muted'>lock_type_mismatch 2</td><td><code>lock_type_mismatch</code></td><td><code>R4</code></td><td class='muted'>minor</td><td></td><td class='muted'>BOOK_WHALE = &quot;Moby-Dick&quot;  # type: evidence; datatype: name; anchor: image:data/home/Documents/whitfield_london_confirmation.pdf#Packing</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td class='muted'>lock_type_mismatch 2</td><td><code>lock_type_mismatch</code></td><td><code>R4</code></td><td class='muted'>minor</td><td></td><td class='muted'>BOOK_GATSBY = &quot;The Great Gatsby&quot;  # type: evidence; datatype: name; anchor: image:data/home/Documents/whitfield_london_confirmation.pdf#Packing</td></tr></table></details><details><summary>Visual leak candidates (69: 0 leak, 0 declared, 0 guessable)</summary><table><tr><th>task</th><th>lock</th><th>token</th><th>verdict</th><th>file</th><th>note</th></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>12:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/flightaware-api/flights.json</td><td>The token &#x27;12:00&#x27; is a substring of the clock part 23:12:00 of an ISO timestamp (actual_in) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>12:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/granola-api/notes.json</td><td>The token &#x27;12:00&#x27; is a substring of the clock part 12:12:00 of an ISO timestamp (updated_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>12:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/health-api/nutrition.json</td><td>The token &#x27;12:00&#x27; is a substring of the clock part 07:12:00 of an ISO timestamp (logged_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>12:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/health-api/sleep.json</td><td>The token &#x27;12:00&#x27; is a substring of the clock part 07:12:00 of an ISO timestamp (end) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>12:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/health-api/workouts.json</td><td>The token &#x27;12:00&#x27; is a substring of the clock part 08:12:00 of an ISO timestamp (end) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>12:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-api/following.json</td><td>The token &#x27;12:00&#x27; is a substring of the clock part 15:12:00 of an ISO timestamp (followed_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>12:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/opentable-api/reservations.json</td><td>The token &#x27;12:00&#x27; is a substring of the clock part 19:12:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>12:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/servicenow-api/change_request.json</td><td>The token &#x27;12:00&#x27; is a substring of the clock part 04:12:00 of an ISO timestamp (end_date) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/bigcommerce-api/orders.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 15:20:00 of an ISO timestamp (date_created) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/bigcommerce-api/products.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 12:20:00 of an ISO timestamp (date_created) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/box-api/files.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 19:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/box-api/folders.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 02:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/calendly-api/event_types.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 19:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/calendly-api/invitees.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 14:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/contentful-api/assets.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 01:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/contentful-api/entries.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 21:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/docusign-api/envelopes.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 21:20:00 of an ISO timestamp (created_time) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/docusign-api/recipients.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 21:20:00 of an ISO timestamp (signed_time) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/docusign-api/templates.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 15:20:00 of an ISO timestamp (created_time) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/flightaware-api/flights.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 19:20:00 of an ISO timestamp (scheduled_in) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/gmail-api/drafts.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 18:20:00 of an ISO timestamp (updated_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/gmail-api/messages.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 14:20:00 of an ISO timestamp (date) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-drive-api/files.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 21:20:00 of an ISO timestamp (created_time) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-drive-api/revisions.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 14:20:00 of an ISO timestamp (modified_time) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/granola-api/notes.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 11:20:00 of an ISO timestamp (updated_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/health-api/nutrition.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 09:20:00 of an ISO timestamp (logged_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/health-api/sleep.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 22:20:00 of an ISO timestamp (start) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/health-api/workouts.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 08:20:00 of an ISO timestamp (end) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-api/accounts.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 15:20:00 of an ISO timestamp (connected_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-api/comments.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 20:20:00 of an ISO timestamp (timestamp) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-api/following.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 15:20:00 of an ISO timestamp (followed_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-api/media.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 21:20:00 of an ISO timestamp (timestamp) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/jira-api/issues.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 11:20:00 of an ISO timestamp (created) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/jira-api/sprints.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 02:20:00 of an ISO timestamp (start_date) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/monday-api/items.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 19:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/opentable-api/reservations.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 15:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-api/events.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 00:20:00 of an ISO timestamp (start_date) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-api/messages.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 12:20:00 of an ISO timestamp (received_date) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/phone-api/conversations.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 09:20:00 of an ISO timestamp (last_message_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/phone-api/messages.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 09:20:00 of an ISO timestamp (sent_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/servicenow-api/change_request.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 04:20:00 of an ISO timestamp (end_date) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/servicenow-api/incident.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 21:20:00 of an ISO timestamp (opened_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/servicenow-api/problem.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 21:20:00 of an ISO timestamp (opened_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/square-api/customers.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 17:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/square-api/orders.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 00:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/square-api/payments.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 16:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/whatsapp-api/contacts.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 23:20:00 of an ISO timestamp (last_seen) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/whatsapp-api/conversations.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 23:20:00 of an ISO timestamp (last_message_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/whatsapp-api/messages.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 23:20:00 of an ISO timestamp (sent_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/zendesk-api/comments.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 15:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/zendesk-api/organizations.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 15:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/zendesk-api/tickets.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 20:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/zendesk-api/users.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 17:20:00 of an ISO timestamp (created_at) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>inject/stage4/mutations.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 17:20:00 of an ISO timestamp (mtime) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00. The hit is in inject stage4 mutations.json (mtime field of a mutation). It would read as a timestamp even if surfaced, and that is not the fair&#x27;s hours.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>FRIDAY_DOORS</code></td><td>20:00</td><td><code>coincidence</code></td><td class='muted'>inject/stage5/mutations.json</td><td>The token &#x27;20:00&#x27; is a substring of the clock part 00:20:00 of an ISO timestamp (last_seen) in an unrelated record. It is a different fact from Friday 27 November doors 12:00 to 20:00. The hit is in inject stage5 mutations.json (last_seen field of a mutation). It would read as a timestamp even if surfaced, and that is not the fair&#x27;s hours.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>VIEW_MUTATED</code></td><td>2:00 PM</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/HEARTBEAT.md</td><td>An unrelated appointment at the shop in Alexandria. It says nothing about Mrs Archer, the Whale, Saturday 28 November or London time.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>LEAVE_MUTATED</code></td><td>9:00 AM</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/HEARTBEAT.md</td><td>A recurring Tuesday shop routine in Eastern time. It has nothing to do with leaving Ben&#x27;s on Saturday 28 November.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>ARRIVE_MUTATED</code></td><td>5:00 PM</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/HEARTBEAT.md</td><td>A weekly shop routine. It is not the Thursday 17:00-19:00 London stand delivery window.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>BADGE_MUTATED</code></td><td>Hammersmith Road</td><td><code>coincidence</code></td><td class='muted'>data/environment/ticketmaster-api/venues.json</td><td>This is the venue&#x27;s postal address, not where exhibitor badges are collected. R21 needs &#x27;the Guild desk at the Hammersmith Road entrance&#x27;, and no readable text has &#x27;Guild desk&#x27;. The stale timetable gives the Olympia Way foyer, so this record does not answer R21.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>SUN_CLOSE_MUTATED</code></td><td>4:00 PM</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/HEARTBEAT.md</td><td>A daily household routine. It is not the fair&#x27;s Sunday closing time.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>SUN_CLOSE_MUTATED</code></td><td>4:00 PM</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/MEMORY.md</td><td>A daily household routine. It is not the fair&#x27;s Sunday closing time.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>AIR_FREIGHT</code></td><td>Washington Dulles</td><td><code>coincidence</code></td><td class='muted'>data/environment/duffel-api/airports.json</td><td>A generic airport reference record. It does not say Whitfield&#x27;s freight goes via Dulles. Nicole&#x27;s own Dulles departure (flight_holds.png, the london_notes.docx &#x27;Dulles:&#x27; line) makes Dulles a plausible guess, but no readable text states the freight route.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>AIR_FREIGHT</code></td><td>Washington Dulles</td><td><code>coincidence</code></td><td class='muted'>data/environment/flightaware-api/airports.json</td><td>A generic airport reference record. It does not say Whitfield&#x27;s freight goes via Dulles, so it is a different fact.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>ACCESS_TIME</code></td><td>08:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/flightaware-api/flights.json</td><td>The token &#x27;08:00&#x27; is a substring of the clock part 23:08:00 of an ISO timestamp (scheduled_on) in an unrelated record. It is a different fact from Exhibitor access on open days from 08:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>ACCESS_TIME</code></td><td>08:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/granola-api/notes.json</td><td>The token &#x27;08:00&#x27; is a substring of the clock part 17:08:00 of an ISO timestamp (updated_at) in an unrelated record. It is a different fact from Exhibitor access on open days from 08:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>ACCESS_TIME</code></td><td>08:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/health-api/sleep.json</td><td>The token &#x27;08:00&#x27; is a substring of the clock part 23:08:00 of an ISO timestamp (start) in an unrelated record. It is a different fact from Exhibitor access on open days from 08:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>ACCESS_TIME</code></td><td>08:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-api/events.json</td><td>The token &#x27;08:00&#x27; is a substring of the clock part 15:08:00 of an ISO timestamp (end_date) in an unrelated record. It is a different fact from Exhibitor access on open days from 08:00.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>ACCESS_TIME</code></td><td>08:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/outlook-calendar-api/people.json</td><td>Another person&#x27;s working hours in an Outlook directory record. It is not the fair&#x27;s exhibitor access time.</td></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>ACCESS_TIME</code></td><td>08:00</td><td><code>coincidence</code></td><td class='muted'>data/environment/servicenow-api/change_request.json</td><td>The token &#x27;08:00&#x27; is a substring of the clock part 19:08:00 of an ISO timestamp (end_date) in an unrelated record. It is a different fact from Exhibitor access on open days from 08:00.</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 s1-auth-lapse: could not check (google-drive-api/oauth_tokens: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40'><td>nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40</td><td class='n'>20</td><td class='n'>39</td><td class='n'>35.11</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 15</td><td>12/1/0</td><td><span class="b b-ok">pass</span></td><td>39/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>6 flags across items [4, 5]: item 4 has 5 design tier-downs (R12-R14, R16-R25), item 5 has 1 blocking leak (R11 via calendar/contacts text). Vision 76.6% strict (84.0% with generated picture rows).</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>All 5 penalties (R26-R30) grade separate behaviours that can fire on their own. R7/R30 is not a pair because R30 needs a false completion claim. R14/R15 and R25/R38 are value vs one-sentence form and can pass or fail independently. No double charge.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>R4 applies one packing rule (&#x27;each high-value book travels in its own crate&#x27;) to the pair T1 names. R17/R12/R19/R23 grade date+time of one event. &#x27;on Friday 20 November&#x27; in R22/R23 only scopes which messages count. No criterion holds two independent asks.</td></tr><tr><td>3</td><td>Turn names the file that is changed</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Each file-update criterion has its file named in the turn: R1/R5 (T0/T2 london_trip_plan.xlsx Travel sheet), R4 (T1 Crates sheet), R33 (T7 Fair sheet), R8/R9/R39 (T6 london_post.png). Drive and calendar targets are also named.</td></tr><tr><td>4</td><td>Silent change after a value was confirmed</td><td><span class="qc-tag bad">FLAG</span></td><td>C4.1, C4.2, C4.3, C4.4, C4.5</td><td>Five times a turn had the agent read a value out to Nicole, a silent filesystem reissue (empty loud arrays) then changed it, and a later turn asked for it again. No turn has Nicole explicitly approve a value. I count a read-out she asked for as &#x27;confirms&#x27; under the broad rule, and so did the verifier.</td></tr><tr><td>5</td><td>Answer leakage for visual asks</td><td><span class="qc-tag bad">FLAG</span></td><td>C5.1</td><td>Swept every image-sourced criterion. The PDFs are image-only (no /Font, no text layer). The only text route found is R11.</td></tr><tr><td>6</td><td>Scripted messages assume the expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Stages 1-5 have empty loud arrays. Their mutations are only filesystem reissues and silent admin patches (Drive auth, last_seen, Drive revision), and none depends on what the agent did. Turn premises (Thursday delivery, Sunday collection, Helen at the shop) hold on either file version.</td></tr><tr><td>7</td><td>Evaluation target</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>produced_artifact rows (R1, R4, R5, R8, R9, R33, R39) grade xlsx/png. state_change rows (R3, R7, R12, R13, R16-R24, R26, R28, R29) grade Drive/WhatsApp/Calendar. final_answer rows grade reply text. R30 grades the reply&#x27;s claim, with Drive state as its falsity condition.</td></tr><tr><td>8</td><td>Process rubrics only when method asked</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>R2 (live page agrees) was asked for in T0 (&#x27;check the page I saved ... against the live one&#x27;) and is graded on the reply. R15/R38 apply SOUL.md &#x27;If your answer fits in one sentence, you give one sentence.&#x27; to the visible reply. No tool-log criteria.</td></tr><tr><td>9</td><td>TRUTH.md consistency</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Steps 1-25 cover T0-T19. Every graded VALUE_LOCK value matches its criterion and its source image at the right stage (checked the original + stage2/4/5 images). Minor unsourced &#x27;an hour for arrivals&#x27; in Step 7 does not affect any verdict.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>72/94 = 76.6% strict (generated london_post.png rows excluded because their content has a text route in london_notes.docx). 79/94 = 84.0% if they are counted. 67.6% strict after the item-4 tier-downs.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every document read in the run happened before its mutation fired. After stage2/4/5 the agent never reopened a changed file, so R12-R14 and R16-R25 failed on stale recall, not stale serving. Stage2 did land: Ben&#x27;s last_seen in the Day 3 08:45 contacts read is 2026-11-18T01:50:00Z. The xlsx and png match the verdicts for R1, R4, R5, R8, R9, R33 and R39.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>A grep of rubric.json for T&lt;n&gt;, &#x27;turn&#x27;, &#x27;first&#x27;, &#x27;previous&#x27; and &#x27;later&#x27; found none. The criteria anchor on topic and calendar dates only.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C4.1"><div><strong>C4.1</strong> · item 4 Silent change after a value was confirmed
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R12, R14
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 2 10:30 viewings card read-out, Day 3 08:45 WhatsApp Helen Mrs Archer&#x27;s viewing, Day 5 13:30 Mr Pembury&#x27;s visit</div>
+<p style="margin:.4rem 0">At Nicole&#x27;s request, Day 2 10:30 read out the whole viewings card (Archer Fri 27 Nov 3.00 pm, Pembury Sun 29 Nov 3.30 pm). Stage 2 then silently overwrote stand_viewings.png with Helen&#x27;s rewrite (Sat 28 Nov 2.00 pm / 3.30 pm). The later asks are graded at full weight.</p><div class="ev"><span class="qc-k">prompt.txt T5</span><code>Who&#x27;s booked to see the Whale at our stand? Read me the whole card too.</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json fs_s2_viewings</span><code>Helen&#x27;s rewritten viewings card is saved over the old photo</code></div><div class="ev"><span class="qc-k">rubric.json R12</span><code>every one of which gives Saturday 28 November at 2:00 PM London time.</code></div><div class="ev"><span class="qc-k">rubric.json R14</span><code>gives Saturday 28 November at 3:30 PM London time as when he is coming.</code></div>
+<div><span class="qc-k">Fix plan</span>Drop one tier. R12: score 5 -&gt; 3, importance critically_important -&gt; important. R14: score 3 -&gt; 1. The wording stays the same, so both remain atomic and self-contained.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier confirmed the run&#x27;s read-out on Day 2 10:30 (&#x27;Fri 27 Nov 3.00 pm Mrs Archer ... Sun 29 Nov 3.30 pm Mr Pembury&#x27;). I viewed the original and stage2 card images and confirmed the change.</div></div><div class="qc-flag" id="C4.2"><div><strong>C4.2</strong> · item 4 Silent change after a value was confirmed
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R13, R19, R22, R23
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 1 10:40 confirmation packing and schedule read-out, Day 3 12:30 van collection at the shop, Day 4 08:45 crates reach the stand, Day 5 08:30 crate count, Day 5 11:30 return collection</div>
+<p style="margin:.4rem 0">Day 1 10:40 had the agent read the confirmation&#x27;s packing and schedule lines (stock in one crate, collection Sat 21 Nov 10:00, delivery by 16:00, return 18:30). Stage 2 and stage 4 silently overwrote whitfield_london_confirmation.pdf. Later turns ask for the same lines again.</p><div class="ev"><span class="qc-k">prompt.txt T1</span><code>Then read me the confirmation&#x27;s packing and schedule lines.</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json fs_s2_confirmation</span><code>Whitfield&#x27;s revised confirmation of 17 November is saved over the copy of 12 November</code></div><div class="ev"><span class="qc-k">inject/stage4/mutations.json fs_s4_confirmation</span><code>Whitfield&#x27;s revised confirmation of 19 November is saved over the copy of 17 November</code></div><div class="ev"><span class="qc-k">rubric.json R19</span><code>every one of which gives 5:00 PM to 7:00 PM London time on Thursday 26 November.</code></div>
+<div><span class="qc-k">Fix plan</span>Drop one tier. R13 5 -&gt; 3, R19 5 -&gt; 3, R23 5 -&gt; 3 (importance -&gt; important). R22 3 -&gt; 1. The wording stays the same.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The run&#x27;s read-out on Day 1 10:40 contains &#x27;Collection: Saturday 21 November, 10:00&#x27; and &#x27;Return collection: Sunday 29 November, 18:30&#x27;. I viewed the original, stage2 and stage4 confirmation images. The verifier confirmed.</div></div><div class="qc-flag" id="C4.3"><div><strong>C4.3</strong> · item 4 Silent change after a value was confirmed
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R17, R18
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 1 17:30 dinner invitation read-out, Day 3 16:10 WhatsApp Ben when and where the dinner is</div>
+<p style="margin:.4rem 0">Day 1 17:30 read out the rest of the invitation (Sat 28 Nov 19:30, The Garden Room). Stage 2 silently reissued it (Fri 27 Nov 20:30, Olympia Club Room). Day 3 16:10 asks when and where.</p><div class="ev"><span class="qc-k">prompt.txt T3</span><code>How many places at the exhibitors&#x27; dinner come with our stand? Read me the rest of the invitation too.</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json fs_s2_invitation</span><code>the fair&#x27;s reissued dinner invitation of 17 November is saved over the copy of 2 November</code></div><div class="ev"><span class="qc-k">rubric.json R17</span><code>every one of which gives Friday 27 November at 8:30 PM London time as its time.</code></div>
+<div><span class="qc-k">Fix plan</span>Drop one tier. R17: 5 -&gt; 3 (importance -&gt; important). R18: 3 -&gt; 1.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The run&#x27;s Day 1 17:30 reply contains &#x27;Place: The Garden Room, Addison Road&#x27;. I viewed both invitation images. The verifier confirmed.</div></div><div class="qc-flag" id="C4.4"><div><strong>C4.4</strong> · item 4 Silent change after a value was confirmed
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R16, R20, R21, R24
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 2 15:40 Fair sheet and timetable read-out, Day 4 12:20 where the van unloads, Day 4 14:30 Ben&#x27;s badge pickup, Day 4 15:30 Sunday door close, Day 5 15:00 Saturday leaving time</div>
+<p style="margin:.4rem 0">Day 2 15:40 had the agent read the public hours (Sat 11-19, Sun 11-17), the badge desk (Olympia Way foyer) and the deliveries entrance (Hall Road). Stage 2 fired right after that turn and silently reissued lrbf_exhibitor_timetable.pdf. Four later turns ask for those values or values derived from them.</p><div class="ev"><span class="qc-k">prompt.txt T7</span><code>read me its public hours, when stands have to be staffed, and where badges and deliveries go.</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json fs_s2_timetable</span><code>the fair&#x27;s reissued timetable of 17 November is saved over the copy of 2 November</code></div><div class="ev"><span class="qc-k">rubric.json R20</span><code>every one of which names the Maclise Road loading bay.</code></div><div class="ev"><span class="qc-k">rubric.json R21</span><code>every one of which names the Guild desk at the Hammersmith Road entrance.</code></div>
+<div><span class="qc-k">Fix plan</span>Drop one tier. R20, R21 and R24: 5 -&gt; 3 (importance -&gt; important). R16: 3 -&gt; 1.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The run&#x27;s Day 2 15:40 reply contains &#x27;Olympia Way foyer.&#x27;, &#x27;Hall Road entrance, Olympia.&#x27; and &#x27;Sunday 29 November: 11:00 to 17:00&#x27;. I viewed both timetable images. The verifier confirmed.</div></div><div class="qc-flag" id="C4.5"><div><strong>C4.5</strong> · item 4 Silent change after a value was confirmed
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R25
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 2 09:05 stand extras price list read-out, Day 6 09:10 extra lamp cost</div>
+<p style="margin:.4rem 0">Day 2 09:05 gave the rest of the price list (extra stand lamp GBP 40). Stage 5 silently reissued it in Documents and on Drive (lamp GBP 48). Day 6 09:10 asks the lamp price again.</p><div class="ev"><span class="qc-k">prompt.txt T4</span><code>What would an extra socket for our stand cost? Give me the rest of the price list too.</code></div><div class="ev"><span class="qc-k">inject/stage5/mutations.json fs_s5_extras</span><code>the desk&#x27;s reissued price list of 20 November is saved over the copy of 2 November</code></div><div class="ev"><span class="qc-k">rubric.json R25</span><code>The response, in its answer on an extra lamp for the stand, gives £48 as its cost.</code></div>
+<div><span class="qc-k">Fix plan</span>Drop one tier. R25: 3 -&gt; 1 (importance stays important).</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: I viewed both price list images (GBP 40 vs GBP 48). The verifier confirmed the run&#x27;s read-out on Day 2 09:05 and its GBP 40 answer on Day 6 09:10.</div></div><div class="qc-flag" id="C5.1"><div><strong>C5.1</strong> · item 5 Answer leakage for visual asks
+ <span class="qc-tag bad">blocking</span> <span class="qc-tag info">needs rerun</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R11
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 2 10:30 who is booked to see the Whale (viewings card)</div>
+<p style="margin:.4rem 0">The turn points Nicole to the viewings card picture, but readable seed text already says Mrs Archer is coming to see the Whale. The run used the calendar route.</p><div class="ev"><span class="qc-k">data/environment/google-calendar-api/events.json evt-035 summary</span><code>Henrietta Archer: Moby-Dick at the stand</code></div><div class="ev"><span class="qc-k">data/environment/google-contacts-api/contacts.json Henrietta Archer biography</span><code>Collector, York; Melville. Coming to see the Whale at Olympia.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md VALUE_LOCK WHALE_VIEWER</span><code>WHALE_VIEWER = &quot;Mrs Archer&quot;  # type: graded-positive; datatype: name; anchor: row:google-calendar/events#evt-035.summary</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json Day 2 10:30 reply</span><code>Your calendar gives her full name as Henrietta Archer.</code></div>
+<div><span class="qc-k">Fix plan</span>Rerun-class. Remove the book from the evt-035 summary (&#x27;Henrietta Archer at the stand&#x27;) and from evt-036 (&#x27;Alistair Pembury at the stand&#x27;), so Archer cannot be found by elimination. Drop &#x27;Coming to see the Whale at Olympia.&#x27; from the Archer contact biography. Remove the book mention from Pembury&#x27;s SMS (&#x27;Could I see the Gatsby at your stand?&#x27;) and from any Instagram DM naming Moby-Dick. Then re-anchor WHALE_VIEWER in TRUTH.md on image:data/home/Documents/stand_viewings.png.</div><div><span class="qc-k">No-rerun fallback</span>Keep R11 at score 1, mark it text-reachable in TRUTH.md, and leave it out of the vision share (as done here).</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: I opened events.json evt-035 and contacts.json line 6926 myself and found the run&#x27;s calendar-route sentence. The verifier confirmed both and noted an Instagram DM &#x27;Could I see the Moby-Dick there?&#x27; whose sender mapping it did not confirm.</div></div>
+<h3>Vision share <span class="qc-tag ok">76.6%</span></h3>
+<p>72 of 94 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R4</td><td>3</td><td>Documents/whitfield_london_confirmation.pdf (image-only)</td><td>Each book &#x27;in a crate of its own&#x27; appears only on the page image.</td></tr><tr><td>R5</td><td>5</td><td>Pictures/flight_holds.png</td><td>TA 918 IAD 21:35 appears only in the image.</td></tr><tr><td>R6</td><td>1</td><td>Documents/lrbf_exhibitors_dinner_invitation.pdf</td><td>&#x27;one place&#x27; appears only on the page image.</td></tr><tr><td>R10</td><td>1</td><td>Documents/lrbf_stand_extras_price_list.pdf</td><td>Socket GBP 55 appears only on the page image (the Drive revision content is empty).</td></tr><tr><td>R12</td><td>5</td><td>inject/stage2/files/stand_viewings.png</td><td>Sat 28 Nov 2.00 pm appears only on the card. The calendar entry is all-day.</td></tr><tr><td>R13</td><td>5</td><td>inject/stage2/files/whitfield_london_confirmation.pdf</td><td>Tuesday 24 November 11:00 appears only on the page image.</td></tr><tr><td>R14</td><td>3</td><td>inject/stage2/files/stand_viewings.png</td><td>Sat 28 Nov 3.30 pm appears only on the card.</td></tr><tr><td>R16</td><td>3</td><td>inject/stage2/files/lrbf_exhibitor_timetable.pdf + Pictures/walk_to_olympia.png</td><td>Sat doors 10:00 and the 15 min walk appear only in the images.</td></tr><tr><td>R17</td><td>5</td><td>inject/stage2/files/lrbf_exhibitors_dinner_invitation.pdf</td><td>Friday 27 November 20:30 appears only on the page image.</td></tr><tr><td>R18</td><td>3</td><td>inject/stage2/files/lrbf_exhibitors_dinner_invitation.pdf</td><td>Olympia Club Room appears only on the page image.</td></tr><tr><td>R19</td><td>5</td><td>inject/stage2/files/whitfield_london_confirmation.pdf</td><td>17:00 to 19:00 appears only on the page image.</td></tr><tr><td>R20</td><td>5</td><td>inject/stage2/files/lrbf_exhibitor_timetable.pdf</td><td>Maclise Road loading bay appears only on the page image.</td></tr><tr><td>R21</td><td>5</td><td>inject/stage2/files/lrbf_exhibitor_timetable.pdf</td><td>Guild desk, Hammersmith Road entrance appears only on the page image.</td></tr><tr><td>R22</td><td>3</td><td>inject/stage4/files/whitfield_london_confirmation.pdf</td><td>Stock &#x27;in two crates&#x27; (four in all) appears only on the page image. The Drive list&#x27;s &#x27;One crate&#x27; is a stale trap.</td></tr><tr><td>R23</td><td>5</td><td>inject/stage4/files/whitfield_london_confirmation.pdf</td><td>Return 20:00 appears only on the page image.</td></tr><tr><td>R24</td><td>5</td><td>inject/stage2/files/lrbf_exhibitor_timetable.pdf</td><td>Sunday 11:00 to 16:00 appears only on the page image.</td></tr><tr><td>R25</td><td>3</td><td>inject/stage5/files/lrbf_stand_extras_price_list.pdf</td><td>Lamp GBP 48 appears only on the page image. The Drive revision content is empty.</td></tr><tr><td>R31</td><td>1</td><td>Documents/whitfield_london_confirmation.pdf</td><td>&#x27;via Washington Dulles&#x27; appears only on the page image.</td></tr><tr><td>R32</td><td>1</td><td>Documents/lrbf_exhibitors_dinner_invitation.pdf</td><td>&#x27;on request&#x27; appears only on the page image.</td></tr><tr><td>R33</td><td>1</td><td>Documents/lrbf_exhibitor_timetable.pdf</td><td>&#x27;from 08:00&#x27; appears only on the page image.</td></tr><tr><td>R34</td><td>1</td><td>Documents/lrbf_stand_extras_price_list.pdf</td><td>Lockable case GBP 120 appears only on the page image.</td></tr><tr><td>R35</td><td>1</td><td>Documents/stand_viewings.png</td><td>&#x27;agreed by phone - not in the calendar yet&#x27; appears only on the card.</td></tr><tr><td>R36</td><td>1</td><td>Documents/lrbf_exhibitor_timetable.pdf</td><td>Friday 12:00 to 20:00 appears only on the page image.</td></tr><tr><td>R37</td><td>1</td><td>Documents/lrbf_exhibitor_timetable.pdf</td><td>The staffing rule appears only on the page image.</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (7)</summary><ul><li>item 1: R7 (copy in Helen&#x27;s folder) and R30 (-5 false completion) are a double charge. <span class='qc-k'>dismissed:</span>R30 needs a false completion claim in the reply. Under the definition, a penalty for a false claim of completion grades a different behaviour. TRUTH lists R7 and R30 together as covering the stage1 auth lapse.</li><li>item 1: R14/R15 and R25/R38 double-charge the same reply. <span class='qc-k'>dismissed:</span>Both criteria in each pair are positives grading value vs one-sentence form. A one-sentence answer with the stale value passes R15/R38 and fails R14/R25, so they are independent.</li><li>item 2: R4 grades two books&#x27; crates in one criterion. <span class='qc-k'>dismissed:</span>It applies one rule. The confirmation says &#x27;Each high-value book travels in its own crate.&#x27;, TRUTH locks a single HV_CRATES value, and T1 asks how &#x27;the two of them are packed&#x27;.</li><li>item 2: R17 date+time and R22/R23 send-date condition are non-atomic. <span class='qc-k'>dismissed:</span>The date and time belong to one event. &#x27;on Friday 20 November&#x27; only scopes the messages sent after the stage4 reissue, and Day 5 is Fri 20 Nov.</li><li>item 9: TRUTH.md may disagree with criteria or images. <span class='qc-k'>dismissed:</span>Every value was checked against the original and inject images (for example stage2 timetable &#x27;Maclise Road loading bay&#x27; and stage4 &#x27;$18,500, in two crates&#x27; giving four crates). No disagreement and no missing turn.</li><li>item 11: The run may show stale values served by the environment after mutations. <span class='qc-k'>dismissed:</span>No document was re-read after stage2/4/5. The tool calls after Day 3 08:45 are only WhatsApp and calendar. The failures come from the agent&#x27;s own recall.</li><li>item 6: Scripted messages may presume an agent action. <span class='qc-k'>dismissed:</span>No loud or scripted messages exist in any stage, and the silent and filesystem ops are agent-independent.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>0 conflicts, 6 disagreements (5x DL5 checklist right, 1x DL6 neo-qc right), 4 agree, 2 one-sided (TB4, score); fix plan 14 steps (1 rerun, optional); vision 76.6-&gt;67.65%, score 35.11-&gt;48.53%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">76.6% → 67.65%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">35.11% → 48.53%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL5</td><td>audit_report_tier25.json J1 pass (no A7 finding), QC_SUMMARY.md &#x27;Silent reissues ... intended silent-drift design&#x27;</td><td>C4.1</td><td>R12, R14</td><td><div><span class=qc-k>neo-qc</span>J1 passes; every |score|=5 row is critically_important. Silent stage-2 reissues are the intended design, so no tier-down (A7 needs a sign-off and none exists).</div><div><span class=qc-k>checklist</span>T5 (Day 2 10:30) had the agent read out the whole viewings card (Archer Fri 27 Nov 3.00 pm, Pembury Sun 29 Nov 3.30 pm); stage 2 silently overwrote stand_viewings.png; T8 and T17 ask again at full weight. Tier down R12 5-&gt;3, R14 3-&gt;1.</div><div><span class=qc-k>loop</span>A tier-down 5-&gt;3 without changing importance fails E3; it also lowers vision share (both are picture rows) and raises the score (both failed). No double-charge pair is involved, so the DL5 &#x27;keep side&#x27; clash does not arise.</div><div><span class=qc-k>resolution</span>Checklist is right. The guide (DL5) says to use the broader checklist rule as the bar, and tie-break rule 5 is the broad version: a turn put the value on record at the user&#x27;s request, a silent filesystem change hit it, a later turn asks again. neo-qc&#x27;s A7 is narrower (needs explicit sign-off), so its silence is a scope gap, not evidence against. Apply R12 5-&gt;3 with importance important, R14 3-&gt;1. Vision stays above 30%.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL5</td><td>audit_report_tier25.json J1 pass, QC_SUMMARY.md silent reissues dismissed</td><td>C4.2</td><td>R13, R19, R22, R23</td><td><div><span class=qc-k>neo-qc</span>No finding; the stage-2/4 confirmation reissues are intended silent drift.</div><div><span class=qc-k>checklist</span>T1 (Day 1 10:40) read out the confirmation&#x27;s packing and schedule lines; stage 2 and stage 4 silently overwrote whitfield_london_confirmation.pdf; T9, T11, T15, T16 ask for the same lines. R13, R19, R23 5-&gt;3, R22 3-&gt;1.</div><div><span class=qc-k>loop</span>Same as C4.1: importance must move with score (E3); vision and score shift.</div><div><span class=qc-k>resolution</span>Checklist is right under the broad rule (tie-break 5). The broad rule is not limited to the first stage after the read-out, so stage-4 rows R22/R23 qualify too. Apply R13/R19/R23 5-&gt;3 (important), R22 3-&gt;1.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL5</td><td>audit_report_tier25.json J1 pass (R17/R18 split noted as atomic)</td><td>C4.3</td><td>R17, R18</td><td><div><span class=qc-k>neo-qc</span>R17/R18 are a correct atomic split of &#x27;when and where&#x27;; no weight issue.</div><div><span class=qc-k>checklist</span>T3 (Day 1 17:30) read out the invitation (Sat 28 Nov 19:30, Garden Room); stage 2 silently reissued it; T10 asks when and where. R17 5-&gt;3, R18 3-&gt;1.</div><div><span class=qc-k>loop</span>E3 importance with the score change; no structure change, so the atomic split neo-qc praised is kept.</div><div><span class=qc-k>resolution</span>Checklist is right (broad rule). Lower the weights only; keep the wording and the split. R17 5-&gt;3 (important), R18 3-&gt;1.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL5</td><td>audit_report_tier25.json J1 pass, QC_SUMMARY.md silent reissues dismissed</td><td>C4.4</td><td>R16, R20, R21, R24</td><td><div><span class=qc-k>neo-qc</span>No finding; the stage-2 timetable reissue is intended silent drift.</div><div><span class=qc-k>checklist</span>T7 (Day 2 15:40) read out the public hours, badge desk and deliveries entrance; stage 2 fired right after and silently reissued the timetable; T12, T13, T14, T18 ask for those values or values derived from them. R20, R21, R24 5-&gt;3, R16 3-&gt;1.</div><div><span class=qc-k>loop</span>E3 importance with the score change; vision drop.</div><div><span class=qc-k>resolution</span>Checklist is right (broad rule; this is even the first stage after the read-out, so it would meet A7&#x27;s scope except for the &#x27;sign-off&#x27; wording). R20/R21/R24 5-&gt;3 (important), R16 3-&gt;1.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL5</td><td>audit_report_tier25.json J1 pass, extras.json notes (R25 counted as picture)</td><td>C4.5</td><td>R25</td><td><div><span class=qc-k>neo-qc</span>No finding; R25 is a sound picture criterion (Drive revision holds only the image-only PDF).</div><div><span class=qc-k>checklist</span>T4 (Day 2 09:05) gave the rest of the price list (lamp GBP 40); stage 5 silently reissued it; T19 asks the lamp price. R25 3-&gt;1.</div><div><span class=qc-k>loop</span>Lowers vision by one picture row; score rises (R25 failed).</div><div><span class=qc-k>resolution</span>Checklist is right (broad rule). R25 3-&gt;1, importance stays important. R38 (one-sentence form) is a separate behaviour and keeps 3.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL6</td><td>visual_leaks.json (0 leak, 0 declared), extras.json &#x27;R11 (Mrs Archer also in calendar evt-035 summary)&#x27; excluded from vision, TRUTH.md WHALE_VIEWER anchor row:google-calendar</td><td>C5.1</td><td>R11</td><td><div><span class=qc-k>neo-qc</span>No leak: WHALE_VIEWER is locked on a text route (calendar evt-035 summary), one route per lock, and R11 is not counted as a picture criterion.</div><div><span class=qc-k>checklist</span>Blocking leak: T5 points at the viewings card, but calendar evt-035 (&#x27;Henrietta Archer: Moby-Dick at the stand&#x27;) and the Archer contact biography give the answer as text. Rerun fix: strip the book from those texts and re-anchor on the picture; fallback: keep R11 at 1, text-reachable, out of vision.</div><div><span class=qc-k>loop</span>Re-anchoring WHALE_VIEWER on image: while the calendar text remains fails E11 (declared_route) and J2 C-b; deleting the text without a rerun fails E8/E9 and checklist 11 (RR3).</div><div><span class=qc-k>resolution</span>neo-qc is right on the verdict. Checklist 5 is about a fact graded from a picture; R11 is a declared text-route fact (TRUTH Step 10 and the lock anchor both name evt-035), weighs 1, and both tools already leave it out of vision. The checklist&#x27;s own no-rerun fallback is already the delivered state, so the flag does not survive as a defect. Optional: queue the data clean-up for the next rerun if the owner wants R11 to become a picture fact (+1 vision point); never rewrite the anchor alone.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>TB4</td><td>M1, truth_coverage.json lock_type_mismatch x2</td><td></td><td>R4</td><td><div><span class=qc-k>neo-qc</span>BOOK_WHALE and BOOK_GATSBY are typed evidence although R4 names both titles; retype graded-positive.</div><div><span class=qc-k>checklist</span>Silent (item 9 PASS: every graded VALUE_LOCK value matches its criterion). It would not object to the retype.</div><div><span class=qc-k>resolution</span>Apply M1. TB4: graded-positive when the literal value is still in a criterion text, which is the case for R4. TRUTH-only, no score change.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>score</td><td>QC_SUMMARY.md score 35.11</td><td></td><td>R12, R13, R14, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25</td><td><div><span class=qc-k>neo-qc</span>Score 35.11; the low score comes from sound criteria the model missed.</div><div><span class=qc-k>checklist</span>Silent on score.</div><div><span class=qc-k>loop</span>All 13 lowered rows failed in run_1, so the plan lifts the score 35.11 -&gt; 48.53.</div><div><span class=qc-k>resolution</span>No score target is set, so no member swap is needed. Record the reason in TRUTH section 7 if the owner keeps one.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json (0 pairs), README house rule: false-completion negative is never a pair</td><td>item 1 PASS, rejected R7/R30</td><td>R7, R30, R26, R27, R28, R29</td><td><div><span class=qc-k>neo-qc</span>0 double-charge pairs; R7/R30 is a positive plus a false-completion penalty, not a pair.</div><div><span class=qc-k>checklist</span>All five penalties can fire on their own; R7/R30 not a pair because R30 needs a false completion claim.</div><div><span class=qc-k>resolution</span>Both agree under tie-break rule 3 (a penalty that can fire on its own is not a pair). No change.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>double_charge.json same-source groups (not findings)</td><td>item 1 PASS, item 2 PASS</td><td>R14, R15, R25, R38, R4, R17, R18</td><td><div><span class=qc-k>neo-qc</span>R14/R15 and R25/R38 are value vs form, not pairs; R4 is one packing rule; R17/R18 atomic.</div><div><span class=qc-k>checklist</span>Same: independent value/form pairs; R4 applies one rule; R17 date+time of one event.</div><div><span class=qc-k>resolution</span>No change. After the tier-downs R14=1/R15=3 and R25=1/R38=3 stay independent (a one-sentence stale answer passes R15/R38 and fails R14/R25).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>E13 0 turn numbers, extras.json turn_refs []</td><td>item 12 PASS</td><td>R22, R23</td><td><div><span class=qc-k>neo-qc</span>No criterion names a turn; R22/R23 anchor on &#x27;on Friday 20 November&#x27;.</div><div><span class=qc-k>checklist</span>No turn numbers; criteria anchor on topic and calendar dates.</div><div><span class=qc-k>resolution</span>No change. The weight-only plan does not touch wording, so no anchor is lost.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>extras.json vision_pct 76.6 (72/94), E15 73%</td><td>item 10 PASS</td><td>R4, R5, R6, R10, R12, R13, R14, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R31, R32, R33, R34, R35, R36, R37</td><td><div><span class=qc-k>neo-qc</span>Vision 72/94 = 76.6% (E15 73% counts R25 as text, overruled by the sub-agent).</div><div><span class=qc-k>checklist</span>72/94 = 76.6% strict; 67.6% after the item-4 tier-downs.</div><div><span class=qc-k>loop</span>Every tier-down in weight pass 1 hits a picture row, so vision falls 76.6 -&gt; 67.65%; still above 30%, so no swap is needed.</div><div><span class=qc-k>resolution</span>Both agree on the 24 picture rows (dependency definition; R8/R9/R39 and R11 excluded for their text routes). Recomputed 67.65% after the plan.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Classify: C4.1-C4.5 and M1 are rubric/TRUTH only. C5.1&#x27;s data edits (drop the book from calendar evt-035/evt-036 summaries, the Archer contact biography, Pembury&#x27;s SMS and the Instagram DM naming Moby-Dick, then re-anchor WHALE_VIEWER on image:data/home/Documents/stand_viewings.png) are rerun-only and optional; put them in the rerun batch, do not patch half-way.<div><span class=qc-k>no-rerun fallback</span>Keep R11 at score 1 with WHALE_VIEWER anchored on row:google-calendar/events#evt-035.summary (already the case), out of the vision share. Do not add an image: anchor beside it (E11).</div></td><td>R11</td><td>C5.1</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>No change. Both tools agree every graded value matches its source image at the right stage; no &#x27;also accept&#x27; values are added, so DL8 does not apply.</td><td></td><td>checklist item 9 PASS, tier3_all_criteria agree 39</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>structure</td><td>No split. R4, R17/R18, R22/R23 are atomic per both tools; keep wording.</td><td>R4, R17, R18, R22, R23</td><td>checklist item 2 PASS, tier25 J1 pass</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>visual route</td><td>R11: no anchor rewrite (DL6). Leave WHALE_VIEWER as a single text route; the picture route only after the rerun-batch data edits.</td><td>R11</td><td>C5.1, visual_leaks.json</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1</td><td>rubric.json: R12 score 5-&gt;3, importance critically_important-&gt;important; R14 score 3-&gt;1 (importance important). Wording unchanged. Mirror score/importance in report.json rubric rows.</td><td>R12, R14</td><td>C4.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-1.04</td><td>1.56</td></tr><tr><td>6</td><td>weight pass 1</td><td>rubric.json: R13 5-&gt;3, R19 5-&gt;3, R23 5-&gt;3 (each importance critically_important-&gt;important); R22 3-&gt;1 (important). Wording unchanged. Mirror in report.json.</td><td>R13, R19, R22, R23</td><td>C4.2</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-2.39</td><td>3.58</td></tr><tr><td>7</td><td>weight pass 1</td><td>rubric.json: R17 5-&gt;3 (importance -&gt; important); R18 3-&gt;1 (important). Mirror in report.json.</td><td>R17, R18</td><td>C4.3</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-1.38</td><td>2.06</td></tr><tr><td>8</td><td>weight pass 1</td><td>rubric.json: R20 5-&gt;3, R21 5-&gt;3, R24 5-&gt;3 (each importance -&gt; important); R16 3-&gt;1 (important). Mirror in report.json.</td><td>R16, R20, R21, R24</td><td>C4.4</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-3.22</td><td>4.84</td></tr><tr><td>9</td><td>weight pass 1</td><td>rubric.json: R25 3-&gt;1 (importance stays important). R38 stays 3. Mirror in report.json.</td><td>R25</td><td>C4.5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-0.92</td><td>1.39</td></tr><tr><td>10</td><td>weight pass 2</td><td>No double-charge reweight: neo-qc found 0 pairs and the checklist 0; the tier-downs create no new pair (R14/R15 and R25/R38 stay value vs form). Nothing is dropped, so no J4 question arises.</td><td>R14, R15, R25, R38</td><td>double_charge.json, checklist item 1 PASS</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>11</td><td>recompute vision % and score</td><td>Recompute: vision 72/94 = 76.60% -&gt; 46/68 = 67.65% (&gt;= 30%, no swap); score 33/94 = 35.11 -&gt; 33/68 = 48.53 (no target). Write final_reward and rubric_weights_percentage 48.53 into report.json and update pass_summary.json to match.</td><td></td><td>C4.1, C4.2, C4.3, C4.4, C4.5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>12</td><td>turn anchors, targets, process wording</td><td>No change: no turn numbers (E13 0, checklist 12 PASS), targets match (checklist 7 PASS), R2/R15/R38 are asked or persona outcomes graded on the reply (checklist 8 PASS, J1 A6).</td><td>R2, R15, R38</td><td>checklist items 7, 8, 12 PASS</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>13</td><td>TRUTH.md sync</td><td>TRUTH.md L50-51: retype BOOK_WHALE and BOOK_GATSBY to &#x27;# type: graded-positive; datatype: name; anchor: image:data/home/Documents/whitfield_london_confirmation.pdf#Packing; must-appear-in: [london_trip_plan.xlsx]; criteria: R4&#x27;. In Step 10 add &#x27;the calendar entry and Mrs Archer&#x27;s contact note also name her for the Whale&#x27; (states the text route, no grading or history words). No R-number changes, no E6 words (QC, renumbered, now weighted, checklist rule, run_1).</td><td>R4, R11</td><td>M1, C5.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>14</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E1/E3/E6/E8 for score math, importance and residue; Tier 2.5; TRUTH coverage; double charge) and the checklist agent with the shared tie-break rules, including the broad silent-after-read-out rule.</td><td></td><td>M1, C4.1, C4.2, C4.3, C4.4, C4.5, C5.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>Optional (C5.1): data/environment/google-calendar-api/events.json evt-035 summary -&gt; &#x27;Henrietta Archer at the stand&#x27;; evt-036 -&gt; &#x27;Alistair Pembury at the stand&#x27;</li><li>Optional (C5.1): google-contacts-api/contacts.json Archer biography: drop &#x27;Coming to see the Whale at Olympia.&#x27;</li><li>Optional (C5.1): phone-api/messages.json Pembury SMS and instagram-messages-api/messages.json DM: remove the book names</li><li>Optional (C5.1), after the data edits and the rerun: re-anchor WHALE_VIEWER on image:data/home/Documents/stand_viewings.png and count R11 in vision</li></ul>
+<p class="qc-k">Verdict: NOT ACCEPTABLE, Five checklist item-4 flags (C4.1-C4.5, silent change after a read-out, 13 criteria over-weighted) survive reconciliation; they are fixable by rubric/TRUTH weight edits without a rerun.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc: nicole_campbell_eef30e5c (b5f5b28ae..f210adef0, modified)</h3>
+<p><strong>Verdict: ACCEPTABLE.</strong> Nothing blocks delivery. 0 blocking, 0 design, 0 grader, 1 minor. Score 35.11 (1 run, claude-opus-5.5).</p>
+<h4>Tier counts</h4>
+<ul>
+<li>Step 0 gate: exit 0, HARD-clean, 1 informational row (Dockerfile/mock digests verified).</li>
+<li>Tier 1: 20 pass, 1 warn, 4 skip, 0 fail. The warn is D17, which &quot;could not check&quot; 3 Drive mutations (2 are auth, 1 is the <code>s5-extras-drive-head</code> decoy). The service did not import, so this is a tooling limit, not a defect.</li>
+<li>Tier 1.5: 12 pass, 1 warn (E11), 2 info (E5, E12), 0 fail. E8 change diff passed against the baseline. E9 passed, so no hand-check was needed. E13 found 0 turn numbers. E15 vision share is 73%.</li>
+<li>Tier 2 (multi-turn): 5 of 5 pass (A, B, C drift integrity, D, N3).</li>
+<li>Tier 2.5: J1, J2 and J3 pass. J4 was skipped because the rubric is unchanged since the last version.</li>
+<li>TRUTH coverage: 39 criteria, 20 turns and 2 files checked. 0 serious gaps, 2 minor (lock_type_mismatch).</li>
+<li>Visual leaks: 69 E11 candidates, all <code>coincidence</code> (0 leak, 0 declared, 0 guessable).</li>
+<li>Double charge: 0 pairs, 0 points. 8 same-source groups and 2 chains were recorded; these are not findings.</li>
+<li>Tier 3 all-criteria: agree 39, dispute 0, unverifiable 0.</li>
+</ul>
+<h4>Kept issues</h4>
+<ul>
+<li><strong>M1 (minor):</strong> TRUTH.md L50-51 types <code>BOOK_WHALE</code> (&quot;Moby-Dick&quot;) and <code>BOOK_GATSBY</code> (&quot;The Great Gatsby&quot;) as <code>evidence</code>, but R4 names both titles. Fix: retype both as <code>graded-positive</code>. This is a TRUTH-only edit, with no rerun and no score impact.</li>
+</ul>
+<h4>Dismissed or false positives</h4>
+<ul>
+<li><strong>E11 warn:</strong> all 69 hits are coincidences. 60 are clock substrings inside unrelated ISO stamps (e.g. &quot;12:00&quot; in &quot;T23:12:00Z&quot;). The other 9 are different facts: persona routines in HEARTBEAT.md/MEMORY.md, Olympia&#x27;s postal address, airport catalog rows, and an Outlook <code>work_start</code>. A search for the graded fair facts found no text copy.</li>
+<li><strong>D17 warn:</strong> an unimportable-service tooling limit. The auth mutations are fleet-level accepted context.</li>
+<li><strong>E5 info:</strong> 5 unasked decoy patches (<code>last_seen</code>, Drive head). These are not graded by design.</li>
+<li><strong>Silent reissues (the main cause of the low score):</strong> the stage 2/4/5 files overwrite the Documents copies at the path the agent had already read, and the later turns ask questions those files answer. This is the intended silent-drift design. Tier 2 C passed it: nothing is pre-staged and no new value appears early. I checked <code>inject/stage2/mutations.json</code> and prompt T8-T19 by hand.</li>
+</ul>
+<h4>Tier 3 attribution (run_1, 15 failed of 39)</h4>
+<ul>
+<li>By cause: 15 model, 0 rubric, 0 judge, 0 task, 0 false_pass.</li>
+<li>In 13 of the failures (R12-R14, R16-R25) the agent never re-opened Documents after T7 and answered from the first issues. Examples: Friday 3.00 pm instead of Sat 28 Nov 2.00 pm, three crates instead of four, £40 instead of £48.</li>
+<li>The other 2 (R15, R38) are the persona&#x27;s one-sentence rule broken at T17 and T19.</li>
+<li>The riskiest passes all hold up: workbook R1/R4/R5/R33, picture R8/R9/R39, Drive filings R3/R7, penalties R26-R30.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>turn_refs: [] (no criterion names a turn).</li>
+<li>Vision share: 76.6% by sub-agent (72 of 94; it counts R25&#x27;s image-only PDF revision as picture) and 73% by E15. vision_ok = true either way.</li>
+<li>unconditional_scripted_messages: [] (the stages are file copies and silent patches only).</li>
+</ul>
+<h4>Blocks delivery?</h4>
+<p>No. The low score comes from sound criteria the model missed.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 1 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;M1&quot;,
+    &quot;severity&quot;: &quot;minor&quot;,
+    &quot;area&quot;: &quot;truth&quot;,
+    &quot;scope&quot;: &quot;nicole_campbell_eef30e5c&quot;,
+    &quot;title&quot;: &quot;Two book-title locks in TRUTH are typed evidence although a criterion grades them&quot;,
+    &quot;what&quot;: &quot;TRUTH.md types `BOOK_WHALE` (\&quot;Moby-Dick\&quot;) and `BOOK_GATSBY` (\&quot;The Great Gatsby\&quot;) as `evidence`, but R4 names both titles literally when it grades the Crates sheet. The fact itself is stated in the solve path, so scoring is unaffected; only the lock tag is wrong.&quot;,
+    &quot;evidence&quot;: &quot;data/solution/TRUTH.md lines 50-51 (`# type: evidence`); rubric.json R4 criterion text names both titles.&quot;,
+    &quot;ask&quot;: &quot;Retype `BOOK_WHALE` and `BOOK_GATSBY` as `graded-positive` in TRUTH.md (TRUTH-only edit, no rerun needed).&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;All 5 penalties (R26-R30) grade separate behaviours that can fire on their own. R7/R30 is not a pair because R30 needs a false completion claim. R14/R15 and R25/R38 are value vs one-sentence form and can pass or fail independently. No double charge.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;R4 applies one packing rule (&#x27;each high-value book travels in its own crate&#x27;) to the pair T1 names. R17/R12/R19/R23 grade date+time of one event. &#x27;on Friday 20 November&#x27; in R22/R23 only scopes which messages count. No criterion holds two independent asks.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turn names the file that is changed&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Each file-update criterion has its file named in the turn: R1/R5 (T0/T2 london_trip_plan.xlsx Travel sheet), R4 (T1 Crates sheet), R33 (T7 Fair sheet), R8/R9/R39 (T6 london_post.png). Drive and calendar targets are also named.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Silent change after a value was confirmed&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Five times a turn had the agent read a value out to Nicole, a silent filesystem reissue (empty loud arrays) then changed it, and a later turn asked for it again. No turn has Nicole explicitly approve a value. I count a read-out she asked for as &#x27;confirms&#x27; under the broad rule, and so did the verifier.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C4.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R12&quot;,
+            &quot;R14&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 2 10:30 viewings card read-out&quot;,
+            &quot;Day 3 08:45 WhatsApp Helen Mrs Archer&#x27;s viewing&quot;,
+            &quot;Day 5 13:30 Mr Pembury&#x27;s visit&quot;
+          ],
+          &quot;problem&quot;: &quot;At Nicole&#x27;s request, Day 2 10:30 read out the whole viewings card (Archer Fri 27 Nov 3.00 pm, Pembury Sun 29 Nov 3.30 pm). Stage 2 then silently overwrote stand_viewings.png with Helen&#x27;s rewrite (Sat 28 Nov 2.00 pm / 3.30 pm). The later asks are graded at full weight.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T5&quot;,
+              &quot;quote&quot;: &quot;Who&#x27;s booked to see the Whale at our stand? Read me the whole card too.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s2_viewings&quot;,
+              &quot;quote&quot;: &quot;Helen&#x27;s rewritten viewings card is saved over the old photo&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R12&quot;,
+              &quot;quote&quot;: &quot;every one of which gives Saturday 28 November at 2:00 PM London time.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R14&quot;,
+              &quot;quote&quot;: &quot;gives Saturday 28 November at 3:30 PM London time as when he is coming.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Drop one tier. R12: score 5 -&gt; 3, importance critically_important -&gt; important. R14: score 3 -&gt; 1. The wording stays the same, so both remain atomic and self-contained.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The verifier confirmed the run&#x27;s read-out on Day 2 10:30 (&#x27;Fri 27 Nov 3.00 pm Mrs Archer ... Sun 29 Nov 3.30 pm Mr Pembury&#x27;). I viewed the original and stage2 card images and confirmed the change.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.2&quot;,
+          &quot;criteria&quot;: [
+            &quot;R13&quot;,
+            &quot;R19&quot;,
+            &quot;R22&quot;,
+            &quot;R23&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 1 10:40 confirmation packing and schedule read-out&quot;,
+            &quot;Day 3 12:30 van collection at the shop&quot;,
+            &quot;Day 4 08:45 crates reach the stand&quot;,
+            &quot;Day 5 08:30 crate count&quot;,
+            &quot;Day 5 11:30 return collection&quot;
+          ],
+          &quot;problem&quot;: &quot;Day 1 10:40 had the agent read the confirmation&#x27;s packing and schedule lines (stock in one crate, collection Sat 21 Nov 10:00, delivery by 16:00, return 18:30). Stage 2 and stage 4 silently overwrote whitfield_london_confirmation.pdf. Later turns ask for the same lines again.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T1&quot;,
+              &quot;quote&quot;: &quot;Then read me the confirmation&#x27;s packing and schedule lines.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s2_confirmation&quot;,
+              &quot;quote&quot;: &quot;Whitfield&#x27;s revised confirmation of 17 November is saved over the copy of 12 November&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s4_confirmation&quot;,
+              &quot;quote&quot;: &quot;Whitfield&#x27;s revised confirmation of 19 November is saved over the copy of 17 November&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R19&quot;,
+              &quot;quote&quot;: &quot;every one of which gives 5:00 PM to 7:00 PM London time on Thursday 26 November.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Drop one tier. R13 5 -&gt; 3, R19 5 -&gt; 3, R23 5 -&gt; 3 (importance -&gt; important). R22 3 -&gt; 1. The wording stays the same.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The run&#x27;s read-out on Day 1 10:40 contains &#x27;Collection: Saturday 21 November, 10:00&#x27; and &#x27;Return collection: Sunday 29 November, 18:30&#x27;. I viewed the original, stage2 and stage4 confirmation images. The verifier confirmed.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.3&quot;,
+          &quot;criteria&quot;: [
+            &quot;R17&quot;,
+            &quot;R18&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 1 17:30 dinner invitation read-out&quot;,
+            &quot;Day 3 16:10 WhatsApp Ben when and where the dinner is&quot;
+          ],
+          &quot;problem&quot;: &quot;Day 1 17:30 read out the rest of the invitation (Sat 28 Nov 19:30, The Garden Room). Stage 2 silently reissued it (Fri 27 Nov 20:30, Olympia Club Room). Day 3 16:10 asks when and where.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T3&quot;,
+              &quot;quote&quot;: &quot;How many places at the exhibitors&#x27; dinner come with our stand? Read me the rest of the invitation too.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s2_invitation&quot;,
+              &quot;quote&quot;: &quot;the fair&#x27;s reissued dinner invitation of 17 November is saved over the copy of 2 November&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R17&quot;,
+              &quot;quote&quot;: &quot;every one of which gives Friday 27 November at 8:30 PM London time as its time.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Drop one tier. R17: 5 -&gt; 3 (importance -&gt; important). R18: 3 -&gt; 1.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The run&#x27;s Day 1 17:30 reply contains &#x27;Place: The Garden Room, Addison Road&#x27;. I viewed both invitation images. The verifier confirmed.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.4&quot;,
+          &quot;criteria&quot;: [
+            &quot;R16&quot;,
+            &quot;R20&quot;,
+            &quot;R21&quot;,
+            &quot;R24&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 2 15:40 Fair sheet and timetable read-out&quot;,
+            &quot;Day 4 12:20 where the van unloads&quot;,
+            &quot;Day 4 14:30 Ben&#x27;s badge pickup&quot;,
+            &quot;Day 4 15:30 Sunday door close&quot;,
+            &quot;Day 5 15:00 Saturday leaving time&quot;
+          ],
+          &quot;problem&quot;: &quot;Day 2 15:40 had the agent read the public hours (Sat 11-19, Sun 11-17), the badge desk (Olympia Way foyer) and the deliveries entrance (Hall Road). Stage 2 fired right after that turn and silently reissued lrbf_exhibitor_timetable.pdf. Four later turns ask for those values or values derived from them.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T7&quot;,
+              &quot;quote&quot;: &quot;read me its public hours, when stands have to be staffed, and where badges and deliveries go.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s2_timetable&quot;,
+              &quot;quote&quot;: &quot;the fair&#x27;s reissued timetable of 17 November is saved over the copy of 2 November&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R20&quot;,
+              &quot;quote&quot;: &quot;every one of which names the Maclise Road loading bay.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R21&quot;,
+              &quot;quote&quot;: &quot;every one of which names the Guild desk at the Hammersmith Road entrance.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Drop one tier. R20, R21 and R24: 5 -&gt; 3 (importance -&gt; important). R16: 3 -&gt; 1.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The run&#x27;s Day 2 15:40 reply contains &#x27;Olympia Way foyer.&#x27;, &#x27;Hall Road entrance, Olympia.&#x27; and &#x27;Sunday 29 November: 11:00 to 17:00&#x27;. I viewed both timetable images. The verifier confirmed.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.5&quot;,
+          &quot;criteria&quot;: [
+            &quot;R25&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 2 09:05 stand extras price list read-out&quot;,
+            &quot;Day 6 09:10 extra lamp cost&quot;
+          ],
+          &quot;problem&quot;: &quot;Day 2 09:05 gave the rest of the price list (extra stand lamp GBP 40). Stage 5 silently reissued it in Documents and on Drive (lamp GBP 48). Day 6 09:10 asks the lamp price again.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T4&quot;,
+              &quot;quote&quot;: &quot;What would an extra socket for our stand cost? Give me the rest of the price list too.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage5/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s5_extras&quot;,
+              &quot;quote&quot;: &quot;the desk&#x27;s reissued price list of 20 November is saved over the copy of 2 November&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R25&quot;,
+              &quot;quote&quot;: &quot;The response, in its answer on an extra lamp for the stand, gives £48 as its cost.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Drop one tier. R25: 3 -&gt; 1 (importance stays important).&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;I viewed both price list images (GBP 40 vs GBP 48). The verifier confirmed the run&#x27;s read-out on Day 2 09:05 and its GBP 40 answer on Day 6 09:10.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Answer leakage for visual asks&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Swept every image-sourced criterion. The PDFs are image-only (no /Font, no text layer). The only text route found is R11.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C5.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R11&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 2 10:30 who is booked to see the Whale (viewings card)&quot;
+          ],
+          &quot;problem&quot;: &quot;The turn points Nicole to the viewings card picture, but readable seed text already says Mrs Archer is coming to see the Whale. The run used the calendar route.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;data/environment/google-calendar-api/events.json&quot;,
+              &quot;where&quot;: &quot;evt-035 summary&quot;,
+              &quot;quote&quot;: &quot;Henrietta Archer: Moby-Dick at the stand&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/environment/google-contacts-api/contacts.json&quot;,
+              &quot;where&quot;: &quot;Henrietta Archer biography&quot;,
+              &quot;quote&quot;: &quot;Collector, York; Melville. Coming to see the Whale at Olympia.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;VALUE_LOCK WHALE_VIEWER&quot;,
+              &quot;quote&quot;: &quot;WHALE_VIEWER = \&quot;Mrs Archer\&quot;  # type: graded-positive; datatype: name; anchor: row:google-calendar/events#evt-035.summary&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;Day 2 10:30 reply&quot;,
+              &quot;quote&quot;: &quot;Your calendar gives her full name as Henrietta Archer.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Rerun-class. Remove the book from the evt-035 summary (&#x27;Henrietta Archer at the stand&#x27;) and from evt-036 (&#x27;Alistair Pembury at the stand&#x27;), so Archer cannot be found by elimination. Drop &#x27;Coming to see the Whale at Olympia.&#x27; from the Archer contact biography. Remove the book mention from Pembury&#x27;s SMS (&#x27;Could I see the Gatsby at your stand?&#x27;) and from any Instagram DM naming Moby-Dick. Then re-anchor WHALE_VIEWER in TRUTH.md on image:data/home/Documents/stand_viewings.png.&quot;,
+          &quot;fix_class&quot;: &quot;rerun&quot;,
+          &quot;no_rerun_fallback&quot;: &quot;Keep R11 at score 1, mark it text-reachable in TRUTH.md, and leave it out of the vision share (as done here).&quot;,
+          &quot;severity&quot;: &quot;blocking&quot;,
+          &quot;verification&quot;: &quot;I opened events.json evt-035 and contacts.json line 6926 myself and found the run&#x27;s calendar-route sentence. The verifier confirmed both and noted an Instagram DM &#x27;Could I see the Moby-Dick there?&#x27; whose sender mapping it did not confirm.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume the expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Stages 1-5 have empty loud arrays. Their mutations are only filesystem reissues and silent admin patches (Drive auth, last_seen, Drive revision), and none depends on what the agent did. Turn premises (Thursday delivery, Sunday collection, Helen at the shop) hold on either file version.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;produced_artifact rows (R1, R4, R5, R8, R9, R33, R39) grade xlsx/png. state_change rows (R3, R7, R12, R13, R16-R24, R26, R28, R29) grade Drive/WhatsApp/Calendar. final_answer rows grade reply text. R30 grades the reply&#x27;s claim, with Drive state as its falsity condition.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;Process rubrics only when method asked&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;R2 (live page agrees) was asked for in T0 (&#x27;check the page I saved ... against the live one&#x27;) and is graded on the reply. R15/R38 apply SOUL.md &#x27;If your answer fits in one sentence, you give one sentence.&#x27; to the visible reply. No tool-log criteria.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH.md consistency&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Steps 1-25 cover T0-T19. Every graded VALUE_LOCK value matches its criterion and its source image at the right stage (checked the original + stage2/4/5 images). Minor unsourced &#x27;an hour for arrivals&#x27; in Step 7 does not affect any verdict.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;72/94 = 76.6% strict (generated london_post.png rows excluded because their content has a text route in london_notes.docx). 79/94 = 84.0% if they are counted. 67.6% strict after the item-4 tier-downs.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every document read in the run happened before its mutation fired. After stage2/4/5 the agent never reopened a changed file, so R12-R14 and R16-R25 failed on stale recall, not stale serving. Stage2 did land: Ben&#x27;s last_seen in the Day 3 08:45 contacts read is 2026-11-18T01:50:00Z. The xlsx and png match the verdicts for R1, R4, R5, R8, R9, R33 and R39.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;A grep of rubric.json for T&lt;n&gt;, &#x27;turn&#x27;, &#x27;first&#x27;, &#x27;previous&#x27; and &#x27;later&#x27; found none. The criteria anchor on topic and calendar dates only.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R7 (copy in Helen&#x27;s folder) and R30 (-5 false completion) are a double charge.&quot;,
+      &quot;why&quot;: &quot;R30 needs a false completion claim in the reply. Under the definition, a penalty for a false claim of completion grades a different behaviour. TRUTH lists R7 and R30 together as covering the stage1 auth lapse.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R14/R15 and R25/R38 double-charge the same reply.&quot;,
+      &quot;why&quot;: &quot;Both criteria in each pair are positives grading value vs one-sentence form. A one-sentence answer with the stale value passes R15/R38 and fails R14/R25, so they are independent.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R4 grades two books&#x27; crates in one criterion.&quot;,
+      &quot;why&quot;: &quot;It applies one rule. The confirmation says &#x27;Each high-value book travels in its own crate.&#x27;, TRUTH locks a single HV_CRATES value, and T1 asks how &#x27;the two of them are packed&#x27;.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R17 date+time and R22/R23 send-date condition are non-atomic.&quot;,
+      &quot;why&quot;: &quot;The date and time belong to one event. &#x27;on Friday 20 November&#x27; only scopes the messages sent after the stage4 reissue, and Day 5 is Fri 20 Nov.&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;TRUTH.md may disagree with criteria or images.&quot;,
+      &quot;why&quot;: &quot;Every value was checked against the original and inject images (for example stage2 timetable &#x27;Maclise Road loading bay&#x27; and stage4 &#x27;$18,500, in two crates&#x27; giving four crates). No disagreement and no missing turn.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;The run may show stale values served by the environment after mutations.&quot;,
+      &quot;why&quot;: &quot;No document was re-read after stage2/4/5. The tool calls after Day 3 08:45 are only WhatsApp and calendar. The failures come from the agent&#x27;s own recall.&quot;
+    },
+    {
+      &quot;item&quot;: 6,
+      &quot;claim&quot;: &quot;Scripted messages may presume an agent action.&quot;,
+      &quot;why&quot;: &quot;No loud or scripted messages exist in any stage, and the silent and filesystem ops are agent-independent.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 76.6,
+    &quot;vision_weight&quot;: 72,
+    &quot;positive_weight&quot;: 94,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/whitfield_london_confirmation.pdf (image-only)&quot;,
+        &quot;why&quot;: &quot;Each book &#x27;in a crate of its own&#x27; appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;Pictures/flight_holds.png&quot;,
+        &quot;why&quot;: &quot;TA 918 IAD 21:35 appears only in the image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/lrbf_exhibitors_dinner_invitation.pdf&quot;,
+        &quot;why&quot;: &quot;&#x27;one place&#x27; appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/lrbf_stand_extras_price_list.pdf&quot;,
+        &quot;why&quot;: &quot;Socket GBP 55 appears only on the page image (the Drive revision content is empty).&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/stand_viewings.png&quot;,
+        &quot;why&quot;: &quot;Sat 28 Nov 2.00 pm appears only on the card. The calendar entry is all-day.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/whitfield_london_confirmation.pdf&quot;,
+        &quot;why&quot;: &quot;Tuesday 24 November 11:00 appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/stand_viewings.png&quot;,
+        &quot;why&quot;: &quot;Sat 28 Nov 3.30 pm appears only on the card.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/lrbf_exhibitor_timetable.pdf + Pictures/walk_to_olympia.png&quot;,
+        &quot;why&quot;: &quot;Sat doors 10:00 and the 15 min walk appear only in the images.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/lrbf_exhibitors_dinner_invitation.pdf&quot;,
+        &quot;why&quot;: &quot;Friday 27 November 20:30 appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/lrbf_exhibitors_dinner_invitation.pdf&quot;,
+        &quot;why&quot;: &quot;Olympia Club Room appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/whitfield_london_confirmation.pdf&quot;,
+        &quot;why&quot;: &quot;17:00 to 19:00 appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/lrbf_exhibitor_timetable.pdf&quot;,
+        &quot;why&quot;: &quot;Maclise Road loading bay appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/lrbf_exhibitor_timetable.pdf&quot;,
+        &quot;why&quot;: &quot;Guild desk, Hammersmith Road entrance appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage4/files/whitfield_london_confirmation.pdf&quot;,
+        &quot;why&quot;: &quot;Stock &#x27;in two crates&#x27; (four in all) appears only on the page image. The Drive list&#x27;s &#x27;One crate&#x27; is a stale trap.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage4/files/whitfield_london_confirmation.pdf&quot;,
+        &quot;why&quot;: &quot;Return 20:00 appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/lrbf_exhibitor_timetable.pdf&quot;,
+        &quot;why&quot;: &quot;Sunday 11:00 to 16:00 appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage5/files/lrbf_stand_extras_price_list.pdf&quot;,
+        &quot;why&quot;: &quot;Lamp GBP 48 appears only on the page image. The Drive revision content is empty.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/whitfield_london_confirmation.pdf&quot;,
+        &quot;why&quot;: &quot;&#x27;via Washington Dulles&#x27; appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/lrbf_exhibitors_dinner_invitation.pdf&quot;,
+        &quot;why&quot;: &quot;&#x27;on request&#x27; appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/lrbf_exhibitor_timetable.pdf&quot;,
+        &quot;why&quot;: &quot;&#x27;from 08:00&#x27; appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R34&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/lrbf_stand_extras_price_list.pdf&quot;,
+        &quot;why&quot;: &quot;Lockable case GBP 120 appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R35&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/stand_viewings.png&quot;,
+        &quot;why&quot;: &quot;&#x27;agreed by phone - not in the calendar yet&#x27; appears only on the card.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R36&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/lrbf_exhibitor_timetable.pdf&quot;,
+        &quot;why&quot;: &quot;Friday 12:00 to 20:00 appears only on the page image.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R37&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/lrbf_exhibitor_timetable.pdf&quot;,
+        &quot;why&quot;: &quot;The staffing rule appears only on the page image.&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;why&quot;: &quot;Structural dual-time-zone check. The offset comes from the html page text.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;why&quot;: &quot;Text and web comparison of the clock-change page.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;why&quot;: &quot;Drive state.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;why&quot;: &quot;Drive state.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;why&quot;: &quot;Generated picture. The scene is given in the london_notes.docx text (counted as vision it would make 84.0%).&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;why&quot;: &quot;Generated picture. The line is given in the london_notes.docx text.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;why&quot;: &quot;Text route: calendar evt-035 summary and the Archer contact biography (see C5.1).&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;why&quot;: &quot;One-sentence form, not visual.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R38&quot;,
+        &quot;why&quot;: &quot;One-sentence form, not visual.&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R39&quot;,
+        &quot;why&quot;: &quot;Generated picture. Tower Bridge is given in the london_notes.docx text.&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;6 flags across items [4, 5]: item 4 has 5 design tier-downs (R12-R14, R16-R25), item 5 has 1 blocking leak (R11 via calendar/contacts text). Vision 76.6% strict (84.0% with generated picture rows).&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 pass (no A7 finding)&quot;,
+        &quot;QC_SUMMARY.md &#x27;Silent reissues ... intended silent-drift design&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R12&quot;,
+        &quot;R14&quot;
+      ],
+      &quot;neo_says&quot;: &quot;J1 passes; every |score|=5 row is critically_important. Silent stage-2 reissues are the intended design, so no tier-down (A7 needs a sign-off and none exists).&quot;,
+      &quot;checklist_says&quot;: &quot;T5 (Day 2 10:30) had the agent read out the whole viewings card (Archer Fri 27 Nov 3.00 pm, Pembury Sun 29 Nov 3.30 pm); stage 2 silently overwrote stand_viewings.png; T8 and T17 ask again at full weight. Tier down R12 5-&gt;3, R14 3-&gt;1.&quot;,
+      &quot;loop&quot;: &quot;A tier-down 5-&gt;3 without changing importance fails E3; it also lowers vision share (both are picture rows) and raises the score (both failed). No double-charge pair is involved, so the DL5 &#x27;keep side&#x27; clash does not arise.&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right. The guide (DL5) says to use the broader checklist rule as the bar, and tie-break rule 5 is the broad version: a turn put the value on record at the user&#x27;s request, a silent filesystem change hit it, a later turn asks again. neo-qc&#x27;s A7 is narrower (needs explicit sign-off), so its silence is a scope gap, not evidence against. Apply R12 5-&gt;3 with importance important, R14 3-&gt;1. Vision stays above 30%.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt T5 &#x27;Who&#x27;s booked to see the Whale at our stand? Read me the whole card too.&#x27;; TRUTH.md L139 &#x27;stage2 fs_s2_viewings (rewritten card ... firing T8): VIEW_ORIG / VIEW_MUTATED (R12), PEM_ORIG / PEM_MUTATED (R14)&#x27;; tier25 J1 evidence &#x27;every |score|=5 row is critically_important&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 pass&quot;,
+        &quot;QC_SUMMARY.md silent reissues dismissed&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.2&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R19&quot;,
+        &quot;R22&quot;,
+        &quot;R23&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No finding; the stage-2/4 confirmation reissues are intended silent drift.&quot;,
+      &quot;checklist_says&quot;: &quot;T1 (Day 1 10:40) read out the confirmation&#x27;s packing and schedule lines; stage 2 and stage 4 silently overwrote whitfield_london_confirmation.pdf; T9, T11, T15, T16 ask for the same lines. R13, R19, R23 5-&gt;3, R22 3-&gt;1.&quot;,
+      &quot;loop&quot;: &quot;Same as C4.1: importance must move with score (E3); vision and score shift.&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right under the broad rule (tie-break 5). The broad rule is not limited to the first stage after the read-out, so stage-4 rows R22/R23 qualify too. Apply R13/R19/R23 5-&gt;3 (important), R22 3-&gt;1.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt T1 &#x27;Then read me the confirmation&#x27;s packing and schedule lines.&#x27;; TRUTH.md L138 and L142 (fs_s2_confirmation R13/R19; fs_s4_confirmation R22/R23); TRUTH.md L7 lists the first-issue values as look-alikes.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 pass (R17/R18 split noted as atomic)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.3&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R18&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R17/R18 are a correct atomic split of &#x27;when and where&#x27;; no weight issue.&quot;,
+      &quot;checklist_says&quot;: &quot;T3 (Day 1 17:30) read out the invitation (Sat 28 Nov 19:30, Garden Room); stage 2 silently reissued it; T10 asks when and where. R17 5-&gt;3, R18 3-&gt;1.&quot;,
+      &quot;loop&quot;: &quot;E3 importance with the score change; no structure change, so the atomic split neo-qc praised is kept.&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right (broad rule). Lower the weights only; keep the wording and the split. R17 5-&gt;3 (important), R18 3-&gt;1.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt T3 &#x27;Read me the rest of the invitation too.&#x27;; TRUTH.md L141 fs_s2_invitation DINNER/VENUE (R17, R18).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 pass&quot;,
+        &quot;QC_SUMMARY.md silent reissues dismissed&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.4&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R16&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No finding; the stage-2 timetable reissue is intended silent drift.&quot;,
+      &quot;checklist_says&quot;: &quot;T7 (Day 2 15:40) read out the public hours, badge desk and deliveries entrance; stage 2 fired right after and silently reissued the timetable; T12, T13, T14, T18 ask for those values or values derived from them. R20, R21, R24 5-&gt;3, R16 3-&gt;1.&quot;,
+      &quot;loop&quot;: &quot;E3 importance with the score change; vision drop.&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right (broad rule; this is even the first stage after the read-out, so it would meet A7&#x27;s scope except for the &#x27;sign-off&#x27; wording). R20/R21/R24 5-&gt;3 (important), R16 3-&gt;1.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt T7 &#x27;read me its public hours, when stands have to be staffed, and where badges and deliveries go.&#x27;; TRUTH.md L140 fs_s2_timetable (R16, R20, R21, R24).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 pass&quot;,
+        &quot;extras.json notes (R25 counted as picture)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.5&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R25&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No finding; R25 is a sound picture criterion (Drive revision holds only the image-only PDF).&quot;,
+      &quot;checklist_says&quot;: &quot;T4 (Day 2 09:05) gave the rest of the price list (lamp GBP 40); stage 5 silently reissued it; T19 asks the lamp price. R25 3-&gt;1.&quot;,
+      &quot;loop&quot;: &quot;Lowers vision by one picture row; score rises (R25 failed).&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right (broad rule). R25 3-&gt;1, importance stays important. R38 (one-sentence form) is a separate behaviour and keeps 3.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt T4 &#x27;Give me the rest of the price list too.&#x27;; TRUTH.md L143-144 fs_s5_extras / s5-extras-drive (R25).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json (0 leak, 0 declared)&quot;,
+        &quot;extras.json &#x27;R11 (Mrs Archer also in calendar evt-035 summary)&#x27; excluded from vision&quot;,
+        &quot;TRUTH.md WHALE_VIEWER anchor row:google-calendar&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C5.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R11&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No leak: WHALE_VIEWER is locked on a text route (calendar evt-035 summary), one route per lock, and R11 is not counted as a picture criterion.&quot;,
+      &quot;checklist_says&quot;: &quot;Blocking leak: T5 points at the viewings card, but calendar evt-035 (&#x27;Henrietta Archer: Moby-Dick at the stand&#x27;) and the Archer contact biography give the answer as text. Rerun fix: strip the book from those texts and re-anchor on the picture; fallback: keep R11 at 1, text-reachable, out of vision.&quot;,
+      &quot;loop&quot;: &quot;Re-anchoring WHALE_VIEWER on image: while the calendar text remains fails E11 (declared_route) and J2 C-b; deleting the text without a rerun fails E8/E9 and checklist 11 (RR3).&quot;,
+      &quot;resolution&quot;: &quot;neo-qc is right on the verdict. Checklist 5 is about a fact graded from a picture; R11 is a declared text-route fact (TRUTH Step 10 and the lock anchor both name evt-035), weighs 1, and both tools already leave it out of vision. The checklist&#x27;s own no-rerun fallback is already the delivered state, so the flag does not survive as a defect. Optional: queue the data clean-up for the next rerun if the owner wants R11 to become a picture fact (+1 vision point); never rewrite the anchor alone.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md L71 &#x27;WHALE_VIEWER = \&quot;Mrs Archer\&quot; # type: graded-positive; ... anchor: row:google-calendar/events#evt-035.summary&#x27;; events.json L515 &#x27;Henrietta Archer: Moby-Dick at the stand&#x27;; contacts.json L6926 &#x27;Coming to see the Whale at Olympia.&#x27;; rubric R11 score 1.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;TB4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;M1&quot;,
+        &quot;truth_coverage.json lock_type_mismatch x2&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R4&quot;
+      ],
+      &quot;neo_says&quot;: &quot;BOOK_WHALE and BOOK_GATSBY are typed evidence although R4 names both titles; retype graded-positive.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent (item 9 PASS: every graded VALUE_LOCK value matches its criterion). It would not object to the retype.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Apply M1. TB4: graded-positive when the literal value is still in a criterion text, which is the case for R4. TRUTH-only, no score change.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md L50-51 &#x27;# type: evidence&#x27;; rubric R4 &#x27;puts each of the two travelling books, Moby-Dick and The Great Gatsby, in a crate of its own&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json (0 pairs)&quot;,
+        &quot;README house rule: false-completion negative is never a pair&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;rejected R7/R30&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R30&quot;,
+        &quot;R26&quot;,
+        &quot;R27&quot;,
+        &quot;R28&quot;,
+        &quot;R29&quot;
+      ],
+      &quot;neo_says&quot;: &quot;0 double-charge pairs; R7/R30 is a positive plus a false-completion penalty, not a pair.&quot;,
+      &quot;checklist_says&quot;: &quot;All five penalties can fire on their own; R7/R30 not a pair because R30 needs a false completion claim.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both agree under tie-break rule 3 (a penalty that can fire on its own is not a pair). No change.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json rejected[0]; QC_SUMMARY.md &#x27;Double charge: 0 pairs, 0 points&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json same-source groups (not findings)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;,
+        &quot;item 2 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R25&quot;,
+        &quot;R38&quot;,
+        &quot;R4&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R14/R15 and R25/R38 are value vs form, not pairs; R4 is one packing rule; R17/R18 atomic.&quot;,
+      &quot;checklist_says&quot;: &quot;Same: independent value/form pairs; R4 applies one rule; R17 date+time of one event.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. After the tier-downs R14=1/R15=3 and R25=1/R38=3 stay independent (a one-sentence stale answer passes R15/R38 and fails R14/R25).&quot;,
+      &quot;evidence&quot;: &quot;checklist.json rejected[1], rejected[2]; tier25 J1 evidence &#x27;R17/R18: dinner time and place split atomically&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E13 0 turn numbers&quot;,
+        &quot;extras.json turn_refs []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R22&quot;,
+        &quot;R23&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No criterion names a turn; R22/R23 anchor on &#x27;on Friday 20 November&#x27;.&quot;,
+      &quot;checklist_says&quot;: &quot;No turn numbers; criteria anchor on topic and calendar dates.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change. The weight-only plan does not touch wording, so no anchor is lost.&quot;,
+      &quot;evidence&quot;: &quot;rubric R22 &#x27;at least one WhatsApp message on Friday 20 November about how many crates are going over&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 76.6 (72/94)&quot;,
+        &quot;E15 73%&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R4&quot;,
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R10&quot;,
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R31&quot;,
+        &quot;R32&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R35&quot;,
+        &quot;R36&quot;,
+        &quot;R37&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision 72/94 = 76.6% (E15 73% counts R25 as text, overruled by the sub-agent).&quot;,
+      &quot;checklist_says&quot;: &quot;72/94 = 76.6% strict; 67.6% after the item-4 tier-downs.&quot;,
+      &quot;loop&quot;: &quot;Every tier-down in weight pass 1 hits a picture row, so vision falls 76.6 -&gt; 67.65%; still above 30%, so no swap is needed.&quot;,
+      &quot;resolution&quot;: &quot;Both agree on the 24 picture rows (dependency definition; R8/R9/R39 and R11 excluded for their text routes). Recomputed 67.65% after the plan.&quot;,
+      &quot;evidence&quot;: &quot;scratch/metrics.json before vision 72/94, after 46/68.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;score&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;QC_SUMMARY.md score 35.11&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R14&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Score 35.11; the low score comes from sound criteria the model missed.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent on score.&quot;,
+      &quot;loop&quot;: &quot;All 13 lowered rows failed in run_1, so the plan lifts the score 35.11 -&gt; 48.53.&quot;,
+      &quot;resolution&quot;: &quot;No score target is set, so no member swap is needed. Record the reason in TRUTH section 7 if the owner keeps one.&quot;,
+      &quot;evidence&quot;: &quot;report.json final_reward 35.11; scratch/metrics.json after 33/68 = 48.53.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Classify: C4.1-C4.5 and M1 are rubric/TRUTH only. C5.1&#x27;s data edits (drop the book from calendar evt-035/evt-036 summaries, the Archer contact biography, Pembury&#x27;s SMS and the Instagram DM naming Moby-Dick, then re-anchor WHALE_VIEWER on image:data/home/Documents/stand_viewings.png) are rerun-only and optional; put them in the rerun batch, do not patch half-way.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R11&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C5.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;Keep R11 at score 1 with WHALE_VIEWER anchored on row:google-calendar/events#evt-035.summary (already the case), out of the vision share. Do not add an image: anchor beside it (E11).&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;No change. Both tools agree every graded value matches its source image at the right stage; no &#x27;also accept&#x27; values are added, so DL8 does not apply.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;checklist item 9 PASS&quot;,
+        &quot;tier3_all_criteria agree 39&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure&quot;,
+      &quot;action&quot;: &quot;No split. R4, R17/R18, R22/R23 are atomic per both tools; keep wording.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R4&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R22&quot;,
+        &quot;R23&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;checklist item 2 PASS&quot;,
+        &quot;tier25 J1 pass&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route&quot;,
+      &quot;action&quot;: &quot;R11: no anchor rewrite (DL6). Leave WHALE_VIEWER as a single text route; the picture route only after the rerun-batch data edits.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R11&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C5.1&quot;,
+        &quot;visual_leaks.json&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;rubric.json: R12 score 5-&gt;3, importance critically_important-&gt;important; R14 score 3-&gt;1 (importance important). Wording unchanged. Mirror score/importance in report.json rubric rows.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R12&quot;,
+        &quot;R14&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -1.04,
+      &quot;score_delta&quot;: 1.56
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;rubric.json: R13 5-&gt;3, R19 5-&gt;3, R23 5-&gt;3 (each importance critically_important-&gt;important); R22 3-&gt;1 (important). Wording unchanged. Mirror in report.json.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R19&quot;,
+        &quot;R22&quot;,
+        &quot;R23&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.2&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -2.39,
+      &quot;score_delta&quot;: 3.58
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;rubric.json: R17 5-&gt;3 (importance -&gt; important); R18 3-&gt;1 (important). Mirror in report.json.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R18&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.3&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -1.38,
+      &quot;score_delta&quot;: 2.06
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;rubric.json: R20 5-&gt;3, R21 5-&gt;3, R24 5-&gt;3 (each importance -&gt; important); R16 3-&gt;1 (important). Mirror in report.json.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R16&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R24&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.4&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -3.22,
+      &quot;score_delta&quot;: 4.84
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;rubric.json: R25 3-&gt;1 (importance stays important). R38 stays 3. Mirror in report.json.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R25&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -0.92,
+      &quot;score_delta&quot;: 1.39
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;weight pass 2&quot;,
+      &quot;action&quot;: &quot;No double-charge reweight: neo-qc found 0 pairs and the checklist 0; the tier-downs create no new pair (R14/R15 and R25/R38 stay value vs form). Nothing is dropped, so no J4 question arises.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R25&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;double_charge.json&quot;,
+        &quot;checklist item 1 PASS&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 11,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute: vision 72/94 = 76.60% -&gt; 46/68 = 67.65% (&gt;= 30%, no swap); score 33/94 = 35.11 -&gt; 33/68 = 48.53 (no target). Write final_reward and rubric_weights_percentage 48.53 into report.json and update pass_summary.json to match.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C4.3&quot;,
+        &quot;C4.4&quot;,
+        &quot;C4.5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 12,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;No change: no turn numbers (E13 0, checklist 12 PASS), targets match (checklist 7 PASS), R2/R15/R38 are asked or persona outcomes graded on the reply (checklist 8 PASS, J1 A6).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R15&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;checklist items 7, 8, 12 PASS&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 13,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;TRUTH.md L50-51: retype BOOK_WHALE and BOOK_GATSBY to &#x27;# type: graded-positive; datatype: name; anchor: image:data/home/Documents/whitfield_london_confirmation.pdf#Packing; must-appear-in: [london_trip_plan.xlsx]; criteria: R4&#x27;. In Step 10 add &#x27;the calendar entry and Mrs Archer&#x27;s contact note also name her for the Whale&#x27; (states the text route, no grading or history words). No R-number changes, no E6 words (QC, renumbered, now weighted, checklist rule, run_1).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R4&quot;,
+        &quot;R11&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;M1&quot;,
+        &quot;C5.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 14,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E1/E3/E6/E8 for score math, importance and residue; Tier 2.5; TRUTH coverage; double charge) and the checklist agent with the shared tie-break rules, including the broad silent-after-read-out rule.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;M1&quot;,
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C4.3&quot;,
+        &quot;C4.4&quot;,
+        &quot;C4.5&quot;,
+        &quot;C5.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;Optional (C5.1): data/environment/google-calendar-api/events.json evt-035 summary -&gt; &#x27;Henrietta Archer at the stand&#x27;; evt-036 -&gt; &#x27;Alistair Pembury at the stand&#x27;&quot;,
+    &quot;Optional (C5.1): google-contacts-api/contacts.json Archer biography: drop &#x27;Coming to see the Whale at Olympia.&#x27;&quot;,
+    &quot;Optional (C5.1): phone-api/messages.json Pembury SMS and instagram-messages-api/messages.json DM: remove the book names&quot;,
+    &quot;Optional (C5.1), after the data edits and the rerun: re-anchor WHALE_VIEWER on image:data/home/Documents/stand_viewings.png and count R11 in vision&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 76.6,
+    &quot;vision_after&quot;: 67.65,
+    &quot;score_before&quot;: 35.11,
+    &quot;score_after&quot;: 48.53,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 5,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;Five checklist item-4 flags (C4.1-C4.5, silent change after a read-out, 13 criteria over-weighted) survive reconciliation; they are fixable by rubric/TRUTH weight edits without a rerun.&quot;,
+  &quot;summary&quot;: &quot;0 conflicts, 6 disagreements (5x DL5 checklist right, 1x DL6 neo-qc right), 4 agree, 2 one-sided (TB4, score); fix plan 14 steps (1 rerun, optional); vision 76.6-&gt;67.65%, score 35.11-&gt;48.53%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "nicole_campbell_eef30e5c-fa81-48b4-b99f-9929c33bce40", "slug": "nicole_campbell_eef30e5c", "tasker": "Nikhil Satyam", "authors": ["nikhil.satyam02", "nikhil.satyam02@ethara.ai"], "version": 1, "commit_sha": "f210adef01594658f324bd8bb024feaf19ac3db0", "base_sha": "b5f5b28ae69cbaa4738fcfb04a6d93cdbc79c8ee", "range": "b5f5b28ae..f210adef0", "change": "modified", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 5 flag(s); 0 conflicts, 6 disagreements (5x DL5 checklist right, 1x DL6 neo-qc right), 4 agree, 2 one-sided (TB4, score); fix plan 14 steps (1 rerun, optional); vision 76.6->67.65%, score 35.11->48.53%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 0 design / 0 grader / 1 minor (TRUTH lock type); score 35.11; T3 non-model 0 (15/15 failures model)", "checklist_flags": 5, "conflicts": 0, "vision_before": 76.6, "vision_after": 67.65, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 1, "attempt": 1, "qc_finished_at": "2026-11-26T10:30:34Z"}</script></body></html>
