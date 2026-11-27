@@ -1240,6 +1240,14 @@
     "started": "2026-11-26 06:04",
     "v": 4,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1745_a1",
+    "score": 61.25,
+    "started": "2026-11-27 12:15",
+    "v": 5,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "mohit/darius_norman_0dde888f-2854-4441-8876-c90b429e07f3": [
@@ -2355,5 +2363,5 @@
    }
   ]
  },
- "updated": "2026-11-27 12:26 UTC"
+ "updated": "2026-11-27 12:27 UTC"
 }
