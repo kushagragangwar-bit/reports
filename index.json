@@ -724,6 +724,14 @@
     "started": "2026-11-23 16:35",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1330_a1",
+    "score": 22.0,
+    "started": "2026-11-27 08:00",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/richard_allen_dc1f5eed-a453-49ca-a590-0baafd5affd5": [
@@ -2043,5 +2051,5 @@
    }
   ]
  },
- "updated": "2026-11-27 08:00 UTC"
+ "updated": "2026-11-27 08:10 UTC"
 }
