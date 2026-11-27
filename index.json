@@ -2044,6 +2044,14 @@
     "started": "2026-11-23 14:40",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1501_a1",
+    "score": 27.63,
+    "started": "2026-11-27 09:31",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "priyansh/andrew_pham_794b435f-f793-4fc3-9095-401e761d7deb": [
@@ -2259,5 +2267,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:40 UTC"
+ "updated": "2026-11-27 09:41 UTC"
 }
