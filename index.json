@@ -868,6 +868,14 @@
     "started": "2026-11-25 12:32",
     "v": 4,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1401_a1",
+    "score": 62.12,
+    "started": "2026-11-27 08:31",
+    "v": 5,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "mohit/aaron_delgado_9c289ef6-7baf-41e2-9376-07571d54f832": [
