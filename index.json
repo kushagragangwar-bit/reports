@@ -1414,6 +1414,14 @@
     "started": "2026-11-26 06:49",
     "v": 6,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1423_a1",
+    "score": 43.66,
+    "started": "2026-11-27 08:53",
+    "v": 7,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "mohit/john_smith_1d9b5eb1-263a-4b7e-ab4a-db57295b2f3b": [
@@ -2163,5 +2171,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:01 UTC"
+ "updated": "2026-11-27 09:02 UTC"
 }
