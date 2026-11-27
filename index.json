@@ -232,6 +232,14 @@
     "started": "2026-11-23 15:55",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1330_a1",
+    "score": 22.22,
+    "started": "2026-11-27 08:00",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/anthony_blair_2520bb51-a79d-4ad3-831c-7af0c5dfa830": [
@@ -2059,5 +2067,5 @@
    }
   ]
  },
- "updated": "2026-11-27 08:11 UTC"
+ "updated": "2026-11-27 08:12 UTC"
 }
