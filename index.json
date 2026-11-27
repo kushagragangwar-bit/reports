@@ -1618,6 +1618,14 @@
     "started": "2026-11-26 07:01",
     "v": 4,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1433_a1",
+    "score": 27.63,
+    "started": "2026-11-27 09:03",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/laura_jenkins_ff0bc357-fe16-45e7-96c1-05853126e5fa": [
@@ -2187,5 +2195,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:03 UTC"
+ "updated": "2026-11-27 09:12 UTC"
 }
