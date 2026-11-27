@@ -564,6 +564,14 @@
     "started": "2026-11-23 16:26",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1312_a1",
+    "score": 40.0,
+    "started": "2026-11-27 07:42",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "ayush/kerry_couch_444c1d8f-7818-4326-9c7b-402f404e680d": [
@@ -2035,5 +2043,5 @@
    }
   ]
  },
- "updated": "2026-11-27 07:55 UTC"
+ "updated": "2026-11-27 08:00 UTC"
 }
