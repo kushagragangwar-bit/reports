@@ -80,6 +80,16 @@
     "verdict": "ACCEPTABLE"
    }
   ],
+  "ashmi/edward_gordon_ad937a8b-59e7-4c85-866c-425df0708089": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1716_a1",
+    "score": 62.16,
+    "started": "2026-11-27 11:46",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
   "ashmi/jane_downs_0232341e-5c8e-48ec-842d-2717a466a576": [
    {
     "score": 44.74,
@@ -2321,5 +2331,5 @@
    }
   ]
  },
- "updated": "2026-11-27 11:57 UTC"
+ "updated": "2026-11-27 11:58 UTC"
 }
