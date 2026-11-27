@@ -42,6 +42,14 @@
     "started": "2026-11-26 13:15",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1233_a1",
+    "score": 17.07,
+    "started": "2026-11-27 07:03",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ashmi/jane_downs_0232341e-5c8e-48ec-842d-2717a466a576": [
@@ -1967,5 +1975,5 @@
    }
   ]
  },
- "updated": "2026-11-26 13:22 UTC"
+ "updated": "2026-11-27 07:12 UTC"
 }
