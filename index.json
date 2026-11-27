@@ -1742,6 +1742,14 @@
     "started": "2026-11-26 06:38",
     "v": 4,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1447_a1",
+    "score": 26.83,
+    "started": "2026-11-27 09:17",
+    "v": 5,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/matt_garcia_d053fc43-feaa-4794-88a3-0b153af7497e": [
@@ -2227,5 +2235,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:26 UTC"
+ "updated": "2026-11-27 09:27 UTC"
 }
