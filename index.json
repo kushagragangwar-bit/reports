@@ -1262,6 +1262,14 @@
     "started": "2026-11-27 08:40",
     "v": 3,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1511_a1",
+    "score": 28.57,
+    "started": "2026-11-27 09:41",
+    "v": 4,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/gabriela_vargas_b3a90077-e709-4341-944f-807015e47d82": [
@@ -2277,5 +2285,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:50 UTC"
+ "updated": "2026-11-27 09:53 UTC"
 }
