@@ -1,0 +1,1389 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v2: julie_brady_5fd30a3d (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>julie_brady_5fd30a3d-ba92-4f35-a032-685952e57d4a</code></span>
+<span><span class="k">Tasker</span>Anuj Mishra</span><span><span class="k">Version</span>v2</span>
+<span><span class="k">Commit</span><code>b564548d6</code> (modified, range <code>13448b2e5..b564548d6</code>)</span>
+<span><span class="k">QC finished</span>2026-11-27 11:04:30 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>7</span>
+<span><span class="k">Conflicts</span>2</span>
+<span><span class="k">Vision</span>69.44% → 55.88%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 7 flag(s); 2 conflicts (DL2, RR2), 6 agree, 2 one-sided (DL5, C2.1 split), 2 disagreements (DL1 settled for checklist, vision definition), fix plan 10 steps (1 rerun), vision 69.44-&gt;55.88%, score 61.11-&gt;66.18%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: julie_brady_5fd30a3d</h1>
+<p class="sub">obsidian-infinity-stage-1 13448b2e5..b564548d6 (modified)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>16</b><span>turns</span></div><div class="stat"><b>61</b><span>rubrics</span></div><div class="stat"><b>61.1</b><span>mean reference score %</span></div><div class="stat"><b>20/0/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>22/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>12/0/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>4/0/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>61/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 0 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 22 failed criteria across 1 task(s): <b>22 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 0 failure(s) and 0 warning(s). Tier 2.5 flagged 0 of 4 checks on 0 task(s); 0 pending. Tier 3 re-graded 61 criteria: 61 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 0 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending.</p>
+
+<h3>Issue log</h3><p class='muted'>No <code>issues.json</code> was supplied. Write one (see report_format.md) and re-run.</p>
+
+<h3>Checks</h3>
+
+
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-julie_brady_5fd30a3d-ba92-4f35-a032-685952e57d4a'><td>julie_brady_5fd30a3d-ba92-4f35-a032-685952e57d4a</td><td class='n'>16</td><td class='n'>61</td><td class='n'>61.11</td><td>20/0/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 22</td><td>12/0/0</td><td><span class="b b-ok">pass</span></td><td>61/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>7 flags across items [1, 2, 4, 6] (C1.1-C1.4 within-output cascades, C2.1 R6 date+time, C4.1 R18/R37/R38 3-&gt;1, C6.1 &#x27;draft is right&#x27; approvals); vision 69.4% (45.8% without mood board)</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag bad">FLAG</span></td><td>C1.1, C1.2, C1.3, C1.4</td><td>No positive/penalty pair (R47/R48/R49 fire on their own). Flagged: chains inside one output where a downstream criterion hard-codes an absolute value fixed by an upstream graded value in the same output, so one stale read is charged several times.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag bad">FLAG</span></td><td>C2.1</td><td>All 61 checked. R20, R46 and R53 each join parts of one fact. R6 bundles the event&#x27;s date and its time window, which can fail independently (the other events split them).</td></tr><tr><td>3</td><td>Turns name the file and the change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every file-graded turn names its target: the Shortlist tab of the Living room shortlist sheet (Mon 7:40 PM, Wed 8:15 PM, which also names &#x27;the curtain order draft&#x27;), sitting_room_moodboard.png, the order desks and the event titles. No vague &#x27;everywhere&#x27; asks.</td></tr><tr><td>4</td><td>Lower points after confirm + silent change</td><td><span class="qc-tag bad">FLAG</span></td><td>C4.1</td><td>Stages 3-7 only add new mail. Stages 1-2 silently rewrite the five term emails in place, with dates unchanged, right after the Monday 6:05 AM turn confirmed their old values.</td></tr><tr><td>5</td><td>No text leak of visual facts</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>I searched all seed data, persona, emails, inject text and filenames for the graded values (rug sizes/prices, band prices, Aso-oke, zone charge, Thursdays, van/rider hours, Mon-Sat, 232/248, totals). There were no hits outside the images. The stage-1 &#x27;Osupa is back in stock&#x27; text was rejected as a leak (see rejected).</td></tr><tr><td>6</td><td>Scripted messages assume expected path</td><td><span class="qc-tag bad">FLAG</span></td><td>C6.1</td><td>Stages 3-7 and turns T8/T9/T10/T12/T13 read correctly on any path. Two scripted approvals assert the draft is correct.</td></tr><tr><td>7</td><td>Evaluation target</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Replies are user_facing_message (R1-R5, R31, R32, R38, R45, R46, R51, R52). Sheet, emails and calendar are state_change. The mood board and filename are produced_artifact (R19-R27, R50).</td></tr><tr><td>8</td><td>No process rubrics unless asked</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>R47/R48 check send time against the user&#x27;s &#x27;show me the draft before it goes anywhere&#x27;. R49 checks the calendar end state. R53-R55, R58 and R59 check the layout the user asked for (&#x27;laid out the way the desk asks&#x27;). R14 checks the formula the user asked for.</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>TRUTH covers T0-T15 and R1-R61. All values recomputed from the images, emails and mutations match: Osupa; 170x250; 263 cm; ₦26,500; Aso-oke; ₦15,500; ₦443,500; ₦266,100; ₦547,500; ₦104,000; Thu Nov 18 10-2; Fri Nov 19 5-7. Stage times match the mutations.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>69.4% of positive weight (50/72) counting the produced mood-board checks; 45.8% without them; 43.1% if R7/R15 are also excluded. All above 30%.</td></tr><tr><td>11</td><td>Run vs environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The agent read msg-jb01..15 only at Mon 5:40 AM, before stage 1, and never re-read them. That is an agent miss, not an environment mismatch. Later reads (jb31/32/33/35/36), sheet read-backs and calendar results match. The report.json verdicts match the run and the mood board image (R23: main-window curtains stop short).</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>A grep for T&lt;n&gt;/turn finds nothing. Reply criteria anchor on unique day + time + topic.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C1.1"><div><strong>C1.1</strong> · item 1 One value penalized twice
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R7, R8, R10, R11, R12, R13, R30
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Mon 7:40 PM fill the Shortlist tab, Wed 8:15 PM six cushion covers</div>
+<p style="margin:.4rem 0">In the Shortlist sheet, R8 (rug 170x250) is fixed by the sofa width that R7 grades (long side &gt;= sofa width + 40). R11 (₦26,500) is the price band of the drop that R10 grades. R13 (₦266,100) and R30 (₦547,500) are absolute sums of the R7/R8/R11/R12 values. One stale sofa read fails R7+R8+R13+R30, and one stale rod read fails R10+R11+R30.</p><div class="ev"><span class="qc-k">rubric.json R8</span><code>The agent puts the 170 x 250 cm flat-weave rug on the Rug row of the Shortlist tab of the Living room shortlist sheet.</code></div><div class="ev"><span class="qc-k">rubric.json R11</span><code>The agent puts ₦26,500 as the price on the Curtains row of the Shortlist tab</code></div><div class="ev"><span class="qc-k">rubric.json R13</span><code>The agent leaves the Kora deposit row of the Shortlist tab of the Living room shortlist sheet at ₦266,100.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 4</span><code>whose long side is at least the sofa width plus 40 cm, 206 + 40 = 246 cm, the smallest that does it: the 170 x 250 cm flat-weave rug</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/report.json R8 / R11 / R13</span><code>The Rug row specifies a 200 x 260 cm flat-weave rug ... The Curtains row has a unit price of ₦23,000 ... yields ₦243,000 from ₦368,000 + ₦104,000 + ₦14,000</code></div>
+<div><span class="qc-k">Fix plan</span>Keep R7, R10, R12 and R29 as the graders of the mutated values, and reword the dependent criteria relative to values in the same tab. R8: &#x27;puts on the Rug row the smallest Kora flat-weave rug that fits the 230 x 320 cm rug space and whose long side is at least the width of the sofa on that tab&#x27;s Sofa row plus 40 cm.&#x27; R11: &#x27;puts as the Curtains-row price Ireti&#x27;s lined cream linen per-panel price for the drop band containing the drop on that row.&#x27; R13: &#x27;leaves the Kora deposit row at 60% of the sum of that tab&#x27;s Sofa, Rug and Kora delivery line totals&#x27; (still the sheet&#x27;s only grader of the 60% change). R30: &#x27;leaves the Total row equal to the sum of that tab&#x27;s five line totals.&#x27; Update the TRUTH Value Lock entries SH_RUG, SH_CURT_PRICE, SH_KDEP and SH_TOTAL. Golden values are unchanged.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The item-1 verifier confirmed K1/K2. I checked the rug sizes on Screenshot_20271104_203045.png and the drop bands on IMG_20271102_174233.jpg: with the Irawo (214 cm) the rug must be 200x260, and a 258 cm drop falls in the ₦23,000 band. report.json shows all of these failing together.</div></div><div class="qc-flag" id="C1.2"><div><strong>C1.2</strong> · item 1 One value penalized twice
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R15, R16, R17, R18
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Tue 12:30 PM send the sofa and rug order</div>
+<p style="margin:.4rem 0">In the sent Kora email, R16 (rug) is fixed by the sofa R15 grades, and R17 (₦443,500) and R18 (₦266,100, 3 pts) are absolute values summed from the same email&#x27;s items. One stale sofa read costs 1+1+1+3 = 6 points. Even with the correct 60%, R18 fails on a wrong sofa (60% x ₦486,000 = ₦291,600).</p><div class="ev"><span class="qc-k">rubric.json R17</span><code>The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives ₦443,500 as the order total.</code></div><div class="ev"><span class="qc-k">rubric.json R18</span><code>The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives ₦266,100 as the deposit.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/report.json R15 / R16 / R17 / R18</span><code>orders the Irawo 3-seater ... 200 x 260 cm ... ₦486,000 ... ₦243,000 deposit (50%)</code></div>
+<div><span class="qc-k">Fix plan</span>R16: &#x27;orders the smallest Kora flat-weave rug that fits the 230 x 320 cm rug space and whose long side is at least the width of the sofa ordered in that email plus 40 cm.&#x27; R17: &#x27;gives as the order total the sum of the piece prices and delivery charges listed in that email.&#x27; R18: &#x27;gives as the deposit 60% of the order total given in that email&#x27; (it stays the email&#x27;s 60% grader). R17 is currently the only email criterion that catches the ₦3,500 surcharge, so add one atomic positive (1 pt): &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives ₦3,500 as the fuel surcharge.&#x27; Update TRUTH KO_RUG, KO_TOTAL and KO_DEP and add the new value.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The item-1 verifier confirmed K3. I confirmed the sent Kora email text in output.json (&#x27;Order total: ₦486,000&#x27;, &#x27;Deposit ... ₦243,000&#x27;) and the R15-R18 failures in report.json.</div></div><div class="qc-flag" id="C1.3"><div><strong>C1.3</strong> · item 1 One value penalized twice
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R33, R34, R37
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Thu 12:30 PM send the curtain order</div>
+<p style="margin:.4rem 0">In the sent Ireti email, R34 (₦26,500 per panel) is the drop band of the drop R33 grades, and R37 (₦104,000, 3 pts) is the absolute sum of the same email&#x27;s quantity x price lines. One stale rod read (258 cm) costs 1+1+3 = 5 points; the cushion part was correct (R35/R36 pass).</p><div class="ev"><span class="qc-k">rubric.json R34</span><code>gives ₦26,500 as the price of each curtain panel.</code></div><div class="ev"><span class="qc-k">rubric.json R37</span><code>gives ₦104,000 as the order total.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/report.json R33 / R34 / R37</span><code>curtain drop of 258 cm ... prices each curtain panel at ₦23,000 ... order total of ₦97,000</code></div>
+<div><span class="qc-k">Fix plan</span>R34: &#x27;gives as the price of each curtain panel Ireti&#x27;s lined cream linen per-panel price for the drop band containing the curtain drop given in that email.&#x27; R37: &#x27;gives as the order total the sum of each item&#x27;s quantity times its price as listed in that email.&#x27; R33 and R36 stay as the graders of the 15 cm and six-cover values. Update TRUTH IR_PRICE and IR_TOTAL.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier found this in its sweep (S1). I checked ₦97,000 = 2 x 23,000 + 6 x 8,500 in output.json, so the only error is the drop already charged in R33.</div></div><div class="qc-flag" id="C1.4"><div><strong>C1.4</strong> · item 1 One value penalized twice
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R40, R41
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Fri 6:00 AM email Kevin the rundown</div>
+<p style="margin:.4rem 0">In Kevin&#x27;s email, R41 (₦266,100 paid before delivery) is an absolute 60% of the Kora total that R40 grades in the same email, so a wrong Kora total fails both.</p><div class="ev"><span class="qc-k">rubric.json R41</span><code>The agent&#x27;s Friday email to Kevin Brady gives ₦266,100 as what they pay Kora Living before it delivers.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/report.json R40 / R41</span><code>reports the Kora order as ₦486,000 ... gives the pre-delivery Kora deposit as ₦243,000 (50%)</code></div>
+<div><span class="qc-k">Fix plan</span>R41: &#x27;gives as what they pay Kora Living before it delivers 60% of the Kora Living order total given in that email.&#x27; Update TRUTH KV_DEP.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier found this in its sweep (S2). R41 is 1 pt, so the extra charge is small.</div></div><div class="qc-flag" id="C2.1"><div><strong>C2.1</strong> · item 2 Non-atomic rubrics
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R6
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Mon 12:35 PM Tejuosho market</div>
+<p style="margin:.4rem 0">R6 grades the date (Friday, November 12) and the time window (5:30-6:45 PM) together, although each can be wrong on its own. The rubric splits these for the other two events (R28/R60 and R39/R61).</p><div class="ev"><span class="qc-k">rubric.json R6</span><code>The agent puts an event for the Tejuosho market on Julie&#x27;s calendar from 5:30 to 6:45 PM on Friday, November 12.</code></div><div class="ev"><span class="qc-k">rubric.json R28 / R60</span><code>on Thursday, November 18. / from 10:00 AM to 2:00 PM, the van&#x27;s hours.</code></div>
+<div><span class="qc-k">Fix plan</span>Split into R6 &#x27;The agent puts an event for the Tejuosho market on Julie&#x27;s calendar on Friday, November 12.&#x27; (1 pt) and a new R62 &#x27;The agent puts the calendar event for the Tejuosho market from 5:30 to 6:45 PM.&#x27; (1 pt). Split TRUTH CAL_MARKET into a date entry and an hours entry.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The item-2 verifier returned MODIFIED (title not graded; date + time bundled). I agree.</div></div><div class="qc-flag" id="C4.1"><div><strong>C4.1</strong> · item 4 Lower points after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R18, R37, R38
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Mon 6:05 AM five quick ones, stage 1 (Mon 7:20 AM, between T1 and T2), stage 2 (Mon 3:20 PM)</div>
+<p style="margin:.4rem 0">The Monday 6:05 AM reply confirms ₦2,000, 50%, Osupa out of stock, 5th working day and 10 cm (graded R1-R5). Stage 1 (right after) and stage 2 then edit those same emails silently, with dates and snippets unchanged. Later turns depend on the new values, yet R18 (60% deposit), R37 (total from the 263 cm band) and R38 (Friday Nov 19 from the 7th working day) are still 3 points.</p><div class="ev"><span class="qc-k">inject/stage1/mutations.json applies_between_turns / msg-jb04</span><code>&quot;applies_between_turns&quot;: [&quot;T1&quot;, &quot;T2&quot;] ... From November 8, Kora confirms a furniture order on a 60% deposit.</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json msg-jb10</span><code>From November 8, with our end-of-year queue, custom-length curtains are ready on the 7th working day after the day you order.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json Mon 6:05 AM reply</span><code>Kora wants 50% paid before it confirms a furniture order ... the 5th working day after you order ... 10 cm above the top of the window frame</code></div><div class="ev"><span class="qc-k">rubric.json R18 / R37 / R38</span><code>score 3 each: ₦266,100 as the deposit / ₦104,000 as the order total / Friday, November 19 as the day the curtains arrive</code></div>
+<div><span class="qc-k">Fix plan</span>Lower R18, R37 and R38 from 3 to 1 (importance stays &#x27;important&#x27;). All other criteria that depend on stages 1 and 2 are already 1 pt.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The item-4 verifier confirmed K7. I re-read both mutation files and the run reply (output.json msg 32).</div></div><div class="qc-flag" id="C6.1"><div><strong>C6.1</strong> · item 6 Scripted messages assume expected path
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">needs rerun</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R15, R16, R17, R18, R33, R34, R37
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Tue 12:30 PM &#x27;The sofa and rug order draft is right. Send it.&#x27;, Thu 12:30 PM &#x27;The curtain order draft is right. Send it.&#x27;</div>
+<p style="margin:.4rem 0">Julie&#x27;s scripted line declares the draft &#x27;right&#x27; whatever it holds. In the run, both drafts were wrong (Irawo, ₦486,000; 258 cm, ₦97,000), Julie called them right, and the sent emails were then graded against TRUTH values.</p><div class="ev"><span class="qc-k">prompt.txt T5 (Day 2, 12:30)</span><code>The sofa and rug order draft is right. Send it.</code></div><div class="ev"><span class="qc-k">prompt.txt T11 (Day 4, 12:30)</span><code>The curtain order draft is right. Send it.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 6</span><code>Julie&#x27;s words at 12:30 PM are her go-ahead to send; the sent email is still checked against the terms as they stand after stage 1.</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json Tue 5:45 AM draft shown</span><code>Order total: ₦486,000</code></div>
+<div><span class="qc-k">Fix plan</span>Reword T5 to &#x27;Go ahead and send the sofa and rug order.&#x27; and T11 to &#x27;Go ahead and send the curtain order.&#x27; so the approval no longer vouches for the content.</div><div><span class="qc-k">No-rerun fallback</span>Re-anchor R15-R18 to &#x27;the Kora order draft shown on Tuesday 5:45 AM and sent at 12:30 PM&#x27;, and R33/R34/R37 to the Ireti draft as it stands after the Wednesday 8:15 PM six-cover change. Add a TRUTH note that Julie&#x27;s &#x27;right&#x27; is approval to send, not a statement that the values are correct.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The item-6 verifier confirmed K8. I confirmed the draft text in output.json. I did not adopt the verifier&#x27;s extra proposal to make R31/R40-R42 conditional on what was sent: those turns ask for the true amounts, and they are not scripted-path assumptions.</div></div>
+<h3>Vision share <span class="qc-tag ok">69.4%</span></h3>
+<p>50 of 72 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R7</td><td>1</td><td>Pictures/Screenshot_20271104_202316.png; Pictures/IMG_20271106_103412.jpg</td><td>sofa listing screenshot + sketch wall width</td></tr><tr><td>R8</td><td>1</td><td>Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271106_103412.jpg</td><td>rug screenshot + sketch rug space</td></tr><tr><td>R9</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>Ireti price list + notes photo</td></tr><tr><td>R10</td><td>1</td><td>Pictures/IMG_20271106_103412.jpg</td><td>248 cm only on sketch</td></tr><tr><td>R11</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>band price only on price list</td></tr><tr><td>R12</td><td>1</td><td>Pictures/IMG_20271030_161508.jpg</td><td>zone-2 ₦12,000 only on delivery card</td></tr><tr><td>R13</td><td>1</td><td>Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg</td><td>prices from screenshots/card</td></tr><tr><td>R15</td><td>1</td><td>Pictures/Screenshot_20271104_202316.png; Pictures/IMG_20271106_103412.jpg</td><td>sofa screenshot + sketch</td></tr><tr><td>R16</td><td>1</td><td>Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271106_103412.jpg</td><td>rug screenshot</td></tr><tr><td>R17</td><td>1</td><td>Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg</td><td>prices from screenshots/card</td></tr><tr><td>R18</td><td>3</td><td>Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg</td><td>prices from screenshots/card</td></tr><tr><td>R19</td><td>3</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R20</td><td>3</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R21</td><td>3</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R22</td><td>1</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R23</td><td>1</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R24</td><td>1</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R25</td><td>3</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R26</td><td>1</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R27</td><td>1</td><td>trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png</td><td>produced mood board image</td></tr><tr><td>R28</td><td>1</td><td>Pictures/IMG_20271030_161508.jpg</td><td>Thursday zone day only on delivery card</td></tr><tr><td>R30</td><td>1</td><td>Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg</td><td>all prices from images</td></tr><tr><td>R31</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>band + cover prices from price list</td></tr><tr><td>R33</td><td>1</td><td>Pictures/IMG_20271106_103412.jpg</td><td>248 cm from sketch</td></tr><tr><td>R34</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>band price from price list</td></tr><tr><td>R35</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>cover name only on price list</td></tr><tr><td>R37</td><td>3</td><td>Pictures/IMG_20271102_174233.jpg</td><td>prices from price list</td></tr><tr><td>R38</td><td>3</td><td>Pictures/IMG_20271102_174233.jpg</td><td>Mon-Sat working days only on price list</td></tr><tr><td>R39</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>Mon-Sat working days only on price list</td></tr><tr><td>R40</td><td>1</td><td>Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg</td><td>prices from images</td></tr><tr><td>R41</td><td>1</td><td>Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg</td><td>prices from images</td></tr><tr><td>R42</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>prices from price list</td></tr><tr><td>R43</td><td>1</td><td>Pictures/IMG_20271030_161508.jpg</td><td>delivery card day rule</td></tr><tr><td>R44</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>Mon-Sat working days only on price list</td></tr><tr><td>R60</td><td>1</td><td>Pictures/IMG_20271030_161508.jpg</td><td>van hours only on delivery card</td></tr><tr><td>R61</td><td>1</td><td>Pictures/IMG_20271102_174233.jpg</td><td>rider window only on price list</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (6)</summary><ul><li>item 1: R47/R48/R49 penalties pair with positives (R51/R52, calendar criteria) <span class='qc-k'>dismissed:</span>Each penalty can fire while the positives pass (show the draft but send early; correct event but Kevin added). They grade a different behaviour.</li><li>item 1: Same values repeated across outputs (R7/R15, R13/R18/R41, R31/R37/R42, R28/R43, R39/R44, R38/R39, R29/R36) are double charges <span class='qc-k'>dismissed:</span>Different outputs that no turn derives from one another. R38/R39 are coupled by the Thu 7:30 PM turn but sit in different outputs with R39 already at 1 pt, so no allowed fix remains.</li><li>item 1: R32 cascades from R31 <span class='qc-k'>dismissed:</span>report.json: R31 failed (₦97,000) while R32 passed; both seed and true totals exceed ₦80,000.</li><li>item 2: R20 &#x27;sage green and terracotta&#x27;, R46 &#x27;Saturday, December 11 at 4:00 PM&#x27;, R53 &#x27;zone charge and fuel surcharge as separate charges&#x27; are non-atomic <span class='qc-k'>dismissed:</span>Each is one fact: a two-colour palette asked as one, a single lookup time from msg-jb33, and one layout property (itemised vs lumped).</li><li>item 5: Stage-1 msg-jb13 text &#x27;the Irawo 3-seater is out of stock until February, and the Osupa is back in stock&#x27; leaks R7/R15 <span class='qc-k'>dismissed:</span>The text gives stock status, not the pick. Choosing the Osupa still needs the sofa screenshot (widths, fabrics, covers, the other three sofas) and the sketch&#x27;s 232 cm wall. Vision passes even if R7/R15 are excluded (43.1%).</li><li>item 6: R31 and R40-R42 should be conditional on the amounts actually drafted or sent <span class='qc-k'>dismissed:</span>The Thu 6:00 AM and Fri 6:00 AM turns ask for the real amounts and do not script an assumed path. That concern is a cascade, already covered by item 1 and the C6.1 fallback.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>2 conflicts (DL2, RR2), 6 agree, 2 one-sided (DL5, C2.1 split), 2 disagreements (DL1 settled for checklist, vision definition), fix plan 10 steps (1 rerun), vision 69.44-&gt;55.88%, score 61.11-&gt;66.18%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">69.44% → 55.88%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">61.11% → 66.18%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>DL2</td><td>E4_truth_refs (graded lock values must appear in a criterion), truth_coverage lock_type_mismatch, J1 A3</td><td>C1.1, C1.2, C1.3, C1.4</td><td>R8, R11, R13, R30, R16, R17, R18, R34, R37, R41</td><td><div><span class=qc-k>neo-qc</span>E4 warns when a graded-positive TRUTH lock value appears in no criterion. A3 calls grading file A by a value in file B compound. Retyping the lock to &#x27;evidence&#x27; gives lock_type_mismatch.</div><div><span class=qc-k>checklist</span>Reword the dependents relative to values in the same tab or email, so the literal values 170 x 250, ₦26,500, ₦266,100, ₦547,500 and ₦104,000 (in R37) leave those criteria.</div><div><span class=qc-k>loop</span>The relative reword removes the literals, so E4 warns on SH_RUG/KO_RUG, SH_CURT_PRICE/IR_PRICE, SH_KDEP/KO_DEP/KV_DEP and SH_TOTAL. Typing those locks &#x27;evidence&#x27; then trips TRUTH coverage lock_type_mismatch. Putting the literal back restores the checklist C1 flag.</div><div><span class=qc-k>resolution</span>Every relative reference stays inside one output (tab, Kora email, Ireti email, Kevin email), so A3 does not fire. Retype the affected locks to &#x27;checkpoint&#x27; (E4 GRADED_KINDS and TRUTH coverage both accept it). KO_TOTAL and IR_TOTAL also go to checkpoint: their own criteria lose the literal, even though R40 and R31/R42 still carry it. R17 was the Kora email&#x27;s only check on the stage-1 ₦3,500 surcharge, so add one atomic R63 (1 pt) to keep mutation coverage (J3/E5).</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>RR2</td><td>E8 allowed-change set, integrity gate turn-delivery (TURN_MATCH_CHARS=120), extras.json unconditional_scripted_messages: []</td><td>C6.1</td><td>R15, R16, R17, R18, R33, R34, R37</td><td><div><span class=qc-k>neo-qc</span>No unconditional scripted message: T5/T11 assume drafts that existed, so their premises held. Any prompt.txt edit without a rerun fails E8, and an edit inside the first 120 characters of a turn makes the integrity gate read the turn as never sent (HARD).</div><div><span class=qc-k>checklist</span>&#x27;The sofa and rug order draft is right. Send it.&#x27; and &#x27;The curtain order draft is right. Send it.&#x27; vouch for the draft&#x27;s content on any path. In the run both drafts were wrong, and the sent emails were still graded against TRUTH. Reword T5/T11 to a plain go-ahead.</div><div><span class=qc-k>loop</span>Rewording T5/T11 in prompt.txt fails E8 and HARDs the integrity gate, because both turns are under 120 characters. Leaving the prompt as it is keeps checklist item 6 flagged.</div><div><span class=qc-k>resolution</span>On substance the checklist is right. neo-qc checked only that the drafts existed, not that &#x27;right&#x27; asserts the content is correct. The fix is rerun-only (rule 12): queue the T5/T11 rewording. No-rerun fallback: keep R15-R18 and R33/R34/R37 on the sent email (the state_change target, no DL9 branch). TRUTH Step 6 and Step 12 already say &#x27;Julie&#x27;s words at 12:30 PM are her go-ahead to send; the sent email is still checked against the terms&#x27;. The flag stays open until the rerun.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL1</td><td>double_charge.json chains (R12-&gt;R13/R17/R18/R30/R40/R41; R10-&gt;R11/R30/R33/R34/R37; R13-&gt;R18/R41; R7-&gt;R8/R15/R16/R17), double_charge.json pairs: []</td><td>C1.1, C1.2, C1.3, C1.4</td><td>R7, R8, R10, R11, R12, R13, R30, R15, R16, R17, R18, R33, R34, R37, R40, R41</td><td><div><span class=qc-k>neo-qc</span>No pairs: the chains are only recorded, because each dependent criterion has inputs of its own and &#x27;none can only fail with R12&#x27;.</div><div><span class=qc-k>checklist</span>Inside one output, downstream criteria hard-code absolute values that an upstream graded value fixes, so one stale read is charged several times (sofa: R7+R8+R13+R30; rod: R10+R11+R30; Kora email: R15-R18 = 6 pts; Ireti email: R33+R34+R37 = 5 pts; Kevin email: R40+R41).</div><div><span class=qc-k>resolution</span>The checklist is right. Tie-break rule 4 says a chain is NOT a pair only when its downstream criteria are worded relative. These are absolute values, which is the DL1 rent/total case: one wrong input fails the input criterion and the absolute derived total in the same output. neo-qc&#x27;s &#x27;has other inputs too&#x27; test is not in the shared rules. Fix with same-output relative wording (rule 1/2), never by merging. Cross-output repeats (R7/R15, R13/R18/R41) stay unpaired: both tools agree on that, per rule 4.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>vision</td><td>E15 vision share pass, extras.json vision_pct 47.22 (34/72)</td><td>item 10 (PASS, 69.4% = 50/72)</td><td>R19, R20, R21, R22, R23, R24, R25, R26, R27, R32</td><td><div><span class=qc-k>neo-qc</span>47.22%: counts only input-picture rows. It excludes the produced mood board R19-R27 and includes R32.</div><div><span class=qc-k>checklist</span>69.4%: counts the produced mood board, which can only be graded from the image, and excludes R32, because any plausible total clears ₦80,000.</div><div><span class=qc-k>resolution</span>Tie-break rule 10 uses &#x27;no text route&#x27;, so the mood-board rows count (the grader can only read the image). R32 does not count: its yes/no answer is fixed by the persona&#x27;s ₦80,000 line. The checklist definition is used as primary: 69.44% before, 55.88% after. On the strictest reading (input pictures only, no R32) the share goes from 45.83% to 30.88%, so every reading stays at or above 30%.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL5</td><td>J1 A7 pass (audit_report_tier25.json), QC_SUMMARY dismissed lead &#x27;Silent edits of old emails&#x27;</td><td>C4.1</td><td>R18, R37, R38</td><td><div><span class=qc-k>neo-qc</span>Silent. J1 passes. neo-qc treats the in-place stage 1/2 edits as fleet drift and the misses as model misses, and asks for no weight change.</div><div><span class=qc-k>checklist</span>The Monday 6:05 AM reply confirms 50%, 10 cm and the 5th working day (R2/R4/R5). Stages 1-2 then silently rewrite those emails with the dates unchanged, and later turns ask for these values again, so R18, R37 and R38 drop from 3 to 1.</div><div><span class=qc-k>resolution</span>The checklist stands. The DL5 warnline says to use the broader checklist rule as the bar, and tie-break rule 5 is met: a turn confirms a value, a silent change hits it, and a later turn asks again. Lower all three to 1 with importance staying &#x27;important&#x27; (E3: critically_important only at |score| 5), so neo-qc has nothing to object to. None of them is in a double-charge pair, so there is no member choice. Vision drops (all three are picture rows) but stays above 30%.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>J1 A3 pass (audit_report_tier25.json)</td><td>C2.1</td><td>R6</td><td><div><span class=qc-k>neo-qc</span>Silent on R6. J1&#x27;s own evidence endorses the same date/hours split for R28/R60 and R39/R61 (&#x27;can be wrong independently&#x27;).</div><div><span class=qc-k>checklist</span>R6 bundles the date (Fri Nov 12) and the time window (5:30-6:45 PM), which can fail independently. Split it.</div><div><span class=qc-k>resolution</span>The checklist is right, and neo-qc would not object, because the split matches its A3 reasoning for R28/R60. Split into R6 (date) and a new R62 (hours), both 1 pt and state_change. The two halves are different facts, so this creates no pair. TRUTH CAL_MARKET splits into two graded-positive locks.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json &#x27;penalties R47-R49 can fire on their own&#x27;</td><td>item 1 rejected: R47/R48/R49</td><td>R47, R48, R49</td><td><div><span class=qc-k>neo-qc</span>The penalties are not pairs: they can fire on their own.</div><div><span class=qc-k>checklist</span>Rejected as pairs: each can fire while the positives pass.</div><div><span class=qc-k>resolution</span>No edit. Each penalty grades a separate behaviour (rule 3).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>visual_leaks.json candidates [], E11 info, Tier 2 C pass</td><td>item 5 PASS</td><td>R7, R15</td><td><div><span class=qc-k>neo-qc</span>No leak candidates. msg-jb13 names Osupa only as back in stock, and the pick still needs the screenshot widths.</div><div><span class=qc-k>checklist</span>No text leak. The stage-1 msg-jb13 claim was rejected for the same reason.</div><div><span class=qc-k>resolution</span>No visual-route edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>extras.json turn_refs []</td><td>item 12 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No T-numbers. Criteria anchor on weekday + clock time.</div><div><span class=qc-k>checklist</span>No turn numbers. Anchors are unique day + time + topic.</div><div><span class=qc-k>resolution</span>New R62/R63 wording follows the same day+clock+topic anchors.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL10</td><td>J1 pass</td><td>item 8 PASS</td><td>R47, R48, R51, R52, R53, R54, R55, R58, R59</td><td><div><span class=qc-k>neo-qc</span>Layout and draft-first criteria come from turn asks (msg-jb06/jb08 &#x27;laid out the way the desk asks&#x27;).</div><div><span class=qc-k>checklist</span>The user asked for the draft-first method and the desk layout, and R47/R48 grade the send-time end state.</div><div><span class=qc-k>resolution</span>No edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>TB2</td><td>truth_coverage.json gaps []</td><td>item 9 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>All 61 criteria and 16 turns are covered, with no &#x27;not graded&#x27; labels.</div><div><span class=qc-k>checklist</span>TRUTH covers T0-T15 and R1-R61, and the values recompute.</div><div><span class=qc-k>resolution</span>Keep it that way in the TRUTH sync (step 9).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR4</td><td>E9 pass, E8 only allowed files changed</td><td>item 11 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>The run matches the inject. The 5 unread are the in-place patches.</div><div><span class=qc-k>checklist</span>The agent read msg-jb01..15 only before stage 1. That is an agent miss, not an environment mismatch.</div><div><span class=qc-k>resolution</span>No data or inject edit in this plan, except the queued T5/T11 prompt rewording.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Put C6.1 (reword T5 to &#x27;Go ahead and send the sofa and rug order.&#x27; and T11 to &#x27;Go ahead and send the curtain order.&#x27;) in the rerun batch and do not touch prompt.txt now. Every other item is rubric.json/TRUTH.md only.<div><span class=qc-k>no-rerun fallback</span>Keep the criteria on the sent emails (state_change). TRUTH Step 6/Step 12 already say Julie&#x27;s 12:30 PM words are the go-ahead to send and the sent email is checked against the current terms. The flag stays open until the rerun.</div></td><td>R15, R16, R17, R18, R33, R34, R37</td><td>C6.1, E8, integrity gate</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>No value changes. All golden values hold (Osupa, 170 x 250, 263 cm, ₦26,500, ₦15,500, ₦443,500, ₦266,100, ₦547,500, ₦104,000, Thu Nov 18, Fri Nov 19). No &#x27;also accept&#x27; values are added, so DL8 does not apply.</td><td></td><td>checklist item 9, truth_coverage</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>structure (split compound criteria)</td><td>Split R6. R6 becomes &#x27;The agent puts an event for the Tejuosho market on Julie&#x27;s calendar on Friday, November 12.&#x27; (1, important, state_change). Append R62 &#x27;The agent puts the calendar event for the Tejuosho market from 5:30 to 6:45 PM.&#x27; (1, important, state_change, factuality). Append rather than renumber.</td><td>R6, R62</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-0.95</td><td>0.53</td></tr><tr><td>4</td><td>visual route (DL6)</td><td>No edit. Both tools find no text leak (visual_leaks candidates [], checklist item 5 PASS). Do not re-anchor any lock.</td><td></td><td>visual_leaks.json, checklist item 5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1 (silent change after sign-off)</td><td>R18 3-&gt;1, R37 3-&gt;1, R38 3-&gt;1. Importance stays &#x27;important&#x27; (E3: critically_important only at |score| 5). The wording is unchanged in this step.</td><td>R18, R37, R38</td><td>C4.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-2.82</td><td>5.52</td></tr><tr><td>6</td><td>weight pass 2 (double charge)</td><td>Same-output relative wording (rules 1-2, no merge, no drop). R8: &#x27;The agent puts on the Rug row of the Shortlist tab of the Living room shortlist sheet the smallest Kora flat-weave rug that fits the 230 x 320 cm rug space and whose long side is at least the width of the sofa on that tab&#x27;s Sofa row plus 40 cm.&#x27; R11: &#x27;The agent puts as the price on the Curtains row of the Shortlist tab Ireti&#x27;s lined cream linen per-panel price for the drop band that contains the drop on that row.&#x27; R13: &#x27;The agent leaves the Kora deposit row of the Shortlist tab at 60% of the sum of that tab&#x27;s Sofa, Rug and Kora delivery line totals.&#x27; R30: &#x27;After Julie&#x27;s Wednesday 8:15 PM six-cover change, the agent leaves the Total row of the Shortlist tab equal to the sum of that tab&#x27;s Sofa, Rug, Curtains, Cushion covers and Kora delivery line totals.&#x27; R16: &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk orders the smallest Kora flat-weave rug that fits the 230 x 320 cm rug space and whose long side is at least the width of the sofa ordered in that email plus 40 cm.&#x27; R17: &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives as the order total the sum of the piece prices and delivery charges listed in that email.&#x27; R18 (1): &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives as the deposit 60% of the order total given in that email.&#x27; R34: &#x27;The agent&#x27;s Thursday order email to Ireti Drapes &amp; Linens&#x27; order desk gives as the price of each curtain panel Ireti&#x27;s lined cream linen per-panel price for the drop band that contains the curtain drop given in that email.&#x27; R37 (1): &#x27;The agent&#x27;s Thursday order email to Ireti Drapes &amp; Linens&#x27; order desk gives as the order total the sum of each item&#x27;s quantity times its price as listed in that email.&#x27; R41: &#x27;The agent&#x27;s Friday email to Kevin Brady gives as what they pay Kora Living before it delivers 60% of the Kora Living order total given in that email.&#x27; Append R63 &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives ₦3,500 as the fuel surcharge.&#x27; (1, important, state_change) to keep the email&#x27;s stage-1 surcharge check. Keep R7, R10, R12, R15, R33 and R40 literal as the input graders. Cross-output repeats are left alone (rule 4).</td><td>R8, R11, R13, R30, R16, R17, R18, R34, R37, R41, R63</td><td>C1.1, C1.2, C1.3, C1.4, double_charge.json chains, E4</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-9.79</td><td>-0.98</td></tr><tr><td>7</td><td>recompute vision % and score</td><td>Recompute with scratch/metrics.py. Vision 69.44% -&gt; 55.88% (strict input-picture reading 45.83% -&gt; 30.88%; neo E15 reading 47.22% -&gt; 32.35%), all &gt;= 30%. Score 61.11% -&gt; 66.18%, and no score target is set. No member swap is needed. Do not undo steps 3-6.</td><td></td><td>checklist item 10, E15</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>turn anchors, targets, process wording</td><td>Check that new and reworded criteria carry no T-numbers and anchor on day + clock + topic (&#x27;Tuesday order email&#x27;, &#x27;Wednesday 8:15 PM six-cover change&#x27;). Targets: R62/R63 and all reworded rows are state_change (one target each, no reply branch, so no DL9 issue). No process wording is added (DL10).</td><td>R8, R11, R13, R16, R17, R18, R30, R34, R37, R41, R62, R63</td><td>checklist items 7, 8, 12, J1 A4/A5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>TRUTH.md sync (TB1-TB4)</td><td>Section 3. Split CAL_MARKET into CAL_MARKET_DATE = &#x27;Friday, November 12&#x27; (criteria: R6) and CAL_MARKET_HOURS = &#x27;from 5:30 to 6:45 PM&#x27; (criteria: R62), both graded-positive. Retype SH_RUG, SH_CURT_PRICE, SH_KDEP, SH_TOTAL, KO_RUG, KO_TOTAL, KO_DEP, IR_PRICE, IR_TOTAL and KV_DEP to &#x27;type: checkpoint&#x27; (TB4, not &#x27;evidence&#x27;). Add KO_FUEL = &#x27;₦3,500&#x27; graded-positive, criteria: R63. Section 2: Step 3 cites (R6) for the date and (R62) for the hours; Step 6 adds &#x27;the fuel surcharge ₦3,500 (R63)&#x27;. Do not use renumbered/QC/run_1/&#x27;not graded&#x27;/&#x27;now weighted&#x27; wording (E6). Old R-numbers stay valid because nothing is renumbered.</td><td>R6, R62, R63, R8, R11, R13, R16, R17, R18, R30, R34, R37, R41</td><td>C1.1, C1.2, C1.3, C1.4, C2.1, E4, E6, truth_coverage</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E3/E4/E6/E10, Tier 2.5, TRUTH coverage, double charge) and the checklist agent with the shared tie-break rules. Regrade the reworded rows: under the new wording R8, R11, R16, R17, R30, R34 and R37 would likely pass on run_1 (score about 76.5%). Then do the queued T5/T11 rerun.</td><td></td><td>all</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>prompt.txt T5: &#x27;The sofa and rug order draft is right. Send it.&#x27; -&gt; &#x27;Go ahead and send the sofa and rug order.&#x27;</li><li>prompt.txt T11: &#x27;The curtain order draft is right. Send it.&#x27; -&gt; &#x27;Go ahead and send the curtain order.&#x27;</li></ul>
+<p class="qc-k">Verdict: NOT ACCEPTABLE, neo-qc is ACCEPTABLE, but all 7 checklist flags (C1.1-C1.4, C2.1, C4.1, C6.1) survive reconciliation and need rubric/TRUTH edits plus one rerun item. Vision after the plan is 55.88% (strict 30.88%).</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: julie_brady_5fd30a3d (modified 13448b2e5..b564548d6)</h3>
+<p><strong>Verdict: ACCEPTABLE.</strong> There are 0 kept issues (0 blocking, 0 design, 0 grader, 0 minor). Nothing blocks delivery. <strong>Score:</strong> run_1 61.11 (1 run, claude-opus-5.5). The baseline scored 60.29; the rubric split added 4 criteria.</p>
+<h4>Tier counts</h4>
+<ul>
+<li><strong>Step 0 gate:</strong> exit 0. No HARD findings and 1 informational line (Dockerfile, skills and mock modules all verified).</li>
+<li><strong>Tier 1:</strong> 20 pass, 0 warn, 0 fail, 5 skip.</li>
+<li><strong>Tier 1.5:</strong> 12 pass and 3 info (E5, E11, E12), with 0 warn and 0 fail.</li>
+<li>E5 info: 3 decoy mutations in stage 1 carry no criterion, which is fine.</li>
+<li>E8: only <code>rubric.json</code>, <code>TRUTH.md</code>, <code>pass_summary.json</code> and <code>report.json</code> changed. All four are allowed.</li>
+<li>E9 pass, so no hand-check was needed. E15 vision share pass.</li>
+<li><strong>Tier 2 (multi-turn):</strong> A, B, C, D and N3 all pass. No answer leak, and the drift values are not disclosed early.</li>
+<li><strong>Tier 2.5:</strong> J1-J4 all pass.</li>
+<li>The changes split R28/R39/R54/R55 into new criteria R58-R61 and reword R53. Nothing was dropped.</li>
+<li>Each new pair grades independent facts. In the run, R61 passed while R39 failed.</li>
+<li><strong>TRUTH coverage:</strong> 61 criteria, 16 turns and 2 outputs checked, with 0 gaps.</li>
+<li><strong>Visual leaks:</strong> not run because E11 is info. The sidecar has an empty candidates list.</li>
+<li><strong>Double charge:</strong> 0 pairs and 0 points. 7 chains were recorded.</li>
+<li>The penalties R47-R49 can fire on their own.</li>
+<li>R38/R39 share the date, but R39 already weighs 1.</li>
+<li><strong>Tier 3 attribution:</strong> 22 failures, all <code>model</code> (high confidence). 0 rubric, judge or task causes, and 0 false passes.</li>
+<li>21 failures share one cause. The run filled the sheet and drafted the orders at T0, then never re-read the vendor emails that stage 1 (07:20) and stage 2 (15:20) rewrote.</li>
+<li>The stale values it kept were: Irawo sofa and 200x260 rug, ₦2,000 surcharge, 50% deposit, 10 cm rod (258 cm drop), and the 5th working day.</li>
+<li>R23 also failed: the curtains in the mood board stop at sofa-back height.</li>
+<li><strong>Tier 3 all-criteria:</strong> 61 agree, 0 dispute, 0 unverifiable.</li>
+<li>The sub-agent&#x27;s prose said &quot;24 failed&quot;, but its list and report.json both have 22. That was a counting slip, and the verdicts are unaffected.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li><strong>Turn refs:</strong> none.</li>
+<li><strong>Vision:</strong> 47.22% (34/72 positive weight, 28 rows matching E15), so vision_ok is true.</li>
+<li><strong>Unconditional scripted messages:</strong> none. All mutations are silent, and the drafts that T5, T9 and T11 assume were in place.</li>
+</ul>
+<h4>Dismissed leads</h4>
+<ul>
+<li><strong>Silent edits of old emails</strong> (the date and snippet stay the same after the stage 1 and 2 drift). Raised by the Tier 3 sub-agent as a design note.</li>
+<li>Dismissed because T3, T4 and later turns ask for work that depends on the current vendor terms, so re-reading the emails would have shown the new values.</li>
+<li>The fleet design is silent drift. Tier 2 C passed and the values were reachable, so these are model misses and not a bundle defect.</li>
+<li><code>issues_draft.py</code> drafted nothing, and no Tier 1/1.5 warn or fail, Tier 2/2.5 flag, serious TRUTH gap or E8 UNEXPECTED change exists to review.</li>
+</ul></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 0 item(s))</summary><pre>[]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;julie_brady_5fd30a3d-ba92-4f35-a032-685952e57d4a&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;No positive/penalty pair (R47/R48/R49 fire on their own). Flagged: chains inside one output where a downstream criterion hard-codes an absolute value fixed by an upstream graded value in the same output, so one stale read is charged several times.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C1.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R7&quot;,
+            &quot;R8&quot;,
+            &quot;R10&quot;,
+            &quot;R11&quot;,
+            &quot;R12&quot;,
+            &quot;R13&quot;,
+            &quot;R30&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Mon 7:40 PM fill the Shortlist tab&quot;,
+            &quot;Wed 8:15 PM six cushion covers&quot;
+          ],
+          &quot;problem&quot;: &quot;In the Shortlist sheet, R8 (rug 170x250) is fixed by the sofa width that R7 grades (long side &gt;= sofa width + 40). R11 (₦26,500) is the price band of the drop that R10 grades. R13 (₦266,100) and R30 (₦547,500) are absolute sums of the R7/R8/R11/R12 values. One stale sofa read fails R7+R8+R13+R30, and one stale rod read fails R10+R11+R30.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R8&quot;,
+              &quot;quote&quot;: &quot;The agent puts the 170 x 250 cm flat-weave rug on the Rug row of the Shortlist tab of the Living room shortlist sheet.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R11&quot;,
+              &quot;quote&quot;: &quot;The agent puts ₦26,500 as the price on the Curtains row of the Shortlist tab&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R13&quot;,
+              &quot;quote&quot;: &quot;The agent leaves the Kora deposit row of the Shortlist tab of the Living room shortlist sheet at ₦266,100.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 4&quot;,
+              &quot;quote&quot;: &quot;whose long side is at least the sofa width plus 40 cm, 206 + 40 = 246 cm, the smallest that does it: the 170 x 250 cm flat-weave rug&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/report.json&quot;,
+              &quot;where&quot;: &quot;R8 / R11 / R13&quot;,
+              &quot;quote&quot;: &quot;The Rug row specifies a 200 x 260 cm flat-weave rug ... The Curtains row has a unit price of ₦23,000 ... yields ₦243,000 from ₦368,000 + ₦104,000 + ₦14,000&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Keep R7, R10, R12 and R29 as the graders of the mutated values, and reword the dependent criteria relative to values in the same tab. R8: &#x27;puts on the Rug row the smallest Kora flat-weave rug that fits the 230 x 320 cm rug space and whose long side is at least the width of the sofa on that tab&#x27;s Sofa row plus 40 cm.&#x27; R11: &#x27;puts as the Curtains-row price Ireti&#x27;s lined cream linen per-panel price for the drop band containing the drop on that row.&#x27; R13: &#x27;leaves the Kora deposit row at 60% of the sum of that tab&#x27;s Sofa, Rug and Kora delivery line totals&#x27; (still the sheet&#x27;s only grader of the 60% change). R30: &#x27;leaves the Total row equal to the sum of that tab&#x27;s five line totals.&#x27; Update the TRUTH Value Lock entries SH_RUG, SH_CURT_PRICE, SH_KDEP and SH_TOTAL. Golden values are unchanged.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The item-1 verifier confirmed K1/K2. I checked the rug sizes on Screenshot_20271104_203045.png and the drop bands on IMG_20271102_174233.jpg: with the Irawo (214 cm) the rug must be 200x260, and a 258 cm drop falls in the ₦23,000 band. report.json shows all of these failing together.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C1.2&quot;,
+          &quot;criteria&quot;: [
+            &quot;R15&quot;,
+            &quot;R16&quot;,
+            &quot;R17&quot;,
+            &quot;R18&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Tue 12:30 PM send the sofa and rug order&quot;
+          ],
+          &quot;problem&quot;: &quot;In the sent Kora email, R16 (rug) is fixed by the sofa R15 grades, and R17 (₦443,500) and R18 (₦266,100, 3 pts) are absolute values summed from the same email&#x27;s items. One stale sofa read costs 1+1+1+3 = 6 points. Even with the correct 60%, R18 fails on a wrong sofa (60% x ₦486,000 = ₦291,600).&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R17&quot;,
+              &quot;quote&quot;: &quot;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives ₦443,500 as the order total.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R18&quot;,
+              &quot;quote&quot;: &quot;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives ₦266,100 as the deposit.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/report.json&quot;,
+              &quot;where&quot;: &quot;R15 / R16 / R17 / R18&quot;,
+              &quot;quote&quot;: &quot;orders the Irawo 3-seater ... 200 x 260 cm ... ₦486,000 ... ₦243,000 deposit (50%)&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R16: &#x27;orders the smallest Kora flat-weave rug that fits the 230 x 320 cm rug space and whose long side is at least the width of the sofa ordered in that email plus 40 cm.&#x27; R17: &#x27;gives as the order total the sum of the piece prices and delivery charges listed in that email.&#x27; R18: &#x27;gives as the deposit 60% of the order total given in that email&#x27; (it stays the email&#x27;s 60% grader). R17 is currently the only email criterion that catches the ₦3,500 surcharge, so add one atomic positive (1 pt): &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives ₦3,500 as the fuel surcharge.&#x27; Update TRUTH KO_RUG, KO_TOTAL and KO_DEP and add the new value.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The item-1 verifier confirmed K3. I confirmed the sent Kora email text in output.json (&#x27;Order total: ₦486,000&#x27;, &#x27;Deposit ... ₦243,000&#x27;) and the R15-R18 failures in report.json.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C1.3&quot;,
+          &quot;criteria&quot;: [
+            &quot;R33&quot;,
+            &quot;R34&quot;,
+            &quot;R37&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Thu 12:30 PM send the curtain order&quot;
+          ],
+          &quot;problem&quot;: &quot;In the sent Ireti email, R34 (₦26,500 per panel) is the drop band of the drop R33 grades, and R37 (₦104,000, 3 pts) is the absolute sum of the same email&#x27;s quantity x price lines. One stale rod read (258 cm) costs 1+1+3 = 5 points; the cushion part was correct (R35/R36 pass).&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R34&quot;,
+              &quot;quote&quot;: &quot;gives ₦26,500 as the price of each curtain panel.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R37&quot;,
+              &quot;quote&quot;: &quot;gives ₦104,000 as the order total.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/report.json&quot;,
+              &quot;where&quot;: &quot;R33 / R34 / R37&quot;,
+              &quot;quote&quot;: &quot;curtain drop of 258 cm ... prices each curtain panel at ₦23,000 ... order total of ₦97,000&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R34: &#x27;gives as the price of each curtain panel Ireti&#x27;s lined cream linen per-panel price for the drop band containing the curtain drop given in that email.&#x27; R37: &#x27;gives as the order total the sum of each item&#x27;s quantity times its price as listed in that email.&#x27; R33 and R36 stay as the graders of the 15 cm and six-cover values. Update TRUTH IR_PRICE and IR_TOTAL.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The verifier found this in its sweep (S1). I checked ₦97,000 = 2 x 23,000 + 6 x 8,500 in output.json, so the only error is the drop already charged in R33.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C1.4&quot;,
+          &quot;criteria&quot;: [
+            &quot;R40&quot;,
+            &quot;R41&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Fri 6:00 AM email Kevin the rundown&quot;
+          ],
+          &quot;problem&quot;: &quot;In Kevin&#x27;s email, R41 (₦266,100 paid before delivery) is an absolute 60% of the Kora total that R40 grades in the same email, so a wrong Kora total fails both.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R41&quot;,
+              &quot;quote&quot;: &quot;The agent&#x27;s Friday email to Kevin Brady gives ₦266,100 as what they pay Kora Living before it delivers.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/report.json&quot;,
+              &quot;where&quot;: &quot;R40 / R41&quot;,
+              &quot;quote&quot;: &quot;reports the Kora order as ₦486,000 ... gives the pre-delivery Kora deposit as ₦243,000 (50%)&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R41: &#x27;gives as what they pay Kora Living before it delivers 60% of the Kora Living order total given in that email.&#x27; Update TRUTH KV_DEP.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;The verifier found this in its sweep (S2). R41 is 1 pt, so the extra charge is small.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;All 61 checked. R20, R46 and R53 each join parts of one fact. R6 bundles the event&#x27;s date and its time window, which can fail independently (the other events split them).&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C2.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R6&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Mon 12:35 PM Tejuosho market&quot;
+          ],
+          &quot;problem&quot;: &quot;R6 grades the date (Friday, November 12) and the time window (5:30-6:45 PM) together, although each can be wrong on its own. The rubric splits these for the other two events (R28/R60 and R39/R61).&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R6&quot;,
+              &quot;quote&quot;: &quot;The agent puts an event for the Tejuosho market on Julie&#x27;s calendar from 5:30 to 6:45 PM on Friday, November 12.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R28 / R60&quot;,
+              &quot;quote&quot;: &quot;on Thursday, November 18. / from 10:00 AM to 2:00 PM, the van&#x27;s hours.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Split into R6 &#x27;The agent puts an event for the Tejuosho market on Julie&#x27;s calendar on Friday, November 12.&#x27; (1 pt) and a new R62 &#x27;The agent puts the calendar event for the Tejuosho market from 5:30 to 6:45 PM.&#x27; (1 pt). Split TRUTH CAL_MARKET into a date entry and an hours entry.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;The item-2 verifier returned MODIFIED (title not graded; date + time bundled). I agree.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turns name the file and the change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every file-graded turn names its target: the Shortlist tab of the Living room shortlist sheet (Mon 7:40 PM, Wed 8:15 PM, which also names &#x27;the curtain order draft&#x27;), sitting_room_moodboard.png, the order desks and the event titles. No vague &#x27;everywhere&#x27; asks.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower points after confirm + silent change&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Stages 3-7 only add new mail. Stages 1-2 silently rewrite the five term emails in place, with dates unchanged, right after the Monday 6:05 AM turn confirmed their old values.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C4.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R18&quot;,
+            &quot;R37&quot;,
+            &quot;R38&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Mon 6:05 AM five quick ones&quot;,
+            &quot;stage 1 (Mon 7:20 AM, between T1 and T2)&quot;,
+            &quot;stage 2 (Mon 3:20 PM)&quot;
+          ],
+          &quot;problem&quot;: &quot;The Monday 6:05 AM reply confirms ₦2,000, 50%, Osupa out of stock, 5th working day and 10 cm (graded R1-R5). Stage 1 (right after) and stage 2 then edit those same emails silently, with dates and snippets unchanged. Later turns depend on the new values, yet R18 (60% deposit), R37 (total from the 263 cm band) and R38 (Friday Nov 19 from the 7th working day) are still 3 points.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;inject/stage1/mutations.json&quot;,
+              &quot;where&quot;: &quot;applies_between_turns / msg-jb04&quot;,
+              &quot;quote&quot;: &quot;\&quot;applies_between_turns\&quot;: [\&quot;T1\&quot;, \&quot;T2\&quot;] ... From November 8, Kora confirms a furniture order on a 60% deposit.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;msg-jb10&quot;,
+              &quot;quote&quot;: &quot;From November 8, with our end-of-year queue, custom-length curtains are ready on the 7th working day after the day you order.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;Mon 6:05 AM reply&quot;,
+              &quot;quote&quot;: &quot;Kora wants 50% paid before it confirms a furniture order ... the 5th working day after you order ... 10 cm above the top of the window frame&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R18 / R37 / R38&quot;,
+              &quot;quote&quot;: &quot;score 3 each: ₦266,100 as the deposit / ₦104,000 as the order total / Friday, November 19 as the day the curtains arrive&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Lower R18, R37 and R38 from 3 to 1 (importance stays &#x27;important&#x27;). All other criteria that depend on stages 1 and 2 are already 1 pt.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The item-4 verifier confirmed K7. I re-read both mutation files and the run reply (output.json msg 32).&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;No text leak of visual facts&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;I searched all seed data, persona, emails, inject text and filenames for the graded values (rug sizes/prices, band prices, Aso-oke, zone charge, Thursdays, van/rider hours, Mon-Sat, 232/248, totals). There were no hits outside the images. The stage-1 &#x27;Osupa is back in stock&#x27; text was rejected as a leak (see rejected).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume expected path&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Stages 3-7 and turns T8/T9/T10/T12/T13 read correctly on any path. Two scripted approvals assert the draft is correct.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C6.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R15&quot;,
+            &quot;R16&quot;,
+            &quot;R17&quot;,
+            &quot;R18&quot;,
+            &quot;R33&quot;,
+            &quot;R34&quot;,
+            &quot;R37&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Tue 12:30 PM &#x27;The sofa and rug order draft is right. Send it.&#x27;&quot;,
+            &quot;Thu 12:30 PM &#x27;The curtain order draft is right. Send it.&#x27;&quot;
+          ],
+          &quot;problem&quot;: &quot;Julie&#x27;s scripted line declares the draft &#x27;right&#x27; whatever it holds. In the run, both drafts were wrong (Irawo, ₦486,000; 258 cm, ₦97,000), Julie called them right, and the sent emails were then graded against TRUTH values.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T5 (Day 2, 12:30)&quot;,
+              &quot;quote&quot;: &quot;The sofa and rug order draft is right. Send it.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T11 (Day 4, 12:30)&quot;,
+              &quot;quote&quot;: &quot;The curtain order draft is right. Send it.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 6&quot;,
+              &quot;quote&quot;: &quot;Julie&#x27;s words at 12:30 PM are her go-ahead to send; the sent email is still checked against the terms as they stand after stage 1.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;Tue 5:45 AM draft shown&quot;,
+              &quot;quote&quot;: &quot;Order total: ₦486,000&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword T5 to &#x27;Go ahead and send the sofa and rug order.&#x27; and T11 to &#x27;Go ahead and send the curtain order.&#x27; so the approval no longer vouches for the content.&quot;,
+          &quot;fix_class&quot;: &quot;rerun&quot;,
+          &quot;no_rerun_fallback&quot;: &quot;Re-anchor R15-R18 to &#x27;the Kora order draft shown on Tuesday 5:45 AM and sent at 12:30 PM&#x27;, and R33/R34/R37 to the Ireti draft as it stands after the Wednesday 8:15 PM six-cover change. Add a TRUTH note that Julie&#x27;s &#x27;right&#x27; is approval to send, not a statement that the values are correct.&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The item-6 verifier confirmed K8. I confirmed the draft text in output.json. I did not adopt the verifier&#x27;s extra proposal to make R31/R40-R42 conditional on what was sent: those turns ask for the true amounts, and they are not scripted-path assumptions.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Replies are user_facing_message (R1-R5, R31, R32, R38, R45, R46, R51, R52). Sheet, emails and calendar are state_change. The mood board and filename are produced_artifact (R19-R27, R50).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No process rubrics unless asked&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;R47/R48 check send time against the user&#x27;s &#x27;show me the draft before it goes anywhere&#x27;. R49 checks the calendar end state. R53-R55, R58 and R59 check the layout the user asked for (&#x27;laid out the way the desk asks&#x27;). R14 checks the formula the user asked for.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;TRUTH covers T0-T15 and R1-R61. All values recomputed from the images, emails and mutations match: Osupa; 170x250; 263 cm; ₦26,500; Aso-oke; ₦15,500; ₦443,500; ₦266,100; ₦547,500; ₦104,000; Thu Nov 18 10-2; Fri Nov 19 5-7. Stage times match the mutations.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;69.4% of positive weight (50/72) counting the produced mood-board checks; 45.8% without them; 43.1% if R7/R15 are also excluded. All above 30%.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The agent read msg-jb01..15 only at Mon 5:40 AM, before stage 1, and never re-read them. That is an agent miss, not an environment mismatch. Later reads (jb31/32/33/35/36), sheet read-backs and calendar results match. The report.json verdicts match the run and the mood board image (R23: main-window curtains stop short).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;A grep for T&lt;n&gt;/turn finds nothing. Reply criteria anchor on unique day + time + topic.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R47/R48/R49 penalties pair with positives (R51/R52, calendar criteria)&quot;,
+      &quot;why&quot;: &quot;Each penalty can fire while the positives pass (show the draft but send early; correct event but Kevin added). They grade a different behaviour.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Same values repeated across outputs (R7/R15, R13/R18/R41, R31/R37/R42, R28/R43, R39/R44, R38/R39, R29/R36) are double charges&quot;,
+      &quot;why&quot;: &quot;Different outputs that no turn derives from one another. R38/R39 are coupled by the Thu 7:30 PM turn but sit in different outputs with R39 already at 1 pt, so no allowed fix remains.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R32 cascades from R31&quot;,
+      &quot;why&quot;: &quot;report.json: R31 failed (₦97,000) while R32 passed; both seed and true totals exceed ₦80,000.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R20 &#x27;sage green and terracotta&#x27;, R46 &#x27;Saturday, December 11 at 4:00 PM&#x27;, R53 &#x27;zone charge and fuel surcharge as separate charges&#x27; are non-atomic&quot;,
+      &quot;why&quot;: &quot;Each is one fact: a two-colour palette asked as one, a single lookup time from msg-jb33, and one layout property (itemised vs lumped).&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;Stage-1 msg-jb13 text &#x27;the Irawo 3-seater is out of stock until February, and the Osupa is back in stock&#x27; leaks R7/R15&quot;,
+      &quot;why&quot;: &quot;The text gives stock status, not the pick. Choosing the Osupa still needs the sofa screenshot (widths, fabrics, covers, the other three sofas) and the sketch&#x27;s 232 cm wall. Vision passes even if R7/R15 are excluded (43.1%).&quot;
+    },
+    {
+      &quot;item&quot;: 6,
+      &quot;claim&quot;: &quot;R31 and R40-R42 should be conditional on the amounts actually drafted or sent&quot;,
+      &quot;why&quot;: &quot;The Thu 6:00 AM and Fri 6:00 AM turns ask for the real amounts and do not script an assumed path. That concern is a cascade, already covered by item 1 and the C6.1 fallback.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 69.4,
+    &quot;vision_weight&quot;: 50,
+    &quot;positive_weight&quot;: 72,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_202316.png; Pictures/IMG_20271106_103412.jpg&quot;,
+        &quot;why&quot;: &quot;sofa listing screenshot + sketch wall width&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271106_103412.jpg&quot;,
+        &quot;why&quot;: &quot;rug screenshot + sketch rug space&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;Ireti price list + notes photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271106_103412.jpg&quot;,
+        &quot;why&quot;: &quot;248 cm only on sketch&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;band price only on price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;zone-2 ₦12,000 only on delivery card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;prices from screenshots/card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_202316.png; Pictures/IMG_20271106_103412.jpg&quot;,
+        &quot;why&quot;: &quot;sofa screenshot + sketch&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271106_103412.jpg&quot;,
+        &quot;why&quot;: &quot;rug screenshot&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;prices from screenshots/card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;prices from screenshots/card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;trajectories/claude-opus-5.5/run_1/output_media/sitting_room_moodboard.png&quot;,
+        &quot;why&quot;: &quot;produced mood board image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;Thursday zone day only on delivery card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;all prices from images&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;band + cover prices from price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271106_103412.jpg&quot;,
+        &quot;why&quot;: &quot;248 cm from sketch&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R34&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;band price from price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R35&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;cover name only on price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R37&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;prices from price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R38&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;Mon-Sat working days only on price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R39&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;Mon-Sat working days only on price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R40&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;prices from images&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R41&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshot_20271104_202316.png; Pictures/Screenshot_20271104_203045.png; Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;prices from images&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R42&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;prices from price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R43&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;delivery card day rule&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R44&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;Mon-Sat working days only on price list&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R60&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271030_161508.jpg&quot;,
+        &quot;why&quot;: &quot;van hours only on delivery card&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R61&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_20271102_174233.jpg&quot;,
+        &quot;why&quot;: &quot;rider window only on price list&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;why&quot;: &quot;email text msg-jb02&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;why&quot;: &quot;email text msg-jb04&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;why&quot;: &quot;email text msg-jb13&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;why&quot;: &quot;email text msg-jb10&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;why&quot;: &quot;email text msg-jb12&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;why&quot;: &quot;values in prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;why&quot;: &quot;formula structure, prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;why&quot;: &quot;6 given in prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;why&quot;: &quot;yes/no from persona ₦80,000 line; any plausible total passes&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R36&quot;,
+        &quot;why&quot;: &quot;6 given in prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R45&quot;,
+        &quot;why&quot;: &quot;email msg-jb32&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R46&quot;,
+        &quot;why&quot;: &quot;email msg-jb33&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R50&quot;,
+        &quot;why&quot;: &quot;filename in prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R51&quot;,
+        &quot;why&quot;: &quot;behaviour (shows draft)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R52&quot;,
+        &quot;why&quot;: &quot;behaviour (shows draft)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R53&quot;,
+        &quot;why&quot;: &quot;layout from desk email&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R54&quot;,
+        &quot;why&quot;: &quot;layout from desk email&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R55&quot;,
+        &quot;why&quot;: &quot;layout presence check&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R56&quot;,
+        &quot;why&quot;: &quot;title in prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R57&quot;,
+        &quot;why&quot;: &quot;title in prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R58&quot;,
+        &quot;why&quot;: &quot;layout presence check&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R59&quot;,
+        &quot;why&quot;: &quot;layout presence check&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;7 flags across items [1, 2, 4, 6] (C1.1-C1.4 within-output cascades, C2.1 R6 date+time, C4.1 R18/R37/R38 3-&gt;1, C6.1 &#x27;draft is right&#x27; approvals); vision 69.4% (45.8% without mood board)&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;julie_brady_5fd30a3d-ba92-4f35-a032-685952e57d4a&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL1&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json chains (R12-&gt;R13/R17/R18/R30/R40/R41; R10-&gt;R11/R30/R33/R34/R37; R13-&gt;R18/R41; R7-&gt;R8/R15/R16/R17)&quot;,
+        &quot;double_charge.json pairs: []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C1.1&quot;,
+        &quot;C1.2&quot;,
+        &quot;C1.3&quot;,
+        &quot;C1.4&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R8&quot;,
+        &quot;R10&quot;,
+        &quot;R11&quot;,
+        &quot;R12&quot;,
+        &quot;R13&quot;,
+        &quot;R30&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R37&quot;,
+        &quot;R40&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No pairs: the chains are only recorded, because each dependent criterion has inputs of its own and &#x27;none can only fail with R12&#x27;.&quot;,
+      &quot;checklist_says&quot;: &quot;Inside one output, downstream criteria hard-code absolute values that an upstream graded value fixes, so one stale read is charged several times (sofa: R7+R8+R13+R30; rod: R10+R11+R30; Kora email: R15-R18 = 6 pts; Ireti email: R33+R34+R37 = 5 pts; Kevin email: R40+R41).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist is right. Tie-break rule 4 says a chain is NOT a pair only when its downstream criteria are worded relative. These are absolute values, which is the DL1 rent/total case: one wrong input fails the input criterion and the absolute derived total in the same output. neo-qc&#x27;s &#x27;has other inputs too&#x27; test is not in the shared rules. Fix with same-output relative wording (rule 1/2), never by merging. Cross-output repeats (R7/R15, R13/R18/R41) stay unpaired: both tools agree on that, per rule 4.&quot;,
+      &quot;evidence&quot;: &quot;report.json: R7 &#x27;Irawo 3-seater, not the Osupa&#x27;, R8 &#x27;200 x 260 cm&#x27;, R13 &#x27;=ROUND((G2+G3+G6)*0.5,0) ... ₦243,000&#x27;, R30 &#x27;₦583,000&#x27; all fail on the same stale read; double_charge.json note &#x27;each dependent also has its own inputs&#x27;; guide DL1 + rule 4 &#x27;a chain charged once with downstream criteria worded relative&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E4_truth_refs (graded lock values must appear in a criterion)&quot;,
+        &quot;truth_coverage lock_type_mismatch&quot;,
+        &quot;J1 A3&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C1.1&quot;,
+        &quot;C1.2&quot;,
+        &quot;C1.3&quot;,
+        &quot;C1.4&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R8&quot;,
+        &quot;R11&quot;,
+        &quot;R13&quot;,
+        &quot;R30&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R34&quot;,
+        &quot;R37&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;neo_says&quot;: &quot;E4 warns when a graded-positive TRUTH lock value appears in no criterion. A3 calls grading file A by a value in file B compound. Retyping the lock to &#x27;evidence&#x27; gives lock_type_mismatch.&quot;,
+      &quot;checklist_says&quot;: &quot;Reword the dependents relative to values in the same tab or email, so the literal values 170 x 250, ₦26,500, ₦266,100, ₦547,500 and ₦104,000 (in R37) leave those criteria.&quot;,
+      &quot;loop&quot;: &quot;The relative reword removes the literals, so E4 warns on SH_RUG/KO_RUG, SH_CURT_PRICE/IR_PRICE, SH_KDEP/KO_DEP/KV_DEP and SH_TOTAL. Typing those locks &#x27;evidence&#x27; then trips TRUTH coverage lock_type_mismatch. Putting the literal back restores the checklist C1 flag.&quot;,
+      &quot;resolution&quot;: &quot;Every relative reference stays inside one output (tab, Kora email, Ireti email, Kevin email), so A3 does not fire. Retype the affected locks to &#x27;checkpoint&#x27; (E4 GRADED_KINDS and TRUTH coverage both accept it). KO_TOTAL and IR_TOTAL also go to checkpoint: their own criteria lose the literal, even though R40 and R31/R42 still carry it. R17 was the Kora email&#x27;s only check on the stage-1 ₦3,500 surcharge, so add one atomic R63 (1 pt) to keep mutation coverage (J3/E5).&quot;,
+      &quot;evidence&quot;: &quot;neo_checks.py:126 GRADED_KINDS = (&#x27;graded-positive&#x27;, &#x27;checkpoint&#x27;); :287 &#x27;lock (graded-positive or checkpoint) whose value no criterion carries&#x27;; TRUTH.md:72/75/77/80/81/82/95/99/102/107 are all &#x27;type: graded-positive&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A7 pass (audit_report_tier25.json)&quot;,
+        &quot;QC_SUMMARY dismissed lead &#x27;Silent edits of old emails&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R18&quot;,
+        &quot;R37&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent. J1 passes. neo-qc treats the in-place stage 1/2 edits as fleet drift and the misses as model misses, and asks for no weight change.&quot;,
+      &quot;checklist_says&quot;: &quot;The Monday 6:05 AM reply confirms 50%, 10 cm and the 5th working day (R2/R4/R5). Stages 1-2 then silently rewrite those emails with the dates unchanged, and later turns ask for these values again, so R18, R37 and R38 drop from 3 to 1.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist stands. The DL5 warnline says to use the broader checklist rule as the bar, and tie-break rule 5 is met: a turn confirms a value, a silent change hits it, and a later turn asks again. Lower all three to 1 with importance staying &#x27;important&#x27; (E3: critically_important only at |score| 5), so neo-qc has nothing to object to. None of them is in a double-charge pair, so there is no member choice. Vision drops (all three are picture rows) but stays above 30%.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage1/mutations.json applies_between_turns [&#x27;T1&#x27;,&#x27;T2&#x27;] &#x27;60% deposit&#x27;; inject/stage2 msg-jb10 &#x27;7th working day&#x27;; rubric.json R18/R37/R38 score 3 &#x27;important&#x27;; run reply &#x27;Kora wants 50% ... 5th working day ... 10 cm&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 A3 pass (audit_report_tier25.json)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R6&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent on R6. J1&#x27;s own evidence endorses the same date/hours split for R28/R60 and R39/R61 (&#x27;can be wrong independently&#x27;).&quot;,
+      &quot;checklist_says&quot;: &quot;R6 bundles the date (Fri Nov 12) and the time window (5:30-6:45 PM), which can fail independently. Split it.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist is right, and neo-qc would not object, because the split matches its A3 reasoning for R28/R60. Split into R6 (date) and a new R62 (hours), both 1 pt and state_change. The two halves are different facts, so this creates no pair. TRUTH CAL_MARKET splits into two graded-positive locks.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R6 &#x27;from 5:30 to 6:45 PM on Friday, November 12&#x27;; R28 &#x27;on Thursday, November 18&#x27; / R60 &#x27;from 10:00 AM to 2:00 PM&#x27;; tier25 J1 evidence &#x27;the date and the hours are split into R28 and R60 and can be wrong independently&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E8 allowed-change set&quot;,
+        &quot;integrity gate turn-delivery (TURN_MATCH_CHARS=120)&quot;,
+        &quot;extras.json unconditional_scripted_messages: []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R37&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No unconditional scripted message: T5/T11 assume drafts that existed, so their premises held. Any prompt.txt edit without a rerun fails E8, and an edit inside the first 120 characters of a turn makes the integrity gate read the turn as never sent (HARD).&quot;,
+      &quot;checklist_says&quot;: &quot;&#x27;The sofa and rug order draft is right. Send it.&#x27; and &#x27;The curtain order draft is right. Send it.&#x27; vouch for the draft&#x27;s content on any path. In the run both drafts were wrong, and the sent emails were still graded against TRUTH. Reword T5/T11 to a plain go-ahead.&quot;,
+      &quot;loop&quot;: &quot;Rewording T5/T11 in prompt.txt fails E8 and HARDs the integrity gate, because both turns are under 120 characters. Leaving the prompt as it is keeps checklist item 6 flagged.&quot;,
+      &quot;resolution&quot;: &quot;On substance the checklist is right. neo-qc checked only that the drafts existed, not that &#x27;right&#x27; asserts the content is correct. The fix is rerun-only (rule 12): queue the T5/T11 rewording. No-rerun fallback: keep R15-R18 and R33/R34/R37 on the sent email (the state_change target, no DL9 branch). TRUTH Step 6 and Step 12 already say &#x27;Julie&#x27;s words at 12:30 PM are her go-ahead to send; the sent email is still checked against the terms&#x27;. The flag stays open until the rerun.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt T5 &#x27;The sofa and rug order draft is right. Send it.&#x27; (46 chars); T11 &#x27;The curtain order draft is right. Send it.&#x27;; TRUTH.md:28 and :34 go-ahead notes; output.json draft &#x27;Order total: ₦486,000&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E15 vision share pass&quot;,
+        &quot;extras.json vision_pct 47.22 (34/72)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 (PASS, 69.4% = 50/72)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;,
+        &quot;R22&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R26&quot;,
+        &quot;R27&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;neo_says&quot;: &quot;47.22%: counts only input-picture rows. It excludes the produced mood board R19-R27 and includes R32.&quot;,
+      &quot;checklist_says&quot;: &quot;69.4%: counts the produced mood board, which can only be graded from the image, and excludes R32, because any plausible total clears ₦80,000.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Tie-break rule 10 uses &#x27;no text route&#x27;, so the mood-board rows count (the grader can only read the image). R32 does not count: its yes/no answer is fixed by the persona&#x27;s ₦80,000 line. The checklist definition is used as primary: 69.44% before, 55.88% after. On the strictest reading (input pictures only, no R32) the share goes from 45.83% to 30.88%, so every reading stays at or above 30%.&quot;,
+      &quot;evidence&quot;: &quot;extras.json notes &#x27;counting them would give 49/72 = 68.06%&#x27;; checklist vision.excluded R32 &#x27;any plausible total passes&#x27;; report.json R32 passed with the wrong ₦97,000 total; scratch/metrics.py output.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json &#x27;penalties R47-R49 can fire on their own&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 rejected: R47/R48/R49&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R47&quot;,
+        &quot;R48&quot;,
+        &quot;R49&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The penalties are not pairs: they can fire on their own.&quot;,
+      &quot;checklist_says&quot;: &quot;Rejected as pairs: each can fire while the positives pass.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. Each penalty grades a separate behaviour (rule 3).&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R47 &#x27;sends the order email to Kora Living before Julie&#x27;s Tuesday 12:30 PM go-ahead&#x27; (-5).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json candidates []&quot;,
+        &quot;E11 info&quot;,
+        &quot;Tier 2 C pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;,
+        &quot;R15&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No leak candidates. msg-jb13 names Osupa only as back in stock, and the pick still needs the screenshot widths.&quot;,
+      &quot;checklist_says&quot;: &quot;No text leak. The stage-1 msg-jb13 claim was rejected for the same reason.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No visual-route edit.&quot;,
+      &quot;evidence&quot;: &quot;visual_leaks.json {\&quot;candidates\&quot;:[]}; checklist rejected item 5.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No T-numbers. Criteria anchor on weekday + clock time.&quot;,
+      &quot;checklist_says&quot;: &quot;No turn numbers. Anchors are unique day + time + topic.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;New R62/R63 wording follows the same day+clock+topic anchors.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R1 &#x27;Monday 6:05 AM questions about the two shops and the new rod&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL10&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;J1 pass&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 8 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R47&quot;,
+        &quot;R48&quot;,
+        &quot;R51&quot;,
+        &quot;R52&quot;,
+        &quot;R53&quot;,
+        &quot;R54&quot;,
+        &quot;R55&quot;,
+        &quot;R58&quot;,
+        &quot;R59&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Layout and draft-first criteria come from turn asks (msg-jb06/jb08 &#x27;laid out the way the desk asks&#x27;).&quot;,
+      &quot;checklist_says&quot;: &quot;The user asked for the draft-first method and the desk layout, and R47/R48 grade the send-time end state.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit.&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt T4 &#x27;show me the draft before it goes anywhere&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json gaps []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;All 61 criteria and 16 turns are covered, with no &#x27;not graded&#x27; labels.&quot;,
+      &quot;checklist_says&quot;: &quot;TRUTH covers T0-T15 and R1-R61, and the values recompute.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Keep it that way in the TRUTH sync (step 9).&quot;,
+      &quot;evidence&quot;: &quot;truth_coverage.json summary &#x27;No gaps&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E9 pass&quot;,
+        &quot;E8 only allowed files changed&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 11 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;The run matches the inject. The 5 unread are the in-place patches.&quot;,
+      &quot;checklist_says&quot;: &quot;The agent read msg-jb01..15 only before stage 1. That is an agent miss, not an environment mismatch.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No data or inject edit in this plan, except the queued T5/T11 prompt rewording.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY &#x27;E9 pass&#x27;; checklist item 11 note.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Put C6.1 (reword T5 to &#x27;Go ahead and send the sofa and rug order.&#x27; and T11 to &#x27;Go ahead and send the curtain order.&#x27;) in the rerun batch and do not touch prompt.txt now. Every other item is rubric.json/TRUTH.md only.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R37&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;,
+        &quot;E8&quot;,
+        &quot;integrity gate&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;Keep the criteria on the sent emails (state_change). TRUTH Step 6/Step 12 already say Julie&#x27;s 12:30 PM words are the go-ahead to send and the sent email is checked against the current terms. The flag stays open until the rerun.&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;No value changes. All golden values hold (Osupa, 170 x 250, 263 cm, ₦26,500, ₦15,500, ₦443,500, ₦266,100, ₦547,500, ₦104,000, Thu Nov 18, Fri Nov 19). No &#x27;also accept&#x27; values are added, so DL8 does not apply.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;checklist item 9&quot;,
+        &quot;truth_coverage&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure (split compound criteria)&quot;,
+      &quot;action&quot;: &quot;Split R6. R6 becomes &#x27;The agent puts an event for the Tejuosho market on Julie&#x27;s calendar on Friday, November 12.&#x27; (1, important, state_change). Append R62 &#x27;The agent puts the calendar event for the Tejuosho market from 5:30 to 6:45 PM.&#x27; (1, important, state_change, factuality). Append rather than renumber.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R62&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -0.95,
+      &quot;score_delta&quot;: 0.53
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route (DL6)&quot;,
+      &quot;action&quot;: &quot;No edit. Both tools find no text leak (visual_leaks candidates [], checklist item 5 PASS). Do not re-anchor any lock.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;visual_leaks.json&quot;,
+        &quot;checklist item 5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1 (silent change after sign-off)&quot;,
+      &quot;action&quot;: &quot;R18 3-&gt;1, R37 3-&gt;1, R38 3-&gt;1. Importance stays &#x27;important&#x27; (E3: critically_important only at |score| 5). The wording is unchanged in this step.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R18&quot;,
+        &quot;R37&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -2.82,
+      &quot;score_delta&quot;: 5.52
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 2 (double charge)&quot;,
+      &quot;action&quot;: &quot;Same-output relative wording (rules 1-2, no merge, no drop). R8: &#x27;The agent puts on the Rug row of the Shortlist tab of the Living room shortlist sheet the smallest Kora flat-weave rug that fits the 230 x 320 cm rug space and whose long side is at least the width of the sofa on that tab&#x27;s Sofa row plus 40 cm.&#x27; R11: &#x27;The agent puts as the price on the Curtains row of the Shortlist tab Ireti&#x27;s lined cream linen per-panel price for the drop band that contains the drop on that row.&#x27; R13: &#x27;The agent leaves the Kora deposit row of the Shortlist tab at 60% of the sum of that tab&#x27;s Sofa, Rug and Kora delivery line totals.&#x27; R30: &#x27;After Julie&#x27;s Wednesday 8:15 PM six-cover change, the agent leaves the Total row of the Shortlist tab equal to the sum of that tab&#x27;s Sofa, Rug, Curtains, Cushion covers and Kora delivery line totals.&#x27; R16: &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk orders the smallest Kora flat-weave rug that fits the 230 x 320 cm rug space and whose long side is at least the width of the sofa ordered in that email plus 40 cm.&#x27; R17: &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives as the order total the sum of the piece prices and delivery charges listed in that email.&#x27; R18 (1): &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives as the deposit 60% of the order total given in that email.&#x27; R34: &#x27;The agent&#x27;s Thursday order email to Ireti Drapes &amp; Linens&#x27; order desk gives as the price of each curtain panel Ireti&#x27;s lined cream linen per-panel price for the drop band that contains the curtain drop given in that email.&#x27; R37 (1): &#x27;The agent&#x27;s Thursday order email to Ireti Drapes &amp; Linens&#x27; order desk gives as the order total the sum of each item&#x27;s quantity times its price as listed in that email.&#x27; R41: &#x27;The agent&#x27;s Friday email to Kevin Brady gives as what they pay Kora Living before it delivers 60% of the Kora Living order total given in that email.&#x27; Append R63 &#x27;The agent&#x27;s Tuesday order email to Kora Living&#x27;s order desk gives ₦3,500 as the fuel surcharge.&#x27; (1, important, state_change) to keep the email&#x27;s stage-1 surcharge check. Keep R7, R10, R12, R15, R33 and R40 literal as the input graders. Cross-output repeats are left alone (rule 4).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R8&quot;,
+        &quot;R11&quot;,
+        &quot;R13&quot;,
+        &quot;R30&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R34&quot;,
+        &quot;R37&quot;,
+        &quot;R41&quot;,
+        &quot;R63&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C1.1&quot;,
+        &quot;C1.2&quot;,
+        &quot;C1.3&quot;,
+        &quot;C1.4&quot;,
+        &quot;double_charge.json chains&quot;,
+        &quot;E4&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -9.79,
+      &quot;score_delta&quot;: -0.98
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute with scratch/metrics.py. Vision 69.44% -&gt; 55.88% (strict input-picture reading 45.83% -&gt; 30.88%; neo E15 reading 47.22% -&gt; 32.35%), all &gt;= 30%. Score 61.11% -&gt; 66.18%, and no score target is set. No member swap is needed. Do not undo steps 3-6.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;checklist item 10&quot;,
+        &quot;E15&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;Check that new and reworded criteria carry no T-numbers and anchor on day + clock + topic (&#x27;Tuesday order email&#x27;, &#x27;Wednesday 8:15 PM six-cover change&#x27;). Targets: R62/R63 and all reworded rows are state_change (one target each, no reply branch, so no DL9 issue). No process wording is added (DL10).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R8&quot;,
+        &quot;R11&quot;,
+        &quot;R13&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R30&quot;,
+        &quot;R34&quot;,
+        &quot;R37&quot;,
+        &quot;R41&quot;,
+        &quot;R62&quot;,
+        &quot;R63&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;checklist items 7, 8, 12&quot;,
+        &quot;J1 A4/A5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;TRUTH.md sync (TB1-TB4)&quot;,
+      &quot;action&quot;: &quot;Section 3. Split CAL_MARKET into CAL_MARKET_DATE = &#x27;Friday, November 12&#x27; (criteria: R6) and CAL_MARKET_HOURS = &#x27;from 5:30 to 6:45 PM&#x27; (criteria: R62), both graded-positive. Retype SH_RUG, SH_CURT_PRICE, SH_KDEP, SH_TOTAL, KO_RUG, KO_TOTAL, KO_DEP, IR_PRICE, IR_TOTAL and KV_DEP to &#x27;type: checkpoint&#x27; (TB4, not &#x27;evidence&#x27;). Add KO_FUEL = &#x27;₦3,500&#x27; graded-positive, criteria: R63. Section 2: Step 3 cites (R6) for the date and (R62) for the hours; Step 6 adds &#x27;the fuel surcharge ₦3,500 (R63)&#x27;. Do not use renumbered/QC/run_1/&#x27;not graded&#x27;/&#x27;now weighted&#x27; wording (E6). Old R-numbers stay valid because nothing is renumbered.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R62&quot;,
+        &quot;R63&quot;,
+        &quot;R8&quot;,
+        &quot;R11&quot;,
+        &quot;R13&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R30&quot;,
+        &quot;R34&quot;,
+        &quot;R37&quot;,
+        &quot;R41&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C1.1&quot;,
+        &quot;C1.2&quot;,
+        &quot;C1.3&quot;,
+        &quot;C1.4&quot;,
+        &quot;C2.1&quot;,
+        &quot;E4&quot;,
+        &quot;E6&quot;,
+        &quot;truth_coverage&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E3/E4/E6/E10, Tier 2.5, TRUTH coverage, double charge) and the checklist agent with the shared tie-break rules. Regrade the reworded rows: under the new wording R8, R11, R16, R17, R30, R34 and R37 would likely pass on run_1 (score about 76.5%). Then do the queued T5/T11 rerun.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;all&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;prompt.txt T5: &#x27;The sofa and rug order draft is right. Send it.&#x27; -&gt; &#x27;Go ahead and send the sofa and rug order.&#x27;&quot;,
+    &quot;prompt.txt T11: &#x27;The curtain order draft is right. Send it.&#x27; -&gt; &#x27;Go ahead and send the curtain order.&#x27;&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 69.44,
+    &quot;vision_after&quot;: 55.88,
+    &quot;score_before&quot;: 61.11,
+    &quot;score_after&quot;: 66.18,
+    &quot;score_target&quot;: &quot;none set&quot;,
+    &quot;vision_strict_before&quot;: 45.83,
+    &quot;vision_strict_after&quot;: 30.88,
+    &quot;vision_neo_e15_before&quot;: 47.22,
+    &quot;vision_neo_e15_after&quot;: 32.35,
+    &quot;score_if_regraded_after&quot;: 76.47,
+    &quot;notes&quot;: &quot;Primary vision = positive criteria with no text route at grading time, including the produced mood board R19-R27 and excluding R32. score_before matches report.json final_reward 61.11. score_after assumes the verdicts stay the same; new R62 passes and R63 fails.&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 7,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;neo-qc is ACCEPTABLE, but all 7 checklist flags (C1.1-C1.4, C2.1, C4.1, C6.1) survive reconciliation and need rubric/TRUTH edits plus one rerun item. Vision after the plan is 55.88% (strict 30.88%).&quot;,
+  &quot;summary&quot;: &quot;2 conflicts (DL2, RR2), 6 agree, 2 one-sided (DL5, C2.1 split), 2 disagreements (DL1 settled for checklist, vision definition), fix plan 10 steps (1 rerun), vision 69.44-&gt;55.88%, score 61.11-&gt;66.18%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "julie_brady_5fd30a3d-ba92-4f35-a032-685952e57d4a", "slug": "julie_brady_5fd30a3d", "tasker": "Anuj Mishra", "authors": ["Anuj Mishra", "anuj.mishra2005@ethara.ai"], "version": 2, "commit_sha": "b564548d6189376fa74d13c2b2318b0845ad011d", "base_sha": "13448b2e5ebaca79546df46afac2044bc6cab06b", "range": "13448b2e5..b564548d6", "change": "modified", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 7 flag(s); 2 conflicts (DL2, RR2), 6 agree, 2 one-sided (DL5, C2.1 split), 2 disagreements (DL1 settled for checklist, vision definition), fix plan 10 steps (1 rerun), vision 69.44->55.88%, score 61.11->66.18%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 0 design / 0 grader / 0 minor; score 61.11 (1 run); T3 non-model 0 of 22 failures; all tiers clean, vision 47.2%", "checklist_flags": 7, "conflicts": 2, "vision_before": 69.44, "vision_after": 55.88, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 0, "attempt": 1, "qc_finished_at": "2026-11-27T11:04:30Z"}</script></body></html>
