@@ -1120,6 +1120,14 @@
     "started": "2026-11-23 14:00",
     "v": 7,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1410_a1",
+    "score": 30.26,
+    "started": "2026-11-27 08:40",
+    "v": 8,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/brian_patterson_45f60418-3882-42c7-b35d-ae8e9b85e6bd": [
@@ -2147,5 +2155,5 @@
    }
   ]
  },
- "updated": "2026-11-27 08:51 UTC"
+ "updated": "2026-11-27 08:53 UTC"
 }
