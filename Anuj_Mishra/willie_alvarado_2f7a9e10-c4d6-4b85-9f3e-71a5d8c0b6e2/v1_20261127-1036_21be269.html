@@ -1,0 +1,681 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: willie_alvarado_2f7a9e10 (ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict ok">ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2</code></span>
+<span><span class="k">Tasker</span>Anuj Mishra</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>21be269e5</code> (added, range <code>8e0c52507..21be269e5</code>)</span>
+<span><span class="k">QC finished</span>2026-11-27 05:26:33 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>0</span>
+<span><span class="k">Conflicts</span>2</span>
+<span><span class="k">Vision</span>30.25% → 30.25%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 0 flag(s); 2 conflicts (DL6, TB2), 3 agree, 1 one-sided, fix plan 7 steps (1 rerun, optional), vision 30.25-&gt;30.25%, score 35.29-&gt;35.29%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: willie_alvarado_2f7a9e10</h1>
+<p class="sub">obsidian-infinity-stage-1 8e0c52507..21be269e5 (added)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>35</b><span>rubrics</span></div><div class="stat"><b>35.3</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>19/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>10/1/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>2/1/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>35/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 19 failed criteria across 1 task(s): <b>19 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 0 failure(s) and 1 warning(s). Tier 2.5 flagged 1 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 35 criteria: 35 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 0 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 1 item(s): 1 design.</p>
+
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#D1'><code>D1</code></a></td><td><span class="b b-sev-design">design</span></td><td class='muted'>rubric</td><td class='muted'>willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2</td><td>The countdown caption earns credit for any review course date, including the stale January 9</td></tr></table><div class='issue' id='D1'><h4><code>D1</code> The countdown caption earns credit for any review course date, including the stale January 9 <span class="b b-sev-design">design</span> <span class='muted'>willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2</span></h4><p>The stage 2 flyer silently moves the ENA review course from Saturday, January 9, 2027 to Saturday, January 2, 2027, and the last turn asks for a caption with <code>the review course date</code>. R19 only checks that the caption gives <code>a date for the review course</code>, so an agent that missed the revision and posts January 9 still earns all 3 points. The flyer change carries no weight anywhere (TRUTH ledger row S2: criteria none, 0 points), and R7 likewise accepts a calendar event on either date. The reference run is not affected: it patched the event to January 2 and both criteria passed on the right value.</p><p><b>Evidence.</b> rubric.json R19 (line 166) and R7 (line 58); prompt.txt line 57 asks for <code>the review course date</code>; TRUTH.md L49-50 (COURSE_DATE_A stale January 9, COURSE_DATE_B January 2) and L103 (S2, criteria none, 0.0%); run_1 report.json R7 justification notes the event was patched to January 2 at T13.</p><p><b>Ask.</b> Reword R19 to: The agent publishes the countdown post with a caption that gives the review course date as January 2, 2027.</p></div>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2</td><td><code>E15_vision_share</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>picture weight 21 of 119 (share 0.18); 14 criteria / 54 points carry no Value Lock and decide it; the visual-leak pass must place them</td></tr></table></details><details><summary>Tier 2.5 findings (1)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R19 loose wording (A5): &quot;gives a date for the review course&quot; also credits the stale January 9 date, but the Friday 7:30 AM turn asks for &quot;the review course date&quot; and the stage 2 flyer moved it to January 2, 2027. Proposed wording: &quot;The agent publishes the c...</td><td class='muted'>rubric.json:166: &quot;criterion&quot;: &quot;The agent publishes the countdown post with a caption that gives a date for the review course.&quot;,</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage4 sil_rosa_dm_conv_bump: could not check (instagram-messages-api/conversations: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2'><td>willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2</td><td class='n'>20</td><td class='n'>35</td><td class='n'>35.29</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 19</td><td>10/1/0</td><td><span class="b b-warn">J1</span></td><td>35/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>0 flags across items [1-12] (all PASS after strict verification; 11 candidates rejected with evidence), vision 30.3% (36/119, thin margin)</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>All four penalties (R31 Lindenfield/patient, R32 long-run overlap, R33 tags, R34 personal account) fire on their own; R19-R21 do not name the account, so R34 is not paired; repeated values (R8/R11/R21, R16/R17/R20, R3/R26, R13/R28, R15/R29) are positives in separate outputs each asked by its own turn.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Each criterion grades one fact plus a locator: R4 is one slot (start to finish, as T7 asks), R10&#x27;s &#x27;not a phone text&#x27; locates the WhatsApp DM T10 names, R22 is one start datetime, R31 is one violation with either/or venues.</td></tr><tr><td>3</td><td>Turns name the file and change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>File checks are named in their turns: cen_study_plan.xlsx in T0 and T19 (&#x27;Send me cen_study_plan.xlsx finished&#x27;) for R26-R28; cen_countdown_final.png in T15/T16 for R18-R21.</td></tr><tr><td>4</td><td>Silent change right after approval</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>T1-T6 are read questions, not user confirmations; the only approval (T13 &#x27;That&#x27;s approved&#x27;, rate &#x27;whatever applies&#x27;) comes after the stage 2/3 fee and code changes, and stages 4-5 do not touch the fee, code or share.</td></tr><tr><td>5</td><td>Visual answer leaked in text</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>68%, re-scored domain %s, raw 112, 9:30 AM and $265 appear only in images; the PDF sticky gives only +3 errata and the stage-3 comment only &#x27;$40 off&#x27;; the &#x27;January 2&#x27; text in the stage-3 comment does not leak R19, which accepts any date; &#x27;neuro&#x27; text lines are stale traps.</td></tr><tr><td>6</td><td>Scripted messages assume expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No mutation reacts to an agent action: Rosa&#x27;s $195 reply, the edited crew line, the UMDALUM comment, Rosa&#x27;s 4:00 DM (Sunday chosen by the stage-1 RSVP flip, world state) and the department mail all read correctly whatever the agent did.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>user_facing_message for mid-run replies (R1, R2, R5, R6, R11, R12, R24, R25, R35), final_answer for the T19 wrap (R29, R30), produced_artifact for the png/xlsx (R18, R26-R28), state_change for sends/events/tasks/posts.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>R7, R15, R17 and R22 are typed &#x27;tool use&#x27; but are worded as end state; persona rules are graded by outcome (R6/R12 reply text, R32 calendar end state, R31 sent content); no criterion grades auth, upload or file reads.</td></tr><tr><td>9</td><td>TRUTH consistent with rubric</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every turn T0-T19 has a TRUTH step; values and R-numbers match rubric.json; TRUTH itself marks COURSE_DATE_B as ungraded (ledger S2 weight 0), matching R7/R19 accepting any date.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>36 of 119 positive points (30.25%) depend on image-only values; passes by 0.25 points, so any new text route to one of these values would drop the task below target.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>After each stage fired, every carrier the agent read showed the mutated value (RSVP flip at T7, revised flyer Jan 2/$265 at T13, nested $195 reply, UMDALUM comment and 4:00 DM at T17, 10:00 AM mail at T18); the misses are agent omissions, not environment gaps.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion contains a turn number; the weekday/time anchors (Mon 10:00 AM, Tue 6:20 AM, Tue 7:45 PM, Wed 6:15 AM, Thu 6:05 AM, Fri 10:30 AM, Fri 12:15 PM, Fri 4:00 PM) each match exactly one turn and the right date.</td></tr></tbody></table>
+<p>No flags survived verification.</p>
+<h3>Vision share <span class="qc-tag ok">30.3%</span></h3>
+<p>36 of 119 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>data/environment/artifacts/inputs/files/home/Pictures/CEN/practice_exam_2_scores.png (seed)</td><td>&#x27;Overall 68%&#x27; only in the screenshot at T1</td></tr><tr><td>R3</td><td>5</td><td>inject/stage1/files/practice_exam_2_scores.png</td><td>18 h = crew text rule applied to the re-scored domain %s, which are image-only</td></tr><tr><td>R5</td><td>3</td><td>inject/stage1/files/practice_exam_2_scores.png</td><td>Environment and Toxicology 55% lowest only in the re-scored image</td></tr><tr><td>R8</td><td>5</td><td>data/environment/artifacts/inputs/files/home/Pictures/CEN/practice_exam_B_scored.jpg</td><td>raw 112 is image-only; PDF sticky text gives only +3</td></tr><tr><td>R9</td><td>5</td><td>inject/stage2/files/umich_tox_ce_flyer.png</td><td>&#x27;9:30 to 11:00 AM&#x27; only in the revised flyer image at T9</td></tr><tr><td>R11</td><td>3</td><td>data/environment/artifacts/inputs/files/home/Pictures/CEN/practice_exam_B_scored.jpg</td><td>76.7% = (image-only 112 + 3) / 150</td></tr><tr><td>R13</td><td>5</td><td>inject/stage2/files/ena_review_course.png</td><td>$225 = image-only &#x27;$265 early-bird&#x27; - $40 (comment text)</td></tr><tr><td>R21</td><td>3</td><td>data/environment/artifacts/inputs/files/home/Pictures/CEN/practice_exam_B_scored.jpg</td><td>same 76.7% derivation from the image-only raw 112</td></tr><tr><td>R26</td><td>3</td><td>inject/stage1/files/practice_exam_2_scores.png</td><td>18 h total needs the image-only re-scored domain %s</td></tr><tr><td>R28</td><td>3</td><td>inject/stage2/files/ena_review_course.png</td><td>same $265 - $40 derivation as R13</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (11)</summary><ul><li>item 1: R34 (post on personal account) pairs with caption positives R19-R21. <span class='qc-k'>dismissed:</span>R19-R21 grade only caption content and name no account; a correct caption on willie.alvarado passes R19-R21 and still fires R34, so R34 fires on its own and grades a different behaviour.</li><li>item 1: One missed mutation is charged several times (R8/R11/R21, R16/R17/R20, R3/R26, R13/R28, R15/R29). <span class='qc-k'>dismissed:</span>All are positives, no penalty involved; each is a separate output asked by its own turn (T9 crew msg, T12 reply, T16 caption, T7 SMS, T19 xlsx/wrap, T13 email/task), and no turn couples them (&#x27;the same value in two outputs that no turn couples&#x27;).</li><li>item 2: R10 combines channel and amount. <span class='qc-k'>dismissed:</span>T10 &#x27;Tell Rosa on WhatsApp&#x27; names the channel; it locates the graded output, and the only graded fact is $48.75. Dropping it would break self-containment.</li><li>item 2: R4 combines date, start and end. <span class='qc-k'>dismissed:</span>One fact: the winning option B window (evt-wb11, 3:00-6:00 PM Sun Dec 13); T7 asks &#x27;start to finish&#x27;.</li><li>item 3: R26-R28 grade workbook values that moved after T0 without the turn naming the change. <span class='qc-k'>dismissed:</span>T19 names cen_study_plan.xlsx (&#x27;finished&#x27;); not naming the source change is the intended silent-mutation design, and the crew doc&#x27;s &#x27;latest practice exam&#x27; rule covers the update.</li><li>item 4: T3/T4/T5/T6 values silently changed and re-asked (R4, R8, R9, R10, R11); T13 approval (R13). <span class='qc-k'>dismissed:</span>T3-T6 are plain questions the user never confirms; T13 approves the action at &#x27;whatever rate applies&#x27;, and the rate-moving stages 2 and 3 fire before T13 (stages 4-5 do not touch the fee).</li><li>item 5: Stage-3 comment text &#x27;January 2 review course&#x27; leaks the R19 caption date. <span class='qc-k'>dismissed:</span>R19 passes any review-course date, so the date is not graded; no other image-graded value has a text route at grading time.</li><li>item 9: TRUTH says the course event and caption carry January 2 while R7/R19 accept any date. <span class='qc-k'>dismissed:</span>TRUTH tags R7/R19 only to &#x27;an event for the review course&#x27; / &#x27;a review course date in the caption&#x27;, and marks COURSE_DATE_B &#x27;type: input&#x27; with ledger S2 &#x27;Criteria none, Weight 0&#x27;; TRUTH and the rubric agree (design note: the stage-2 date move is ungraded).</li><li>item 11: report.json R32 justification says the course event is Jan 9, but the run patched it to Jan 2. <span class='qc-k'>dismissed:</span>Grader justification slip, not a run/environment mismatch: the run read the revised flyer (Jan 2) and PATCHed evt-ba0d805336 to 2027-01-02; R32 exempts the course event regardless, so the verdict is unchanged.</li><li>item 11: At T10 the run did not see Rosa&#x27;s stage-2 $195 reply. <span class='qc-k'>dismissed:</span>instagram_data.py nests replies under &#x27;replies.data&#x27;; the agent&#x27;s T10 script printed only top-level text; the reply shows nested in its T17 read (run msg 166).</li><li>item 12: R26-R28 say &#x27;The response delivers cen_study_plan.xlsx&#x27; without anchoring which of the two deliveries (T0, T19) is graded. <span class='qc-k'>dismissed:</span>No turn number appears; produced_artifact grades the single final file (only one cen_study_plan.xlsx in output_media), so there is no ambiguity in what is graded.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>2 conflicts (DL6, TB2), 3 agree, 1 one-sided, fix plan 7 steps (1 rerun, optional), vision 30.25-&gt;30.25%, score 35.29-&gt;35.29%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">30.25% → 30.25%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">35.29% → 35.29%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>DL6</td><td>D1, Tier 2.5 J1 warn (R19/R7 loose wording)</td><td>C5</td><td>R19</td><td><div><span class=qc-k>neo-qc</span>R19 credits any review course date, so an agent that missed the stage 2 flyer and posts the stale January 9 still earns 3 points; reword R19 to name January 2, 2027 (rubric-only).</div><div><span class=qc-k>checklist</span>Item 5 PASS only because R19 accepts any date: &#x27;the January 2 text in the stage-3 comment does not leak R19, which accepts any date&#x27;. Item 5 rule: a fact graded from a picture must not also be readable as text.</div><div><span class=qc-k>loop</span>Once R19 grades January 2, the value has two routes at grading time (T16): the stage 2 revised flyer image and the stage 3 UMDALUM comment text (fires T12). If TRUTH keeps COURSE_DATE_B anchored image-only, checklist 5 flags a picture-graded fact readable in text (and J2 C-b would flag any &#x27;only&#x27; claim); if TRUTH lists both image: and a text anchor, E11 fails declared_route; deleting the comment text is an inject edit (E8/E9/checklist 11, RR3).</div><div><span class=qc-k>resolution</span>Take the D1 reword, and treat R19 honestly as a text-route criterion: it is already excluded from vision by both tools (checklist vision &#x27;excluded&#x27; list, neo hand placement 36/119), so no picture-only claim exists and checklist 5 (picture-graded facts) does not apply. One route per lock (TB4): anchor COURSE_DATE_B on the stage 3 comment row, no image: anchor. Vision unchanged. Removing &#x27;January 2&#x27; from the comment text is optional and rerun-only (would make R19 picture-only, vision 30.25 -&gt; 32.77%).</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>TB2</td><td>D1, truth_coverage.json (0 gaps today)</td><td>C9</td><td>R19</td><td><div><span class=qc-k>neo-qc</span>D1 fix adds grading of COURSE_DATE_B; TRUTH coverage requires a graded value to carry a graded lock type (graded-positive or checkpoint), otherwise lock_type_mismatch.</div><div><span class=qc-k>checklist</span>Item 9 PASS because &#x27;TRUTH itself marks COURSE_DATE_B as ungraded (ledger S2 weight 0), matching R7/R19 accepting any date&#x27;.</div><div><span class=qc-k>loop</span>After the R19 reword, TRUTH still says COURSE_DATE_B &#x27;type: input&#x27; and ledger S2 &#x27;Criteria none, Weight 0&#x27;, and step 17 says &#x27;a review course date in the caption&#x27;: TRUTH coverage reports a contradiction / lock_type_mismatch and checklist 9 flags TRUTH vs rubric. Retyping the lock to evidence to quiet it trips lock_type_mismatch again (TB4).</div><div><span class=qc-k>resolution</span>Same edit batch as the R19 reword: retype COURSE_DATE_B to graded-positive (literal &#x27;January 2&#x27; stays in R19 text, so E4 is satisfied), update step 17, the 3a rows and the 3b ledger as in fix_plan step 6; no history words (TB1/TB3), no &#x27;not graded&#x27; notes (TB2).</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>D1 (evidence mentions R7), Tier 2.5 J1 warn</td><td></td><td>R7</td><td><div><span class=qc-k>neo-qc</span>R7 likewise accepts a calendar event on either date (noted in D1 evidence; D1&#x27;s ask changes only R19).</div><div><span class=qc-k>checklist</span>Silent: item 8 accepts R7 as an end-state check; no flag.</div><div><span class=qc-k>resolution</span>Leave R7 unchanged. neo-qc&#x27;s kept ask does not touch it and the checklist would not object either way. Tightening R7 to January 2 is optional: it is not a double-charge pair with R19 (calendar event and caption are two outputs no turn couples) and gives no vision gain (end-state date also reachable from the stage 3 comment text). Run_1 patched the event to January 2 so the verdict would not move.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>E15 warn (script 18%, dismissed), QC_SUMMARY hand placement 36/119 = 30.25%</td><td>C10</td><td>R1, R3, R5, R8, R9, R11, R13, R21, R26, R28</td><td><div><span class=qc-k>neo-qc</span>Hand placement gives 36/119 = 30.25%, just over the floor; any reweight must keep the share above 30%.</div><div><span class=qc-k>checklist</span>PASS, 30.3% (36/119), thin margin: any new text route to one of these values drops the task below target.</div><div><span class=qc-k>resolution</span>Both tools use the same ten criteria under the dependency definition. The plan changes no weight and adds no text route to these ten values, so vision stays 30.25%. Any later weight edit must lower a text criterion, not one of these.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json: 0 pairs (7 same-source groups, 6 chains)</td><td>C1</td><td>R31, R32, R33, R34, R19, R20, R21</td><td><div><span class=qc-k>neo-qc</span>No double-charge pairs; repeated values are same-source groups or chains, not drafted.</div><div><span class=qc-k>checklist</span>PASS; all four penalties fire on their own (R34 not paired with R19-R21); repeated positives sit in separate outputs no turn couples.</div><div><span class=qc-k>resolution</span>Both apply the shared NOT-a-pair list and the penalty test (penalty can fire without a positive failing). The R19 reword creates no new pair: R19 is the only criterion grading COURSE_DATE_B.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>none</td><td>QC_SUMMARY dismissed: judge slip R32</td><td>C11 (rejected claim)</td><td>R32</td><td><div><span class=qc-k>neo-qc</span>R32 justification says the course is on January 9; the verdict is right either way; not a grader issue.</div><div><span class=qc-k>checklist</span>Grader justification slip, not a run/environment mismatch; R32 exempts the course event regardless.</div><div><span class=qc-k>resolution</span>No edit. Verdict &#x27;Penalty not applied&#x27; is correct; leave report.json alone (hand edits would add TB3 risk for no gain).</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH</td><td>D1 is rubric/TRUTH only (rubric.json R19 + TRUTH.md). The only data-side lever (dropping &#x27;January 2&#x27; from the stage 3 UMDALUM comment) is rerun-only and is queued in rerun_batch, not patched now. No prompt, inject or data edit in this pass.</td><td>R19</td><td>D1, C5, C9</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>rubric.json R19 criterion -&gt; &#x27;The agent publishes the countdown post with a caption that gives the review course date as January 2 (with or without the year 2027).&#x27; Keep score 3, importance important, type task completion, target state_change. DL8 check: no alternative value is accepted; the only stale value (January 9, 2027) is not accepted. R7 left unchanged (see match 3).</td><td>R19</td><td>D1, J1 warn</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>visual route</td><td>DL6 decision: R19 is a text-route criterion (the stage 3 comment, fired T12, states &#x27;January 2&#x27; before the T16 caption), so it is not counted as vision and TRUTH gets one text anchor (step 6), never image: + text. Optional rerun: edit inject/stage3/mutations.json sil_denise_alumni_code text to &#x27;Good luck, Willie! Your MSN alumni can use code UMDALUM for $40 off the review course, any rate.&#x27; so the date is picture-only; then anchor COURSE_DATE_B on the stage 2 flyer image and count R19 as vision (+2.52 pts).<div><span class=qc-k>no-rerun fallback</span>Keep the comment text as delivered; R19 stays text-route, anchor COURSE_DATE_B on row:instagram-api/comments#179863000000706.text, vision stays 30.25%.</div></td><td>R19</td><td>D1, C5</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>recompute vision and score</td><td>Recomputed with scratch/metrics.py from rubric.json + run_1 report.json: vision 36/119 = 30.25% before and after (no weight change, R19 not in the vision set); score 42/119 = 35.29% before and after (R19 passed in run_1 with &#x27;Review course: Saturday, January 2.&#x27;, verdict unchanged). No pair to swap, no weight pass needed (steps 5-6 of the safe order have no items).</td><td>R19</td><td>C10, E15</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>turn anchors, targets, process wording</td><td>Check only: new R19 has no turn number (DL7), points at the one countdown post, one target state_change (DL9), outcome wording (DL10). No edit.</td><td>R19</td><td>C7, C8, C12</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>6</td><td>TRUTH.md sync</td><td>TRUTH.md: (a) L50 -&gt; &#x27;COURSE_DATE_B = &quot;January 2, 2027&quot;  # type: graded-positive; datatype: name; anchor: row:instagram-api/comments#179863000000706.text (stage 3 comment; the stage 2 revised flyer first shows the date); stage: stage3; class: S; mechanism: L3&#x27; (one route, TB4). (b) Step 17 (L33): replace &#x27;a review course date in the caption (R19)&#x27; with &#x27;the caption gives the review course date as January 2 (R19)&#x27;. (c) 3a: fs_flyer_revised criteria &#x27;R13, R19, R28&#x27;; sil_denise_alumni_code criteria &#x27;R13, R14, R19, R28&#x27;. (d) 3b: S2 Criteria &#x27;R19 (weight under O2, its last carrier)&#x27;, Weight 0, Share 0.0%; O2 Values &#x27;FEE_C, CODE, COURSE_DATE_B&#x27;, Criteria &#x27;R13, R14, R19, R28&#x27;, Weight 14, Share 11.8%. (e) Chain paragraph: add &#x27;R19 (date first moved by the stage 2 flyer) under O2&#x27;. No old R-numbers, no &#x27;not graded&#x27; notes, none of the E6 words (TB1-TB3). If the optional rerun of step 3 is taken instead: anchor image:data/environment/artifacts/inputs/files/home/Documents/CEN/ena_review_course.png (stage 2), ledger R19 under S2 with Weight 3, Share 2.5%.</td><td>R19</td><td>D1, C9, C5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E3/E4/E6/E8/E10/E11, Tier 2.5 J1-J2, TRUTH coverage, double charge) and the checklist agent with the shared tie-break rules; expect J1 R19 warn cleared, E4 matching &#x27;January 2&#x27; in R19, TRUTH coverage 0 gaps, checklist items 5/9 PASS with R19 recorded as text-route.</td><td>R19</td><td>D1, C5, C9</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>Optional, next rerun only: inject/stage3/mutations.json sil_denise_alumni_code comment text -&gt; &#x27;Good luck, Willie! Your MSN alumni can use code UMDALUM for $40 off the review course, any rate.&#x27; (removes the text route to January 2; then R19 counts as vision: 39/119 = 32.77%, and COURSE_DATE_B anchors on the stage 2 flyer image).</li></ul>
+<p class="qc-k">Verdict: ACCEPTABLE, neo-qc ACCEPTABLE, checklist has 0 flags (none created by the plan when R19 is kept text-route), vision 30.25% &gt;= 30% after the plan.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc: willie_alvarado_2f7a9e10 (added 8e0c52507..21be269e5)</h3>
+<p><strong>Verdict: ACCEPTABLE.</strong> Nothing blocks delivery. One design issue, which changes no graded outcome in run_1. Score: run_1 35.29% (claude-opus-5.5, 1 run). 35 criteria, 119 positive points, 20 turns, 5 inject stages.</p>
+<h4>Per tier</h4>
+<ul>
+<li>Step 0 gate: exit 0, no HARD findings, 1 informational (Dockerfile/skills/module digests verified).</li>
+<li>Tier 1: 20 pass, 1 warn, 4 skip, 0 fail. The warn is D17 &quot;could not check&quot; on 3 Instagram mutations (the checker could not import the service).</li>
+<li>Tier 1.5: 10 pass, 1 warn (E15), 3 info (E5, E11, E12), 1 skip (E8, no baseline). E9 passed, so no hand-check was needed.</li>
+<li>Tier 2: A, B, C, D, N3 all pass. No leak, no pre-staged drift, every mutation target exists in the seed.</li>
+<li>Tier 2.5: J1 warn (R19/R7 loose wording), J2 pass, J3 pass, J4 skip (no changes supplied).</li>
+<li>TRUTH coverage: 0 gaps (35 criteria, 20 turns, 3 files checked).</li>
+<li>Visual leaks: E11 info, so the sidecar has empty candidates. Double charge: 0 pairs, 0 points (7 same-source groups and 6 chains recorded, none drafted).</li>
+<li>Tier 3 all-criteria: 35 agree, 0 dispute, 0 unverifiable.</li>
+<li>Tier 3 attribution: 19 failed criteria, all <code>model</code> (rubric 0, judge 0, task 0, false_pass 0). No penalty fired.</li>
+</ul>
+<h4>Kept issue</h4>
+<ul>
+<li><strong>D1 (design): R19 credits any review course date, including the stale January 9.</strong></li>
+<li>Evidence: the stage 2 flyer moves the course to January 2, 2027 (TRUTH L49-50). The ledger row S2 gives that change 0 points (L103).</li>
+<li>prompt.txt L57 asks for &quot;the review course date&quot;, but R19 asks only for &quot;a date for the review course&quot;. R7 also accepts an event on either date.</li>
+<li>Run_1 patched the event to January 2 (report.json R7 note), so no score changes.</li>
+<li>Fix: reword R19 to name &quot;January 2, 2027&quot;. Rubric-only, no rerun needed.</li>
+</ul>
+<h4>Dismissed (and why)</h4>
+<ul>
+<li>D17 Instagram &quot;could not check&quot;: a limit of the checker. stage4 <code>sil_rosa_dm_conv_bump</code> is a decoy, and the stage5 auth lapse/revoke is fleet-level accepted context.</li>
+<li>E15 warn (18% by script): the script left 14 criteria / 54 points unmapped. The visual-leak pass did not run because E11 was info.</li>
+<li>A hand placement gives 36/119 = <strong>30.25%</strong>: R1, R3, R5, R8, R9, R11, R13, R21, R26, R28.</li>
+<li>The derived values are traced to picture-only inputs: 18 hours from the re-scored PNG (TRUTH L44); 115/150 and 76.7% from the raw 112 in the JPG only (L58-60); $225 from the $265 on the flyer PNG.</li>
+<li>That is just over the floor, so no issue, but any reweight should keep the share above 30%.</li>
+<li>E5 info: it labels <code>sil_rosa_qbank_edit_in_place</code> a decoy, but Tier 2.5 J3 shows it drives the $65.00 graded in R15/R29. That is checker wording, not a bundle defect.</li>
+<li>Low score (35.29%): sound criteria and genuine model misses. The agent did not re-read silently revised sources (practice exam PNG, Exam B key, tox CE flyer, syllabus Word comment, Rosa&#x27;s edited WhatsApp line, the UMDALUM comment), and it added words after &quot;Just the number/time&quot; (R25, R35).</li>
+<li>Judge slip: the R32 note says the course is on January 9, but the verdict is correct either way. Not a grader issue.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs in criteria: none. Vision: 30.25% (vision_ok true). Unconditional scripted messages: none (all mutations are silent data rows or file copies).</li>
+</ul>
+<h4>Outputs</h4>
+<p>neo/REPORT.html, neo/issues.json (1 issue, --check ok), neo/tier3_attribution.json, and in neo/&lt;slug&gt;/ the sidecars audit_report_tier2/tier25, truth_coverage, visual_leaks, double_charge, tier3_all_criteria and extras.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 1 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;D1&quot;,
+    &quot;severity&quot;: &quot;design&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2&quot;,
+    &quot;title&quot;: &quot;The countdown caption earns credit for any review course date, including the stale January 9&quot;,
+    &quot;what&quot;: &quot;The stage 2 flyer silently moves the ENA review course from Saturday, January 9, 2027 to Saturday, January 2, 2027, and the last turn asks for a caption with `the review course date`. R19 only checks that the caption gives `a date for the review course`, so an agent that missed the revision and posts January 9 still earns all 3 points. The flyer change carries no weight anywhere (TRUTH ledger row S2: criteria none, 0 points), and R7 likewise accepts a calendar event on either date. The reference run is not affected: it patched the event to January 2 and both criteria passed on the right value.&quot;,
+    &quot;evidence&quot;: &quot;rubric.json R19 (line 166) and R7 (line 58); prompt.txt line 57 asks for `the review course date`; TRUTH.md L49-50 (COURSE_DATE_A stale January 9, COURSE_DATE_B January 2) and L103 (S2, criteria none, 0.0%); run_1 report.json R7 justification notes the event was patched to January 2 at T13.&quot;,
+    &quot;ask&quot;: &quot;Reword R19 to: The agent publishes the countdown post with a caption that gives the review course date as January 2, 2027.&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;All four penalties (R31 Lindenfield/patient, R32 long-run overlap, R33 tags, R34 personal account) fire on their own; R19-R21 do not name the account, so R34 is not paired; repeated values (R8/R11/R21, R16/R17/R20, R3/R26, R13/R28, R15/R29) are positives in separate outputs each asked by its own turn.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Each criterion grades one fact plus a locator: R4 is one slot (start to finish, as T7 asks), R10&#x27;s &#x27;not a phone text&#x27; locates the WhatsApp DM T10 names, R22 is one start datetime, R31 is one violation with either/or venues.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turns name the file and change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;File checks are named in their turns: cen_study_plan.xlsx in T0 and T19 (&#x27;Send me cen_study_plan.xlsx finished&#x27;) for R26-R28; cen_countdown_final.png in T15/T16 for R18-R21.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Silent change right after approval&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;T1-T6 are read questions, not user confirmations; the only approval (T13 &#x27;That&#x27;s approved&#x27;, rate &#x27;whatever applies&#x27;) comes after the stage 2/3 fee and code changes, and stages 4-5 do not touch the fee, code or share.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Visual answer leaked in text&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;68%, re-scored domain %s, raw 112, 9:30 AM and $265 appear only in images; the PDF sticky gives only +3 errata and the stage-3 comment only &#x27;$40 off&#x27;; the &#x27;January 2&#x27; text in the stage-3 comment does not leak R19, which accepts any date; &#x27;neuro&#x27; text lines are stale traps.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No mutation reacts to an agent action: Rosa&#x27;s $195 reply, the edited crew line, the UMDALUM comment, Rosa&#x27;s 4:00 DM (Sunday chosen by the stage-1 RSVP flip, world state) and the department mail all read correctly whatever the agent did.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;user_facing_message for mid-run replies (R1, R2, R5, R6, R11, R12, R24, R25, R35), final_answer for the T19 wrap (R29, R30), produced_artifact for the png/xlsx (R18, R26-R28), state_change for sends/events/tasks/posts.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;R7, R15, R17 and R22 are typed &#x27;tool use&#x27; but are worded as end state; persona rules are graded by outcome (R6/R12 reply text, R32 calendar end state, R31 sent content); no criterion grades auth, upload or file reads.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent with rubric&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every turn T0-T19 has a TRUTH step; values and R-numbers match rubric.json; TRUTH itself marks COURSE_DATE_B as ungraded (ledger S2 weight 0), matching R7/R19 accepting any date.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;36 of 119 positive points (30.25%) depend on image-only values; passes by 0.25 points, so any new text route to one of these values would drop the task below target.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;After each stage fired, every carrier the agent read showed the mutated value (RSVP flip at T7, revised flyer Jan 2/$265 at T13, nested $195 reply, UMDALUM comment and 4:00 DM at T17, 10:00 AM mail at T18); the misses are agent omissions, not environment gaps.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion contains a turn number; the weekday/time anchors (Mon 10:00 AM, Tue 6:20 AM, Tue 7:45 PM, Wed 6:15 AM, Thu 6:05 AM, Fri 10:30 AM, Fri 12:15 PM, Fri 4:00 PM) each match exactly one turn and the right date.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R34 (post on personal account) pairs with caption positives R19-R21.&quot;,
+      &quot;why&quot;: &quot;R19-R21 grade only caption content and name no account; a correct caption on willie.alvarado passes R19-R21 and still fires R34, so R34 fires on its own and grades a different behaviour.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;One missed mutation is charged several times (R8/R11/R21, R16/R17/R20, R3/R26, R13/R28, R15/R29).&quot;,
+      &quot;why&quot;: &quot;All are positives, no penalty involved; each is a separate output asked by its own turn (T9 crew msg, T12 reply, T16 caption, T7 SMS, T19 xlsx/wrap, T13 email/task), and no turn couples them (&#x27;the same value in two outputs that no turn couples&#x27;).&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R10 combines channel and amount.&quot;,
+      &quot;why&quot;: &quot;T10 &#x27;Tell Rosa on WhatsApp&#x27; names the channel; it locates the graded output, and the only graded fact is $48.75. Dropping it would break self-containment.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R4 combines date, start and end.&quot;,
+      &quot;why&quot;: &quot;One fact: the winning option B window (evt-wb11, 3:00-6:00 PM Sun Dec 13); T7 asks &#x27;start to finish&#x27;.&quot;
+    },
+    {
+      &quot;item&quot;: 3,
+      &quot;claim&quot;: &quot;R26-R28 grade workbook values that moved after T0 without the turn naming the change.&quot;,
+      &quot;why&quot;: &quot;T19 names cen_study_plan.xlsx (&#x27;finished&#x27;); not naming the source change is the intended silent-mutation design, and the crew doc&#x27;s &#x27;latest practice exam&#x27; rule covers the update.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;T3/T4/T5/T6 values silently changed and re-asked (R4, R8, R9, R10, R11); T13 approval (R13).&quot;,
+      &quot;why&quot;: &quot;T3-T6 are plain questions the user never confirms; T13 approves the action at &#x27;whatever rate applies&#x27;, and the rate-moving stages 2 and 3 fire before T13 (stages 4-5 do not touch the fee).&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;Stage-3 comment text &#x27;January 2 review course&#x27; leaks the R19 caption date.&quot;,
+      &quot;why&quot;: &quot;R19 passes any review-course date, so the date is not graded; no other image-graded value has a text route at grading time.&quot;
+    },
+    {
+      &quot;item&quot;: 9,
+      &quot;claim&quot;: &quot;TRUTH says the course event and caption carry January 2 while R7/R19 accept any date.&quot;,
+      &quot;why&quot;: &quot;TRUTH tags R7/R19 only to &#x27;an event for the review course&#x27; / &#x27;a review course date in the caption&#x27;, and marks COURSE_DATE_B &#x27;type: input&#x27; with ledger S2 &#x27;Criteria none, Weight 0&#x27;; TRUTH and the rubric agree (design note: the stage-2 date move is ungraded).&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;report.json R32 justification says the course event is Jan 9, but the run patched it to Jan 2.&quot;,
+      &quot;why&quot;: &quot;Grader justification slip, not a run/environment mismatch: the run read the revised flyer (Jan 2) and PATCHed evt-ba0d805336 to 2027-01-02; R32 exempts the course event regardless, so the verdict is unchanged.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;At T10 the run did not see Rosa&#x27;s stage-2 $195 reply.&quot;,
+      &quot;why&quot;: &quot;instagram_data.py nests replies under &#x27;replies.data&#x27;; the agent&#x27;s T10 script printed only top-level text; the reply shows nested in its T17 read (run msg 166).&quot;
+    },
+    {
+      &quot;item&quot;: 12,
+      &quot;claim&quot;: &quot;R26-R28 say &#x27;The response delivers cen_study_plan.xlsx&#x27; without anchoring which of the two deliveries (T0, T19) is graded.&quot;,
+      &quot;why&quot;: &quot;No turn number appears; produced_artifact grades the single final file (only one cen_study_plan.xlsx in output_media), so there is no ambiguity in what is graded.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 30.3,
+    &quot;vision_weight&quot;: 36,
+    &quot;positive_weight&quot;: 119,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;data/environment/artifacts/inputs/files/home/Pictures/CEN/practice_exam_2_scores.png (seed)&quot;,
+        &quot;why&quot;: &quot;&#x27;Overall 68%&#x27; only in the screenshot at T1&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage1/files/practice_exam_2_scores.png&quot;,
+        &quot;why&quot;: &quot;18 h = crew text rule applied to the re-scored domain %s, which are image-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage1/files/practice_exam_2_scores.png&quot;,
+        &quot;why&quot;: &quot;Environment and Toxicology 55% lowest only in the re-scored image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;data/environment/artifacts/inputs/files/home/Pictures/CEN/practice_exam_B_scored.jpg&quot;,
+        &quot;why&quot;: &quot;raw 112 is image-only; PDF sticky text gives only +3&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/umich_tox_ce_flyer.png&quot;,
+        &quot;why&quot;: &quot;&#x27;9:30 to 11:00 AM&#x27; only in the revised flyer image at T9&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;data/environment/artifacts/inputs/files/home/Pictures/CEN/practice_exam_B_scored.jpg&quot;,
+        &quot;why&quot;: &quot;76.7% = (image-only 112 + 3) / 150&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/ena_review_course.png&quot;,
+        &quot;why&quot;: &quot;$225 = image-only &#x27;$265 early-bird&#x27; - $40 (comment text)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;data/environment/artifacts/inputs/files/home/Pictures/CEN/practice_exam_B_scored.jpg&quot;,
+        &quot;why&quot;: &quot;same 76.7% derivation from the image-only raw 112&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage1/files/practice_exam_2_scores.png&quot;,
+        &quot;why&quot;: &quot;18 h total needs the image-only re-scored domain %s&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/ena_review_course.png&quot;,
+        &quot;why&quot;: &quot;same $265 - $40 derivation as R13&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;why&quot;: &quot;&#x27;Exam day: January 16&#x27; is given verbatim in the T15 prompt (text route)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;why&quot;: &quot;any review-course date passes; &#x27;January 2&#x27; also in stage-3 comment text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;why&quot;: &quot;grades only that a course event exists, not its date&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2, R35&quot;,
+        &quot;why&quot;: &quot;$180 IG comment text and crew of four (plan doc); R35 format-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;why&quot;: &quot;calendar RSVP attendee data (text) + 3-hour rule&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6, R12, R25&quot;,
+        &quot;why&quot;: &quot;format-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10, R15, R27, R29&quot;,
+        &quot;why&quot;: &quot;$195 IG reply text and WhatsApp headcount edit&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;why&quot;: &quot;UMDALUM from IG comment text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16, R17, R20&quot;,
+        &quot;why&quot;: &quot;docx Word comment text (100/day, five days)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22, R23, R30&quot;,
+        &quot;why&quot;: &quot;Instagram DM text (4:00 start)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;why&quot;: &quot;Outlook mail text (10:00 AM)&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;0 flags across items [1-12] (all PASS after strict verification; 11 candidates rejected with evidence), vision 30.3% (36/119, thin margin)&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;Tier 2.5 J1 warn (R19/R7 loose wording)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C5&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R19 credits any review course date, so an agent that missed the stage 2 flyer and posts the stale January 9 still earns 3 points; reword R19 to name January 2, 2027 (rubric-only).&quot;,
+      &quot;checklist_says&quot;: &quot;Item 5 PASS only because R19 accepts any date: &#x27;the January 2 text in the stage-3 comment does not leak R19, which accepts any date&#x27;. Item 5 rule: a fact graded from a picture must not also be readable as text.&quot;,
+      &quot;loop&quot;: &quot;Once R19 grades January 2, the value has two routes at grading time (T16): the stage 2 revised flyer image and the stage 3 UMDALUM comment text (fires T12). If TRUTH keeps COURSE_DATE_B anchored image-only, checklist 5 flags a picture-graded fact readable in text (and J2 C-b would flag any &#x27;only&#x27; claim); if TRUTH lists both image: and a text anchor, E11 fails declared_route; deleting the comment text is an inject edit (E8/E9/checklist 11, RR3).&quot;,
+      &quot;resolution&quot;: &quot;Take the D1 reword, and treat R19 honestly as a text-route criterion: it is already excluded from vision by both tools (checklist vision &#x27;excluded&#x27; list, neo hand placement 36/119), so no picture-only claim exists and checklist 5 (picture-graded facts) does not apply. One route per lock (TB4): anchor COURSE_DATE_B on the stage 3 comment row, no image: anchor. Vision unchanged. Removing &#x27;January 2&#x27; from the comment text is optional and rerun-only (would make R19 picture-only, vision 30.25 -&gt; 32.77%).&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R19 &#x27;gives a date for the review course&#x27;; prompt.txt L57 &#x27;Caption it with the review course date&#x27;; inject/stage3/mutations.json L53 &#x27;code UMDALUM for $40 off the January 2 review course, any rate.&#x27; fires_at_turn T12; TRUTH.md L50 COURSE_DATE_B anchor image:...ena_review_course.png (stage 2); checklist.json item 5 note and vision.excluded R19 &#x27;January 2 also in stage-3 comment text&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;truth_coverage.json (0 gaps today)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C9&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;neo_says&quot;: &quot;D1 fix adds grading of COURSE_DATE_B; TRUTH coverage requires a graded value to carry a graded lock type (graded-positive or checkpoint), otherwise lock_type_mismatch.&quot;,
+      &quot;checklist_says&quot;: &quot;Item 9 PASS because &#x27;TRUTH itself marks COURSE_DATE_B as ungraded (ledger S2 weight 0), matching R7/R19 accepting any date&#x27;.&quot;,
+      &quot;loop&quot;: &quot;After the R19 reword, TRUTH still says COURSE_DATE_B &#x27;type: input&#x27; and ledger S2 &#x27;Criteria none, Weight 0&#x27;, and step 17 says &#x27;a review course date in the caption&#x27;: TRUTH coverage reports a contradiction / lock_type_mismatch and checklist 9 flags TRUTH vs rubric. Retyping the lock to evidence to quiet it trips lock_type_mismatch again (TB4).&quot;,
+      &quot;resolution&quot;: &quot;Same edit batch as the R19 reword: retype COURSE_DATE_B to graded-positive (literal &#x27;January 2&#x27; stays in R19 text, so E4 is satisfied), update step 17, the 3a rows and the 3b ledger as in fix_plan step 6; no history words (TB1/TB3), no &#x27;not graded&#x27; notes (TB2).&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md L33 &#x27;a review course date in the caption (R19)&#x27;, L50 &#x27;type: input&#x27;, L103 &#x27;S2 ... COURSE_DATE_B | none | 0 | 0.0%&#x27;; checklist.json item 9 note and rejected item-9 claim.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1 (evidence mentions R7)&quot;,
+        &quot;Tier 2.5 J1 warn&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R7 likewise accepts a calendar event on either date (noted in D1 evidence; D1&#x27;s ask changes only R19).&quot;,
+      &quot;checklist_says&quot;: &quot;Silent: item 8 accepts R7 as an end-state check; no flag.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Leave R7 unchanged. neo-qc&#x27;s kept ask does not touch it and the checklist would not object either way. Tightening R7 to January 2 is optional: it is not a double-charge pair with R19 (calendar event and caption are two outputs no turn couples) and gives no vision gain (end-state date also reachable from the stage 3 comment text). Run_1 patched the event to January 2 so the verdict would not move.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R7 &#x27;leaves an event on Willie&#x27;s primary calendar for the ENA review course&#x27;; report.json R7 justification &#x27;At T13 (call #57), the event was patched to update the date to January 2&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E15 warn (script 18%, dismissed)&quot;,
+        &quot;QC_SUMMARY hand placement 36/119 = 30.25%&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C10&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R3&quot;,
+        &quot;R5&quot;,
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R11&quot;,
+        &quot;R13&quot;,
+        &quot;R21&quot;,
+        &quot;R26&quot;,
+        &quot;R28&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Hand placement gives 36/119 = 30.25%, just over the floor; any reweight must keep the share above 30%.&quot;,
+      &quot;checklist_says&quot;: &quot;PASS, 30.3% (36/119), thin margin: any new text route to one of these values drops the task below target.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools use the same ten criteria under the dependency definition. The plan changes no weight and adds no text route to these ten values, so vision stays 30.25%. Any later weight edit must lower a text criterion, not one of these.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json vision.rows (10 rows, 36 points); QC_SUMMARY.md &#x27;A hand placement gives 36/119 = 30.25%: R1, R3, R5, R8, R9, R11, R13, R21, R26, R28&#x27;; scratch/metrics.py output &#x27;pos 119 vis 36 vision% 30.25&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json: 0 pairs (7 same-source groups, 6 chains)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R31&quot;,
+        &quot;R32&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R21&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No double-charge pairs; repeated values are same-source groups or chains, not drafted.&quot;,
+      &quot;checklist_says&quot;: &quot;PASS; all four penalties fire on their own (R34 not paired with R19-R21); repeated positives sit in separate outputs no turn couples.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both apply the shared NOT-a-pair list and the penalty test (penalty can fire without a positive failing). The R19 reword creates no new pair: R19 is the only criterion grading COURSE_DATE_B.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json item 1 note and rejected claims; QC_SUMMARY.md &#x27;Double charge: 0 pairs, 0 points&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;QC_SUMMARY dismissed: judge slip R32&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C11 (rejected claim)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R32&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R32 justification says the course is on January 9; the verdict is right either way; not a grader issue.&quot;,
+      &quot;checklist_says&quot;: &quot;Grader justification slip, not a run/environment mismatch; R32 exempts the course event regardless.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. Verdict &#x27;Penalty not applied&#x27; is correct; leave report.json alone (hand edits would add TB3 risk for no gain).&quot;,
+      &quot;evidence&quot;: &quot;report.json R32 &#x27;The only primary-calendar event overlapping Saturday 7:00-9:15 AM is the ENA Review Course (Jan 9 at 8:00 AM), which is explicitly excluded&#x27;.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH&quot;,
+      &quot;action&quot;: &quot;D1 is rubric/TRUTH only (rubric.json R19 + TRUTH.md). The only data-side lever (dropping &#x27;January 2&#x27; from the stage 3 UMDALUM comment) is rerun-only and is queued in rerun_batch, not patched now. No prompt, inject or data edit in this pass.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C5&quot;,
+        &quot;C9&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;rubric.json R19 criterion -&gt; &#x27;The agent publishes the countdown post with a caption that gives the review course date as January 2 (with or without the year 2027).&#x27; Keep score 3, importance important, type task completion, target state_change. DL8 check: no alternative value is accepted; the only stale value (January 9, 2027) is not accepted. R7 left unchanged (see match 3).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;J1 warn&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;visual route&quot;,
+      &quot;action&quot;: &quot;DL6 decision: R19 is a text-route criterion (the stage 3 comment, fired T12, states &#x27;January 2&#x27; before the T16 caption), so it is not counted as vision and TRUTH gets one text anchor (step 6), never image: + text. Optional rerun: edit inject/stage3/mutations.json sil_denise_alumni_code text to &#x27;Good luck, Willie! Your MSN alumni can use code UMDALUM for $40 off the review course, any rate.&#x27; so the date is picture-only; then anchor COURSE_DATE_B on the stage 2 flyer image and count R19 as vision (+2.52 pts).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;Keep the comment text as delivered; R19 stays text-route, anchor COURSE_DATE_B on row:instagram-api/comments#179863000000706.text, vision stays 30.25%.&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;recompute vision and score&quot;,
+      &quot;action&quot;: &quot;Recomputed with scratch/metrics.py from rubric.json + run_1 report.json: vision 36/119 = 30.25% before and after (no weight change, R19 not in the vision set); score 42/119 = 35.29% before and after (R19 passed in run_1 with &#x27;Review course: Saturday, January 2.&#x27;, verdict unchanged). No pair to swap, no weight pass needed (steps 5-6 of the safe order have no items).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C10&quot;,
+        &quot;E15&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;Check only: new R19 has no turn number (DL7), points at the one countdown post, one target state_change (DL9), outcome wording (DL10). No edit.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C7&quot;,
+        &quot;C8&quot;,
+        &quot;C12&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;TRUTH.md: (a) L50 -&gt; &#x27;COURSE_DATE_B = \&quot;January 2, 2027\&quot;  # type: graded-positive; datatype: name; anchor: row:instagram-api/comments#179863000000706.text (stage 3 comment; the stage 2 revised flyer first shows the date); stage: stage3; class: S; mechanism: L3&#x27; (one route, TB4). (b) Step 17 (L33): replace &#x27;a review course date in the caption (R19)&#x27; with &#x27;the caption gives the review course date as January 2 (R19)&#x27;. (c) 3a: fs_flyer_revised criteria &#x27;R13, R19, R28&#x27;; sil_denise_alumni_code criteria &#x27;R13, R14, R19, R28&#x27;. (d) 3b: S2 Criteria &#x27;R19 (weight under O2, its last carrier)&#x27;, Weight 0, Share 0.0%; O2 Values &#x27;FEE_C, CODE, COURSE_DATE_B&#x27;, Criteria &#x27;R13, R14, R19, R28&#x27;, Weight 14, Share 11.8%. (e) Chain paragraph: add &#x27;R19 (date first moved by the stage 2 flyer) under O2&#x27;. No old R-numbers, no &#x27;not graded&#x27; notes, none of the E6 words (TB1-TB3). If the optional rerun of step 3 is taken instead: anchor image:data/environment/artifacts/inputs/files/home/Documents/CEN/ena_review_course.png (stage 2), ledger R19 under S2 with Weight 3, Share 2.5%.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C9&quot;,
+        &quot;C5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E3/E4/E6/E8/E10/E11, Tier 2.5 J1-J2, TRUTH coverage, double charge) and the checklist agent with the shared tie-break rules; expect J1 R19 warn cleared, E4 matching &#x27;January 2&#x27; in R19, TRUTH coverage 0 gaps, checklist items 5/9 PASS with R19 recorded as text-route.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R19&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C5&quot;,
+        &quot;C9&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;Optional, next rerun only: inject/stage3/mutations.json sil_denise_alumni_code comment text -&gt; &#x27;Good luck, Willie! Your MSN alumni can use code UMDALUM for $40 off the review course, any rate.&#x27; (removes the text route to January 2; then R19 counts as vision: 39/119 = 32.77%, and COURSE_DATE_B anchors on the stage 2 flyer image).&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 30.25,
+    &quot;vision_after&quot;: 30.25,
+    &quot;score_before&quot;: 35.29,
+    &quot;score_after&quot;: 35.29,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 0,
+  &quot;verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;neo-qc ACCEPTABLE, checklist has 0 flags (none created by the plan when R19 is kept text-route), vision 30.25% &gt;= 30% after the plan.&quot;,
+  &quot;summary&quot;: &quot;2 conflicts (DL6, TB2), 3 agree, 1 one-sided, fix plan 7 steps (1 rerun, optional), vision 30.25-&gt;30.25%, score 35.29-&gt;35.29%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "willie_alvarado_2f7a9e10-c4d6-4b85-9f3e-71a5d8c0b6e2", "slug": "willie_alvarado_2f7a9e10", "tasker": "Anuj Mishra", "authors": ["Anuj Mishra", "anuj.mishra2005@ethara.ai"], "version": 1, "commit_sha": "21be269e54820a7ba808fec1c5a4daf93f08af0d", "base_sha": "8e0c5250767255dd8a7ee7a81c740501022f41ca", "range": "8e0c52507..21be269e5", "change": "added", "verdict": "ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 0 flag(s); 2 conflicts (DL6, TB2), 3 agree, 1 one-sided, fix plan 7 steps (1 rerun, optional), vision 30.25->30.25%, score 35.29->35.29%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 1 design (R19 accepts stale course date; no graded outcome changed) / 0 grader / 0 minor; score 35.29%; T3 non-model 0 of 19 failures", "checklist_flags": 0, "conflicts": 2, "vision_before": 30.25, "vision_after": 30.25, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 1, "attempt": 1, "qc_finished_at": "2026-11-27T05:26:33Z"}</script></body></html>
