@@ -1386,6 +1386,14 @@
     "started": "2026-11-23 14:32",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1423_a1",
+    "score": 54.43,
+    "started": "2026-11-27 08:53",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/john_patel_361b5dc6-ce33-4d3c-a385-c04ff8e6df59": [
