@@ -1278,6 +1278,14 @@
     "started": "2026-11-26 06:49",
     "v": 5,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1410_a1",
+    "score": 27.14,
+    "started": "2026-11-27 08:40",
+    "v": 6,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/greg_howard_1828c2cf-6c26-4893-bc7c-7dddc5388d6d": [
