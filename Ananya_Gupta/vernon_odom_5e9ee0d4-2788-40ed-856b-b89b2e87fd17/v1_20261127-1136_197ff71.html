@@ -1,0 +1,942 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: vernon_odom_5e9ee0d4 (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17</code></span>
+<span><span class="k">Tasker</span>Ananya Gupta</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>197ff71cf</code> (added, range <code>a599916bb..197ff71cf</code>)</span>
+<span><span class="k">QC finished</span>2026-11-27 08:17:36 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>2</span>
+<span><span class="k">Conflicts</span>2</span>
+<span><span class="k">Vision</span>57.75% → 57.75%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 2 flag(s); 2 conflicts (DL9 R33, DL8 R38), 1 disagreement (DL9 R13: checklist right on target, neo right on wording), 6 agree, 1 one-sided; fix plan 11 steps (0 rerun), vision 57.75-&gt;57.75%, score 39.44-&gt;39.44%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: vernon_odom_5e9ee0d4</h1>
+<p class="sub">obsidian-infinity-stage-1 a599916bb..197ff71cf (added)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>38</b><span>rubrics</span></div><div class="stat"><b>39.4</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>11/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>10/1/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>2/1/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>38/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 11 failed criteria across 1 task(s): <b>11 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 0 failure(s) and 1 warning(s). Tier 2.5 flagged 1 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 38 criteria: 38 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 0 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 1 item(s): 1 design.</p>
+
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#D1'><code>D1</code></a></td><td><span class="b b-sev-design">design</span></td><td class='muted'>rubric</td><td class='muted'>vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17</td><td>The MLK Day calendar criterion grades the tool log instead of the calendar it leaves</td></tr></table><div class='issue' id='D1'><h4><code>D1</code> The MLK Day calendar criterion grades the tool log instead of the calendar it leaves <span class="b b-sev-design">design</span> <span class='muted'>vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17</span></h4><p>R13 asks for an MLK Day of Service event on Monday, January 18, 2027, 9 AM to 1 PM, but it is typed <code>evaluation_target: trajectory</code> and ends &quot;while handling Vernon&#x27;s Tuesday-morning request&quot;, so it grades the act of calling the tool rather than the event left on the calendar. A run that creates the event and later moves or deletes it would still pass. The matching calendar ask, R16, already uses <code>state_change</code>. R13 weighs 1 point and the reference run passes it either way, so no score changes today.</p><p><b>Evidence.</b> <code>rubric.json</code> lines 110-118 (R13: <code>type: tool use</code>, <code>evaluation_target: trajectory</code>); compare R16 (<code>state_change</code>).</p><p><b>Ask.</b> Set R13&#x27;s <code>evaluation_target</code> to <code>state_change</code> and reword it as the end state: &quot;Vernon&#x27;s calendar shows an MLK Day of Service event on Monday, January 18, 2027 from 9 AM to 1 PM.&quot;</p></div>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17</td><td><code>E4_truth_refs</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>MONDAY_READS=15% / $30.60 / 50% / $42 a person / 58 cents a mile / 1:2: not found in any criterion text</td></tr></table></details><details><summary>Tier 2.5 findings (1)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R13 A4/A1: &quot;The agent creates an MLK Day of Service event on Vernon&#x27;s calendar for Monday, January 18, 2027 from 9 AM to 1 PM while handling Vernon&#x27;s Tuesday-morning request.&quot; is targeted at <code>trajectory</code> but grades a calendar end state. Set evaluation_targe...</td><td class='muted'>rubric.json:112: &quot;criterion&quot;: &quot;The agent creates an MLK Day of Service event on Vernon&#x27;s calendar for Monday, January 18, 2027 from 9 AM to 1 PM while handling Vernon&#x27;s Tuesday-morning request.&quot;</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 sil_ig_jasmine_share_jan11: could not check (instagram-api/comments: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17'><td>vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17</td><td class='n'>20</td><td class='n'>38</td><td class='n'>39.44</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 11</td><td>10/1/0</td><td><span class="b b-warn">J1</span></td><td>38/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>2 flags across items [7, 9] (R33 evaluation_target should be trajectory; R38 wording vs TRUTH &#x27;read on its own&#x27;); vision 57.7%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No penalty can fire only when a positive fails: R31/R35 fire only when a post exists, R32/R33/R34 have no matching positive, R36/R37 are worded relative to the same text, and the shared inputs (R15/R27, R14/R24, R17/R23) sit in different outputs that no turn couples.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Each criterion grades one fact, format or behaviour. R13/R16 (title+date+time of one event), R7 and R25 join parts of one fact; R14/R24 alternatives only widen the pass; R32/R34 are OR-lists inside one penalty; R38 grades one line amount.</td></tr><tr><td>3</td><td>Turn names the file and change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>T0 names nola_points_inventory.xlsx Balances/Prices (R1-R3); T16 the Plan sheet (R24); T15 nola_homecoming.png (R22); T17 nola_homecoming_final.png and the Odom Household Budget sheet&#x27;s Trips tab (R25-R28, R38). Nothing relies on &#x27;everywhere&#x27;.</td></tr><tr><td>4</td><td>Lower weight after approval + silent change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The only approval (Mon 16:55 &#x27;I approve the booking&#x27;) approves an action, not a value, and stage 2 lands five turns later; every other pre-stage turn (T4, T7, T9, T13, T16) is a question or a send request that confirms no value.</td></tr><tr><td>5</td><td>Picture-graded fact also in text (leak)</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Independent greps of persona, all seed json, docx/xlsx XML, PDFs (no /Font in any Voyager scan) found none of the picture-graded values; the only copies are mutations.json rationale/description metadata. GOING HOME / Happy Birthday, Denise are generation instructions, not leaked answers.</td></tr><tr><td>6</td><td>Scripted messages assume the expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>All injected messages (family thread s1-s6, Denise SMS, Tamika in her own Jan 6 thread, church/HOA/physical mail, in-place edits of old emails/comments/WhatsApp) read correctly whatever the agent did; none acknowledges an agent action.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag bad">FLAG</span></td><td>C7.1</td><td>All targets fit except R33, a turn-scoped check marked state_change; R13&#x27;s trajectory target is justified because a later Thursday edit legitimately changes the event.</td></tr><tr><td>8</td><td>No process rubrics unless method asked</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion grades a method; R13 grades the requested event (outcome), read from the trajectory only because a later Thursday edit changes the end state; persona rules (R31-R35) are graded by visible outcome.</td></tr><tr><td>9</td><td>TRUTH consistent with rubric/prompt/answers</td><td><span class="qc-tag bad">FLAG</span></td><td>C9.1</td><td>TRUTH covers T0-T19, and every graded value recomputes (45,000; 29,450; $511.20; 57,000; 1.80c; 20,450; 63,450; 17,150; $422.80; $241.80; $61.75). One mismatch: TRUTH and R38 disagree on what R38 grades.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>41 of 71 positive points (57.7%) depend on image or scan content with no text route; 60.6% if the generated-image checks R22/R25 were counted.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every value the run read matches the seed or mutation in force at the time (T0 images at seed; T19 emails show the stage-1/2 bodies), and all 38 report verdicts match the run&#x27;s outputs. Whether the fs-mutation dst /workspace/home/home maps to the run&#x27;s /root/workspace/home/home cannot be tested: the run never re-opened a mutated file.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion has a turn number. Every day-part anchor points at exactly one turn (Monday noon/afternoon/evening/night = T1-T4, Tuesday-midday text = T6, Tuesday email = T7, Thursday text = T16, and so on).</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C7.1"><div><strong>C7.1</strong> · item 7 Evaluation target correct
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R33
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Thu 16:50 Plan-sheet/text request, Thu 21:00 post request</div>
+<p style="margin:.4rem 0">R33 asks whether a new Instagram post exists at the end of the Thursday-afternoon request, a point-in-time check, but its evaluation_target is state_change. The final state always contains the correct Thursday-night post (R26), so a final-state grader would fire the -3 on every correct run. This run was judged right only because the judge used turn-level evidence.</p><div class="ev"><span class="qc-k">rubric.json R33</span><code>The agent leaves a new post on Vernon&#x27;s Instagram account at the end of Vernon&#x27;s Thursday-afternoon request about the Plan sheet.&quot;, &quot;is_positive&quot;: false, &quot;type&quot;: &quot;instruction following&quot;, &quot;evaluation_target&quot;: &quot;state_change&quot;</code></div><div class="ev"><span class="qc-k">prompt.txt T17 (Day 4, 21:00)</span><code>save it as nola_homecoming_final.png, then put that on my Instagram with a caption saying how many Larkspur points the trip takes.</code></div><div class="ev"><span class="qc-k">rubric.json R13 (turn-scoped check handled by trajectory)</span><code>while handling Vernon&#x27;s Tuesday-morning request.&quot;, ... &quot;evaluation_target&quot;: &quot;trajectory&quot;</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/report.json R33 justification</span><code>At T16 the agent only texted Denise and updated the workbook. The only new Instagram post was created at T17, after the separate evening publishing request.</code></div>
+<div><span class="qc-k">Fix plan</span>Set R33 evaluation_target to &quot;trajectory&quot;, matching R13&#x27;s handling of turn-scoped checks. Keep the wording (&#x27;...publishes a post on Vernon&#x27;s Instagram account before Vernon&#x27;s Thursday-night request to post nola_homecoming_final.png&#x27;) and the -3 / important. The criterion stays atomic and self-contained.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The items 3/7/8/12 verifier CONFIRMED this with the same quotes. I re-read R33&#x27;s target and the R13 contrast, and checked in the run (msg 158, 2027-01-15T02:00Z) that the only post is the Thursday-night one. The verdict was correct in this run, so nothing changes for it.</div></div><div class="qc-flag" id="C9.1"><div><strong>C9.1</strong> · item 9 TRUTH consistent with rubric/prompt/answers
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R38, R23
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Thu 21:00 budget Trips tab</div>
+<p style="margin:.4rem 0">TRUTH says R38 grades only the $58.25 Larkspur credit and leaves R38 off the chart, whiteboard and Free Night Award ledger rows. R38&#x27;s wording, though, ties &#x27;each room-night on points&#x27; to no count stated in the same output, and its parenthetical fixes the expected value at 8 room-nights ($61.75). A grader can therefore also charge the room-night decision, which R23 already grades. TRUTH&#x27;s own HOOP_D entry marks it as &#x27;(decision)&#x27;.</p><div class="ev"><span class="qc-k">rubric.json R38</span><code>The agent leaves the Odom Household Budget sheet&#x27;s Trips tab with a hotel line of $15 for each room-night on points minus the $58.25 Larkspur credit remaining ($61.75 for 8 room-nights).</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 18 (T17)</span><code>hotel $61.75 (R38 grades the $58.25 credit read on its own: $15 for each room-night on points minus $58.25)</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Value Lock HOOP_D</span><code>derived:rule 7 8 x $15 - LARK_CR_B $58.25 (no fee on the award night); stage: stage4; class: S; mechanism: API x image + H (decision)</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md 3b ledger row S6 (whiteboard)</span><code>| R14, R15, R17, R23, R24, R27 | 30 | 42.3% |</code></div><div class="ev"><span class="qc-k">rubric.json R36 (relative pattern done right)</span><code>74,450 miles minus the miles that same text says the award seats take out</code></div>
+<div><span class="qc-k">Fix plan</span>Reword R38 relative to a value inside the same output: &#x27;The agent leaves the Odom Household Budget sheet&#x27;s Trips tab with a hotel line equal to $15 times the room-nights on points that the same line uses, minus the $58.25 Larkspur credit remaining (for example $61.75 for 8 room-nights, $76.75 for 9).&#x27; Keep +1 / important. In TRUTH, change HOOP_D&#x27;s &#x27;(decision)&#x27; to note that the count is graded by R23 only. R38 stays atomic (one line amount) and self-contained.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The items 9/11 verifier CONFIRMED a TRUTH/ledger mismatch on R38. The coverage verifier independently raised the same wording issue (filed under item 2). The items 1/2 verifier REJECTED it as an atomicity hit, which I agree with: it is one computed figure. I re-read R38, TRUTH Step 18, HOOP_D and the S4/S6/E4 ledger rows myself. It did not change this run&#x27;s verdict (the run used $100, not $58.25).</div></div>
+<h3>Vision share <span class="qc-tag ok">57.7%</span></h3>
+<p>41 of 71 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>Documents/NOLA2027/voyager_benefits_summary.pdf (image-only scan)</td><td>68,300 Voyager points is only in the scan</td></tr><tr><td>R2</td><td>1</td><td>Pictures/Screenshots/larkspur_rewards_account.png</td><td>&#x27;exp. Jan 31, 2027&#x27; is only on the screenshot</td></tr><tr><td>R3</td><td>1</td><td>Downloads/larkspur_award_chart_2027.png</td><td>Category 4 standard 15,000 is only on the chart</td></tr><tr><td>R14</td><td>5</td><td>peachtree_fares_mar12.png (stage 1) + IMG_4471.jpg</td><td>20,000-mile award and the 3 award seats are image-only</td></tr><tr><td>R15</td><td>5</td><td>peachtree_fares_mar12.png (stage 1) + IMG_4471.jpg</td><td>$348 fare, $11.20 award taxes and the seat mix are image-only</td></tr><tr><td>R17</td><td>5</td><td>larkspur_rewards_account.png (stage 1) + award chart (stage 2) + IMG_4471.jpg</td><td>136,700 balance, Royal Street Cat 5 at 20,000, and the rooms and table of 9 are image-only</td></tr><tr><td>R18</td><td>5</td><td>larkspur_award_chart_2027.png (stage 2)</td><td>the 20,000 Cat 5 standard price behind 1.80c is image-only</td></tr><tr><td>R23</td><td>5</td><td>larkspur_rewards_account.png (stage 4) + award chart + IMG_4471.jpg</td><td>137,950 balance, the 20,000 level and the rooms/table counts are image-only</td></tr><tr><td>R24</td><td>5</td><td>peachtree_miles_account.png (stage 4) + peachtree_fares_mar12.png (stage 4) + IMG_4471.jpg</td><td>66,650 balance, the 22,000 award and the 3 seats are image-only</td></tr><tr><td>R27</td><td>5</td><td>peachtree_fares_mar12.png (stage 4) + voyager_benefits_summary.pdf (stage 3)</td><td>$372 fare, $11.20 taxes and the $112.40 airline credit are image/scan-only</td></tr><tr><td>R36</td><td>1</td><td>peachtree_miles_account.png (stage 1)</td><td>grades the 74,450 balance read</td></tr><tr><td>R37</td><td>1</td><td>peachtree_miles_account.png (stage 3)</td><td>grades the 65,450 balance read</td></tr><tr><td>R38</td><td>1</td><td>voyager_benefits_summary.pdf (stage 4)</td><td>$58.25 Larkspur credit is only in the scan</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (15)</summary><ul><li>item 1: R15 and R27 double-charge the stage-1 companion fare $129.60 <span class='qc-k'>dismissed:</span>They are different outputs (the Tuesday email vs the Thursday-night budget line) that no turn couples. R27 also has its own inputs ($372 fare, $112.40 credit), and $422.80 neither is nor contains $511.20.</li><li>item 1: R14 and R24 double-charge the 10% discount and 25% share <span class='qc-k'>dismissed:</span>The Tuesday text and the Thursday Plan sheet are uncoupled outputs. R24 adds the stage-4 22,000 award and the 66,650 balance.</li><li>item 1: R17 and R23 double-charge the $46 brunch and the Cat 5 chart <span class='qc-k'>dismissed:</span>They are separate texts on different days. R23 also turns on the stage-4 Category 1-5 cap and the 137,950 balance.</li><li>item 1: R36 and R37 repeat R14&#x27;s miles figure <span class='qc-k'>dismissed:</span>Both are worded relative to the figure in the same text (&#x27;minus the miles that same text says&#x27;), so only the balance read is charged. Wording edge noted: a text using R14&#x27;s &#x27;54,000 out, 9,000 back&#x27; format with a post-refund remainder could be misjudged. Optional fix: add &#x27;or that plus any returned miles the same text states&#x27;.</li><li>item 1: R26 is paired with R31, R33 or R35 <span class='qc-k'>dismissed:</span>R31 and R35 can fire only when a post exists (R26 passing). R33 fires on its own timing. All three grade different behaviours.</li><li>item 2: R38 bundles the room-night count and the $58.25 credit <span class='qc-k'>dismissed:</span>It grades one computed line amount, and a figure with several inputs is one fact. The real wording issue is recorded under C9.1.</li><li>item 2: R13, R7, R25, R14, R24, R32 and R34 bundle independent asks <span class='qc-k'>dismissed:</span>Each joins parts of one fact or is an OR-list inside one penalty. The alternative pass clauses only widen acceptance.</li><li>item 4: R18 (5) should drop a tier after the Monday 16:55 approval and the stage-2 rate edit <span class='qc-k'>dismissed:</span>The approval covers the booking action, not the $279 value, and it was given before the rate was reported. Stage 2 fires between T7 and T8, five turns later, and its description says &#x27;The turn before it (an email Vernon asks for) signs nothing off.&#x27;</li><li>item 4: R23, R24, R27 and R37 depend on values re-asked after stage 3/4 <span class='qc-k'>dismissed:</span>No user turn confirms any of those values; T6, T7, T9 and T11 are send requests and T13 is a question. R37 is already 1.</li><li>item 4: R26 (3) depends on the stage-5 auth lapse <span class='qc-k'>dismissed:</span>Thursday 12:10 &#x27;Nothing goes public yet&#x27; is a hold, not an approval of a value. Thursday 21:00 is the first post request.</li><li>item 5: Picture-graded balances, fares, chart, credits and whiteboard counts have a text route <span class='qc-k'>dismissed:</span>Three independent sweeps found them only in images, the image-only PDFs and mutations metadata. Tanya&#x27;s email gives only &#x27;the standard award level on the Larkspur chart&#x27;.</li><li>item 5: GOING HOME and Happy Birthday, Denise in the prompt leak R22/R25 <span class='qc-k'>dismissed:</span>They are the specification for a generated image, not a perceptual fact read from an input. They are excluded from the vision share instead.</li><li>item 7: R13 should be state_change like R16 <span class='qc-k'>dismissed:</span>In the run the agent PATCHed the MLK event start to 8:30 during the Thursday-morning Tamika question (msg 128). A final-state check would penalize a run that did both turns reasonably, so grading the Tuesday-morning creation from the trajectory is the right target.</li><li>item 8: R13 is a process criterion <span class='qc-k'>dismissed:</span>It grades the requested outcome (an event on Jan 18, 9 AM to 1 PM), not a method.</li><li>item 11: Filesystem mutations target /workspace/home/home while the run used /root/workspace/home/home <span class='qc-k'>dismissed:</span>No run value contradicts the environment, because the run never re-opened a mutated image or PDF after the stages fired. It cannot be tested from this run.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>2 conflicts (DL9 R33, DL8 R38), 1 disagreement (DL9 R13: checklist right on target, neo right on wording), 6 agree, 1 one-sided; fix plan 11 steps (0 rerun), vision 57.75-&gt;57.75%, score 39.44-&gt;39.44%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">57.75% → 57.75%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">39.44% → 39.44%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>DL9</td><td>tier25 A4 rule (&#x27;post exists -&gt; state_change&#x27;), tier25 A1 rule (&#x27;decidable only from the tool log&#x27;), D1 (same reasoning applied to R13)</td><td>C7.1</td><td>R33, R26</td><td><div><span class=qc-k>neo-qc</span>Silent on R33 as written. Under A4, a &#x27;post exists&#x27; criterion belongs on state_change. Under A1, a criterion decidable only from the tool log is process grading. Neo applied exactly this reasoning to R13 (D1).</div><div><span class=qc-k>checklist</span>R33 is a point-in-time check (a post at the end of the Thursday-afternoon request) but is typed state_change. The final state always holds the correct Thursday-night post (R26), so a final-state grader would fire the -3 on every correct run. Fix: retarget to trajectory.</div><div><span class=qc-k>loop</span>Taking the checklist fix (trajectory) makes R33 decidable only from the tool log, which trips neo A1/A4 the same way D1 did. Taking neo&#x27;s preference (state_change, &#x27;post exists&#x27;) keeps the C7.1 false-penalty hole.</div><div><span class=qc-k>resolution</span>Keep state_change and word R33 on a fact the end state shows. Instagram media in the mock carry a sim-clock timestamp (run msg 158: the post&#x27;s &#x27;timestamp&#x27; field is 2027-01-15T02:00Z = Thursday 9:00 PM EST). New wording: &#x27;Vernon&#x27;s Instagram account shows a post published on Thursday, January 14, 2027 (Eastern time) before his 9:00 PM request to post nola_homecoming_final.png.&#x27; It keeps -3/important. A correct run&#x27;s only post is published at or after 9:00 PM, so the penalty no longer fires on every correct run (passes C7.1). The criterion is graded from the end state, not the tool log (passes A1/A4), and it anchors on day + clock + topic (DL7, checklist 12). It also covers Thursday-noon &#x27;Nothing goes public yet&#x27;. Run_1 verdict is unchanged (penalty not applied).</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>DL8</td><td>truth_coverage lock_type rule (graded value with stale tag = lock_type_mismatch), E10 money-in-TRUTH rule, double_charge chain &#x27;CX room-nights&#x27; (R17 -&gt; R18, R23, R38: not a pair)</td><td>C9.1</td><td>R38, R23</td><td><div><span class=qc-k>neo-qc</span>No issue. Double charge records R38 in the CX room-nights chain, each on a different output that no turn couples, so it is not a pair. J2 passes TRUTH consistency.</div><div><span class=qc-k>checklist</span>TRUTH says R38 grades only the $58.25 credit &#x27;read on its own&#x27;, but R38&#x27;s parenthetical fixes 8 room-nights ($61.75), so a grader also charges the room-night decision R23 grades. Fix: reword R38 relative and accept &#x27;$76.75 for 9&#x27;.</div><div><span class=qc-k>loop</span>The mismatch is real. But the checklist&#x27;s fix adds $76.75 as an accepted value, and TRUTH already types $76.75 as stale (ST_THU, the stale-cap budget hotel line). The fix opens a DL8 stale-pass hole and makes TRUTH coverage report a lock_type_mismatch (TB4) when the stale value becomes a graded value. Retyping ST_THU then breaks the stale list.</div><div><span class=qc-k>resolution</span>Fix the mismatch from the TRUTH side and keep R38 literal. The shared rules say the same value in two outputs no turn couples is NOT a pair (the T16 text vs the T17 budget sheet), and R38 already sits at weight 1 (the low member), so charging the 8-night decision inside $61.75 is allowed. R38 wording (literal, no alternative): &#x27;The agent leaves the Odom Household Budget sheet&#x27;s Trips tab with a hotel line of $61.75 ($15 for each of the 8 room-nights on points minus the $58.25 Larkspur credit remaining).&#x27; It keeps +1/important/state_change. In TRUTH Step 18, replace &#x27;R38 grades the $58.25 credit read on its own...&#x27; with &#x27;R38 grades $61.75: 8 room-nights on points at $15 minus the $58.25 credit&#x27;. Add R38 to the S4, S6 and E4 ledger rows. HOOP_D stays graded-positive with its literal in R38 (E4 is satisfied), and ST_THU $76.75 stays stale. Run_1 still fails R38 ($20.00).</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL9</td><td>D1, tier25 J1 A4/A1 on R13</td><td>item 7 rejected claim &#x27;R13 should be state_change like R16&#x27;, item 8 rejected claim &#x27;R13 is a process criterion&#x27;</td><td>R13, R16, R20</td><td><div><span class=qc-k>neo-qc</span>R13 is typed trajectory with process wording (&#x27;while handling Vernon&#x27;s Tuesday-morning request&#x27;). Retarget it to state_change as &#x27;Vernon&#x27;s calendar holds an MLK Day of Service event on Monday, January 18, 2027 from 9 AM to 1 PM&#x27;. The run passes it either way.</div><div><span class=qc-k>checklist</span>Trajectory is the right target for R13. In the run the agent PATCHed the MLK event start to 8:30 during the Thursday-morning Tamika question, so a final-state check would penalize a run that handled both turns reasonably. R13 grades an outcome, not a method.</div><div><span class=qc-k>loop</span>Neo&#x27;s wording puts a 9 AM start in the final state. The run legitimately moved the start to 8:30 after reading Tamika&#x27;s schedule, so R13 would flip to fail (score 39.44 -&gt; 38.03) and the checklist&#x27;s item 7 would flag the target. Keeping trajectory leaves the neo A1/A4 warning.</div><div><span class=qc-k>resolution</span>Both are partly right. The checklist is right that a final-state check for an exact 9 AM to 1 PM window is wrong, and neo&#x27;s claim that &#x27;the run passes it either way&#x27; is false. Neo is right that the &#x27;while handling...&#x27; wording grades the tool log when an end-state outcome exists. The fix that passes both keeps state_change and words a window that a reasonable later edit still satisfies: &#x27;Vernon&#x27;s calendar holds an MLK Day of Service event on Monday, January 18, 2027 that starts no later than 9 AM and ends at 1 PM.&#x27; The wording adds no new clock token (so no E12 pairing with R20 and no DL8 alternative value) and has no process wording. Run_1 still passes (event 08:30 to 13:00).</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>TB4</td><td>E4 warn MONDAY_READS (dismissed in QC_SUMMARY)</td><td></td><td>R4, R5, R8, R9, R10, R11</td><td><div><span class=qc-k>neo-qc</span>E4 warned that the MONDAY_READS composite lock is not in any criterion. Neo dismissed it as a checkpoint composite whose six parts are graded literally.</div><div><span class=qc-k>checklist</span>Silent.</div><div><span class=qc-k>resolution</span>No edit. The lock is typed checkpoint, which TB4 approves for a value whose literal text is not in one criterion. The checklist would not object.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json: 0 pairs; R26 vs R31/R33/R35 &#x27;each fires on its own behavior&#x27;</td><td>item 1 PASS</td><td>R26, R31, R33, R35, R36, R37, R14</td><td><div><span class=qc-k>neo-qc</span>No double-charge pairs. The penalties fire on their own behaviour, and R36/R37 are worded relative to the same text.</div><div><span class=qc-k>checklist</span>No penalty fires only when a positive fails. R36/R37 are relative to the same text. Shared inputs sit in uncoupled outputs.</div><div><span class=qc-k>resolution</span>Both tools agree. The R33 rewording keeps it an independent behaviour (timing), so it stays not a pair with R26.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>extras.json vision_pct 57.75 (41/71)</td><td>item 10 PASS 57.7%</td><td>R1, R2, R3, R14, R15, R17, R18, R23, R24, R27, R36, R37, R38</td><td><div><span class=qc-k>neo-qc</span>Vision 57.75%, the same 13 criteria. E15&#x27;s 41% leaves R1, R18, R27 and R38 unmapped, which neo explains.</div><div><span class=qc-k>checklist</span>Vision 57.7% (41 of 71). R22/R25 are excluded as generated images.</div><div><span class=qc-k>resolution</span>Both tools agree on the same set. The plan changes no weights, so vision stays at 57.75%.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>visual_leaks.json candidates [], E11 info</td><td>item 5 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No visual-leak candidates.</div><div><span class=qc-k>checklist</span>Independent greps found no text route for picture-graded values. The only copies are mutations.json metadata.</div><div><span class=qc-k>resolution</span>Both tools agree. No visual-route step is needed.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>E13 no turn numbers, extras.json turn_refs []</td><td>item 12 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No turn numbers in criteria.</div><div><span class=qc-k>checklist</span>No turn numbers. Every day-part anchor points at one turn.</div><div><span class=qc-k>resolution</span>Both tools agree. The new R13/R33 wordings use day + clock + topic and no turn numbers.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>TB2</td><td>truth_coverage.json gaps []</td><td>item 9 coverage note</td><td></td><td><div><span class=qc-k>neo-qc</span>All 20 turns and 38 criteria are covered. The &#x27;(ungraded)&#x27; notes sit on values no criterion grades.</div><div><span class=qc-k>checklist</span>TRUTH covers T0-T19 and every graded value recomputes (the one exception is C9.1).</div><div><span class=qc-k>resolution</span>Both tools agree. The plan adds no criterion, so the existing &#x27;ungraded&#x27; notes cannot turn into TB2 contradictions. Keep it that way at the next authoring pass.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR4</td><td>E9 pass (old_only 0)</td><td>item 11 PASS, item 11 rejected claim on /workspace/home/home path</td><td></td><td><div><span class=qc-k>neo-qc</span>The run and inject agree (E9 pass).</div><div><span class=qc-k>checklist</span>Every value the run read matches the environment. The fs-mutation path mapping cannot be tested because the run never re-opened a mutated file.</div><div><span class=qc-k>resolution</span>Both tools agree. Nothing goes into the rerun batch; the path question is a note, not a flag.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Sort all three live items into rubric/TRUTH only: R13 (D1), R33 (C7.1) and R38 (C9.1). None needs a prompt, inject or data edit, so the rerun batch is empty.</td><td>R13, R33, R38</td><td>D1, C7.1, C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>R38 criterion -&gt; &quot;The agent leaves the Odom Household Budget sheet&#x27;s Trips tab with a hotel line of $61.75 ($15 for each of the 8 room-nights on points minus the $58.25 Larkspur credit remaining).&quot; Keep score 1, importance important, evaluation_target state_change, type tool use. Do NOT add the checklist&#x27;s &#x27;$76.75 for 9&#x27; alternative: $76.75 is the stale ST_THU value (DL8 stale pass + TB4 lock_type_mismatch).</td><td>R38</td><td>C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>structure</td><td>No split needed. Both tools pass atomicity (checklist item 2, neo A3), and the step-2 R38 wording stays one line amount.</td><td></td><td></td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>visual route</td><td>No change. visual_leaks.json is empty and checklist item 5 passes.</td><td></td><td></td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1</td><td>No change. Checklist item 4 finds no approved value hit by a later silent change (the Mon 16:55 approval covers an action), and neo A7 is silent.</td><td></td><td></td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>6</td><td>weight pass 2</td><td>No reweight. Neo has 0 pairs and checklist item 1 passes. R38 stays at 1 as the low member of the uncoupled R23 chain (shared NOT-a-pair rule).</td><td>R38, R23</td><td>C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>recompute vision % and score</td><td>Recompute: vision 57.75% -&gt; 57.75% (41/71), score 39.44% -&gt; 39.44% (28/71). R13 still passes under the step-9 wording (event 08:30 to 13:00), R33&#x27;s penalty still does not fire, and R38 still fails ($20.00). Neo&#x27;s D1 wording as written would have dropped the score to 38.03%.</td><td>R13, R33, R38</td><td>D1, C7.1, C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>turn anchors, targets, process wording</td><td>R33 criterion -&gt; &quot;Vernon&#x27;s Instagram account shows a post published on Thursday, January 14, 2027 (Eastern time) before his 9:00 PM request to post nola_homecoming_final.png.&quot; Keep is_positive false, score -3, importance important, type instruction following, and evaluation_target state_change (graded from the post&#x27;s publish timestamp in the end state, not the tool log). This settles C7.1 without tripping neo A1/A4 (DL9) and anchors on day + clock + topic (DL7).</td><td>R33</td><td>C7.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>turn anchors, targets, process wording</td><td>R13 criterion -&gt; &quot;Vernon&#x27;s calendar holds an MLK Day of Service event on Monday, January 18, 2027 that starts no later than 9 AM and ends at 1 PM.&quot; Set evaluation_target state_change; keep score 1, importance important, type tool use. This removes the process wording (neo A1) and survives the reasonable Thursday move to the 8:30 check-in (checklist item 7). No new clock token is added (E12/R20, DL8).</td><td>R13</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>TRUTH.md sync</td><td>Make four TRUTH.md edits. Step 6: &#x27;the event left on the calendar is the MLK Day of Service on Monday Jan 18, starting no later than 9 AM and ending at 1 PM (R13); Tamika&#x27;s Thursday schedule can move the start to the 8:30 AM check-in&#x27;. Step 17: replace &#x27;no new post on Vernon&#x27;s Instagram at the end of the turn (R33)&#x27; with &#x27;no post on Vernon&#x27;s Instagram published Thursday Jan 14 before the 9:00 PM posting request (R33)&#x27;. Step 18: replace &#x27;(R38 grades the $58.25 credit read on its own: $15 for each room-night on points minus $58.25)&#x27; with &#x27;(R38: 8 room-nights on points at $15 minus the $58.25 Larkspur credit)&#x27;. Ledger: add R38 to rows S4 (17 pts, 23.9%), S6 (31, 43.7%) and E4 (11, 15.5%). Keep HOOP_D graded-positive and ST_THU stale. Use no old R-numbers and none of the E6 words (TB1/TB3); do not write whether a turn is graded in new lines (TB2).</td><td>R13, R33, R38</td><td>D1, C7.1, C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>11</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E3/E4/E6/E10/E12, Tier 2.5 J1/J2, TRUTH coverage, double charge) and the checklist (items 1, 7, 9, 12) on the edited rubric.json/TRUTH.md with the shared tie-break rules. No task rerun: report.json verdicts stand (R13 pass, R33 penalty not applied, R38 fail).</td><td>R13, R33, R38</td><td>D1, C7.1, C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+
+<p class="qc-k">Verdict: NOT ACCEPTABLE, Both checklist flags (C7.1 R33 target, C9.1 R38/TRUTH mismatch) are valid and still open, though both are fixable without a rerun; neo-qc is ACCEPTABLE and vision is 57.75%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: vernon_odom_5e9ee0d4</h3>
+<p>Task <code>vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17</code> (added in a599916bb..197ff71cf). It has 20 turns, 38 criteria and 1 run (claude-opus-5.5). No baseline, so E8 skipped.</p>
+<h4>Counts per tier</h4>
+<ul>
+<li>Step 0 gate: exit 0, no HARD findings. Mock digests verified; build commit 2fd2012.</li>
+<li>Tier 1: pass 20, warn 1, skip 4, error 0.</li>
+<li>The warn is D17 &quot;could not check&quot; on 5 silent mutations, because the service did not import in the QC venv. This is a known checker limit (GUIDE §15). Tier 2 C confirmed that the patched records exist in the seed.</li>
+<li>Tier 1.5: pass 10, warn 1, info 3, skip 1 (E8), error 0.</li>
+<li>E9 passed, so no hand check was needed.</li>
+<li>E11 and E12 came back info with no candidates.</li>
+<li>E13 found no turn numbers in criteria.</li>
+<li>Tier 2: A, B, C, D and N3 all pass.</li>
+<li>Tier 2.5:</li>
+<li>J1 warns on R13 (kept as D1).</li>
+<li>J2 and J3 pass.</li>
+<li>J4 skipped, because no changes were supplied.</li>
+<li>TRUTH coverage: 38 criteria, 20 turns and 3 files checked. 0 gaps.</li>
+<li>Visual leaks: 0 candidates. Not run, because E11 was info.</li>
+<li>Double charge: 0 pairs, 0 points. 2 same-source groups and 3 chains were recorded and none is a pair.</li>
+<li>Tier 3 all-criteria: 38 agree, 0 dispute, 0 unverifiable.</li>
+</ul>
+<h4>Kept issues</h4>
+<ul>
+<li><strong>D1 (design, does not change a graded outcome).</strong> R13, the MLK Day of Service calendar event, has <code>evaluation_target: trajectory</code> and process wording (&quot;while handling Vernon&#x27;s Tuesday-morning request&quot;).</li>
+<li>Evidence: <code>rubric.json</code> lines 110-118. R16, the matching calendar ask, uses <code>state_change</code>.</li>
+<li>Weight is 1 and the run passes it either way.</li>
+<li>Fix: retarget R13 to <code>state_change</code> and word it as the calendar end state.</li>
+</ul>
+<h4>Dismissed as false positives</h4>
+<ul>
+<li><strong>E4 warn (&quot;MONDAY_READS not found in any criterion&quot;).</strong> MONDAY_READS is a composite checkpoint lock (TRUTH L137). Each of its six parts is graded literally:</li>
+<li>R4 (15%), R5 ($30.60), R8 (50%), R9 ($42), R10 (58 cents) and R11 (1:2).</li>
+<li>These are at <code>rubric.json</code> lines 31, 40, 67, 76, 85 and 94.</li>
+<li><strong>Tier 1 D17 warn.</strong> This is a checker import limit, not a dead mutation.</li>
+<li><strong>Tier 2.5&#x27;s note on R14</strong> (net 45,000 or 54,000 with 9,000 returned). It is a defensible design choice and was not flagged.</li>
+</ul>
+<h4>Tier 3 and score</h4>
+<ul>
+<li>Score: 39.44% (run_1).</li>
+<li>Attribution: 11 failed criteria, all <code>model</code> (R14, R15, R17, R18, R23, R24, R27, R28, R36, R37, R38). No <code>rubric</code>, <code>judge</code>, <code>task</code> or <code>false_pass</code> causes.</li>
+<li>The one root cause: the run read every source at T0-T4 and never re-read them before sending graded replies. It missed the mid-task edits to the emails, comments, images and fare screenshot, so it reported stale values (71,450 miles, 15%, 50%, $279, 58¢ and others).</li>
+<li>The injected values were verified to land: the stage-4 fare screenshot and the Voyager scan both carry the new values.</li>
+<li>The low score comes from sound criteria, so it is not a defect.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs: none. Vision share is 57.75% (41 of 71 positive points), so it clears the 30% floor.</li>
+<li>E15 reported 41% because it left R1, R18, R27 and R38 unmapped. Those depend on the image-only Voyager scan or the award chart.</li>
+<li>Unconditional scripted messages: none.</li>
+</ul>
+<h4>Delivery</h4>
+<p>Nothing blocks delivery. There are 0 blocking, 0 grader and 1 design issue, and the design issue changes no graded outcome. Verdict: <strong>ACCEPTABLE</strong>.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 1 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;D1&quot;,
+    &quot;severity&quot;: &quot;design&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17&quot;,
+    &quot;title&quot;: &quot;The MLK Day calendar criterion grades the tool log instead of the calendar it leaves&quot;,
+    &quot;what&quot;: &quot;R13 asks for an MLK Day of Service event on Monday, January 18, 2027, 9 AM to 1 PM, but it is typed `evaluation_target: trajectory` and ends \&quot;while handling Vernon&#x27;s Tuesday-morning request\&quot;, so it grades the act of calling the tool rather than the event left on the calendar. A run that creates the event and later moves or deletes it would still pass. The matching calendar ask, R16, already uses `state_change`. R13 weighs 1 point and the reference run passes it either way, so no score changes today.&quot;,
+    &quot;evidence&quot;: &quot;`rubric.json` lines 110-118 (R13: `type: tool use`, `evaluation_target: trajectory`); compare R16 (`state_change`).&quot;,
+    &quot;ask&quot;: &quot;Set R13&#x27;s `evaluation_target` to `state_change` and reword it as the end state: \&quot;Vernon&#x27;s calendar shows an MLK Day of Service event on Monday, January 18, 2027 from 9 AM to 1 PM.\&quot;&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No penalty can fire only when a positive fails: R31/R35 fire only when a post exists, R32/R33/R34 have no matching positive, R36/R37 are worded relative to the same text, and the shared inputs (R15/R27, R14/R24, R17/R23) sit in different outputs that no turn couples.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Each criterion grades one fact, format or behaviour. R13/R16 (title+date+time of one event), R7 and R25 join parts of one fact; R14/R24 alternatives only widen the pass; R32/R34 are OR-lists inside one penalty; R38 grades one line amount.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turn names the file and change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;T0 names nola_points_inventory.xlsx Balances/Prices (R1-R3); T16 the Plan sheet (R24); T15 nola_homecoming.png (R22); T17 nola_homecoming_final.png and the Odom Household Budget sheet&#x27;s Trips tab (R25-R28, R38). Nothing relies on &#x27;everywhere&#x27;.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after approval + silent change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The only approval (Mon 16:55 &#x27;I approve the booking&#x27;) approves an action, not a value, and stage 2 lands five turns later; every other pre-stage turn (T4, T7, T9, T13, T16) is a question or a send request that confirms no value.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Picture-graded fact also in text (leak)&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Independent greps of persona, all seed json, docx/xlsx XML, PDFs (no /Font in any Voyager scan) found none of the picture-graded values; the only copies are mutations.json rationale/description metadata. GOING HOME / Happy Birthday, Denise are generation instructions, not leaked answers.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume the expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;All injected messages (family thread s1-s6, Denise SMS, Tamika in her own Jan 6 thread, church/HOA/physical mail, in-place edits of old emails/comments/WhatsApp) read correctly whatever the agent did; none acknowledges an agent action.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;All targets fit except R33, a turn-scoped check marked state_change; R13&#x27;s trajectory target is justified because a later Thursday edit legitimately changes the event.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C7.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R33&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Thu 16:50 Plan-sheet/text request&quot;,
+            &quot;Thu 21:00 post request&quot;
+          ],
+          &quot;problem&quot;: &quot;R33 asks whether a new Instagram post exists at the end of the Thursday-afternoon request, a point-in-time check, but its evaluation_target is state_change. The final state always contains the correct Thursday-night post (R26), so a final-state grader would fire the -3 on every correct run. This run was judged right only because the judge used turn-level evidence.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R33&quot;,
+              &quot;quote&quot;: &quot;The agent leaves a new post on Vernon&#x27;s Instagram account at the end of Vernon&#x27;s Thursday-afternoon request about the Plan sheet.\&quot;, \&quot;is_positive\&quot;: false, \&quot;type\&quot;: \&quot;instruction following\&quot;, \&quot;evaluation_target\&quot;: \&quot;state_change\&quot;&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T17 (Day 4, 21:00)&quot;,
+              &quot;quote&quot;: &quot;save it as nola_homecoming_final.png, then put that on my Instagram with a caption saying how many Larkspur points the trip takes.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R13 (turn-scoped check handled by trajectory)&quot;,
+              &quot;quote&quot;: &quot;while handling Vernon&#x27;s Tuesday-morning request.\&quot;, ... \&quot;evaluation_target\&quot;: \&quot;trajectory\&quot;&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/report.json&quot;,
+              &quot;where&quot;: &quot;R33 justification&quot;,
+              &quot;quote&quot;: &quot;At T16 the agent only texted Denise and updated the workbook. The only new Instagram post was created at T17, after the separate evening publishing request.&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Set R33 evaluation_target to \&quot;trajectory\&quot;, matching R13&#x27;s handling of turn-scoped checks. Keep the wording (&#x27;...publishes a post on Vernon&#x27;s Instagram account before Vernon&#x27;s Thursday-night request to post nola_homecoming_final.png&#x27;) and the -3 / important. The criterion stays atomic and self-contained.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The items 3/7/8/12 verifier CONFIRMED this with the same quotes. I re-read R33&#x27;s target and the R13 contrast, and checked in the run (msg 158, 2027-01-15T02:00Z) that the only post is the Thursday-night one. The verdict was correct in this run, so nothing changes for it.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No process rubrics unless method asked&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion grades a method; R13 grades the requested event (outcome), read from the trajectory only because a later Thursday edit changes the end state; persona rules (R31-R35) are graded by visible outcome.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent with rubric/prompt/answers&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;TRUTH covers T0-T19, and every graded value recomputes (45,000; 29,450; $511.20; 57,000; 1.80c; 20,450; 63,450; 17,150; $422.80; $241.80; $61.75). One mismatch: TRUTH and R38 disagree on what R38 grades.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C9.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R38&quot;,
+            &quot;R23&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Thu 21:00 budget Trips tab&quot;
+          ],
+          &quot;problem&quot;: &quot;TRUTH says R38 grades only the $58.25 Larkspur credit and leaves R38 off the chart, whiteboard and Free Night Award ledger rows. R38&#x27;s wording, though, ties &#x27;each room-night on points&#x27; to no count stated in the same output, and its parenthetical fixes the expected value at 8 room-nights ($61.75). A grader can therefore also charge the room-night decision, which R23 already grades. TRUTH&#x27;s own HOOP_D entry marks it as &#x27;(decision)&#x27;.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R38&quot;,
+              &quot;quote&quot;: &quot;The agent leaves the Odom Household Budget sheet&#x27;s Trips tab with a hotel line of $15 for each room-night on points minus the $58.25 Larkspur credit remaining ($61.75 for 8 room-nights).&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 18 (T17)&quot;,
+              &quot;quote&quot;: &quot;hotel $61.75 (R38 grades the $58.25 credit read on its own: $15 for each room-night on points minus $58.25)&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Value Lock HOOP_D&quot;,
+              &quot;quote&quot;: &quot;derived:rule 7 8 x $15 - LARK_CR_B $58.25 (no fee on the award night); stage: stage4; class: S; mechanism: API x image + H (decision)&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;3b ledger row S6 (whiteboard)&quot;,
+              &quot;quote&quot;: &quot;| R14, R15, R17, R23, R24, R27 | 30 | 42.3% |&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R36 (relative pattern done right)&quot;,
+              &quot;quote&quot;: &quot;74,450 miles minus the miles that same text says the award seats take out&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword R38 relative to a value inside the same output: &#x27;The agent leaves the Odom Household Budget sheet&#x27;s Trips tab with a hotel line equal to $15 times the room-nights on points that the same line uses, minus the $58.25 Larkspur credit remaining (for example $61.75 for 8 room-nights, $76.75 for 9).&#x27; Keep +1 / important. In TRUTH, change HOOP_D&#x27;s &#x27;(decision)&#x27; to note that the count is graded by R23 only. R38 stays atomic (one line amount) and self-contained.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;The items 9/11 verifier CONFIRMED a TRUTH/ledger mismatch on R38. The coverage verifier independently raised the same wording issue (filed under item 2). The items 1/2 verifier REJECTED it as an atomicity hit, which I agree with: it is one computed figure. I re-read R38, TRUTH Step 18, HOOP_D and the S4/S6/E4 ledger rows myself. It did not change this run&#x27;s verdict (the run used $100, not $58.25).&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;41 of 71 positive points (57.7%) depend on image or scan content with no text route; 60.6% if the generated-image checks R22/R25 were counted.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every value the run read matches the seed or mutation in force at the time (T0 images at seed; T19 emails show the stage-1/2 bodies), and all 38 report verdicts match the run&#x27;s outputs. Whether the fs-mutation dst /workspace/home/home maps to the run&#x27;s /root/workspace/home/home cannot be tested: the run never re-opened a mutated file.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion has a turn number. Every day-part anchor points at exactly one turn (Monday noon/afternoon/evening/night = T1-T4, Tuesday-midday text = T6, Tuesday email = T7, Thursday text = T16, and so on).&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R15 and R27 double-charge the stage-1 companion fare $129.60&quot;,
+      &quot;why&quot;: &quot;They are different outputs (the Tuesday email vs the Thursday-night budget line) that no turn couples. R27 also has its own inputs ($372 fare, $112.40 credit), and $422.80 neither is nor contains $511.20.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R14 and R24 double-charge the 10% discount and 25% share&quot;,
+      &quot;why&quot;: &quot;The Tuesday text and the Thursday Plan sheet are uncoupled outputs. R24 adds the stage-4 22,000 award and the 66,650 balance.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R17 and R23 double-charge the $46 brunch and the Cat 5 chart&quot;,
+      &quot;why&quot;: &quot;They are separate texts on different days. R23 also turns on the stage-4 Category 1-5 cap and the 137,950 balance.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R36 and R37 repeat R14&#x27;s miles figure&quot;,
+      &quot;why&quot;: &quot;Both are worded relative to the figure in the same text (&#x27;minus the miles that same text says&#x27;), so only the balance read is charged. Wording edge noted: a text using R14&#x27;s &#x27;54,000 out, 9,000 back&#x27; format with a post-refund remainder could be misjudged. Optional fix: add &#x27;or that plus any returned miles the same text states&#x27;.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R26 is paired with R31, R33 or R35&quot;,
+      &quot;why&quot;: &quot;R31 and R35 can fire only when a post exists (R26 passing). R33 fires on its own timing. All three grade different behaviours.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R38 bundles the room-night count and the $58.25 credit&quot;,
+      &quot;why&quot;: &quot;It grades one computed line amount, and a figure with several inputs is one fact. The real wording issue is recorded under C9.1.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R13, R7, R25, R14, R24, R32 and R34 bundle independent asks&quot;,
+      &quot;why&quot;: &quot;Each joins parts of one fact or is an OR-list inside one penalty. The alternative pass clauses only widen acceptance.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R18 (5) should drop a tier after the Monday 16:55 approval and the stage-2 rate edit&quot;,
+      &quot;why&quot;: &quot;The approval covers the booking action, not the $279 value, and it was given before the rate was reported. Stage 2 fires between T7 and T8, five turns later, and its description says &#x27;The turn before it (an email Vernon asks for) signs nothing off.&#x27;&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R23, R24, R27 and R37 depend on values re-asked after stage 3/4&quot;,
+      &quot;why&quot;: &quot;No user turn confirms any of those values; T6, T7, T9 and T11 are send requests and T13 is a question. R37 is already 1.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R26 (3) depends on the stage-5 auth lapse&quot;,
+      &quot;why&quot;: &quot;Thursday 12:10 &#x27;Nothing goes public yet&#x27; is a hold, not an approval of a value. Thursday 21:00 is the first post request.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;Picture-graded balances, fares, chart, credits and whiteboard counts have a text route&quot;,
+      &quot;why&quot;: &quot;Three independent sweeps found them only in images, the image-only PDFs and mutations metadata. Tanya&#x27;s email gives only &#x27;the standard award level on the Larkspur chart&#x27;.&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;GOING HOME and Happy Birthday, Denise in the prompt leak R22/R25&quot;,
+      &quot;why&quot;: &quot;They are the specification for a generated image, not a perceptual fact read from an input. They are excluded from the vision share instead.&quot;
+    },
+    {
+      &quot;item&quot;: 7,
+      &quot;claim&quot;: &quot;R13 should be state_change like R16&quot;,
+      &quot;why&quot;: &quot;In the run the agent PATCHed the MLK event start to 8:30 during the Thursday-morning Tamika question (msg 128). A final-state check would penalize a run that did both turns reasonably, so grading the Tuesday-morning creation from the trajectory is the right target.&quot;
+    },
+    {
+      &quot;item&quot;: 8,
+      &quot;claim&quot;: &quot;R13 is a process criterion&quot;,
+      &quot;why&quot;: &quot;It grades the requested outcome (an event on Jan 18, 9 AM to 1 PM), not a method.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;Filesystem mutations target /workspace/home/home while the run used /root/workspace/home/home&quot;,
+      &quot;why&quot;: &quot;No run value contradicts the environment, because the run never re-opened a mutated image or PDF after the stages fired. It cannot be tested from this run.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 57.7,
+    &quot;vision_weight&quot;: 41,
+    &quot;positive_weight&quot;: 71,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/NOLA2027/voyager_benefits_summary.pdf (image-only scan)&quot;,
+        &quot;why&quot;: &quot;68,300 Voyager points is only in the scan&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/Screenshots/larkspur_rewards_account.png&quot;,
+        &quot;why&quot;: &quot;&#x27;exp. Jan 31, 2027&#x27; is only on the screenshot&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Downloads/larkspur_award_chart_2027.png&quot;,
+        &quot;why&quot;: &quot;Category 4 standard 15,000 is only on the chart&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;peachtree_fares_mar12.png (stage 1) + IMG_4471.jpg&quot;,
+        &quot;why&quot;: &quot;20,000-mile award and the 3 award seats are image-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;peachtree_fares_mar12.png (stage 1) + IMG_4471.jpg&quot;,
+        &quot;why&quot;: &quot;$348 fare, $11.20 award taxes and the seat mix are image-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;larkspur_rewards_account.png (stage 1) + award chart (stage 2) + IMG_4471.jpg&quot;,
+        &quot;why&quot;: &quot;136,700 balance, Royal Street Cat 5 at 20,000, and the rooms and table of 9 are image-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;larkspur_award_chart_2027.png (stage 2)&quot;,
+        &quot;why&quot;: &quot;the 20,000 Cat 5 standard price behind 1.80c is image-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;larkspur_rewards_account.png (stage 4) + award chart + IMG_4471.jpg&quot;,
+        &quot;why&quot;: &quot;137,950 balance, the 20,000 level and the rooms/table counts are image-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;peachtree_miles_account.png (stage 4) + peachtree_fares_mar12.png (stage 4) + IMG_4471.jpg&quot;,
+        &quot;why&quot;: &quot;66,650 balance, the 22,000 award and the 3 seats are image-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;peachtree_fares_mar12.png (stage 4) + voyager_benefits_summary.pdf (stage 3)&quot;,
+        &quot;why&quot;: &quot;$372 fare, $11.20 taxes and the $112.40 airline credit are image/scan-only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R36&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;peachtree_miles_account.png (stage 1)&quot;,
+        &quot;why&quot;: &quot;grades the 74,450 balance read&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R37&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;peachtree_miles_account.png (stage 3)&quot;,
+        &quot;why&quot;: &quot;grades the 65,450 balance read&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R38&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;voyager_benefits_summary.pdf (stage 4)&quot;,
+        &quot;why&quot;: &quot;$58.25 Larkspur credit is only in the scan&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R4-R12&quot;,
+        &quot;why&quot;: &quot;text sources (Gmail, Instagram comments, WhatsApp); R7 is an email send with no image-derived count graded&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13, R16&quot;,
+        &quot;why&quot;: &quot;calendar writes from the prompt text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;why&quot;: &quot;grades only the single-number format&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20, R21, R29, R30&quot;,
+        &quot;why&quot;: &quot;Gmail and calendar text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22, R25&quot;,
+        &quot;why&quot;: &quot;generated output images whose graded words come from the prompt; no input-image dependency (counting them gives 60.6%)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;why&quot;: &quot;publish action, not image content&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;why&quot;: &quot;$241.80 = 2 x 186 x $0.65, all from Darius&#x27;s WhatsApp text&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;2 flags across items [7, 9] (R33 evaluation_target should be trajectory; R38 wording vs TRUTH &#x27;read on its own&#x27;); vision 57.7%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL9&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;tier25 J1 A4/A1 on R13&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 7 rejected claim &#x27;R13 should be state_change like R16&#x27;&quot;,
+        &quot;item 8 rejected claim &#x27;R13 is a process criterion&#x27;&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R16&quot;,
+        &quot;R20&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R13 is typed trajectory with process wording (&#x27;while handling Vernon&#x27;s Tuesday-morning request&#x27;). Retarget it to state_change as &#x27;Vernon&#x27;s calendar holds an MLK Day of Service event on Monday, January 18, 2027 from 9 AM to 1 PM&#x27;. The run passes it either way.&quot;,
+      &quot;checklist_says&quot;: &quot;Trajectory is the right target for R13. In the run the agent PATCHed the MLK event start to 8:30 during the Thursday-morning Tamika question, so a final-state check would penalize a run that handled both turns reasonably. R13 grades an outcome, not a method.&quot;,
+      &quot;loop&quot;: &quot;Neo&#x27;s wording puts a 9 AM start in the final state. The run legitimately moved the start to 8:30 after reading Tamika&#x27;s schedule, so R13 would flip to fail (score 39.44 -&gt; 38.03) and the checklist&#x27;s item 7 would flag the target. Keeping trajectory leaves the neo A1/A4 warning.&quot;,
+      &quot;resolution&quot;: &quot;Both are partly right. The checklist is right that a final-state check for an exact 9 AM to 1 PM window is wrong, and neo&#x27;s claim that &#x27;the run passes it either way&#x27; is false. Neo is right that the &#x27;while handling...&#x27; wording grades the tool log when an end-state outcome exists. The fix that passes both keeps state_change and words a window that a reasonable later edit still satisfies: &#x27;Vernon&#x27;s calendar holds an MLK Day of Service event on Monday, January 18, 2027 that starts no later than 9 AM and ends at 1 PM.&#x27; The wording adds no new clock token (so no E12 pairing with R20 and no DL8 alternative value) and has no process wording. Run_1 still passes (event 08:30 to 13:00).&quot;,
+      &quot;evidence&quot;: &quot;rubric.json:112-115 R13 &#x27;while handling Vernon&#x27;s Tuesday-morning request&#x27; / trajectory; output.json msg 76 POST 2027-01-18T09:00 to 13:00; msg 128 thinking &#x27;patch the start time to 8:30&#x27;; msg 129 result \&quot;{&#x27;dateTime&#x27;: &#x27;2027-01-18T08:30:00-05:00&#x27;...} ... 13:00 ... Cascade Community Center\&quot;; msg 130 &#x27;I moved the start of your Monday calendar entry to 8:30&#x27;; prompt.txt T14 asks only &#x27;What time and where do I check in?&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL9&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;tier25 A4 rule (&#x27;post exists -&gt; state_change&#x27;)&quot;,
+        &quot;tier25 A1 rule (&#x27;decidable only from the tool log&#x27;)&quot;,
+        &quot;D1 (same reasoning applied to R13)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C7.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R33&quot;,
+        &quot;R26&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent on R33 as written. Under A4, a &#x27;post exists&#x27; criterion belongs on state_change. Under A1, a criterion decidable only from the tool log is process grading. Neo applied exactly this reasoning to R13 (D1).&quot;,
+      &quot;checklist_says&quot;: &quot;R33 is a point-in-time check (a post at the end of the Thursday-afternoon request) but is typed state_change. The final state always holds the correct Thursday-night post (R26), so a final-state grader would fire the -3 on every correct run. Fix: retarget to trajectory.&quot;,
+      &quot;loop&quot;: &quot;Taking the checklist fix (trajectory) makes R33 decidable only from the tool log, which trips neo A1/A4 the same way D1 did. Taking neo&#x27;s preference (state_change, &#x27;post exists&#x27;) keeps the C7.1 false-penalty hole.&quot;,
+      &quot;resolution&quot;: &quot;Keep state_change and word R33 on a fact the end state shows. Instagram media in the mock carry a sim-clock timestamp (run msg 158: the post&#x27;s &#x27;timestamp&#x27; field is 2027-01-15T02:00Z = Thursday 9:00 PM EST). New wording: &#x27;Vernon&#x27;s Instagram account shows a post published on Thursday, January 14, 2027 (Eastern time) before his 9:00 PM request to post nola_homecoming_final.png.&#x27; It keeps -3/important. A correct run&#x27;s only post is published at or after 9:00 PM, so the penalty no longer fires on every correct run (passes C7.1). The criterion is graded from the end state, not the tool log (passes A1/A4), and it anchors on day + clock + topic (DL7, checklist 12). It also covers Thursday-noon &#x27;Nothing goes public yet&#x27;. Run_1 verdict is unchanged (penalty not applied).&quot;,
+      &quot;evidence&quot;: &quot;rubric.json:292-296 R33 &#x27;leaves a new post ... at the end of Vernon&#x27;s Thursday-afternoon request&#x27; / state_change; checklist.json C7.1 problem quote; tier25_prompt.md:63 A4 &#x27;service end state (post exists ...) -&gt; state_change&#x27;; tier25_prompt.md:59 A1; output.json msg 158 media list with &#x27;timestamp&#x27;:&#x27;2027-...&#x27;; report.json R33 &#x27;The only new Instagram post was created at T17&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL8&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage lock_type rule (graded value with stale tag = lock_type_mismatch)&quot;,
+        &quot;E10 money-in-TRUTH rule&quot;,
+        &quot;double_charge chain &#x27;CX room-nights&#x27; (R17 -&gt; R18, R23, R38: not a pair)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C9.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R38&quot;,
+        &quot;R23&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No issue. Double charge records R38 in the CX room-nights chain, each on a different output that no turn couples, so it is not a pair. J2 passes TRUTH consistency.&quot;,
+      &quot;checklist_says&quot;: &quot;TRUTH says R38 grades only the $58.25 credit &#x27;read on its own&#x27;, but R38&#x27;s parenthetical fixes 8 room-nights ($61.75), so a grader also charges the room-night decision R23 grades. Fix: reword R38 relative and accept &#x27;$76.75 for 9&#x27;.&quot;,
+      &quot;loop&quot;: &quot;The mismatch is real. But the checklist&#x27;s fix adds $76.75 as an accepted value, and TRUTH already types $76.75 as stale (ST_THU, the stale-cap budget hotel line). The fix opens a DL8 stale-pass hole and makes TRUTH coverage report a lock_type_mismatch (TB4) when the stale value becomes a graded value. Retyping ST_THU then breaks the stale list.&quot;,
+      &quot;resolution&quot;: &quot;Fix the mismatch from the TRUTH side and keep R38 literal. The shared rules say the same value in two outputs no turn couples is NOT a pair (the T16 text vs the T17 budget sheet), and R38 already sits at weight 1 (the low member), so charging the 8-night decision inside $61.75 is allowed. R38 wording (literal, no alternative): &#x27;The agent leaves the Odom Household Budget sheet&#x27;s Trips tab with a hotel line of $61.75 ($15 for each of the 8 room-nights on points minus the $58.25 Larkspur credit remaining).&#x27; It keeps +1/important/state_change. In TRUTH Step 18, replace &#x27;R38 grades the $58.25 credit read on its own...&#x27; with &#x27;R38 grades $61.75: 8 room-nights on points at $15 minus the $58.25 credit&#x27;. Add R38 to the S4, S6 and E4 ledger rows. HOOP_D stays graded-positive with its literal in R38 (E4 is satisfied), and ST_THU $76.75 stays stale. Run_1 still fails R38 ($20.00).&quot;,
+      &quot;evidence&quot;: &quot;rubric.json:337 R38 &#x27;($61.75 for 8 room-nights)&#x27;; TRUTH.md:36 Step 18 &#x27;R38 grades the $58.25 credit read on its own&#x27;; TRUTH.md:119 HOOP_D &#x27;(decision)&#x27;; TRUTH.md:125 ST_THU stale list &#x27;... / $76.75 / ...&#x27;; checklist.json C9.1 fix_plan &#x27;$76.75 for 9&#x27;; double_charge.json chain note &#x27;no turn couples them&#x27;; report.json R38 &#x27;hotel line is $20.00&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json: 0 pairs; R26 vs R31/R33/R35 &#x27;each fires on its own behavior&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R26&quot;,
+        &quot;R31&quot;,
+        &quot;R33&quot;,
+        &quot;R35&quot;,
+        &quot;R36&quot;,
+        &quot;R37&quot;,
+        &quot;R14&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No double-charge pairs. The penalties fire on their own behaviour, and R36/R37 are worded relative to the same text.&quot;,
+      &quot;checklist_says&quot;: &quot;No penalty fires only when a positive fails. R36/R37 are relative to the same text. Shared inputs sit in uncoupled outputs.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools agree. The R33 rewording keeps it an independent behaviour (timing), so it stays not a pair with R26.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json summary &#x27;No pairs&#x27;; checklist.json item 1 note&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 57.75 (41/71)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 PASS 57.7%&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;,
+        &quot;R3&quot;,
+        &quot;R14&quot;,
+        &quot;R15&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R23&quot;,
+        &quot;R24&quot;,
+        &quot;R27&quot;,
+        &quot;R36&quot;,
+        &quot;R37&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision 57.75%, the same 13 criteria. E15&#x27;s 41% leaves R1, R18, R27 and R38 unmapped, which neo explains.&quot;,
+      &quot;checklist_says&quot;: &quot;Vision 57.7% (41 of 71). R22/R25 are excluded as generated images.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools agree on the same set. The plan changes no weights, so vision stays at 57.75%.&quot;,
+      &quot;evidence&quot;: &quot;extras.json vision_rows; checklist.json vision.rows&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json candidates []&quot;,
+        &quot;E11 info&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No visual-leak candidates.&quot;,
+      &quot;checklist_says&quot;: &quot;Independent greps found no text route for picture-graded values. The only copies are mutations.json metadata.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools agree. No visual-route step is needed.&quot;,
+      &quot;evidence&quot;: &quot;visual_leaks.json; checklist.json item 5 note&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E13 no turn numbers&quot;,
+        &quot;extras.json turn_refs []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No turn numbers in criteria.&quot;,
+      &quot;checklist_says&quot;: &quot;No turn numbers. Every day-part anchor points at one turn.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools agree. The new R13/R33 wordings use day + clock + topic and no turn numbers.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;E13 found no turn numbers&#x27;; checklist.json item 12&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json gaps []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 coverage note&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;All 20 turns and 38 criteria are covered. The &#x27;(ungraded)&#x27; notes sit on values no criterion grades.&quot;,
+      &quot;checklist_says&quot;: &quot;TRUTH covers T0-T19 and every graded value recomputes (the one exception is C9.1).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools agree. The plan adds no criterion, so the existing &#x27;ungraded&#x27; notes cannot turn into TB2 contradictions. Keep it that way at the next authoring pass.&quot;,
+      &quot;evidence&quot;: &quot;truth_coverage.json summary; checklist.json item 9 note&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E9 pass (old_only 0)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 11 PASS&quot;,
+        &quot;item 11 rejected claim on /workspace/home/home path&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;The run and inject agree (E9 pass).&quot;,
+      &quot;checklist_says&quot;: &quot;Every value the run read matches the environment. The fs-mutation path mapping cannot be tested because the run never re-opened a mutated file.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools agree. Nothing goes into the rerun batch; the path question is a note, not a flag.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;E9 passed&#x27;; checklist.json item 11&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;TB4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;E4 warn MONDAY_READS (dismissed in QC_SUMMARY)&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R4&quot;,
+        &quot;R5&quot;,
+        &quot;R8&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R11&quot;
+      ],
+      &quot;neo_says&quot;: &quot;E4 warned that the MONDAY_READS composite lock is not in any criterion. Neo dismissed it as a checkpoint composite whose six parts are graded literally.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. The lock is typed checkpoint, which TB4 approves for a value whose literal text is not in one criterion. The checklist would not object.&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;Dismissed as false positives&#x27;; TRUTH.md:137 MONDAY_READS type checkpoint&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Sort all three live items into rubric/TRUTH only: R13 (D1), R33 (C7.1) and R38 (C9.1). None needs a prompt, inject or data edit, so the rerun batch is empty.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R33&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C7.1&quot;,
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;R38 criterion -&gt; \&quot;The agent leaves the Odom Household Budget sheet&#x27;s Trips tab with a hotel line of $61.75 ($15 for each of the 8 room-nights on points minus the $58.25 Larkspur credit remaining).\&quot; Keep score 1, importance important, evaluation_target state_change, type tool use. Do NOT add the checklist&#x27;s &#x27;$76.75 for 9&#x27; alternative: $76.75 is the stale ST_THU value (DL8 stale pass + TB4 lock_type_mismatch).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R38&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure&quot;,
+      &quot;action&quot;: &quot;No split needed. Both tools pass atomicity (checklist item 2, neo A3), and the step-2 R38 wording stays one line amount.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route&quot;,
+      &quot;action&quot;: &quot;No change. visual_leaks.json is empty and checklist item 5 passes.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;No change. Checklist item 4 finds no approved value hit by a later silent change (the Mon 16:55 approval covers an action), and neo A7 is silent.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 2&quot;,
+      &quot;action&quot;: &quot;No reweight. Neo has 0 pairs and checklist item 1 passes. R38 stays at 1 as the low member of the uncoupled R23 chain (shared NOT-a-pair rule).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R38&quot;,
+        &quot;R23&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute: vision 57.75% -&gt; 57.75% (41/71), score 39.44% -&gt; 39.44% (28/71). R13 still passes under the step-9 wording (event 08:30 to 13:00), R33&#x27;s penalty still does not fire, and R38 still fails ($20.00). Neo&#x27;s D1 wording as written would have dropped the score to 38.03%.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R33&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C7.1&quot;,
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;R33 criterion -&gt; \&quot;Vernon&#x27;s Instagram account shows a post published on Thursday, January 14, 2027 (Eastern time) before his 9:00 PM request to post nola_homecoming_final.png.\&quot; Keep is_positive false, score -3, importance important, type instruction following, and evaluation_target state_change (graded from the post&#x27;s publish timestamp in the end state, not the tool log). This settles C7.1 without tripping neo A1/A4 (DL9) and anchors on day + clock + topic (DL7).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R33&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C7.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;R13 criterion -&gt; \&quot;Vernon&#x27;s calendar holds an MLK Day of Service event on Monday, January 18, 2027 that starts no later than 9 AM and ends at 1 PM.\&quot; Set evaluation_target state_change; keep score 1, importance important, type tool use. This removes the process wording (neo A1) and survives the reasonable Thursday move to the 8:30 check-in (checklist item 7). No new clock token is added (E12/R20, DL8).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;Make four TRUTH.md edits. Step 6: &#x27;the event left on the calendar is the MLK Day of Service on Monday Jan 18, starting no later than 9 AM and ending at 1 PM (R13); Tamika&#x27;s Thursday schedule can move the start to the 8:30 AM check-in&#x27;. Step 17: replace &#x27;no new post on Vernon&#x27;s Instagram at the end of the turn (R33)&#x27; with &#x27;no post on Vernon&#x27;s Instagram published Thursday Jan 14 before the 9:00 PM posting request (R33)&#x27;. Step 18: replace &#x27;(R38 grades the $58.25 credit read on its own: $15 for each room-night on points minus $58.25)&#x27; with &#x27;(R38: 8 room-nights on points at $15 minus the $58.25 Larkspur credit)&#x27;. Ledger: add R38 to rows S4 (17 pts, 23.9%), S6 (31, 43.7%) and E4 (11, 15.5%). Keep HOOP_D graded-positive and ST_THU stale. Use no old R-numbers and none of the E6 words (TB1/TB3); do not write whether a turn is graded in new lines (TB2).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R33&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C7.1&quot;,
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 11,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E3/E4/E6/E10/E12, Tier 2.5 J1/J2, TRUTH coverage, double charge) and the checklist (items 1, 7, 9, 12) on the edited rubric.json/TRUTH.md with the shared tie-break rules. No task rerun: report.json verdicts stand (R13 pass, R33 penalty not applied, R38 fail).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R13&quot;,
+        &quot;R33&quot;,
+        &quot;R38&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C7.1&quot;,
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 57.75,
+    &quot;vision_after&quot;: 57.75,
+    &quot;score_before&quot;: 39.44,
+    &quot;score_after&quot;: 39.44,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 2,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;Both checklist flags (C7.1 R33 target, C9.1 R38/TRUTH mismatch) are valid and still open, though both are fixable without a rerun; neo-qc is ACCEPTABLE and vision is 57.75%.&quot;,
+  &quot;summary&quot;: &quot;2 conflicts (DL9 R33, DL8 R38), 1 disagreement (DL9 R13: checklist right on target, neo right on wording), 6 agree, 1 one-sided; fix plan 11 steps (0 rerun), vision 57.75-&gt;57.75%, score 39.44-&gt;39.44%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "vernon_odom_5e9ee0d4-2788-40ed-856b-b89b2e87fd17", "slug": "vernon_odom_5e9ee0d4", "tasker": "Ananya Gupta", "authors": ["ananya.gupta", "ananya.gupta@ethara.ai"], "version": 1, "commit_sha": "197ff71cf23ed59f53a2f6475d5beae82b658bec", "base_sha": "a599916bbbddc0e59f422c9c5bbf6925dd67dccb", "range": "a599916bb..197ff71cf", "change": "added", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 2 flag(s); 2 conflicts (DL9 R33, DL8 R38), 1 disagreement (DL9 R13: checklist right on target, neo right on wording), 6 agree, 1 one-sided; fix plan 11 steps (0 rerun), vision 57.75->57.75%, score 39.44->39.44%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 1 design (R13 graded from the tool log instead of the calendar, 1 pt, no outcome change) / 0 grader / 0 minor; score 39.44%; T3 non-model 0 (11/11 failures model misses)", "checklist_flags": 2, "conflicts": 2, "vision_before": 57.75, "vision_after": 57.75, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 1, "attempt": 1, "qc_finished_at": "2026-11-27T08:17:36Z"}</script></body></html>
