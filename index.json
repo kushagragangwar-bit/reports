@@ -1672,6 +1672,14 @@
     "started": "2026-11-26 10:30",
     "v": 2,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1401_a1",
+    "score": 30.56,
+    "started": "2026-11-27 08:31",
+    "v": 3,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "mohit/paul_johnson_3e1a99fe-5567-42e6-95dd-f3353cd6f033": [
@@ -2115,5 +2123,5 @@
    }
   ]
  },
- "updated": "2026-11-27 08:39 UTC"
+ "updated": "2026-11-27 08:40 UTC"
 }
