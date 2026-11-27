@@ -340,6 +340,14 @@
     "started": "2026-11-23 16:05",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1330_a1",
+    "score": 20.59,
+    "started": "2026-11-27 08:00",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "ayush/bridget_anna_kowalska_315d380a-84fd-4548-a2e7-720797342792": [
@@ -2051,5 +2059,5 @@
    }
   ]
  },
- "updated": "2026-11-27 08:10 UTC"
+ "updated": "2026-11-27 08:11 UTC"
 }
