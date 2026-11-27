@@ -1,0 +1,947 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: liliana_ortiz_fe8e20c8 (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</code></span>
+<span><span class="k">Tasker</span>Anuj Mishra</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>b564548d6</code> (added, range <code>13448b2e5..b564548d6</code>)</span>
+<span><span class="k">QC finished</span>2026-11-27 12:08:36 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>NOT ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>3</span>
+<span><span class="k">Conflicts</span>2</span>
+<span><span class="k">Vision</span>40.21% → 41.41%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc NOT ACCEPTABLE; checklist 3 flag(s); 2 conflicts (DL9, RR2), 3 agree, 3 one-sided, 1 disagreement (vision row R7); fix plan 11 steps (1 rerun), vision 40.21-&gt;41.41%, score 53.61-&gt;53.54%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: liliana_ortiz_fe8e20c8</h1>
+<p class="sub">obsidian-infinity-stage-1 13448b2e5..b564548d6 (added)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>17</b><span>turns</span></div><div class="stat"><b>52</b><span>rubrics</span></div><div class="stat"><b>53.6</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>13/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>1</b><span>tier 3 false passes</span></div><div class="stat"><b>11/1/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>1/2/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>52/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/2/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 13 failed criteria across 1 task(s): <b>13 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. The judge also passed 1 criteria the run did not meet, so those scores read high. Tier 1.5 found 0 failure(s) and 1 warning(s). Tier 2.5 flagged 2 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 52 criteria: 52 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 28 candidate(s) on 1 task(s): 0 leak(s), 2 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 2 item(s): 1 design, 1 minor.</p>
+
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#D1'><code>D1</code></a></td><td><span class="b b-sev-design">design</span></td><td class='muted'>rubric</td><td class='muted'>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td>The phone-at-the-bottom criterion passes on the image the agent never edited</td></tr><tr><td><a href='#M1'><code>M1</code></a></td><td><span class="b b-sev-minor">minor</span></td><td class='muted'>rubric</td><td class='muted'>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td>Three false-claim penalties are conditioned on the tool log instead of the end state</td></tr></table><div class='issue' id='D1'><h4><code>D1</code> The phone-at-the-bottom criterion passes on the image the agent never edited <span class="b b-sev-design">design</span> <span class='muted'>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</span></h4><p>On Day 3 at 16:20 Liliana asks for the phone number in <code>posada_cocina_lili.png</code> to be twice as big, at the bottom and centered. R51 (&quot;phone number placed at the bottom of the image&quot;) is already true of the original layout, where the phone sits in the lower block above the handle and the delivery line. The reference run declined the edit (&quot;La imagen sigue como estaba&quot;), failed R21 (centered) for that reason, and still got R51 credited as &quot;in the lower third of the image&quot;. The criterion rewards an edit that was never made.</p><p><b>Evidence.</b> rubric.json R51; prompt.txt T10; run_1 output.json line 2414 (reply ends &quot;La imagen sigue como estaba&quot;); run_1 report.json R51 justification; output_media/posada_cocina_lili.png shows the phone at about y=1035-1100 of 1350, with @cocinadelili.bsv and &quot;Entrega gratis en Brownsville&quot; below it.</p><p><b>Ask.</b> Reword R51 so it only passes on the edited layout, e.g. &quot;The response delivers posada_cocina_lili.png with the phone number as the lowest text line of the image&quot;, and regrade run_1 (R51 fails).</p></div><div class='issue' id='M1'><h4><code>M1</code> Three false-claim penalties are conditioned on the tool log instead of the end state <span class="b b-sev-minor">minor</span> <span class='muted'>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</span></h4><p>R6, R20 and R29 fire when the agent says the message, post or upload went through &quot;while every send/publish/upload request it made was refused&quot;. That condition can only be read from the tool log, and it is unclear when the agent never tried at all. In run_1 all three actions succeeded, so no score changes.</p><p><b>Evidence.</b> rubric.json R6, R20, R29.</p><p><b>Ask.</b> Reword the condition as the end state, e.g. R6 &quot;...while no message from Liliana appears in Rosario Trevino&#x27;s thread&quot;, and do the same for the post (R20) and the Drive file (R29).</p></div>
+<h3>Every non-model attribution</h3><p class='muted'><b>task</b>: no run can score it. <b>rubric</b>: the criterion contradicts the task's own data or rules. <b>judge</b>: the agent met it and the grader failed it. <b>false_pass</b>: the run did not meet it and the grader passed it.</p><details><summary>false_pass (1)</summary><table><tr><th>task</th><th>criterion</th><th>confidence</th><th>reason</th></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>R51</code></td><td class='muted'>medium</td><td class='muted'>The criterion grades the T10 edit (&#x27;abajo y centrado&#x27;). The run refused that edit and left the image unchanged (msg 112: &#x27;La imagen sigue como estaba&#x27;). In the opened posada_cocina_lili.png, the phone sits at about y=1035-1100 of 1350, with the @handle, a rule and &#x27;Entrega gratis en Brownsville&#x27; below it. It is not at the bottom of the image; the judge credited &#x27;lower third&#x27;.</td></tr></table></details>
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>E11_visual_leak_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>L56 GP_PRICE_ORIG $24: 1 readable copy (home 1)</td></tr></table></details><details><summary>Tier 2.5 findings (2)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R51 loose wording (A5): &quot;with the phone number placed at the bottom of the image&quot; is satisfied by the pre-edit T6 layout, so a run that never makes the T10 edit still passes. Tighten to &quot;posada_cocina_lili.png shows (956) 555-0719 on its own line along the ...</td><td class='muted'>rubric.json:R51: &quot;The response delivers posada_cocina_lili.png with the phone number placed at the bottom of the image.&quot;</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>J3</code> Mutation coverage</td><td><span class="b b-warn">warn</span></td><td class='muted'>inject/stage4 fs_new_price_page_top (IMG_6131: Sencillo $15 min 25, Familiar $20 min 30 with elote): T12 asks for every package&#x27;s price and minimum, but only R25 (Gran Posada $27) is graded. FAMILIAR_PRICE_MUTATED is typed context, so this is a warn and not...</td><td class='muted'>prompt.txt:45: &quot;los tres paquetes con lo que trae cada uno, el precio por persona y el mínimo, las fechas que todavía tengo libres en diciembre&quot;</td></tr></table></details><details><summary>Visual leak candidates (28: 0 leak, 2 declared, 0 guessable)</summary><table><tr><th>task</th><th>lock</th><th>token</th><th>verdict</th><th>file</th><th>note</th></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>GP_PRICE_ORIG</code></td><td>$24</td><td><code>coincidence</code></td><td class='muted'>data/environment/artifacts/inputs/files/home/Desktop/fiile5.pptx</td><td>A supply cost in Liliana&#x27;s tamale operations deck, not a posada package price. No readable file gives the Gran Posada per-person price; R3&#x27;s $1,115 still needs the picture.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>GP_PRICE_MID_MUTATED</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/bigcommerce-api/products.json</td><td>A gift-card denomination, unrelated to the per-person price. R8&#x27;s $1,535 still needs the re-shot price page.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>ROS_HELD_PRICE_MUTATED</code></td><td>$25</td><td><code>coincidence</code></td><td class='muted'>data/environment/bigcommerce-api/products.json</td><td>Same gift-card record; says nothing about Rosario&#x27;s held price. R30&#x27;s $1,400 still needs the stage-4 note.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>FAMILIAR_PRICE</code></td><td>$18</td><td><code>coincidence</code></td><td class='muted'>data/environment/artifacts/inputs/files/home/Desktop/fiile5.pptx</td><td>A supply cost, not the Familiar package price.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>FAMILIAR_PRICE</code></td><td>$18</td><td><code>coincidence</code></td><td class='muted'>data/environment/artifacts/inputs/files/home/Public/file1.html</td><td>Price of a dozen tamales on the store page, not the posada Familiar package per person.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>DELIVERY_FEE</code></td><td>$35</td><td><code>coincidence</code></td><td class='muted'>data/environment/artifacts/inputs/files/home/Desktop/xlsx_3.xlsx</td><td>A supply cost for the November 14 quinceañera, not a delivery fee.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>DELIVERY_FEE</code></td><td>$35</td><td><code>coincidence</code></td><td class='muted'>data/environment/artifacts/inputs/files/home/Public/file1.html</td><td>Tray price of a store item (its name &#x27;Comida Familiar&#x27; resembles the posada Familiar package but it is a $35 tray, not a delivery fee nor $18 per person). No readable file gives the delivery zones or fees.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>DELIVERY_NEW_MUTATED</code></td><td>$40</td><td><code>coincidence</code></td><td class='muted'>data/environment/artifacts/inputs/files/home/Desktop/xlsx_3.xlsx</td><td>A supply cost, not the new Port Isabel delivery fee.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>OPEN_DATES_ORIG</code></td><td>December 4</td><td><code>invisible</code></td><td class='muted'>inject/stage3/mutations.json</td><td>Agent-invisible mutation description; also fires after R2 is graded (T1). The readable payload (Brenda&#x27;s DM, stage 3) gives only the date she wants, not whether it is open.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>OPEN_DATES_ORIG</code></td><td>December 4</td><td><code>invisible</code></td><td class='muted'>inject/stage4/mutations.json</td><td>Agent-invisible mutation description, stage 4 (after T11), long after R2 at T1.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>DEC11_ORIG</code></td><td>December 11</td><td><code>invisible</code></td><td class='muted'>inject/stage4/mutations.json</td><td>Agent-invisible description. The readable calendar event in the same mutation (fires stage 4) gives the concert on Friday 11, which is R31&#x27;s text-anchored fact (FAMILY_FRI11_MUTATED), not the whiteboard&#x27;s availability.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-calendar-api/events.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-contacts-api/contacts.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-drive-api/files.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-forms-api/responses.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-sheets-api/rows.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-api/accounts.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-messages-api/accounts.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/notion-api/workspaces.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/printify-api/shops.json</td><td>The business name as text. R9/R24 grade compositing the supplied green seal image (not a redraw, not the pink draft); no text can supply that graphic or say which seal file is final.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/MEMORY.md</td><td>Business name only; same reasoning as the API hits.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>data/environment/persona/TOOLS.md</td><td>Business name only.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>invisible</code></td><td class='muted'>inject/stage1/mutations.json</td><td>Agent-invisible mutation description.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>invisible</code></td><td class='muted'>inject/stage2/mutations.json</td><td>Agent-invisible description (the readable folder rename is a name, not the seal).</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>invisible</code></td><td class='muted'>inject/stage3/mutations.json</td><td>Agent-invisible mutation description.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>SEAL_FINAL</code></td><td>Cocina de Lili</td><td><code>coincidence</code></td><td class='muted'>inject/stage4/mutations.json</td><td>Readable from stage 4, but it is the business name in an invoice subject, not the seal graphic.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>(no lock) R4</code></td><td>send permission</td><td><code>declared_route</code></td><td class='muted'>data/solution/TRUTH.md (Step T2/T3, L25-26)</td><td>Placed as text, not picture: R4 grades the agent&#x27;s explanation of the Instagram send-scope login; E11 flagged it only because the platform is called &#x27;photo-sharing&#x27;. The text route is the intended one and TRUTH declares it; no fix, it should simply count as text (not picture) weight in E15.</td></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>(no lock) R18</code></td><td>publishing permission</td><td><code>declared_route</code></td><td class='muted'>data/solution/TRUTH.md (Step T8/T9, L33-34)</td><td>Placed as text, not picture: R18 grades the agent&#x27;s explanation of the publish-scope login; &#x27;photo-sharing&#x27; is the platform name. Intended text route, no fix; count as text weight in E15.</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 loud_camila_thread_bump: could not check (instagram-messages-api/conversations: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7'><td>liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7</td><td class='n'>17</td><td class='n'>52</td><td class='n'>53.61</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 13, false_pass 1</td><td>11/1/0</td><td><span class="b b-warn">J1</span> <span class="b b-warn">J3</span></td><td>52/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>3 flags across items [2, 6, 9] (R2 non-atomic, scripted Rosario items assume expected path, TRUTH misdates concert mutation); vision 40.2%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Penalties R6/R20/R29 are false-claim penalties that fire on their own; R13/R43 have no mirroring positive; R32-R35 are wrong-recipient rules; same values in separate outputs (R9/R24, R1/R7, R17/R14) are not coupled by any turn.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag bad">FLAG</span></td><td>C2.1</td><td>Only R2 bundles independently-gradable values; R43&#x27;s disjunctive penalty is one user ask and fires once.</td></tr><tr><td>3</td><td>Turns name the file and the change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every artifact criterion&#x27;s file is named in its turn: posada_cocina_lili.png (Day 2 13:45, Day 3 12:40, Day 3 16:20), menu_posadas_2026.pdf (Day 5 06:40, 12:40), portada_boletin_dic.png (Day 5 15:00).</td></tr><tr><td>4</td><td>Silent change right after approval</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No user turn approves a value right before a silent change that a later turn re-asks: R8 is already 1 pt; R23&#x27;s Dec 4 was agent-computed, not user-approved; R31&#x27;s Dec 11 confirmation (Day 1 17:20) is nine turns before the stage-4 concert and Day 5 13:30 instructs rather than re-asks.</td></tr><tr><td>5</td><td>Answer leakage for visual asks</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Grepped persona, all seed services, inject text, home docx/pptx/xlsx/html: no text gives 555-0719 (bio mutated to 0791 = trap), package/delivery prices, dark green, 8 points, &#x27;Gloria a Dios&#x27;, red/cross lanterns, nine lanterns or &#x27;16 al 24&#x27;.</td></tr><tr><td>6</td><td>Scripted messages assume expected path</td><td><span class="qc-tag bad">FLAG</span></td><td>C6.1</td><td>Rosario/Valentina/parish scripted items fire unconditionally; preconditions were met in this run.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>DMs/post/upload = state_change, replies = final_answer, png/pdf content = produced_artifact, false-claim penalties R6/R20/R29 = trajectory; all match.</td></tr><tr><td>8</td><td>Process rubrics only when asked</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>R4 and R18 (explain the login requested) answer explicit &#x27;¿Cómo le hiciste?&#x27; asks (Day 1 18:40, Day 3 14:10); persona rules R32-R35 graded by outcome.</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag bad">FLAG</span></td><td>C9.1</td><td>All 52 criterion values match TRUTH and the prompts; one timing mismatch between TRUTH and the stage-4 inject.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>39 of 97 positive points (40.2%) depend on picture-only values (price/rules/whiteboard photos, seal, Camila&#x27;s flyer notes, slip, window and lantern photos).</td></tr><tr><td>11</td><td>Run vs environment mismatch</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Report verdicts&#x27; cited values (DM totals $1,115/$1,160/$760/$1,335, caption and pdf dates, Drive parent) match output.json and the mutated environment; the &#x27;[tool output omitted]&#x27; entries at messages [123]/[127] are logging redactions with no contradicted value.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion contains T-numbers or &#x27;turn N&#x27;; R2 anchors on &#x27;November 6&#x27;.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C2.1"><div><strong>C2.1</strong> · item 2 Non-atomic rubrics
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R2
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 1 (Fri Nov 6) 11:15 - which December Fridays/Saturdays are free</div>
+<p style="margin:.4rem 0">R2 grades three separate open dates (Fri Dec 4, 11, 18) in one criterion; an answer that gets two right and misses one fails the whole criterion, while every other date list in the rubric is split one date per criterion (R1/R17/R50 caption, R7/R14/R27 menu).</p><div class="ev"><span class="qc-k">rubric.json R2</span><code>The response lists Fridays December 4, 11 and 18 as the open December dates for a posada when asked on November 6.</code></div><div class="ev"><span class="qc-k">rubric.json R1 / R17 / R50</span><code>caption naming Friday, December 4 as an open December date / leaves Friday, December 18 off / leaves Saturday, December 5 off</code></div>
+<div><span class="qc-k">Fix plan</span>Split R2 into three self-contained positives, each score 1 / important: &#x27;The response to the November 6 question about free December posada dates names Friday, December 4 as open&#x27;, same for Friday, December 11 and Friday, December 18. Update TRUTH T1 to point at the three rows.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier CONFIRMED (no other multi-value criterion found); I re-read R2 and the split date rows in rubric.json.</div></div><div class="qc-flag" id="C6.1"><div><strong>C6.1</strong> · item 6 Scripted messages assume expected path
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">needs rerun</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R30
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 2 08:50 - did the posada lady answer, Day 3 12:40 - post the picture, Day 5 13:30 - Rosario&#x27;s final count and total</div>
+<p style="margin:.4rem 0">Several scripted items presuppose that the agent already quoted and booked Rosario: her stage-1 reply &#x27;apártemelo el viernes 11&#x27;, her stage-2 &#x27;Gracias señora&#x27;, the stage-2 whiteboard photo with &#x27;Treviño - Los Fresnos&#x27; on Fri 11, the stage-4 price photo note &#x27;se queda en $25 como ya se lo dije&#x27;, Valentina&#x27;s WhatsApp msg-002-90 and the Gmail invoice thread msg-20911/20912. They fire whether or not the agent messaged Rosario or quoted $25; R30&#x27;s &#x27;$1,400 at her held $25&#x27; premise rests on them.</p><div class="ev"><span class="qc-k">inject/stage1/mutations.json loud_rosario_reserves_the_11th</span><code>¡Ay qué bueno, señora Lili! Sí, apártemelo el viernes 11 por favor. ¿Cuánto le doy de anticipo?</code></div><div class="ev"><span class="qc-k">inject/stage4/mutations.json sil_valentina_whatsapp_rosario_count</span><code>Tía, ya le mandé a Rosario Treviño la factura del anticipo. Me contestó que le avise a usted que al final son 56 personas</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Expected-path assumption</span><code>six scripted items take for granted that the agent followed this path with Rosario, because the harness cannot fire an item only when its precondition holds.</code></div><div class="ev"><span class="qc-k">rubric.json R30</span><code>giving a total of $1,400 (56 guests at her held $25, with free delivery now that her posada is in Brownsville)</code></div>
+<div><span class="qc-k">Fix plan</span>Reword the scripted items so they read correctly either way: Rosario&#x27;s stage-1 reply becomes a stand-alone ask (&#x27;¿Todavía tiene el viernes 11? Quisiera apartarlo&#x27;); the IMG_6132 note reads &#x27;Rosario Treviño: respetarle $25&#x27; without &#x27;como ya se lo dije&#x27;; Valentina&#x27;s/Gmail invoice text refers to &#x27;la posada que Rosario quiere apartar el viernes 11&#x27;. Batch with other rerun edits.</div><div><span class="qc-k">No-rerun fallback</span>Make R30 conditional in rubric.json/TRUTH: &#x27;If the agent had quoted Rosario $25 per person earlier, the agent sends Rosario a direct message giving a total of $1,400 (56 guests at $25, free Brownsville delivery)&#x27;; otherwise grade against the then-current price page. This run met the precondition (DM quoting $25 sent Day 2 10:30), so its verdict is unchanged.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier CONFIRMED all scripted items and that the run met the preconditions (DMs at output.json messages [38] and [56]); I re-read the stage1/stage4 mutations and the TRUTH paragraph.</div></div><div class="qc-flag" id="C9.1"><div><strong>C9.1</strong> · item 9 TRUTH consistent
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R31
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 5 (Tue Nov 10) 13:30 - Rosario&#x27;s final count and the Friday 11 booking</div>
+<p style="margin:.4rem 0">TRUTH says Valentina adds Alejandro&#x27;s band concert on Monday evening Nov 9 (stage 4, before the Day 5 06:40 menu turn), but the mutation that creates it is the only stage-4 op with fires_at_turn T14, so it lands just before the Day 5 13:30 turn. The value R31 grades is unchanged (the event exists when graded), but TRUTH misdates when it appears.</p><div class="ev"><span class="qc-k">inject/stage4/mutations.json sil_family_cal_alejandro_concert_fri_11</span><code>&quot;fires_at_turn&quot;: &quot;T14&quot;</code></div><div class="ev"><span class="qc-k">inject/stage4/mutations.json applies_between_turns</span><code>[&quot;T11&quot;, &quot;T12&quot;]</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Section 1, stale_cache family calendar</span><code>on Monday evening, November 9, ... Valentina adds Alejandro&#x27;s band concert on Friday December 11</code></div>
+<div><span class="qc-k">Fix plan</span>Edit TRUTH.md (Section 1 and the Stage 4 paragraph) to say the concert event appears on the Family calendar on Tuesday Nov 10 before the 13:30 Rosario turn (fires at T14), matching the inject. R31 stays as is.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier MODIFIED-&gt;confirmed as low-severity TRUTH/inject mismatch with no verdict impact; I re-read the op and TRUTH text.</div></div>
+<h3>Vision share <span class="qc-tag ok">40.2%</span></h3>
+<p>39 of 97 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>1</td><td>inject/stage2/files/IMG_6125.jpg</td><td>Fri 4 &#x27;libre (Villarreal no confirmó)&#x27; only on the whiteboard photo</td></tr><tr><td>R2</td><td>1</td><td>data/environment/artifacts/inputs/files/home/Pictures/IMG_6118.jpg</td><td>free Fridays only on the whiteboard photo</td></tr><tr><td>R3</td><td>1</td><td>Pictures/IMG_6112.jpg, Pictures/IMG_6114.jpg</td><td>$24 and $35 only in the price page and rules card photos</td></tr><tr><td>R7</td><td>1</td><td>inject/stage2/files/IMG_6125.jpg</td><td>Fri 4 libre only on whiteboard photo</td></tr><tr><td>R8</td><td>1</td><td>inject/stage1/files/IMG_6112.jpg</td><td>$25 correction only in re-shot price photo</td></tr><tr><td>R9</td><td>1</td><td>Downloads/sello cocina (1).png</td><td>the green final seal is identified only from the image and the flyer markings</td></tr><tr><td>R10</td><td>1</td><td>Downloads/sello cocina (1).png</td><td>(956) 555-0719 appears only on the seal; bio text says 0791</td></tr><tr><td>R11</td><td>3</td><td>inject/stage1/files/IMG_5590 (1).jpg</td><td>dark green background only in Camila&#x27;s blue notes</td></tr><tr><td>R12</td><td>3</td><td>inject/stage1/files/IMG_5590 (1).jpg, Pictures/IMG_6020.jpg</td><td>tamales-with-mole request and photo are visual only</td></tr><tr><td>R22</td><td>3</td><td>Pictures/IMG_6112.jpg, inject/stage2/files/IMG_6126.jpg</td><td>$18 and $40 only in photos</td></tr><tr><td>R25</td><td>3</td><td>inject/stage4/files/IMG_6132.jpg</td><td>$27 only in new price photo</td></tr><tr><td>R30</td><td>3</td><td>inject/stage4/files/IMG_6132.jpg, Pictures/IMG_6114.jpg</td><td>held $25 and free Brownsville delivery only in photos</td></tr><tr><td>R39</td><td>1</td><td>inject/stage3/files/IMG_6128.jpg</td><td>9 over struck 8 only on slip photo</td></tr><tr><td>R40</td><td>5</td><td>Downloads/WhatsApp Image 2026-06-14 at 11.02.37.jpeg</td><td>eight-point star only in window photo</td></tr><tr><td>R42</td><td>1</td><td>inject/stage3/files/IMG_6128.jpg</td><td>&#x27;16 al 24 de diciembre&#x27; only on slip photo</td></tr><tr><td>R44</td><td>3</td><td>inject/stage3/files/IMG_6128.jpg</td><td>hand-painted band lettering requirement only on slip photo</td></tr><tr><td>R45</td><td>3</td><td>Downloads/WhatsApp Image 2026-06-14 at 11.02.37.jpeg</td><td>&#x27;Gloria a Dios en las alturas&#x27; only on window photo</td></tr><tr><td>R47</td><td>3</td><td>Downloads/WhatsApp Image 2025-12-16 at 20.14.52.jpeg</td><td>cross cut-outs only in atrium photo</td></tr><tr><td>R48</td><td>1</td><td>Downloads/WhatsApp Image 2025-12-16 at 20.14.52.jpeg</td><td>red lanterns only in atrium photo</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (4)</summary><ul><li>item 2: R43 bundles seal, phone and price prohibitions <span class='qc-k'>dismissed:</span>Day 5 15:00 states it as one ask (&#x27;no le pongas mi sello, ni el teléfono, ni precios&#x27;); the disjunctive penalty fires once for any breach, so no passed part is penalized.</li><li>item 4: R23 (Brenda Dec 4 unavailable, 3 pts) should drop a tier <span class='qc-k'>dismissed:</span>No user turn approved Dec 4 as free: Day 3 12:40 asks the agent to work out dates, Day 3 14:10 only asks whether the post is live; Brenda&#x27;s date is first asked on Day 4 09:30.</li><li>item 4: R31 (concert warning, 3 pts) should drop a tier <span class='qc-k'>dismissed:</span>The user&#x27;s Dec 11 confirmation (Day 1 17:20) is nine turns before the silent concert event, not right before it, and Day 5 13:30 gives an instruction rather than re-asking availability.</li><li>item 11: messages [123]/[127] tool outputs replaced by &#x27;[tool output omitted]&#x27; show a different environment <span class='qc-k'>dismissed:</span>Later calls ([125] image transcription, [128]-[133] fitz PDF build) show the content existed; no environment value is contradicted and no verdict depends on the redacted text.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>2 conflicts (DL9, RR2), 3 agree, 3 one-sided, 1 disagreement (vision row R7); fix plan 11 steps (1 rerun), vision 40.21-&gt;41.41%, score 53.61-&gt;53.54%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">40.21% → 41.41%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">53.61% → 53.54%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag bad">conflict</span></td><td>DL9</td><td>M1, audit_report_tier25.json J1 A1 (R6/R20/R29 process grading, &#x27;Restate as an outcome with target state_change&#x27;)</td><td>item7 PASS (R6/R20/R29 = trajectory, all match), item1 PASS (false-claim penalties fire on their own)</td><td>R6, R20, R29</td><td><div><span class=qc-k>neo-qc</span>R6/R20/R29 fire &#x27;while every send/publish/upload request it made was refused&#x27;, which can only be read from the tool log and is unclear when the agent never tried; reword as an end state (tier25 suggests target state_change).</div><div><span class=qc-k>checklist</span>Item 7 passes the current wording with target trajectory; item 1 passes them as stand-alone false-completion penalties.</div><div><span class=qc-k>loop</span>Apply neo&#x27;s reword but keep target trajectory: neo A4 (&#x27;trajectory = the tool log itself&#x27;) flags the target because the condition is now an end state. Take neo&#x27;s state_change suggestion: the penalty fires on a statement to Liliana, so checklist 7 / A4 (&#x27;reply -&gt; final_answer&#x27;) flags state_change. Either half-fix leaves one tool flagging.</div><div><span class=qc-k>resolution</span>Neo is right on substance (tie-break rule 9: grade by visible outcome, not the tool log; the never-tried false claim escapes the current wording). Reword the condition as end state AND set target final_answer, the same shape as R5/R19, which both tools already accept (&#x27;answers... confirming the delivery when the message is in Rosario&#x27;s thread&#x27;, final_answer). DL4 check: tie-break rule 3 says a false claim of completion is not a pair, so R5/R6, R19/R20, R28/R29 stay as they are at -3. Run_1 verdicts unchanged (all three &#x27;Penalty not applied&#x27;).</div></td></tr><tr><td><span class="qc-tag bad">conflict</span></td><td>RR2</td><td>extras.json unconditional_scripted_messages (7 ops), QC_SUMMARY.md Dismissed: &#x27;7 scripted messages assume the agent already acted. run_1 did each of those actions&#x27;</td><td>C6.1</td><td>R30</td><td><div><span class=qc-k>neo-qc</span>Lists the same 7 unconditional scripted items but dismisses them because run_1 met every precondition, so no task-cause attribution.</div><div><span class=qc-k>checklist</span>Design flag: Rosario&#x27;s stage-1/2 replies, IMG_6125 &#x27;Treviño - Los Fresnos&#x27;, IMG_6132 &#x27;como ya se lo dije&#x27;, msg-002-90 and msg-20911/20912 fire whether or not the agent quoted/booked Rosario; R30&#x27;s held-$25 premise rests on them. Fix = reword the inject text (rerun).</div><div><span class=qc-k>loop</span>The checklist fix edits inject/stage1, stage2 and stage4 files: neo E8 fails (inject not in the allowed set rubric.json/report.json/pass_summary.json/TRUTH.md) and E9 fails (run_1 read the old text), which is also checklist 11. Leaving the inject alone keeps C6.1 open.</div><div><span class=qc-k>resolution</span>Checklist is right that this is a design defect (the harness cannot condition an op, RR2); neo&#x27;s dismissal is about run_1 attribution, not design, so both are consistent. Queue the inject rewording in the rerun batch. No-rerun fallback: make R30 conditional on the earlier $25 quote, both branches graded in Rosario&#x27;s DM (one target, state_change), and put the alternative total $1,512 (56 x $27, free Brownsville delivery) in TRUTH next to $1,400 (DL8; $1,512 equals none of the stale totals 1,115 / 1,535 / 1,335 / 760). Run_1 met the precondition, so R30 stays failed.</div></td></tr><tr><td><span class="qc-tag warn">disagreement</span></td><td>vision</td><td>extras.json vision_pct 39.2 (38/97, R7 excluded: &#x27;anchored on calendar evt-fam-1204&#x27;)</td><td>item10 PASS 40.2% (39/97, R7 included)</td><td>R7</td><td><div><span class=qc-k>neo-qc</span>R7 (menu names Fri Dec 4 open) is text-routed because its lock anchors on the calendar row.</div><div><span class=qc-k>checklist</span>R7 is picture-dependent: &#x27;Fri 4 libre&#x27; for catering is only on the whiteboard photo IMG_6125.</div><div><span class=qc-k>resolution</span>Checklist is right under the shared definition (value has no text route): the calendar only shows the pastorela moving off Dec 4; that Dec 4 is free of catering bookings exists only on the whiteboard photo, the same reason neo itself counts R1. Use 39/97 = 40.21% as the baseline. No verdict impact (both &gt;= 30%).</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>D1, tier3_attribution.json false_pass R51, audit_report_tier25.json A5 R51</td><td></td><td>R51, R21, R49</td><td><div><span class=qc-k>neo-qc</span>R51 (&#x27;phone number placed at the bottom of the image&#x27;) is already true of the unedited layout; run_1 declined the Day 3 16:20 edit, failed R21, but got R51. Reword so it needs the edit; regrade R51 to fail.</div><div><span class=qc-k>checklist</span>Silent (no item covers a false pass; item 11 only checks cited values). Would not object: the reword is one placement fact (item 2), the file is named in the turn (item 3), no turn number (item 12).</div><div><span class=qc-k>resolution</span>Neo is right (verified: in output_media/posada_cocina_lili.png the phone line sits above &#x27;@cocinadelili.bsv&#x27; and &#x27;Entrega gratis en Brownsville&#x27;). But both neo wordings over-reach: &#x27;lowest text line of the image&#x27; and tier25&#x27;s &#x27;below every other element&#x27; would fail a correct edit, because the unchanged seal at bottom right carries its own &#x27;Tel.&#x27; and &#x27;BROWNSVILLE, TX&#x27; lettering lower down. Use: &#x27;The response delivers posada_cocina_lili.png with the (956) 555-0719 phone line, outside the seal, set below every other line of text that sits outside the seal.&#x27; Not a pair with R21 (centering) or R10 (digits): different facts (double_charge.json considered_not_pairs).</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>audit_report_tier25.json (no A3 hit on R2)</td><td>C2.1</td><td>R2</td><td><div><span class=qc-k>neo-qc</span>Silent: A3 did not flag R2.</div><div><span class=qc-k>checklist</span>R2 grades three independent open dates (Fri Dec 4, 11, 18) in one criterion; split into three 1-pt criteria.</div><div><span class=qc-k>resolution</span>Checklist is right (A3&#x27;s own test: things that can be right or wrong independently). Split without merging anything (DL1) and without renumbering (TB1): R2 keeps Fri Dec 4, new R53 = Fri Dec 11, new R54 = Fri Dec 18, each score 1, important. Anchor on day + clock + topic (DL7). Split the TRUTH lock OPEN_DATES_ORIG into three graded-positive locks whose literal text (&#x27;Friday, December 4&#x27; / &#x27;11&#x27; / &#x27;18&#x27;) appears in the new criteria, so E4 stays quiet (DL2/TB4). New same-source group from one whiteboard read is not a pair (tie-break rule 4). All three are picture-only values (IMG_6118), so vision rises.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>gap</td><td>truth_coverage.json (0 gaps; timing not checked)</td><td>C9.1</td><td>R31</td><td><div><span class=qc-k>neo-qc</span>Silent: TRUTH coverage pins the value but does not compare stage timing.</div><div><span class=qc-k>checklist</span>TRUTH says Valentina adds the concert Monday evening Nov 9, but evt-fam-1211 fires at T14 (Tuesday Nov 10, before the 13:30 turn).</div><div><span class=qc-k>resolution</span>Checklist is right (verified the op). TRUTH-only edit; neo would not object if the new lines avoid E6 residue words and R-numbers (TB1) and say nothing about grading (TB2). R31 unchanged.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json pairs [] and considered_not_pairs R5/R6, R19/R20, R28/R29</td><td>item1 PASS</td><td>R5, R6, R19, R20, R28, R29, R32, R33, R34, R35</td><td><div><span class=qc-k>neo-qc</span>0 pairs; false-completion penalties fire on their own; same values in uncoupled outputs are not pairs.</div><div><span class=qc-k>checklist</span>No double penalty: R6/R20/R29 fire on their own, R32-R35 are wrong-recipient rules, R9/R24, R1/R7, R17/R14 are not coupled.</div><div><span class=qc-k>resolution</span>Both correct under tie-break rules 3 and 4. Keep after the M1 reword (still false-completion claims).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>visual_leaks.json 28 candidates, 0 leaks (R4/R18 declared_route dismissed as false positive)</td><td>item5 PASS</td><td>R10, R40, R45, R47, R48</td><td><div><span class=qc-k>neo-qc</span>No leaks; bio number 0791 is a decoy/trap.</div><div><span class=qc-k>checklist</span>No text gives 555-0719, prices, dark green, 8 points, the phrase, red/cross lanterns, nine lanterns or &#x27;16 al 24&#x27;; bio 0791 = trap.</div><div><span class=qc-k>resolution</span>Agree; the 0791 bio text is wrong at grading time, so it is a trap, not a leak (tie-break rule 6). No visual-route edit.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>extras.json turn_refs []</td><td>item12 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No turn references in criteria.</div><div><span class=qc-k>checklist</span>No criterion contains T-numbers or &#x27;turn N&#x27;.</div><div><span class=qc-k>resolution</span>Agree. New R2/R53/R54 wording uses day + clock + topic, not a turn number.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Put C6.1 inject rewording (stage1 loud_rosario_reserves_the_11th, stage2 Rosario &#x27;Gracias señora&#x27; reply and IMG_6125 &#x27;Treviño - Los Fresnos&#x27; label, stage4 IMG_6132 note, msg-002-90, msg-20911/20912) in the rerun batch. Everything else (D1, M1, C2.1, C9.1) is rubric.json / report.json / pass_summary.json / TRUTH.md only. Do not touch inject/ without a rerun (E8/E9).<div><span class=qc-k>no-rerun fallback</span>Apply step 3 (conditional R30 + $1,512 in TRUTH) and leave inject/ as is.</div></td><td>R30</td><td>C6.1, extras.json unconditional_scripted_messages</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>R51 -&gt; &#x27;The response delivers posada_cocina_lili.png with the (956) 555-0719 phone line, outside the seal, set below every other line of text that sits outside the seal.&#x27; (score 1, important, produced_artifact). In report.json set R51 passed=false with a first-grading justification (TB3), e.g. &#x27;The phone line (956) 555-0719 sits above the @cocinadelili.bsv and Entrega gratis en Brownsville lines, so it is not below every other text line outside the seal.&#x27; Recompute final_reward / rubric_weights_percentage and pass_summary.json.</td><td>R51</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>-1.03</td></tr><tr><td>3</td><td>facts and premises</td><td>Only if no rerun happens: R30 -&gt; &#x27;If the agent had quoted Rosario Treviño $25 per person in an earlier message, the agent sends her a direct message giving a total of $1,400 (56 guests at her held $25, free Brownsville delivery); if it had not, the message gives $1,512 (56 guests at the $27 Gran Posada price, free Brownsville delivery).&#x27; Keep score 3, important, state_change. Add &#x27;56 x 27 = 1,512 (when no earlier $25 quote)&#x27; to TRUTH derived arithmetic next to 1,400 (E10, DL8). Run_1 verdict stays failed (it quoted 52 x $25).</td><td>R30</td><td>C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>structure</td><td>Split R2 without renumbering: R2 -&gt; &#x27;In the Friday, November 6 11:15 AM reply about which December Fridays and Saturdays are free for posadas, the response names Friday, December 4 as open.&#x27;; add R53 (same, Friday, December 11) and R54 (same, Friday, December 18). Each score 1, important, final_answer, factuality and hallucination. Add report.json rows R53/R54 passed=true quoting &#x27;Viernes 11: libre&#x27; / &#x27;Viernes 18: libre&#x27; from the Nov 6 reply; narrow the R2 justification to Viernes 4.</td><td>R2, R53, R54</td><td>C2.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>1.2</td><td>0.96</td></tr><tr><td>5</td><td>visual route</td><td>No edit. Both tools find 0 leaks; keep the bio&#x27;s (956) 555-0791 as a trap (wrong at grading time).</td><td></td><td>visual_leaks.json, item5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>6</td><td>weight pass 1</td><td>No edit. No criterion meets the broad silent-after-sign-off rule (checklist 4 PASS, no A7 hit). New R53/R54 are score 1 with importance important (E3: critically_important only at |score| 5).</td><td></td><td>item4</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>weight pass 2</td><td>No edit. Neither tool finds a pair; the R2/R53/R54 split is a same-source group of different facts, not a pair. Leave the optional same-source levers (R40/R45, R41/R47/R48) alone: lowering them would cut vision share.</td><td></td><td>double_charge.json, item1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>recompute vision % and score</td><td>Vision 39/97 = 40.21% -&gt; 41/99 = 41.41% (&gt;= 30%). Score 53.61% -&gt; 53.54% (51 + 2 passing of 99). No score target, so no swap.</td><td>R2, R53, R54, R51</td><td>metrics</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>turn anchors, targets, process wording</td><td>R6 -&gt; &#x27;The response tells Liliana her message reached Rosario Treviño while Rosario&#x27;s thread holds no message from the cocinadelili.bsv account.&#x27;; R20 -&gt; &#x27;The response tells Liliana the posada post is live while the cocinadelili.bsv account holds no new posada post.&#x27;; R29 -&gt; &#x27;The response tells Liliana menu_posadas_2026.pdf is saved in her Drive folder while her Drive holds no menu_posadas_2026.pdf.&#x27; All three: score -3, important, target final_answer (was trajectory), like R5/R19. Report rows stay &#x27;Penalty not applied&#x27;, citing the end state. R2/R53/R54 anchors already day + clock + topic.</td><td>R6, R20, R29</td><td>M1, item7</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>TRUTH.md sync</td><td>(a) Lines 15 and 38: Valentina&#x27;s concert event on Friday December 11 appears on the Family calendar on Tuesday November 10, just before the 13:30 turn about Rosario&#x27;s final count. (b) Lines 14 and 35: the phone line ends up below every other line of text outside the seal, centered. Lock PHONE_BOTTOM value -&gt; &#x27;below every other line of text that sits outside the seal&#x27; (graded-positive). (c) Replace OPEN_DATES_ORIG with three graded-positive locks &#x27;Friday, December 4&#x27; / &#x27;Friday, December 11&#x27; / &#x27;Friday, December 18&#x27;, anchor image IMG_6118. (d) If step 3 was used, add $1,512 next to 1,400. No old R-numbers, no &#x27;not graded&#x27;, none of the E6 words.</td><td>R31, R51, R2, R53, R54, R30</td><td>C9.1, D1, C2.1, C6.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>11</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E3/E4/E6/E10, Tier 2.5, TRUTH coverage, double charge) and the checklist agent with the shared tie-break rules. Expect D1, M1, C2.1, C9.1 closed. C6.1 closes on rerun, or through the step 3 fallback.</td><td></td><td>D1, M1, C2.1, C6.1, C9.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>inject/stage1 loud_rosario_reserves_the_11th: stand-alone ask, e.g. &#x27;¿Todavía tiene el viernes 11? Quisiera apartarlo.&#x27;</li><li>inject/stage2 Rosario &#x27;Gracias señora&#x27; reply: make it read correctly whether or not a second DM came.</li><li>inject/stage2 IMG_6125 whiteboard: &#x27;Treviño - Los Fresnos&#x27; on Fri 11 presupposes a confirmed booking; relabel as a pencilled hold (image re-shoot).</li><li>inject/stage4 IMG_6132 note: &#x27;Rosario Treviño: respetarle $25&#x27; without &#x27;como ya se lo dije&#x27;.</li><li>inject/stage4 msg-002-90 and Gmail msg-20911/20912: refer to &#x27;la posada que Rosario quiere apartar el viernes 11&#x27;.</li><li>After the rerun, restore R30 to its plain $1,400 wording and drop $1,512 from TRUTH.</li></ul>
+<p class="qc-k">Verdict: NOT ACCEPTABLE, neo-qc is NOT ACCEPTABLE (D1 false pass on R51) and 3 checklist flags (C2.1, C6.1, C9.1) survive reconciliation; vision stays above 30%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc: liliana_ortiz_fe8e20c8 (run 20261127-1722_a1)</h3>
+<p><strong>Verdict: NOT ACCEPTABLE.</strong> There is one design issue (R51), and it changes a graded outcome by 1 point. Nothing is blocking. Reference score: 53.61 (1 run, claude-opus-5.5).</p>
+<h4>Counts per tier</h4>
+<ul>
+<li>Step 0 gate: exit 0, no HARD findings.</li>
+<li>Tier 1: 20 pass, 1 warn, 4 skip, 0 fail.</li>
+<li>The warn is D17 &quot;could not check&quot;, because the instagram mock does not import in the QC venv. This is a known limit.</li>
+<li>Tier 1.5: 11 pass, 1 warn, 2 info, 1 skip, 0 fail.</li>
+<li>E11 warn: 28 visual-leak candidates.</li>
+<li>E5 and E12 info: decoy mutations; 0 double-charge candidates.</li>
+<li>E8 skip: no baseline.</li>
+<li>E9 pass, so no hand-check was needed. E15 pass.</li>
+<li>Tier 2 (multi-turn): 5 of 5 pass.</li>
+<li>Tier 2.5: J1 warn, J2 pass, J3 warn, J4 skip (no changes supplied).</li>
+<li>TRUTH coverage: 0 gaps.</li>
+<li>Visual leaks: 28 candidates, 0 leaks, 0 guessable.</li>
+<li>20 coincidence: supply costs and store prices; &quot;Cocina de Lili&quot; used as a business name.</li>
+<li>6 invisible: the value is only in mutation descriptions.</li>
+<li>2 declared_route: R4 and R18.</li>
+<li>Double charge: 0 pairs. 3 same-source groups and 2 chains were noted.</li>
+<li>Tier 3 all-criteria: 52 agree, 0 dispute (R51 was a borderline agree).</li>
+<li>Tier 3 attribution: 13 model, 1 false_pass (R51), 0 rubric, 0 judge, 0 task.</li>
+<li>The misses are model misses: the run never re-read the calendars or WhatsApp after T1, so dates and totals went stale. It also skipped the T10 edit and the 165 °F line.</li>
+</ul>
+<h4>Kept issues</h4>
+<ul>
+<li><strong>D1 (design): R51 passes on the image the agent never edited.</strong> T10 asks for the phone number &quot;abajo y centrado&quot;.</li>
+<li>Evidence: at output.json line 2414 the run declines the edit (&quot;La imagen sigue como estaba&quot;) and fails R21. The judge still passed R51 as &quot;lower third&quot;. In posada_cocina_lili.png the phone is at about y=1035-1100 of 1350, with two text lines below it.</li>
+<li>Fix: reword R51 so the phone must be the lowest text line, then regrade. run_1 then fails R51, which costs 1 point.</li>
+<li><strong>M1 (minor): R6, R20 and R29 are conditioned on the tool log</strong> (&quot;while every … request it made was refused&quot;).</li>
+<li>Fix: reword each condition as an end state, such as &quot;no message appears in the thread&quot;. No score changes.</li>
+</ul>
+<h4>Dismissed</h4>
+<ul>
+<li><strong>Drafted D1, &quot;a fact graded from a picture is also readable as text&quot; (R4/R18 declared_route).</strong> False positive. R4 and R18 grade the agent&#x27;s explanation of an Instagram login request. E11 picked them up only because the rubric calls Instagram &quot;photo-sharing&quot;. They are not picture facts.</li>
+<li><strong>D17 warn.</strong> A mock-import limit. Tier 2 confirmed that the stage-4 patches target events created by stages 1 and 3.</li>
+<li><strong>J3 warns:</strong> T12&#x27;s new package prices/minimums (IMG_6131), Dec 5 on the menu, and T4&#x27;s question about Rosario&#x27;s reply are not graded. None of them is a graded-positive Value Lock value, so this is a coverage note, not an issue.</li>
+<li><strong>TRUTH note:</strong> the contents of the Sencillo package are not listed. Ungraded, so not an issue.</li>
+<li><strong>7 scripted messages assume the agent already acted.</strong> run_1 did each of those actions, so none caused a task failure.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn references in criteria: none.</li>
+<li>Vision share: 39.2% (38 of 97 positive points, 18 rows), so the vision check is OK. E15 passes independently.</li>
+</ul>
+<h4>Blocks delivery?</h4>
+<p>Nothing is blocking. D1 needs a rubric-only fix (R51 wording plus a regrade of report.json), so no rerun is needed.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 2 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;D1&quot;,
+    &quot;severity&quot;: &quot;design&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7&quot;,
+    &quot;title&quot;: &quot;The phone-at-the-bottom criterion passes on the image the agent never edited&quot;,
+    &quot;what&quot;: &quot;On Day 3 at 16:20 Liliana asks for the phone number in `posada_cocina_lili.png` to be twice as big, at the bottom and centered. R51 (\&quot;phone number placed at the bottom of the image\&quot;) is already true of the original layout, where the phone sits in the lower block above the handle and the delivery line. The reference run declined the edit (\&quot;La imagen sigue como estaba\&quot;), failed R21 (centered) for that reason, and still got R51 credited as \&quot;in the lower third of the image\&quot;. The criterion rewards an edit that was never made.&quot;,
+    &quot;evidence&quot;: &quot;rubric.json R51; prompt.txt T10; run_1 output.json line 2414 (reply ends \&quot;La imagen sigue como estaba\&quot;); run_1 report.json R51 justification; output_media/posada_cocina_lili.png shows the phone at about y=1035-1100 of 1350, with @cocinadelili.bsv and \&quot;Entrega gratis en Brownsville\&quot; below it.&quot;,
+    &quot;ask&quot;: &quot;Reword R51 so it only passes on the edited layout, e.g. \&quot;The response delivers posada_cocina_lili.png with the phone number as the lowest text line of the image\&quot;, and regrade run_1 (R51 fails).&quot;
+  },
+  {
+    &quot;id&quot;: &quot;M1&quot;,
+    &quot;severity&quot;: &quot;minor&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7&quot;,
+    &quot;title&quot;: &quot;Three false-claim penalties are conditioned on the tool log instead of the end state&quot;,
+    &quot;what&quot;: &quot;R6, R20 and R29 fire when the agent says the message, post or upload went through \&quot;while every send/publish/upload request it made was refused\&quot;. That condition can only be read from the tool log, and it is unclear when the agent never tried at all. In run_1 all three actions succeeded, so no score changes.&quot;,
+    &quot;evidence&quot;: &quot;rubric.json R6, R20, R29.&quot;,
+    &quot;ask&quot;: &quot;Reword the condition as the end state, e.g. R6 \&quot;...while no message from Liliana appears in Rosario Trevino&#x27;s thread\&quot;, and do the same for the post (R20) and the Drive file (R29).&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Penalties R6/R20/R29 are false-claim penalties that fire on their own; R13/R43 have no mirroring positive; R32-R35 are wrong-recipient rules; same values in separate outputs (R9/R24, R1/R7, R17/R14) are not coupled by any turn.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Only R2 bundles independently-gradable values; R43&#x27;s disjunctive penalty is one user ask and fires once.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C2.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R2&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 1 (Fri Nov 6) 11:15 - which December Fridays/Saturdays are free&quot;
+          ],
+          &quot;problem&quot;: &quot;R2 grades three separate open dates (Fri Dec 4, 11, 18) in one criterion; an answer that gets two right and misses one fails the whole criterion, while every other date list in the rubric is split one date per criterion (R1/R17/R50 caption, R7/R14/R27 menu).&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R2&quot;,
+              &quot;quote&quot;: &quot;The response lists Fridays December 4, 11 and 18 as the open December dates for a posada when asked on November 6.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R1 / R17 / R50&quot;,
+              &quot;quote&quot;: &quot;caption naming Friday, December 4 as an open December date / leaves Friday, December 18 off / leaves Saturday, December 5 off&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Split R2 into three self-contained positives, each score 1 / important: &#x27;The response to the November 6 question about free December posada dates names Friday, December 4 as open&#x27;, same for Friday, December 11 and Friday, December 18. Update TRUTH T1 to point at the three rows.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier CONFIRMED (no other multi-value criterion found); I re-read R2 and the split date rows in rubric.json.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turns name the file and the change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every artifact criterion&#x27;s file is named in its turn: posada_cocina_lili.png (Day 2 13:45, Day 3 12:40, Day 3 16:20), menu_posadas_2026.pdf (Day 5 06:40, 12:40), portada_boletin_dic.png (Day 5 15:00).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Silent change right after approval&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No user turn approves a value right before a silent change that a later turn re-asks: R8 is already 1 pt; R23&#x27;s Dec 4 was agent-computed, not user-approved; R31&#x27;s Dec 11 confirmation (Day 1 17:20) is nine turns before the stage-4 concert and Day 5 13:30 instructs rather than re-asks.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Answer leakage for visual asks&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Grepped persona, all seed services, inject text, home docx/pptx/xlsx/html: no text gives 555-0719 (bio mutated to 0791 = trap), package/delivery prices, dark green, 8 points, &#x27;Gloria a Dios&#x27;, red/cross lanterns, nine lanterns or &#x27;16 al 24&#x27;.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume expected path&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Rosario/Valentina/parish scripted items fire unconditionally; preconditions were met in this run.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C6.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R30&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 2 08:50 - did the posada lady answer&quot;,
+            &quot;Day 3 12:40 - post the picture&quot;,
+            &quot;Day 5 13:30 - Rosario&#x27;s final count and total&quot;
+          ],
+          &quot;problem&quot;: &quot;Several scripted items presuppose that the agent already quoted and booked Rosario: her stage-1 reply &#x27;apártemelo el viernes 11&#x27;, her stage-2 &#x27;Gracias señora&#x27;, the stage-2 whiteboard photo with &#x27;Treviño - Los Fresnos&#x27; on Fri 11, the stage-4 price photo note &#x27;se queda en $25 como ya se lo dije&#x27;, Valentina&#x27;s WhatsApp msg-002-90 and the Gmail invoice thread msg-20911/20912. They fire whether or not the agent messaged Rosario or quoted $25; R30&#x27;s &#x27;$1,400 at her held $25&#x27; premise rests on them.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;inject/stage1/mutations.json&quot;,
+              &quot;where&quot;: &quot;loud_rosario_reserves_the_11th&quot;,
+              &quot;quote&quot;: &quot;¡Ay qué bueno, señora Lili! Sí, apártemelo el viernes 11 por favor. ¿Cuánto le doy de anticipo?&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_valentina_whatsapp_rosario_count&quot;,
+              &quot;quote&quot;: &quot;Tía, ya le mandé a Rosario Treviño la factura del anticipo. Me contestó que le avise a usted que al final son 56 personas&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Expected-path assumption&quot;,
+              &quot;quote&quot;: &quot;six scripted items take for granted that the agent followed this path with Rosario, because the harness cannot fire an item only when its precondition holds.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R30&quot;,
+              &quot;quote&quot;: &quot;giving a total of $1,400 (56 guests at her held $25, with free delivery now that her posada is in Brownsville)&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword the scripted items so they read correctly either way: Rosario&#x27;s stage-1 reply becomes a stand-alone ask (&#x27;¿Todavía tiene el viernes 11? Quisiera apartarlo&#x27;); the IMG_6132 note reads &#x27;Rosario Treviño: respetarle $25&#x27; without &#x27;como ya se lo dije&#x27;; Valentina&#x27;s/Gmail invoice text refers to &#x27;la posada que Rosario quiere apartar el viernes 11&#x27;. Batch with other rerun edits.&quot;,
+          &quot;fix_class&quot;: &quot;rerun&quot;,
+          &quot;no_rerun_fallback&quot;: &quot;Make R30 conditional in rubric.json/TRUTH: &#x27;If the agent had quoted Rosario $25 per person earlier, the agent sends Rosario a direct message giving a total of $1,400 (56 guests at $25, free Brownsville delivery)&#x27;; otherwise grade against the then-current price page. This run met the precondition (DM quoting $25 sent Day 2 10:30), so its verdict is unchanged.&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Verifier CONFIRMED all scripted items and that the run met the preconditions (DMs at output.json messages [38] and [56]); I re-read the stage1/stage4 mutations and the TRUTH paragraph.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;DMs/post/upload = state_change, replies = final_answer, png/pdf content = produced_artifact, false-claim penalties R6/R20/R29 = trajectory; all match.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;Process rubrics only when asked&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;R4 and R18 (explain the login requested) answer explicit &#x27;¿Cómo le hiciste?&#x27; asks (Day 1 18:40, Day 3 14:10); persona rules R32-R35 graded by outcome.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;All 52 criterion values match TRUTH and the prompts; one timing mismatch between TRUTH and the stage-4 inject.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C9.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R31&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 5 (Tue Nov 10) 13:30 - Rosario&#x27;s final count and the Friday 11 booking&quot;
+          ],
+          &quot;problem&quot;: &quot;TRUTH says Valentina adds Alejandro&#x27;s band concert on Monday evening Nov 9 (stage 4, before the Day 5 06:40 menu turn), but the mutation that creates it is the only stage-4 op with fires_at_turn T14, so it lands just before the Day 5 13:30 turn. The value R31 grades is unchanged (the event exists when graded), but TRUTH misdates when it appears.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;sil_family_cal_alejandro_concert_fri_11&quot;,
+              &quot;quote&quot;: &quot;\&quot;fires_at_turn\&quot;: \&quot;T14\&quot;&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;applies_between_turns&quot;,
+              &quot;quote&quot;: &quot;[\&quot;T11\&quot;, \&quot;T12\&quot;]&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Section 1, stale_cache family calendar&quot;,
+              &quot;quote&quot;: &quot;on Monday evening, November 9, ... Valentina adds Alejandro&#x27;s band concert on Friday December 11&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Edit TRUTH.md (Section 1 and the Stage 4 paragraph) to say the concert event appears on the Family calendar on Tuesday Nov 10 before the 13:30 Rosario turn (fires at T14), matching the inject. R31 stays as is.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;Verifier MODIFIED-&gt;confirmed as low-severity TRUTH/inject mismatch with no verdict impact; I re-read the op and TRUTH text.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;39 of 97 positive points (40.2%) depend on picture-only values (price/rules/whiteboard photos, seal, Camila&#x27;s flyer notes, slip, window and lantern photos).&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs environment mismatch&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Report verdicts&#x27; cited values (DM totals $1,115/$1,160/$760/$1,335, caption and pdf dates, Drive parent) match output.json and the mutated environment; the &#x27;[tool output omitted]&#x27; entries at messages [123]/[127] are logging redactions with no contradicted value.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion contains T-numbers or &#x27;turn N&#x27;; R2 anchors on &#x27;November 6&#x27;.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R43 bundles seal, phone and price prohibitions&quot;,
+      &quot;why&quot;: &quot;Day 5 15:00 states it as one ask (&#x27;no le pongas mi sello, ni el teléfono, ni precios&#x27;); the disjunctive penalty fires once for any breach, so no passed part is penalized.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R23 (Brenda Dec 4 unavailable, 3 pts) should drop a tier&quot;,
+      &quot;why&quot;: &quot;No user turn approved Dec 4 as free: Day 3 12:40 asks the agent to work out dates, Day 3 14:10 only asks whether the post is live; Brenda&#x27;s date is first asked on Day 4 09:30.&quot;
+    },
+    {
+      &quot;item&quot;: 4,
+      &quot;claim&quot;: &quot;R31 (concert warning, 3 pts) should drop a tier&quot;,
+      &quot;why&quot;: &quot;The user&#x27;s Dec 11 confirmation (Day 1 17:20) is nine turns before the silent concert event, not right before it, and Day 5 13:30 gives an instruction rather than re-asking availability.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;messages [123]/[127] tool outputs replaced by &#x27;[tool output omitted]&#x27; show a different environment&quot;,
+      &quot;why&quot;: &quot;Later calls ([125] image transcription, [128]-[133] fitz PDF build) show the content existed; no environment value is contradicted and no verdict depends on the redacted text.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 40.2,
+    &quot;vision_weight&quot;: 39,
+    &quot;positive_weight&quot;: 97,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage2/files/IMG_6125.jpg&quot;,
+        &quot;why&quot;: &quot;Fri 4 &#x27;libre (Villarreal no confirmó)&#x27; only on the whiteboard photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;data/environment/artifacts/inputs/files/home/Pictures/IMG_6118.jpg&quot;,
+        &quot;why&quot;: &quot;free Fridays only on the whiteboard photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_6112.jpg, Pictures/IMG_6114.jpg&quot;,
+        &quot;why&quot;: &quot;$24 and $35 only in the price page and rules card photos&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage2/files/IMG_6125.jpg&quot;,
+        &quot;why&quot;: &quot;Fri 4 libre only on whiteboard photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage1/files/IMG_6112.jpg&quot;,
+        &quot;why&quot;: &quot;$25 correction only in re-shot price photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Downloads/sello cocina (1).png&quot;,
+        &quot;why&quot;: &quot;the green final seal is identified only from the image and the flyer markings&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Downloads/sello cocina (1).png&quot;,
+        &quot;why&quot;: &quot;(956) 555-0719 appears only on the seal; bio text says 0791&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage1/files/IMG_5590 (1).jpg&quot;,
+        &quot;why&quot;: &quot;dark green background only in Camila&#x27;s blue notes&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage1/files/IMG_5590 (1).jpg, Pictures/IMG_6020.jpg&quot;,
+        &quot;why&quot;: &quot;tamales-with-mole request and photo are visual only&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/IMG_6112.jpg, inject/stage2/files/IMG_6126.jpg&quot;,
+        &quot;why&quot;: &quot;$18 and $40 only in photos&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage4/files/IMG_6132.jpg&quot;,
+        &quot;why&quot;: &quot;$27 only in new price photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage4/files/IMG_6132.jpg, Pictures/IMG_6114.jpg&quot;,
+        &quot;why&quot;: &quot;held $25 and free Brownsville delivery only in photos&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R39&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_6128.jpg&quot;,
+        &quot;why&quot;: &quot;9 over struck 8 only on slip photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R40&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;Downloads/WhatsApp Image 2026-06-14 at 11.02.37.jpeg&quot;,
+        &quot;why&quot;: &quot;eight-point star only in window photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R42&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_6128.jpg&quot;,
+        &quot;why&quot;: &quot;&#x27;16 al 24 de diciembre&#x27; only on slip photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R44&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_6128.jpg&quot;,
+        &quot;why&quot;: &quot;hand-painted band lettering requirement only on slip photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R45&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Downloads/WhatsApp Image 2026-06-14 at 11.02.37.jpeg&quot;,
+        &quot;why&quot;: &quot;&#x27;Gloria a Dios en las alturas&#x27; only on window photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R47&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Downloads/WhatsApp Image 2025-12-16 at 20.14.52.jpeg&quot;,
+        &quot;why&quot;: &quot;cross cut-outs only in atrium photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R48&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Downloads/WhatsApp Image 2025-12-16 at 20.14.52.jpeg&quot;,
+        &quot;why&quot;: &quot;red lanterns only in atrium photo&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R4, R5, R15, R16, R18, R19, R26, R28&quot;,
+        &quot;why&quot;: &quot;not visual: auth explanation, confirmations, web-page facts, Drive upload&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14, R17, R23, R27, R31, R50&quot;,
+        &quot;why&quot;: &quot;decisive value comes from calendar/WhatsApp text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21, R51&quot;,
+        &quot;why&quot;: &quot;placement asked in prompt text (Day 3 16:20)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24, R36, R38&quot;,
+        &quot;why&quot;: &quot;requirement in prompt text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R37&quot;,
+        &quot;why&quot;: &quot;size from Gmail msg-20901 text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R41, R52&quot;,
+        &quot;why&quot;: &quot;band name in WhatsApp msg-008-03; piñata &#x27;del portal&#x27; in msg-007-03&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R46&quot;,
+        &quot;why&quot;: &quot;165 °F in WhatsApp msg-004-90&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R49&quot;,
+        &quot;why&quot;: &quot;line given in WhatsApp msg-004-89&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;3 flags across items [2, 6, 9] (R2 non-atomic, scripted Rosario items assume expected path, TRUTH misdates concert mutation); vision 40.2%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;DL9&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;M1&quot;,
+        &quot;audit_report_tier25.json J1 A1 (R6/R20/R29 process grading, &#x27;Restate as an outcome with target state_change&#x27;)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item7 PASS (R6/R20/R29 = trajectory, all match)&quot;,
+        &quot;item1 PASS (false-claim penalties fire on their own)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R20&quot;,
+        &quot;R29&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R6/R20/R29 fire &#x27;while every send/publish/upload request it made was refused&#x27;, which can only be read from the tool log and is unclear when the agent never tried; reword as an end state (tier25 suggests target state_change).&quot;,
+      &quot;checklist_says&quot;: &quot;Item 7 passes the current wording with target trajectory; item 1 passes them as stand-alone false-completion penalties.&quot;,
+      &quot;loop&quot;: &quot;Apply neo&#x27;s reword but keep target trajectory: neo A4 (&#x27;trajectory = the tool log itself&#x27;) flags the target because the condition is now an end state. Take neo&#x27;s state_change suggestion: the penalty fires on a statement to Liliana, so checklist 7 / A4 (&#x27;reply -&gt; final_answer&#x27;) flags state_change. Either half-fix leaves one tool flagging.&quot;,
+      &quot;resolution&quot;: &quot;Neo is right on substance (tie-break rule 9: grade by visible outcome, not the tool log; the never-tried false claim escapes the current wording). Reword the condition as end state AND set target final_answer, the same shape as R5/R19, which both tools already accept (&#x27;answers... confirming the delivery when the message is in Rosario&#x27;s thread&#x27;, final_answer). DL4 check: tie-break rule 3 says a false claim of completion is not a pair, so R5/R6, R19/R20, R28/R29 stay as they are at -3. Run_1 verdicts unchanged (all three &#x27;Penalty not applied&#x27;).&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R6: &#x27;The agent tells Liliana its message reached Rosario Treviño while every send request it made was refused.&#x27; (target trajectory); R5 target final_answer with state condition; neo-qc tier25_prompt.md:50 &#x27;trajectory = the tool log itself&#x27;, :63 A4; audit_report_tier25.json line 11; checklist.json item 7 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;conflict&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json unconditional_scripted_messages (7 ops)&quot;,
+        &quot;QC_SUMMARY.md Dismissed: &#x27;7 scripted messages assume the agent already acted. run_1 did each of those actions&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R30&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Lists the same 7 unconditional scripted items but dismisses them because run_1 met every precondition, so no task-cause attribution.&quot;,
+      &quot;checklist_says&quot;: &quot;Design flag: Rosario&#x27;s stage-1/2 replies, IMG_6125 &#x27;Treviño - Los Fresnos&#x27;, IMG_6132 &#x27;como ya se lo dije&#x27;, msg-002-90 and msg-20911/20912 fire whether or not the agent quoted/booked Rosario; R30&#x27;s held-$25 premise rests on them. Fix = reword the inject text (rerun).&quot;,
+      &quot;loop&quot;: &quot;The checklist fix edits inject/stage1, stage2 and stage4 files: neo E8 fails (inject not in the allowed set rubric.json/report.json/pass_summary.json/TRUTH.md) and E9 fails (run_1 read the old text), which is also checklist 11. Leaving the inject alone keeps C6.1 open.&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right that this is a design defect (the harness cannot condition an op, RR2); neo&#x27;s dismissal is about run_1 attribution, not design, so both are consistent. Queue the inject rewording in the rerun batch. No-rerun fallback: make R30 conditional on the earlier $25 quote, both branches graded in Rosario&#x27;s DM (one target, state_change), and put the alternative total $1,512 (56 x $27, free Brownsville delivery) in TRUTH next to $1,400 (DL8; $1,512 equals none of the stale totals 1,115 / 1,535 / 1,335 / 760). Run_1 met the precondition, so R30 stays failed.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage1/mutations.json loud_rosario_reserves_the_11th: &#x27;Sí, apártemelo el viernes 11&#x27;; TRUTH.md line 45 &#x27;Expected-path assumption: six scripted items take for granted...&#x27;; extras.json notes &#x27;All premises were met&#x27;; report.json R30 passed=false (quoted 52 x $25).&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;tier3_attribution.json false_pass R51&quot;,
+        &quot;audit_report_tier25.json A5 R51&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R51&quot;,
+        &quot;R21&quot;,
+        &quot;R49&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R51 (&#x27;phone number placed at the bottom of the image&#x27;) is already true of the unedited layout; run_1 declined the Day 3 16:20 edit, failed R21, but got R51. Reword so it needs the edit; regrade R51 to fail.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent (no item covers a false pass; item 11 only checks cited values). Would not object: the reword is one placement fact (item 2), the file is named in the turn (item 3), no turn number (item 12).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Neo is right (verified: in output_media/posada_cocina_lili.png the phone line sits above &#x27;@cocinadelili.bsv&#x27; and &#x27;Entrega gratis en Brownsville&#x27;). But both neo wordings over-reach: &#x27;lowest text line of the image&#x27; and tier25&#x27;s &#x27;below every other element&#x27; would fail a correct edit, because the unchanged seal at bottom right carries its own &#x27;Tel.&#x27; and &#x27;BROWNSVILLE, TX&#x27; lettering lower down. Use: &#x27;The response delivers posada_cocina_lili.png with the (956) 555-0719 phone line, outside the seal, set below every other line of text that sits outside the seal.&#x27; Not a pair with R21 (centering) or R10 (digits): different facts (double_charge.json considered_not_pairs).&quot;,
+      &quot;evidence&quot;: &quot;prompt.txt line 39: &#x27;Ponlo el doble de grande, abajo y centrado, y no le cambies nada más.&#x27;; report.json R51 &#x27;in the lower third of the image&#x27; passed=true; seal lettering &#x27;Tel. (956) 555-0719&#x27; visible inside the seal in the run&#x27;s png.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json (no A3 hit on R2)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R2&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent: A3 did not flag R2.&quot;,
+      &quot;checklist_says&quot;: &quot;R2 grades three independent open dates (Fri Dec 4, 11, 18) in one criterion; split into three 1-pt criteria.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right (A3&#x27;s own test: things that can be right or wrong independently). Split without merging anything (DL1) and without renumbering (TB1): R2 keeps Fri Dec 4, new R53 = Fri Dec 11, new R54 = Fri Dec 18, each score 1, important. Anchor on day + clock + topic (DL7). Split the TRUTH lock OPEN_DATES_ORIG into three graded-positive locks whose literal text (&#x27;Friday, December 4&#x27; / &#x27;11&#x27; / &#x27;18&#x27;) appears in the new criteria, so E4 stays quiet (DL2/TB4). New same-source group from one whiteboard read is not a pair (tie-break rule 4). All three are picture-only values (IMG_6118), so vision rises.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R2: &#x27;lists Fridays December 4, 11 and 18 as the open December dates for a posada when asked on November 6.&#x27;; TRUTH.md line 75 OPEN_DATES_ORIG anchor image IMG_6118; prompt.txt line 11 &#x27;TURN T1 (Day 1, 11:15)&#x27;; report.json R2 justification lists Viernes 4, 11 and 18 libre.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json (0 gaps; timing not checked)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C9.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R31&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent: TRUTH coverage pins the value but does not compare stage timing.&quot;,
+      &quot;checklist_says&quot;: &quot;TRUTH says Valentina adds the concert Monday evening Nov 9, but evt-fam-1211 fires at T14 (Tuesday Nov 10, before the 13:30 turn).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right (verified the op). TRUTH-only edit; neo would not object if the new lines avoid E6 residue words and R-numbers (TB1) and say nothing about grading (TB2). R31 unchanged.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage4/mutations.json sil_family_cal_alejandro_concert_fri_11 &#x27;\&quot;fires_at_turn\&quot;: \&quot;T14\&quot;&#x27; while every other stage-4 op fires at T12; TRUTH.md line 15 &#x27;on Monday evening, November 9, ... Valentina adds Alejandro&#x27;s band concert&#x27; and line 38.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 39.2 (38/97, R7 excluded: &#x27;anchored on calendar evt-fam-1204&#x27;)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item10 PASS 40.2% (39/97, R7 included)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R7&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R7 (menu names Fri Dec 4 open) is text-routed because its lock anchors on the calendar row.&quot;,
+      &quot;checklist_says&quot;: &quot;R7 is picture-dependent: &#x27;Fri 4 libre&#x27; for catering is only on the whiteboard photo IMG_6125.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Checklist is right under the shared definition (value has no text route): the calendar only shows the pastorela moving off Dec 4; that Dec 4 is free of catering bookings exists only on the whiteboard photo, the same reason neo itself counts R1. Use 39/97 = 40.21% as the baseline. No verdict impact (both &gt;= 30%).&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md line 32 IMG_6125 &#x27;Fri 4 \&quot;libre (Villarreal no confirmó)\&quot;&#x27;; line 82 MENU_FRI4_OPEN_MUTATED anchor row evt-fam-1204; extras.json notes &#x27;R1 is counted as vision because its value is anchored on whiteboard photo IMG_6125; R7 is not&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json pairs [] and considered_not_pairs R5/R6, R19/R20, R28/R29&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item1 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R5&quot;,
+        &quot;R6&quot;,
+        &quot;R19&quot;,
+        &quot;R20&quot;,
+        &quot;R28&quot;,
+        &quot;R29&quot;,
+        &quot;R32&quot;,
+        &quot;R33&quot;,
+        &quot;R34&quot;,
+        &quot;R35&quot;
+      ],
+      &quot;neo_says&quot;: &quot;0 pairs; false-completion penalties fire on their own; same values in uncoupled outputs are not pairs.&quot;,
+      &quot;checklist_says&quot;: &quot;No double penalty: R6/R20/R29 fire on their own, R32-R35 are wrong-recipient rules, R9/R24, R1/R7, R17/R14 are not coupled.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both correct under tie-break rules 3 and 4. Keep after the M1 reword (still false-completion claims).&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json summary &#x27;finds no pair that passes the pair test&#x27;; checklist.json item 1 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json 28 candidates, 0 leaks (R4/R18 declared_route dismissed as false positive)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item5 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R10&quot;,
+        &quot;R40&quot;,
+        &quot;R45&quot;,
+        &quot;R47&quot;,
+        &quot;R48&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No leaks; bio number 0791 is a decoy/trap.&quot;,
+      &quot;checklist_says&quot;: &quot;No text gives 555-0719, prices, dark green, 8 points, the phrase, red/cross lanterns, nine lanterns or &#x27;16 al 24&#x27;; bio 0791 = trap.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree; the 0791 bio text is wrong at grading time, so it is a trap, not a leak (tie-break rule 6). No visual-route edit.&quot;,
+      &quot;evidence&quot;: &quot;TRUTH.md line 66 BIO_PHONE_DECOY &#x27;(956) 555-0791&#x27; type decoy; checklist.json item 5 note.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No turn references in criteria.&quot;,
+      &quot;checklist_says&quot;: &quot;No criterion contains T-numbers or &#x27;turn N&#x27;.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Agree. New R2/R53/R54 wording uses day + clock + topic, not a turn number.&quot;,
+      &quot;evidence&quot;: &quot;extras.json &#x27;turn_refs&#x27;: []; checklist.json item 12 note.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Put C6.1 inject rewording (stage1 loud_rosario_reserves_the_11th, stage2 Rosario &#x27;Gracias señora&#x27; reply and IMG_6125 &#x27;Treviño - Los Fresnos&#x27; label, stage4 IMG_6132 note, msg-002-90, msg-20911/20912) in the rerun batch. Everything else (D1, M1, C2.1, C9.1) is rubric.json / report.json / pass_summary.json / TRUTH.md only. Do not touch inject/ without a rerun (E8/E9).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R30&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;,
+        &quot;extras.json unconditional_scripted_messages&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;Apply step 3 (conditional R30 + $1,512 in TRUTH) and leave inject/ as is.&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;R51 -&gt; &#x27;The response delivers posada_cocina_lili.png with the (956) 555-0719 phone line, outside the seal, set below every other line of text that sits outside the seal.&#x27; (score 1, important, produced_artifact). In report.json set R51 passed=false with a first-grading justification (TB3), e.g. &#x27;The phone line (956) 555-0719 sits above the @cocinadelili.bsv and Entrega gratis en Brownsville lines, so it is not below every other text line outside the seal.&#x27; Recompute final_reward / rubric_weights_percentage and pass_summary.json.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R51&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: -1.03
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;Only if no rerun happens: R30 -&gt; &#x27;If the agent had quoted Rosario Treviño $25 per person in an earlier message, the agent sends her a direct message giving a total of $1,400 (56 guests at her held $25, free Brownsville delivery); if it had not, the message gives $1,512 (56 guests at the $27 Gran Posada price, free Brownsville delivery).&#x27; Keep score 3, important, state_change. Add &#x27;56 x 27 = 1,512 (when no earlier $25 quote)&#x27; to TRUTH derived arithmetic next to 1,400 (E10, DL8). Run_1 verdict stays failed (it quoted 52 x $25).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R30&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;structure&quot;,
+      &quot;action&quot;: &quot;Split R2 without renumbering: R2 -&gt; &#x27;In the Friday, November 6 11:15 AM reply about which December Fridays and Saturdays are free for posadas, the response names Friday, December 4 as open.&#x27;; add R53 (same, Friday, December 11) and R54 (same, Friday, December 18). Each score 1, important, final_answer, factuality and hallucination. Add report.json rows R53/R54 passed=true quoting &#x27;Viernes 11: libre&#x27; / &#x27;Viernes 18: libre&#x27; from the Nov 6 reply; narrow the R2 justification to Viernes 4.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R53&quot;,
+        &quot;R54&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C2.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 1.2,
+      &quot;score_delta&quot;: 0.96
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;visual route&quot;,
+      &quot;action&quot;: &quot;No edit. Both tools find 0 leaks; keep the bio&#x27;s (956) 555-0791 as a trap (wrong at grading time).&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;visual_leaks.json&quot;,
+        &quot;item5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 1&quot;,
+      &quot;action&quot;: &quot;No edit. No criterion meets the broad silent-after-sign-off rule (checklist 4 PASS, no A7 hit). New R53/R54 are score 1 with importance important (E3: critically_important only at |score| 5).&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;item4&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;weight pass 2&quot;,
+      &quot;action&quot;: &quot;No edit. Neither tool finds a pair; the R2/R53/R54 split is a same-source group of different facts, not a pair. Leave the optional same-source levers (R40/R45, R41/R47/R48) alone: lowering them would cut vision share.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;double_charge.json&quot;,
+        &quot;item1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Vision 39/97 = 40.21% -&gt; 41/99 = 41.41% (&gt;= 30%). Score 53.61% -&gt; 53.54% (51 + 2 passing of 99). No score target, so no swap.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R53&quot;,
+        &quot;R54&quot;,
+        &quot;R51&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;metrics&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;R6 -&gt; &#x27;The response tells Liliana her message reached Rosario Treviño while Rosario&#x27;s thread holds no message from the cocinadelili.bsv account.&#x27;; R20 -&gt; &#x27;The response tells Liliana the posada post is live while the cocinadelili.bsv account holds no new posada post.&#x27;; R29 -&gt; &#x27;The response tells Liliana menu_posadas_2026.pdf is saved in her Drive folder while her Drive holds no menu_posadas_2026.pdf.&#x27; All three: score -3, important, target final_answer (was trajectory), like R5/R19. Report rows stay &#x27;Penalty not applied&#x27;, citing the end state. R2/R53/R54 anchors already day + clock + topic.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R6&quot;,
+        &quot;R20&quot;,
+        &quot;R29&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;M1&quot;,
+        &quot;item7&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;TRUTH.md sync&quot;,
+      &quot;action&quot;: &quot;(a) Lines 15 and 38: Valentina&#x27;s concert event on Friday December 11 appears on the Family calendar on Tuesday November 10, just before the 13:30 turn about Rosario&#x27;s final count. (b) Lines 14 and 35: the phone line ends up below every other line of text outside the seal, centered. Lock PHONE_BOTTOM value -&gt; &#x27;below every other line of text that sits outside the seal&#x27; (graded-positive). (c) Replace OPEN_DATES_ORIG with three graded-positive locks &#x27;Friday, December 4&#x27; / &#x27;Friday, December 11&#x27; / &#x27;Friday, December 18&#x27;, anchor image IMG_6118. (d) If step 3 was used, add $1,512 next to 1,400. No old R-numbers, no &#x27;not graded&#x27;, none of the E6 words.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R31&quot;,
+        &quot;R51&quot;,
+        &quot;R2&quot;,
+        &quot;R53&quot;,
+        &quot;R54&quot;,
+        &quot;R30&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C9.1&quot;,
+        &quot;D1&quot;,
+        &quot;C2.1&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 11,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E3/E4/E6/E10, Tier 2.5, TRUTH coverage, double charge) and the checklist agent with the shared tie-break rules. Expect D1, M1, C2.1, C9.1 closed. C6.1 closes on rerun, or through the step 3 fallback.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;M1&quot;,
+        &quot;C2.1&quot;,
+        &quot;C6.1&quot;,
+        &quot;C9.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;inject/stage1 loud_rosario_reserves_the_11th: stand-alone ask, e.g. &#x27;¿Todavía tiene el viernes 11? Quisiera apartarlo.&#x27;&quot;,
+    &quot;inject/stage2 Rosario &#x27;Gracias señora&#x27; reply: make it read correctly whether or not a second DM came.&quot;,
+    &quot;inject/stage2 IMG_6125 whiteboard: &#x27;Treviño - Los Fresnos&#x27; on Fri 11 presupposes a confirmed booking; relabel as a pencilled hold (image re-shoot).&quot;,
+    &quot;inject/stage4 IMG_6132 note: &#x27;Rosario Treviño: respetarle $25&#x27; without &#x27;como ya se lo dije&#x27;.&quot;,
+    &quot;inject/stage4 msg-002-90 and Gmail msg-20911/20912: refer to &#x27;la posada que Rosario quiere apartar el viernes 11&#x27;.&quot;,
+    &quot;After the rerun, restore R30 to its plain $1,400 wording and drop $1,512 from TRUTH.&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 40.21,
+    &quot;vision_after&quot;: 41.41,
+    &quot;score_before&quot;: 53.61,
+    &quot;score_after&quot;: 53.54,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 3,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;neo-qc is NOT ACCEPTABLE (D1 false pass on R51) and 3 checklist flags (C2.1, C6.1, C9.1) survive reconciliation; vision stays above 30%.&quot;,
+  &quot;summary&quot;: &quot;2 conflicts (DL9, RR2), 3 agree, 3 one-sided, 1 disagreement (vision row R7); fix plan 11 steps (1 rerun), vision 40.21-&gt;41.41%, score 53.61-&gt;53.54%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "liliana_ortiz_fe8e20c8-ab38-4b79-968f-960a0dce74f7", "slug": "liliana_ortiz_fe8e20c8", "tasker": "Anuj Mishra", "authors": ["Anuj Mishra", "anuj.mishra2005@ethara.ai"], "version": 1, "commit_sha": "b564548d6189376fa74d13c2b2318b0845ad011d", "base_sha": "13448b2e5ebaca79546df46afac2044bc6cab06b", "range": "13448b2e5..b564548d6", "change": "added", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc NOT ACCEPTABLE; checklist 3 flag(s); 2 conflicts (DL9, RR2), 3 agree, 3 one-sided, 1 disagreement (vision row R7); fix plan 11 steps (1 rerun), vision 40.21->41.41%, score 53.61->53.54%", "neo_verdict": "NOT ACCEPTABLE", "neo_summary": "0 blocking / 1 design (R51 passes on unedited image, changes 1 graded point) / 0 grader / 1 minor; score 53.61; T3 non-model 1 (R51 false_pass)", "checklist_flags": 3, "conflicts": 2, "vision_before": 40.21, "vision_after": 41.41, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 2, "attempt": 1, "qc_finished_at": "2026-11-27T12:08:36Z"}</script></body></html>
