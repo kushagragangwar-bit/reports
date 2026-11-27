@@ -1958,6 +1958,14 @@
     "started": "2026-11-26 06:38",
     "v": 3,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1447_a1",
+    "score": 28.57,
+    "started": "2026-11-27 09:17",
+    "v": 4,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/rachel_simmons_b81f4d26-5e93-4c07-9a6d-2e4f8c1a7d35": [
@@ -2235,5 +2243,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:27 UTC"
+ "updated": "2026-11-27 09:28 UTC"
 }
