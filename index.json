@@ -1334,6 +1334,14 @@
     "started": "2026-11-26 10:30",
     "v": 2,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1745_a1",
+    "score": 37.5,
+    "started": "2026-11-27 12:15",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/gerald_ellison_600f6d2f-0a2d-4cea-931b-52ce50b8ac23": [
@@ -2331,5 +2339,5 @@
    }
   ]
  },
- "updated": "2026-11-27 11:58 UTC"
+ "updated": "2026-11-27 12:24 UTC"
 }
