@@ -1378,6 +1378,14 @@
     "started": "2026-11-26 06:14",
     "v": 3,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1423_a1",
+    "score": 37.5,
+    "started": "2026-11-27 08:53",
+    "v": 4,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "mohit/john_martin_5cffbd94-a0ec-4f90-9397-29e6e463c606": [
@@ -2179,5 +2187,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:02 UTC"
+ "updated": "2026-11-27 09:03 UTC"
 }
