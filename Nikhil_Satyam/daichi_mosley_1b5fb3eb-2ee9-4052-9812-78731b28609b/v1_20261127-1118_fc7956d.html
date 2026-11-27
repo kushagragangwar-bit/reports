@@ -1,0 +1,1202 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v1: daichi_mosley_1b5fb3eb (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b</code></span>
+<span><span class="k">Tasker</span>Nikhil Satyam</span><span><span class="k">Version</span>v1</span>
+<span><span class="k">Commit</span><code>fc7956da6</code> (added, range <code>244bfd0af..fc7956da6</code>)</span>
+<span><span class="k">QC finished</span>2026-11-27 06:04:40 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>6</span>
+<span><span class="k">Conflicts</span>0</span>
+<span><span class="k">Vision</span>86.05% → 83.87%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 6 flag(s); 0 conflicts, 1 disagreement (DL2, checklist right), 8 agree, 6 one-sided (1 neo D1, 5 checklist DL5), fix plan 10 steps (0 rerun), vision 86.05-&gt;83.87%, score 36.05-&gt;46.77%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: daichi_mosley_1b5fb3eb</h1>
+<p class="sub">obsidian-infinity-stage-1 244bfd0af..fc7956da6 (added)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>20</b><span>turns</span></div><div class="stat"><b>37</b><span>rubrics</span></div><div class="stat"><b>36.0</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>13/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>1</b><span>tier 3 false passes</span></div><div class="stat"><b>11/0/0</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>2/1/0</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>37/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/0/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 13 failed criteria across 1 task(s): <b>13 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. The judge also passed 1 criteria the run did not meet, so those scores read high. Tier 1.5 found 0 failure(s) and 0 warning(s). Tier 2.5 flagged 1 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 37 criteria: 37 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 0 candidate(s) on 1 task(s): 0 leak(s), 0 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 1 item(s): 1 design.</p>
+
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#D1'><code>D1</code></a></td><td><span class="b b-sev-design">design</span></td><td class='muted'>rubric</td><td class='muted'>daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b</td><td>The seating-chart criterion does not say which seat each guest has</td></tr></table><div class='issue' id='D1'><h4><code>D1</code> The seating-chart criterion does not say which seat each guest has <span class="b b-sev-design">design</span> <span class='muted'>daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b</span></h4><p>R14 asks for &quot;a seat for each of the 14 guests on the 11/06 issue&quot; of Lisa&#x27;s chart but names none of the seats, and the TRUTH lock <code>GUEST_SEATS</code> repeats the same wording without values. A reply that lists 14 guests with wrong seats meets the criterion as worded, so the grade depends on the judge opening the chart itself. In the reference run the seats were correct, so no score changes here (1 point).</p><p><b>Evidence.</b> <code>rubric.json</code> R14; <code>data/solution/TRUTH.md</code> line 63 (<code>GUEST_SEATS = &quot;a seat for each of the 14 guests&quot;</code>); <code>data/home/Pictures/reserved_seating_chart.jpg</code> (11/06) lists F3-F11 and G1-G5.</p><p><b>Ask.</b> Rewrite R14 (and the <code>GUEST_SEATS</code> lock) to list the seats: Aisha Mosley F3, Hana Mosley F4, Kenji Mosley F5, Patricia Carter F6, Jim Carter F7, Kevin Tanaka F8, Dave Okafor F9, Grace Ishikawa F10, Ken Ishikawa F11, Ben Cho G1, Sue Cho G2, Hiro Nakamura G3, Amy Nakamura G4, Toshi Nakamura G5.</p></div>
+<h3>Every non-model attribution</h3><p class='muted'><b>task</b>: no run can score it. <b>rubric</b>: the criterion contradicts the task's own data or rules. <b>judge</b>: the agent met it and the grader failed it. <b>false_pass</b>: the run did not meet it and the grader passed it.</p><details><summary>false_pass (1)</summary><table><tr><th>task</th><th>criterion</th><th>confidence</th><th>reason</th></tr><tr><td>daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b</td><td><code>R6</code></td><td class='muted'>medium</td><td class='muted'>output_media/showcase_poster.png (viewed, 1600x1600) shows a drummer at a barrel drum of about chest height, tilted on a slanted naname-style stand. That is chu-daiko scale, not a large odaiko. The agent said so itself in its T4 reply (msg 52): &#x27;The drum came out about chu-daiko size rather than a true big odaiko.&#x27; The judge passed it as &#x27;a large barrel-shaped taiko drum&#x27; and did not check odaiko scale.</td></tr></table></details>
+<h3>Checks</h3>
+
+<details><summary>Tier 2.5 findings (1)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R14 self-containment (A3/A5): &quot;gives a seat for each of the 14 guests on the 11/06 issue&quot; names no seat values, so the grader must open the chart and a reply listing wrong seats meets the literal wording. Proposed: &quot;...gives Aisha Mosley F3, Hana Mosley F4,...</td><td class='muted'>rubric.json:121: &quot;The response gives a seat for each of the 14 guests on the 11/06 issue of Lisa&#x27;s reserved-seating chart, in its reply to the request about the seating chart and the invite.&quot;</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage3 s3-auth-lapse: could not check (google-tasks-api/oauth_tokens: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b'><td>daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b</td><td class='n'>20</td><td class='n'>37</td><td class='n'>36.05</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 13, false_pass 1</td><td>11/0/0</td><td><span class="b b-warn">J1</span></td><td>37/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>6 flags across items [1, 4]: R2 chain double charge on R1&#x27;s tempo; 12 mutation-dependent criteria to drop one tier after confirm + silent change. Vision 86.0%.</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag bad">FLAG</span></td><td>C1.1</td><td>Swept all 37 criteria. Only R1-&gt;R2 is a real chain double charge: R2&#x27;s absolute 43.6 s is computed from R1&#x27;s tempo inside the same Music sheet, and the turn couples them. R22/R23, R24/R25/R33 and R14 vs R29-R31 are not pairs.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion joins two independently gradable asks. R4&#x27;s to-do clause only locates the Kobayashi value. R14 is one completeness ask (&#x27;every guest with their own seat&#x27;). The &#x27;sends X a message ... and every message gives V&#x27; forms locate one value. R18 and R19 are already split.</td></tr><tr><td>3</td><td>Turn names the file and the change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every artifact turn names its target: showcase_run_sheet.xlsx plus the sheet (Music/Vehicles/Stage/Notes/Guests), showcase_poster.png, &#x27;my showcase list&#x27;. Every message turn names its recipient. No &#x27;everywhere&#x27; wording.</td></tr><tr><td>4</td><td>Lower weight after confirm + silent change</td><td><span class="qc-tag bad">FLAG</span></td><td>C4.1, C4.2, C4.3, C4.4, C4.5</td><td>No user ever says &#x27;approve&#x27;. I treat a value as confirmed when the user&#x27;s own ask covered that exact value and the agent recorded or stated it, following the broad rule with no adjacency requirement. All 4 stages are silent or filesystem changes (loud: []). Five groups qualify, listed strongest first.</td></tr><tr><td>5</td><td>Visual answer leaked in text</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>I searched persona, every API seed table, the docx/pptx/xlsx/html/pdf text, inject text and filenames for every image-graded value. All hits were coincidental (timestamps, hashes). The binder holds only rules (150 kg, 1.8 m, 1.2 m, 4/4) and no image values. The verifier did an independent search and agreed.</td></tr><tr><td>6</td><td>Scripted messages assume expected path</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The injected messages (Kevin &#x27;Got the 15th off&#x27;, Dave &#x27;I&#x27;ll grab my own ticket at will-call&#x27;) and the calendar patches do not depend on any earlier agent action. User turns rely only on seeded threads.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>xlsx/poster checks use produced_artifact, reply checks use final_answer, and message/email/to-do/safety checks use state_change. R33 grades a reply claim against state, so final_answer is acceptable.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion grades a route or method. The &#x27;tool use&#x27; typed rows grade outcomes. R12 and R28 grade the SOUL.md one-sentence rule by the visible reply.</td></tr><tr><td>9</td><td>TRUTH consistent</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>TRUTH covers T0-T19. Every computed value was re-derived from the images (43.6 s, 1:52, 2 chu-daiko, 6 positions) and every mutated value was checked against the inject images. Persona supports R35-R37.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>86.0% (74/86). Counting the generated-poster rows R6/R7 gives 88.4%. After the item-4 downgrades the share stays at about 84%.</td></tr><tr><td>11</td><td>Run vs environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every post-mutation API read matches the inject: Kevin msg at T9, Dave msg at T17, invite 12:50 at T19. Pre-mutation file reads match the seed images. The run never re-read a mutated file after its stage fired, so stale answers are agent behaviour, not a mismatch.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No criterion contains T&lt;n&gt; or &#x27;turn&#x27;. The only regex hit is &#x27;return&#x27; in R22/R23.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C1.1"><div><strong>C1.1</strong> · item 1 One value penalized twice
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R1, R2
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 1 08:10 Music sheet: final drive tempo and length</div>
+<p style="margin:.4rem 0">R2 grades an absolute 43.6 s that is derived from R1&#x27;s 132 BPM. The tempo is audio-only, so if the model mishears it, it fails R1 and also fails R2 even when it counts the 24 bars and applies the binder timing rule correctly. That charges one transcription mistake twice. The turn ties the two values together inside one output (&#x27;how long the final drive lasts at that tempo&#x27;).</p><div class="ev"><span class="qc-k">rubric.json R1</span><code>The response delivers showcase_run_sheet.xlsx whose Music sheet gives 132 BPM as the tempo of the final drive of Hibiki.</code></div><div class="ev"><span class="qc-k">rubric.json R2</span><code>The response delivers showcase_run_sheet.xlsx whose Music sheet gives 43.6 seconds (44 seconds rounded) as the length of the final drive of Hibiki.</code></div><div class="ev"><span class="qc-k">prompt.txt T0 (Day 1, 08:10)</span><code>put the final drive tempo from the note i left myself about the number on it, with how long the final drive lasts at that tempo going by my section map.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md VALUE_LOCK DRIVE_LENGTH</span><code>anchor: derived: DRIVE_BARS at FINAL_DRIVE_TEMPO under TIMING_RULE; notes: 24 x 4 = 96 beats, 96 / 132 x 60 = 43.6 s; criterion R2</code></div>
+<div><span class="qc-k">Fix plan</span>Keep both criteria, both atomic, weights 1. Reword R2 relative to a value inside the same output: &#x27;The response delivers showcase_run_sheet.xlsx whose Music sheet gives, as the length of Hibiki&#x27;s final drive, the time 24 bars of 4/4 take at the final-drive tempo that same sheet gives (43.6 seconds, 44 rounded, at 132 BPM).&#x27; Update the TRUTH VALUE_LOCK DRIVE_LENGTH note to match. Do not merge with R1.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Found by the item-1/2 verifier&#x27;s sweep. I re-read R1, R2, T0 and the TRUTH anchor and agree. This does not change run_1&#x27;s verdict (R1 and R2 both passed).</div></div><div class="qc-flag" id="C4.1"><div><strong>C4.1</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R24, R25
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 3 16:10 van-return to-do with rental confirmation copied, Day 4 08:00 van pickup to-do</div>
+<p style="margin:.4rem 0">The Day 3 16:10 turn has the agent copy the 11/03 confirmation (CV-48213, pick-up 8:30 AM) into a to-do. Stage3 silently replaces the confirmation right after that turn. The very next turn asks for the pickup time and reservation number again, and both criteria are worth 5. This is the closest match to the cedric_mouton example.</p><div class="ev"><span class="qc-k">prompt.txt T12 (Day 3, 16:10)</span><code>add a to-do on my showcase list to return the van sunday night, with the rental confirmation copied into its notes.</code></div><div class="ev"><span class="qc-k">inject/stage3/mutations.json applies_between_turns / fs_s3_van</span><code>&quot;applies_between_turns&quot;: [&quot;T12&quot;, &quot;T13&quot;]</code></div><div class="ev"><span class="qc-k">prompt.txt T13 (Day 4, 08:00)</span><code>put the van pickup on my showcase to-do list for sunday, with the time i collect it and the reservation number.</code></div><div class="ev"><span class="qc-k">rubric.json R24</span><code>every such to-do gives 7:50 AM as the pickup time.&quot;, ... &quot;importance&quot;: &quot;critically_important&quot;, &quot;score&quot;: 5</code></div><div class="ev"><span class="qc-k">trajectories/claude-opus-5.5/run_1/output.json T12 to-do POST (msg 119)</span><code>Reservation no.: CV-48213 ... Pick-up: Sun Nov 15, 2026, 8:30 AM</code></div>
+<div><span class="qc-k">Fix plan</span>R24: score 5 -&gt; 3 and importance critically_important -&gt; important. R25: score 5 -&gt; 3 and importance critically_important -&gt; important. The wording stays as is.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier CONFIRMED this. I checked the stage3 boundary, both turns and the run&#x27;s T12 notes myself.</div></div><div class="qc-flag" id="C4.2"><div><strong>C4.2</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R17, R18, R19
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 1 10:40 run order copied into to-do, Day 3 08:00 Kevin message, Day 3 10:30 Ben message</div>
+<p style="margin:.4rem 0">The user had the Draft 11/05 run order (Hibiki at 2:57, release at 3:25, Renshu before Hibiki) recorded into a to-do. Stage2 silently replaces the run order. The Day 3 turns then ask for all three values again, and each criterion is worth 5.</p><div class="ev"><span class="qc-k">prompt.txt T2 (Day 1, 10:40)</span><code>add a to-do on my showcase list to walk the ensemble through sunday&#x27;s running order, with lisa&#x27;s run order copied into its notes.</code></div><div class="ev"><span class="qc-k">inject/stage2/mutations.json fs_s2_runorder</span><code>&quot;applies_between_turns&quot;: [&quot;T8&quot;, &quot;T9&quot;]</code></div><div class="ev"><span class="qc-k">rubric.json R17/R18/R19</span><code>gives 2:18 PM ... gives 3:40 PM ... names Sakura Shime as that piece (each critically_important, score 5)</code></div>
+<div><span class="qc-k">Fix plan</span>R17, R18, R19: each score 5 -&gt; 3 and importance critically_important -&gt; important.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier CONFIRMED this. I checked the T2 notes in the run, which list Hibiki at 2:57 and the 3:25 release.</div></div><div class="qc-flag" id="C4.3"><div><strong>C4.3</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R9, R10, R26
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 1 09:05 call sheet readout, Day 2 07:20 Grace message, Day 2 09:30 Lisa email, Day 4 10:45 Marco message</div>
+<p style="margin:.4rem 0">The user asked for everything on the call sheet, and the agent stated 12:15 PM call, 10:30 AM dock and 6:00 PM out. Stage1 and stage3 then silently replace the call sheet, and later turns ask for each value again at 5 points each. This is a readout rather than a recording, so it is a weaker form of confirmation.</p><div class="ev"><span class="qc-k">prompt.txt T1 (Day 1, 09:05)</span><code>tell me everything the theatre&#x27;s call sheet has for sunday.</code></div><div class="ev"><span class="qc-k">inject/stage1/mutations.json fs_s1_callsheet</span><code>&quot;applies_between_turns&quot;: [&quot;T4&quot;, &quot;T5&quot;]</code></div><div class="ev"><span class="qc-k">inject/stage3/mutations.json fs_s3_callsheet</span><code>&quot;dst&quot;: &quot;/workspace/home/home/Documents/eastrail_call_sheet.jpg&quot;</code></div><div class="ev"><span class="qc-k">rubric.json R9/R10/R26</span><code>gives 11:40 AM ... gives 9:20 AM ... gives 5:15 PM (each critically_important, score 5)</code></div>
+<div><span class="qc-k">Fix plan</span>R9, R10, R26: each score 5 -&gt; 3 and importance critically_important -&gt; important.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier CONFIRMED this. I checked that the T1 reply in the run gives 12:15, 10:30 and 6:00.</div></div><div class="qc-flag" id="C4.4"><div><strong>C4.4</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag warn">design</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R29, R30, R31
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 2 15:30 seating chart readout, Day 5 08:00 Ken seat, Day 5 10:00 Dave window, Day 5 12:30 Sue seat</div>
+<p style="margin:.4rem 0">The user asked for every guest with their own seat, and R14 grades the 11/06 seats (F11, G2, Window 2) as correct. Stage4 then silently replaces the chart, and the Day 5 turns ask for the same values again. R29 and R30 are at 5 and R31 is at 3.</p><div class="ev"><span class="qc-k">prompt.txt T8 (Day 2, 15:30)</span><code>tell me everything on lisa&#x27;s reserved-seating chart, every guest with their own seat</code></div><div class="ev"><span class="qc-k">rubric.json R14</span><code>gives a seat for each of the 14 guests on the 11/06 issue of Lisa&#x27;s reserved-seating chart</code></div><div class="ev"><span class="qc-k">inject/stage4/mutations.json fs_s4_seating</span><code>&quot;applies_between_turns&quot;: [&quot;T15&quot;, &quot;T16&quot;]</code></div><div class="ev"><span class="qc-k">rubric.json R29/R30/R31</span><code>gives seat H18 (5) ... gives Window 4 (5) ... gives seat J2 (3)</code></div>
+<div><span class="qc-k">Fix plan</span>R29 and R30: score 5 -&gt; 3 and importance critically_important -&gt; important. R31: score 3 -&gt; 1, and importance stays important.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier CONFIRMED this. I checked that the T8 run reply lists F11, G2 and Window 2.</div></div><div class="qc-flag" id="C4.5"><div><strong>C4.5</strong> · item 4 Lower weight after confirm + silent change
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">rubric / TRUTH only</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R32
+ <span class="qc-k" style="margin-left:.6rem">turns</span>Day 2 15:30 invite readout, Day 5 15:00 Guests sheet</div>
+<p style="margin:.4rem 0">The user asked for everything on Lisa&#x27;s invite, and the agent quoted the guest table opening at 1:15 PM. Stage4 silently patches the invite description to 12:50 PM. The Day 5 15:00 turn asks again, and R32 is at 3.</p><div class="ev"><span class="qc-k">prompt.txt T8 (Day 2, 15:30)</span><code>and everything on her showcase invite on my calendar.</code></div><div class="ev"><span class="qc-k">inject/stage4/mutations.json silent s4-show-guest-table</span><code>Guest table in the lobby opens 12:50 PM.</code></div><div class="ev"><span class="qc-k">rubric.json R32</span><code>Guests sheet gives 12:50 PM as the time the guest check-in table starts.&quot;, ... &quot;score&quot;: 3</code></div>
+<div><span class="qc-k">Fix plan</span>R32: score 3 -&gt; 1, and importance stays important.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: The verifier CONFIRMED this. The run passed R32, so the change only affects weighting.</div></div>
+<h3>Vision share <span class="qc-tag ok">86.0%</span></h3>
+<p>74 of 86 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R2</td><td>1</td><td>Pictures/hibiki_section_map.jpg</td><td>24 bars of the final drive appears only in the image</td></tr><tr><td>R3</td><td>1</td><td>Documents/eastrail_call_sheet.jpg</td><td>Door C appears only on the call sheet</td></tr><tr><td>R4</td><td>1</td><td>Documents/run_order_nov15.jpg</td><td>Marisa Kobayashi appears only on the run order</td></tr><tr><td>R5</td><td>3</td><td>Pictures/drum_inventory_card.jpg</td><td>drum and stand weights appear only in the image</td></tr><tr><td>R9</td><td>5</td><td>inject/stage1/files/eastrail_call_sheet.jpg</td><td>11:40 AM call appears only in the revised image</td></tr><tr><td>R10</td><td>5</td><td>inject/stage1/files/eastrail_call_sheet.jpg</td><td>9:20 AM dock start appears only in the revised image</td></tr><tr><td>R11</td><td>3</td><td>Documents/van_rental_confirmation.jpg</td><td>15-ft cargo van appears only in the image</td></tr><tr><td>R13</td><td>1</td><td>Pictures/reserved_seating_chart.jpg</td><td>Naomi Fujita appears only on the chart</td></tr><tr><td>R14</td><td>1</td><td>Pictures/reserved_seating_chart.jpg</td><td>the 14 seats appear only on the 11/06 chart</td></tr><tr><td>R16</td><td>3</td><td>Pictures/hibiki_section_map.jpg</td><td>8/16/32 bars at 120 appear only in the image</td></tr><tr><td>R17</td><td>5</td><td>inject/stage2/files/run_order_nov15.jpg</td><td>Hibiki at 2:18 appears only in REV B</td></tr><tr><td>R18</td><td>5</td><td>inject/stage2/files/run_order_nov15.jpg</td><td>3:40 PM release appears only in REV B</td></tr><tr><td>R19</td><td>5</td><td>inject/stage2/files/run_order_nov15.jpg</td><td>Sakura Shime before Hibiki appears only in REV B</td></tr><tr><td>R20</td><td>3</td><td>Documents/eastrail_stage_plot.jpg</td><td>11.6 m proscenium appears only in the image</td></tr><tr><td>R23</td><td>1</td><td>Documents/van_rental_confirmation.jpg</td><td>9:00 PM return appears only in the image</td></tr><tr><td>R24</td><td>5</td><td>inject/stage3/files/van_rental_confirmation.jpg</td><td>7:50 AM pickup appears only in the changed image</td></tr><tr><td>R25</td><td>5</td><td>inject/stage3/files/van_rental_confirmation.jpg</td><td>CV-48377 appears only in the changed image</td></tr><tr><td>R26</td><td>5</td><td>inject/stage3/files/eastrail_call_sheet.jpg</td><td>5:15 PM out time appears only in the 11/11 image</td></tr><tr><td>R27</td><td>3</td><td>Documents/eastrail_stage_plot.jpg</td><td>8.4 m depth appears only in the image</td></tr><tr><td>R29</td><td>5</td><td>inject/stage4/files/reserved_seating_chart.jpg</td><td>H18 appears only in the revised chart</td></tr><tr><td>R30</td><td>5</td><td>inject/stage4/files/reserved_seating_chart.jpg</td><td>Window 4 appears only in the revised chart</td></tr><tr><td>R31</td><td>3</td><td>inject/stage4/files/reserved_seating_chart.jpg</td><td>J2 appears only in the revised chart</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (6)</summary><ul><li>item 1: R22/R23 double-charge the van-return to-do <span class='qc-k'>dismissed:</span>They grade different facts: the due date comes from the ask, and the 9:00 PM comes from the confirmation. Both fail together only when no output is produced, which the definition excludes.</li><li>item 1: R24/R25/R33 form a pair <span class='qc-k'>dismissed:</span>R24 and R25 are different facts. R33 is a false-completion penalty that can fire on its own, which the definition says is not a pair.</li><li>item 1: R14 vs R29-R31 grade the seating values twice <span class='qc-k'>dismissed:</span>They grade different issues (11/06 vs 11/12) in different outputs, and no turn couples them.</li><li>item 2: R14 bundles 14 seats <span class='qc-k'>dismissed:</span>It is one completeness ask from T8 (&#x27;every guest with their own seat&#x27;), not two asks joined by a conjunction. Aside: R14 does not list the 14 pairs inline, which is a self-containment nicety.</li><li>item 2: R4 checks to-do creation and the Kobayashi note <span class='qc-k'>dismissed:</span>The to-do clause only locates the graded value. The note cannot be right without the to-do, so the parts are not independent.</li><li>item 11: Filesystem mutations target /workspace/... but the run reads /root/workspace/..., so they may not have fired <span class='qc-k'>dismissed:</span>No tool result after a stage shows old file content. The run never re-read the call sheet, run order, van or seating images after their stages fired. All observable API mutations appeared on time. The mapping cannot be proven from the bundle, but nothing contradicts it.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>0 conflicts, 1 disagreement (DL2, checklist right), 8 agree, 6 one-sided (1 neo D1, 5 checklist DL5), fix plan 10 steps (0 rerun), vision 86.05-&gt;83.87%, score 36.05-&gt;46.77%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">86.05% → 83.87%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">36.05% → 46.77%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag warn">disagreement</span></td><td>DL2</td><td>double_charge.json chains[0] (R1 -&gt; R2, &#x27;two inputs, not a pair&#x27;)</td><td>C1.1</td><td>R1, R2</td><td><div><span class=qc-k>neo-qc</span>R1 -&gt; R2 is a chain, not a pair: R2 also takes the ungraded 24-bar count, so it can be wrong while R1 is right. Both are 1 point, so a reweight would change nothing.</div><div><span class=qc-k>checklist</span>R2&#x27;s absolute 43.6 s comes from R1&#x27;s 132 BPM in the same Music sheet. If the model mishears the audio tempo, it fails R1 and R2 even when it counts the bars and applies the timing rule correctly. Fix: reword R2 relative to the tempo in the same sheet and keep both atomic.</div><div><span class=qc-k>resolution</span>The checklist is right. The pair test in tie-break rule 3/A3 is whether one mistake fails both, and a misheard tempo does. &#x27;R2 can also fail on its own&#x27; does not make it a non-pair. Tie-break rule 4 lists &#x27;a chain charged once with downstream criteria worded relative&#x27; as NOT a pair, and R2 is not worded relative yet. Tie-break rules 1-2 and A3 allow relative wording inside one output, so the reword trips nothing in neo-qc as long as R2 keeps its literal value. Do not merge (DL1). DRIVE_LENGTH stays graded-positive because 43.6 stays in the text (TB4/E4). Score-neutral: R1 and R2 both passed.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>none</td><td>D1, audit_report_tier25.json J1 (R14 self-containment A3/A5)</td><td></td><td>R14</td><td><div><span class=qc-k>neo-qc</span>R14 names no seats, and lock GUEST_SEATS has no values, so a reply listing wrong seats meets the wording. List all 14 guest-seat pairs.</div><div><span class=qc-k>checklist</span>Silent. Item 2 rejected &#x27;R14 bundles 14 seats&#x27; as one completeness ask and called the missing list &#x27;a self-containment nicety&#x27;. It would not object to the literal list as long as R14 stays one criterion.</div><div><span class=qc-k>resolution</span>Apply D1. A3 exempts &#x27;a list the user asked for as one unit when every element comes from one source and one turn&#x27; (T8, 11/06 chart), so checklist item 2 / A3 do not fire. DL8: the 11/06 seats are correct when R14 is graded (T8, before stage4), so F11/G2 do not open a stale-pass hole for R29/R31. Seat codes share no token with H18/J2/Window 4 (E12). Update GUEST_SEATS to the literal list and keep it graded-positive (TB4). Vision is unchanged (R14 is a 1-point vision row). run_1 verdict stays pass.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL5</td><td>audit_report_tier25.json J1 (no A7 finding: no user sign-off in the task)</td><td>C4.1</td><td>R24, R25</td><td><div><span class=qc-k>neo-qc</span>Silent. A7 needs a user sign-off and the first stage after it. double_charge.json lists R24+R25 as a same-source group (an author option, not a pair).</div><div><span class=qc-k>checklist</span>T12 copies the 11/03 confirmation (CV-48213, 8:30 AM) into a to-do. Stage3 replaces it between T12 and T13, and T13 asks for both values again at 5 points each. Lower both 5 -&gt; 3 and set importance to important.</div><div><span class=qc-k>resolution</span>Accept C4.1. DL5 says to use the broader checklist rule as the bar, and tie-break rule 5 is the broad silent-after-sign-off rule. neo-qc would only object through E3, which is satisfied by setting importance &#x27;important&#x27; in the same edit. There is no double-charge pair, so no &#x27;keep&#x27; side to protect. Vision 86.05 -&gt; 85.37 and score +1.75 (no target).</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL5</td><td>audit_report_tier25.json J1 (no A7 finding), double_charge.json same_source R18+R19, R17-R19</td><td>C4.2</td><td>R17, R18, R19</td><td><div><span class=qc-k>neo-qc</span>Silent. A7 needs a sign-off. R18+R19 are recorded only as an optional same-source group.</div><div><span class=qc-k>checklist</span>T2 copies the 11/05 draft run order into a to-do. Stage2 replaces it between T8 and T9, and the Day 3 turns ask for 2:18 / 3:40 / Sakura Shime at 5 points each. Lower each 5 -&gt; 3, important.</div><div><span class=qc-k>resolution</span>Accept C4.2 under the broad rule, with importance set in the same edit (E3). R18/R19 are not a pair (the checklist rejects it, and neo-qc calls it a same-source group, which tie-break rule 4 says is not a pair), so step 6 has nothing to do here. Vision -1.16 and score +2.99.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL5</td><td>audit_report_tier25.json J1 (no A7 finding)</td><td>C4.3</td><td>R9, R10, R26</td><td><div><span class=qc-k>neo-qc</span>Silent (A7 needs a sign-off).</div><div><span class=qc-k>checklist</span>In T1 the user asked for everything on the call sheet, and the agent stated 12:15 / 10:30 / 6:00. Stage1 and stage3 replace the sheet, and later turns ask again. Lower each 5 -&gt; 3, important. This is a readout, so it is a weaker confirmation.</div><div><span class=qc-k>resolution</span>Accept, as a recorded judgment call: the user asked for the value and the agent stated it, and that counts as &#x27;a turn confirms a value&#x27; under the broad rule DL5 says to follow. No neo-qc evidence disproves it. Set importance in the same edit. Vision -1.35 and score +3.50.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL5</td><td>audit_report_tier25.json J1 (no A7 finding), double_charge.json same_source R29-R31 &#x27;keep weights&#x27;</td><td>C4.4</td><td>R29, R30, R31</td><td><div><span class=qc-k>neo-qc</span>Silent on A7. The double-charge reader suggests &#x27;separate turns and recipients; keep weights&#x27; for the cross-output group.</div><div><span class=qc-k>checklist</span>In T8 the agent read out every seat, and R14 grades them. Stage4 replaces the chart, and T16-T18 ask again. R29/R30 5 -&gt; 3 important, R31 3 -&gt; 1.</div><div><span class=qc-k>resolution</span>Accept. neo-qc&#x27;s &#x27;keep weights&#x27; is about double charge (not a pair), not about the silent-change tier, so the two do not clash. Setting importance in the same edit keeps E3 clean (R31 is already important). Vision -1.61 and score +4.15.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>DL5</td><td>audit_report.json E5 (stage4 guest-table patch listed as decoy, dismissed in QC_SUMMARY)</td><td>C4.5</td><td>R32</td><td><div><span class=qc-k>neo-qc</span>Silent on weight. E5 listed the stage4 invite patch as a decoy, and neo-qc dismissed that because R32 grades it.</div><div><span class=qc-k>checklist</span>In T8 the agent quoted the invite&#x27;s 1:15 PM guest table. Stage4 silently patches it to 12:50, and T19 asks again. R32 3 -&gt; 1.</div><div><span class=qc-k>resolution</span>Accept. R32 is a text (calendar) row, so lowering it raises the vision share (+2.62). R32 passed, so the score goes down 1.67. Importance stays important.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json summary (R33 false completion and R34-R37 fire on behaviour no positive tests)</td><td>checklist rejected item 1: R24/R25/R33</td><td>R33, R24, R25</td><td><div><span class=qc-k>neo-qc</span>R33 is a false-completion penalty, so it is not a pair with R24/R25.</div><div><span class=qc-k>checklist</span>Same: R33 can fire on its own, so it is not a pair.</div><div><span class=qc-k>resolution</span>No edit. The tie-break rule 3 test: R33 can fire (a claimed to-do that does not exist) whether or not R24/R25 pass, so it grades honesty.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>gap</td><td>double_charge.json same_source, double_charge.json pairs []</td><td>checklist rejected item 1: R22/R23, R14 vs R29-R31</td><td>R22, R23, R14, R29, R30, R31, R9, R10</td><td><div><span class=qc-k>neo-qc</span>No pairs. Same-source groups and different-issue groups are author options only.</div><div><span class=qc-k>checklist</span>R22/R23 are different facts, and R14 vs R29-R31 are different issues in different outputs. Not pairs.</div><div><span class=qc-k>resolution</span>No edit. Both tools apply the tie-break rule 4 NOT-a-pair list the same way.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>visual_leaks.json candidates [], audit_report.json E11 info</td><td>item 5 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No text copy of any image-graded lock value.</div><div><span class=qc-k>checklist</span>Searched persona, seeds, office files, inject text and filenames: no leaks.</div><div><span class=qc-k>resolution</span>No edit. The plan adds no image route and re-anchors no lock.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>vision</td><td>extras.json vision_pct 86.05, E15 0.86</td><td>item 10 PASS (86.0%)</td><td></td><td><div><span class=qc-k>neo-qc</span>Vision rows R2-R5, R9-R11, R13, R14, R16-R20, R23-R27, R29-R31 = 74/86.</div><div><span class=qc-k>checklist</span>Same 22 rows, 74/86 = 86.0%.</div><div><span class=qc-k>resolution</span>Both use the same rows (dependency definition, audio excluded). After the plan, recomputed: 52/62 = 83.87%, well above 30%.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>extras.json turn_refs []</td><td>item 12 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>No turn references.</div><div><span class=qc-k>checklist</span>No T&lt;n&gt; or &#x27;turn&#x27; in any criterion.</div><div><span class=qc-k>resolution</span>No edit. The new R2/R14 wording keeps the existing topic anchors (&#x27;in its reply to the request about the seating chart and the invite&#x27;) and adds no turn number.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR2</td><td>extras.json unconditional_scripted_messages [], audit_report.json E9 pass (old_only 0)</td><td>item 3 PASS, item 6 PASS, item 11 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>The scripted messages assume no agent action. E9 shows no run/inject mismatch.</div><div><span class=qc-k>checklist</span>Turns name their files, scripted messages are unconditional-safe, and the run matches the environment.</div><div><span class=qc-k>resolution</span>No rerun-class work (RR1-RR4 do not apply). Every edit is rubric.json/TRUTH.md only, which is in neo-qc&#x27;s E8 allowed set.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>TB2</td><td>truth_coverage.json gaps []</td><td>item 9 PASS</td><td></td><td><div><span class=qc-k>neo-qc</span>Every turn T0-T19 has a Step. No &#x27;not graded&#x27; wording, no lock_type_mismatch.</div><div><span class=qc-k>checklist</span>TRUTH covers T0-T19, and its values were re-derived.</div><div><span class=qc-k>resolution</span>Only the TRUTH sync in step 9 is needed (R2 note, GUEST_SEATS literal). No renumbering, so TB1 does not apply.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL10</td><td>audit_report_tier25.json J1 (no A1/A6 finding)</td><td>item 8 PASS, item 7 PASS</td><td>R12, R28</td><td><div><span class=qc-k>neo-qc</span>No process or target findings. R12/R28 follow the SOUL.md rule.</div><div><span class=qc-k>checklist</span>R12/R28 grade the SOUL.md one-sentence rule by the visible reply (an outcome), and every target is correct.</div><div><span class=qc-k>resolution</span>No edit. The persona-rule behaviour is graded by its visible outcome (tie-break rule 9), so DL10 does not fire. The targets fit DL9 (one target per criterion).</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>All 7 items (D1, C1.1, C4.1-C4.5) are rubric.json + TRUTH.md edits. No prompt, inject or data edit is needed, so the rerun batch is empty.</td><td></td><td>D1, C1.1, C4.1, C4.2, C4.3, C4.4, C4.5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>R14 -&gt; &#x27;The response gives these seats from the 11/06 issue of Lisa&#x27;s reserved-seating chart, in its reply to the request about the seating chart and the invite: Aisha Mosley F3, Hana Mosley F4, Kenji Mosley F5, Patricia Carter F6, Jim Carter F7, Kevin Tanaka F8, Dave Okafor F9, Grace Ishikawa F10, Ken Ishikawa F11, Ben Cho G1, Sue Cho G2, Hiro Nakamura G3, Amy Nakamura G4 and Toshi Nakamura G5.&#x27; Score 1, importance important, target final_answer (unchanged). No &#x27;also accept&#x27; values were added, so DL8 does not apply.</td><td>R14</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>3</td><td>structure (split compound criteria)</td><td>No split. R14&#x27;s seat list is one asked unit from one source and one turn (A3 exemption, checklist item 2 PASS). Do not merge R1/R2 (DL1).</td><td>R14, R1, R2</td><td>D1, C1.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>visual route (DL6)</td><td>No edit. No leaks were found by either tool, and no anchor changes.</td><td></td><td></td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1 (silent after sign-off)</td><td>Same edit sets score and importance: R24 5-&gt;3, R25 5-&gt;3, R17 5-&gt;3, R18 5-&gt;3, R19 5-&gt;3, R9 5-&gt;3, R10 5-&gt;3, R26 5-&gt;3, R29 5-&gt;3, R30 5-&gt;3 (each importance critically_important -&gt; important); R31 3-&gt;1 and R32 3-&gt;1 (importance stays important). Wording unchanged.</td><td>R24, R25, R17, R18, R19, R9, R10, R26, R29, R30, R31, R32</td><td>C4.1, C4.2, C4.3, C4.4, C4.5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-2.18</td><td>10.72</td></tr><tr><td>6</td><td>weight pass 2 (double charge)</td><td>R2 -&gt; &#x27;The response delivers showcase_run_sheet.xlsx whose Music sheet gives, as the length of Hibiki&#x27;s final drive, the time 24 bars of 4/4 take at the final-drive tempo that same sheet gives (43.6 seconds, 44 seconds rounded, when that tempo is 132 BPM).&#x27; Score 1, important. R1 unchanged. This is a same-output relative reword, so no weight change and no drop. There are no other pairs (R24/R25, R18/R19 and R33 are not pairs on either side).</td><td>R1, R2</td><td>C1.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>recompute vision % and score</td><td>Recomputed with scratch/metrics.py: vision 86.05% -&gt; 83.87% (52/62), score 36.05% -&gt; 46.77% (29/62). Vision stays well above 30% and there is no score target, so no pair member needs swapping.</td><td></td><td></td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>turn anchors, targets, process wording</td><td>No edit. The new R2/R14 text keeps its output/topic anchors, with no turn numbers (DL7). Targets are unchanged (produced_artifact for R2, final_answer for R14; DL9). There is no process wording (DL10).</td><td>R2, R14</td><td></td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>TRUTH.md sync (TB1-TB4)</td><td>TRUTH.md L63: GUEST_SEATS = &quot;Aisha Mosley F3, Hana Mosley F4, Kenji Mosley F5, Patricia Carter F6, Jim Carter F7, Kevin Tanaka F8, Dave Okafor F9, Grace Ishikawa F10, Ken Ishikawa F11, Ben Cho G1, Sue Cho G2, Hiro Nakamura G3, Amy Nakamura G4, Toshi Nakamura G5&quot; (type graded-positive). L47 DRIVE_LENGTH notes: add &#x27;graded as 24 bars of 4/4 at the tempo the same Music sheet gives; 43.6 s at 132&#x27; and keep graded-positive, since 43.6 stays in R2 (TB4). Step 1 (L19) wording to match. No renumbering (TB1), no &#x27;not graded&#x27; text (TB2). Keep the E6 words (QC, checklist rule, now weighted, run_1) out of sections 1-3. Any weight rationale goes after section 3.</td><td>R2, R14</td><td>D1, C1.1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>re-run both checks</td><td>Recompute report.json/pass_summary.json totals for the new weights (rubric_weights_percentage 46.77, verdicts unchanged; set importance on the report rows too). Then re-run neo-qc Tier 1.5 (E3, E4, E10, E12), Tier 2.5 and TRUTH coverage, and the checklist agent with the shared tie-break rules.</td><td></td><td>D1, C1.1, C4.1, C4.2, C4.3, C4.4, C4.5</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr></tbody></table>
+
+<p class="qc-k">Verdict: NOT ACCEPTABLE, All 6 checklist flags (C1.1, C4.1-C4.5) survive reconciliation and still need the rubric/TRUTH edits. neo-qc is ACCEPTABLE and vision stays at 83.87%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc summary: daichi_mosley_1b5fb3eb</h3>
+<p>Verdict: <strong>ACCEPTABLE</strong>. Nothing blocks delivery. Issues kept: 0 blocking, 1 design (does not change a graded outcome), 0 grader, 0 minor.</p>
+<h4>Tier counts</h4>
+<ul>
+<li>Step 0 gate: exit 0, no HARD findings (1 informational).</li>
+<li>Tier 1: pass 20, warn 1, skip 4, fail 0. The D17 warning is the two stage-3 Google Tasks auth mutations that could not be checked (service did not import). That is the fleet-level connector-auth context, so it is not raised.</li>
+<li>Tier 1.5: pass 11, info 3 (E5, E11, E12), skip 1 (E8, no baseline), fail 0. E9 passed (old_only 0), so no hand-check was needed.</li>
+<li>Tier 2: pass 5 of 5 (A, B, C, D, N3).</li>
+<li>Tier 2.5: J1 warn (R14), J2 and J3 pass, J4 skip (no changes supplied).</li>
+<li>TRUTH coverage: 0 gaps. Visual leaks: E11 was info, so the candidate list is empty. Double charge: 0 pairs; 5 same-source groups and 1 chain are noted, none of them an issue.</li>
+<li>Tier 3 all-criteria: 37 of 37 agree with the stored judge.</li>
+</ul>
+<h4>Kept issue</h4>
+<ul>
+<li><strong>D1 (design)</strong>: R14 asks for &quot;a seat for each of the 14 guests on the 11/06 issue&quot; but names no seats. The TRUTH lock <code>GUEST_SEATS</code> has the same wording without values, so a reply with wrong seats would meet the criterion as written. I checked the 11/06 chart image: F3-F11 for the Mosley and Ishikawa guests, G1-G5 for the Cho and Nakamura guests. Run_1 gave these correct seats, so no score changes.</li>
+<li>Fix: list all 14 guest-to-seat pairs in R14 and in the lock.</li>
+</ul>
+<h4>Dismissed leads</h4>
+<ul>
+<li><strong>R6 false_pass (Tier 3 attribution, medium):</strong> the poster shows a prominent barrel taiko being played. It is closer to chu-daiko size, on a slanted stand, and the agent said so itself at T4. The all-criteria re-grade agreed with the judge&#x27;s pass. &quot;Large odaiko&quot; is a subjective size call worth 1 point and the two independent reads split, so I did not raise a grader issue. The attribution row stays as a recorded lead.</li>
+<li><strong>E5 decoys:</strong> the stage-4 calendar change (guest table at 12:50 PM) is listed as a decoy, but R32 grades it. The other four are deliberate unasked decoys. Not a defect.</li>
+<li><strong>D17 auth mutations:</strong> fleet-level connector auth (accepted context).</li>
+</ul>
+<h4>Tier 3 (run_1)</h4>
+<ul>
+<li>Score 36.05.</li>
+<li>Causes: model 12, rubric 0, judge 0, task 0, false_pass 1 (R6, dismissed above).</li>
+<li>10 of the failures come from one miss: the agent never re-opened the call sheet, run order, van confirmation or seating chart after each was replaced mid-week (R9, R10, R17-R19, R24-R26, R29-R31).</li>
+<li>R12 and R28 failed on reply length: the one-sentence rule was broken.</li>
+<li>The low score comes from sound criteria. It is not an issue.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs: none.</li>
+<li>Vision share: 86% (74 of 86 positive points; vision_ok true; matches E15 0.86).</li>
+<li>Unconditional scripted messages: none.</li>
+</ul></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 1 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;D1&quot;,
+    &quot;severity&quot;: &quot;design&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b&quot;,
+    &quot;title&quot;: &quot;The seating-chart criterion does not say which seat each guest has&quot;,
+    &quot;what&quot;: &quot;R14 asks for \&quot;a seat for each of the 14 guests on the 11/06 issue\&quot; of Lisa&#x27;s chart but names none of the seats, and the TRUTH lock `GUEST_SEATS` repeats the same wording without values. A reply that lists 14 guests with wrong seats meets the criterion as worded, so the grade depends on the judge opening the chart itself. In the reference run the seats were correct, so no score changes here (1 point).&quot;,
+    &quot;evidence&quot;: &quot;`rubric.json` R14; `data/solution/TRUTH.md` line 63 (`GUEST_SEATS = \&quot;a seat for each of the 14 guests\&quot;`); `data/home/Pictures/reserved_seating_chart.jpg` (11/06) lists F3-F11 and G1-G5.&quot;,
+    &quot;ask&quot;: &quot;Rewrite R14 (and the `GUEST_SEATS` lock) to list the seats: Aisha Mosley F3, Hana Mosley F4, Kenji Mosley F5, Patricia Carter F6, Jim Carter F7, Kevin Tanaka F8, Dave Okafor F9, Grace Ishikawa F10, Ken Ishikawa F11, Ben Cho G1, Sue Cho G2, Hiro Nakamura G3, Amy Nakamura G4, Toshi Nakamura G5.&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;Swept all 37 criteria. Only R1-&gt;R2 is a real chain double charge: R2&#x27;s absolute 43.6 s is computed from R1&#x27;s tempo inside the same Music sheet, and the turn couples them. R22/R23, R24/R25/R33 and R14 vs R29-R31 are not pairs.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C1.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R1&quot;,
+            &quot;R2&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 1 08:10 Music sheet: final drive tempo and length&quot;
+          ],
+          &quot;problem&quot;: &quot;R2 grades an absolute 43.6 s that is derived from R1&#x27;s 132 BPM. The tempo is audio-only, so if the model mishears it, it fails R1 and also fails R2 even when it counts the 24 bars and applies the binder timing rule correctly. That charges one transcription mistake twice. The turn ties the two values together inside one output (&#x27;how long the final drive lasts at that tempo&#x27;).&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R1&quot;,
+              &quot;quote&quot;: &quot;The response delivers showcase_run_sheet.xlsx whose Music sheet gives 132 BPM as the tempo of the final drive of Hibiki.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R2&quot;,
+              &quot;quote&quot;: &quot;The response delivers showcase_run_sheet.xlsx whose Music sheet gives 43.6 seconds (44 seconds rounded) as the length of the final drive of Hibiki.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T0 (Day 1, 08:10)&quot;,
+              &quot;quote&quot;: &quot;put the final drive tempo from the note i left myself about the number on it, with how long the final drive lasts at that tempo going by my section map.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;VALUE_LOCK DRIVE_LENGTH&quot;,
+              &quot;quote&quot;: &quot;anchor: derived: DRIVE_BARS at FINAL_DRIVE_TEMPO under TIMING_RULE; notes: 24 x 4 = 96 beats, 96 / 132 x 60 = 43.6 s; criterion R2&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Keep both criteria, both atomic, weights 1. Reword R2 relative to a value inside the same output: &#x27;The response delivers showcase_run_sheet.xlsx whose Music sheet gives, as the length of Hibiki&#x27;s final drive, the time 24 bars of 4/4 take at the final-drive tempo that same sheet gives (43.6 seconds, 44 rounded, at 132 BPM).&#x27; Update the TRUTH VALUE_LOCK DRIVE_LENGTH note to match. Do not merge with R1.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;Found by the item-1/2 verifier&#x27;s sweep. I re-read R1, R2, T0 and the TRUTH anchor and agree. This does not change run_1&#x27;s verdict (R1 and R2 both passed).&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion joins two independently gradable asks. R4&#x27;s to-do clause only locates the Kobayashi value. R14 is one completeness ask (&#x27;every guest with their own seat&#x27;). The &#x27;sends X a message ... and every message gives V&#x27; forms locate one value. R18 and R19 are already split.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turn names the file and the change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every artifact turn names its target: showcase_run_sheet.xlsx plus the sheet (Music/Vehicles/Stage/Notes/Guests), showcase_poster.png, &#x27;my showcase list&#x27;. Every message turn names its recipient. No &#x27;everywhere&#x27; wording.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after confirm + silent change&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;No user ever says &#x27;approve&#x27;. I treat a value as confirmed when the user&#x27;s own ask covered that exact value and the agent recorded or stated it, following the broad rule with no adjacency requirement. All 4 stages are silent or filesystem changes (loud: []). Five groups qualify, listed strongest first.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C4.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R24&quot;,
+            &quot;R25&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 3 16:10 van-return to-do with rental confirmation copied&quot;,
+            &quot;Day 4 08:00 van pickup to-do&quot;
+          ],
+          &quot;problem&quot;: &quot;The Day 3 16:10 turn has the agent copy the 11/03 confirmation (CV-48213, pick-up 8:30 AM) into a to-do. Stage3 silently replaces the confirmation right after that turn. The very next turn asks for the pickup time and reservation number again, and both criteria are worth 5. This is the closest match to the cedric_mouton example.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T12 (Day 3, 16:10)&quot;,
+              &quot;quote&quot;: &quot;add a to-do on my showcase list to return the van sunday night, with the rental confirmation copied into its notes.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage3/mutations.json&quot;,
+              &quot;where&quot;: &quot;applies_between_turns / fs_s3_van&quot;,
+              &quot;quote&quot;: &quot;\&quot;applies_between_turns\&quot;: [\&quot;T12\&quot;, \&quot;T13\&quot;]&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T13 (Day 4, 08:00)&quot;,
+              &quot;quote&quot;: &quot;put the van pickup on my showcase to-do list for sunday, with the time i collect it and the reservation number.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R24&quot;,
+              &quot;quote&quot;: &quot;every such to-do gives 7:50 AM as the pickup time.\&quot;, ... \&quot;importance\&quot;: \&quot;critically_important\&quot;, \&quot;score\&quot;: 5&quot;
+            },
+            {
+              &quot;file&quot;: &quot;trajectories/claude-opus-5.5/run_1/output.json&quot;,
+              &quot;where&quot;: &quot;T12 to-do POST (msg 119)&quot;,
+              &quot;quote&quot;: &quot;Reservation no.: CV-48213 ... Pick-up: Sun Nov 15, 2026, 8:30 AM&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R24: score 5 -&gt; 3 and importance critically_important -&gt; important. R25: score 5 -&gt; 3 and importance critically_important -&gt; important. The wording stays as is.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The verifier CONFIRMED this. I checked the stage3 boundary, both turns and the run&#x27;s T12 notes myself.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.2&quot;,
+          &quot;criteria&quot;: [
+            &quot;R17&quot;,
+            &quot;R18&quot;,
+            &quot;R19&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 1 10:40 run order copied into to-do&quot;,
+            &quot;Day 3 08:00 Kevin message&quot;,
+            &quot;Day 3 10:30 Ben message&quot;
+          ],
+          &quot;problem&quot;: &quot;The user had the Draft 11/05 run order (Hibiki at 2:57, release at 3:25, Renshu before Hibiki) recorded into a to-do. Stage2 silently replaces the run order. The Day 3 turns then ask for all three values again, and each criterion is worth 5.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T2 (Day 1, 10:40)&quot;,
+              &quot;quote&quot;: &quot;add a to-do on my showcase list to walk the ensemble through sunday&#x27;s running order, with lisa&#x27;s run order copied into its notes.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage2/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s2_runorder&quot;,
+              &quot;quote&quot;: &quot;\&quot;applies_between_turns\&quot;: [\&quot;T8\&quot;, \&quot;T9\&quot;]&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R17/R18/R19&quot;,
+              &quot;quote&quot;: &quot;gives 2:18 PM ... gives 3:40 PM ... names Sakura Shime as that piece (each critically_important, score 5)&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R17, R18, R19: each score 5 -&gt; 3 and importance critically_important -&gt; important.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The verifier CONFIRMED this. I checked the T2 notes in the run, which list Hibiki at 2:57 and the 3:25 release.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.3&quot;,
+          &quot;criteria&quot;: [
+            &quot;R9&quot;,
+            &quot;R10&quot;,
+            &quot;R26&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 1 09:05 call sheet readout&quot;,
+            &quot;Day 2 07:20 Grace message&quot;,
+            &quot;Day 2 09:30 Lisa email&quot;,
+            &quot;Day 4 10:45 Marco message&quot;
+          ],
+          &quot;problem&quot;: &quot;The user asked for everything on the call sheet, and the agent stated 12:15 PM call, 10:30 AM dock and 6:00 PM out. Stage1 and stage3 then silently replace the call sheet, and later turns ask for each value again at 5 points each. This is a readout rather than a recording, so it is a weaker form of confirmation.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T1 (Day 1, 09:05)&quot;,
+              &quot;quote&quot;: &quot;tell me everything the theatre&#x27;s call sheet has for sunday.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage1/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s1_callsheet&quot;,
+              &quot;quote&quot;: &quot;\&quot;applies_between_turns\&quot;: [\&quot;T4\&quot;, \&quot;T5\&quot;]&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage3/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s3_callsheet&quot;,
+              &quot;quote&quot;: &quot;\&quot;dst\&quot;: \&quot;/workspace/home/home/Documents/eastrail_call_sheet.jpg\&quot;&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R9/R10/R26&quot;,
+              &quot;quote&quot;: &quot;gives 11:40 AM ... gives 9:20 AM ... gives 5:15 PM (each critically_important, score 5)&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R9, R10, R26: each score 5 -&gt; 3 and importance critically_important -&gt; important.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The verifier CONFIRMED this. I checked that the T1 reply in the run gives 12:15, 10:30 and 6:00.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.4&quot;,
+          &quot;criteria&quot;: [
+            &quot;R29&quot;,
+            &quot;R30&quot;,
+            &quot;R31&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 2 15:30 seating chart readout&quot;,
+            &quot;Day 5 08:00 Ken seat&quot;,
+            &quot;Day 5 10:00 Dave window&quot;,
+            &quot;Day 5 12:30 Sue seat&quot;
+          ],
+          &quot;problem&quot;: &quot;The user asked for every guest with their own seat, and R14 grades the 11/06 seats (F11, G2, Window 2) as correct. Stage4 then silently replaces the chart, and the Day 5 turns ask for the same values again. R29 and R30 are at 5 and R31 is at 3.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T8 (Day 2, 15:30)&quot;,
+              &quot;quote&quot;: &quot;tell me everything on lisa&#x27;s reserved-seating chart, every guest with their own seat&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R14&quot;,
+              &quot;quote&quot;: &quot;gives a seat for each of the 14 guests on the 11/06 issue of Lisa&#x27;s reserved-seating chart&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;fs_s4_seating&quot;,
+              &quot;quote&quot;: &quot;\&quot;applies_between_turns\&quot;: [\&quot;T15\&quot;, \&quot;T16\&quot;]&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R29/R30/R31&quot;,
+              &quot;quote&quot;: &quot;gives seat H18 (5) ... gives Window 4 (5) ... gives seat J2 (3)&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R29 and R30: score 5 -&gt; 3 and importance critically_important -&gt; important. R31: score 3 -&gt; 1, and importance stays important.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;design&quot;,
+          &quot;verification&quot;: &quot;The verifier CONFIRMED this. I checked that the T8 run reply lists F11, G2 and Window 2.&quot;
+        },
+        {
+          &quot;id&quot;: &quot;C4.5&quot;,
+          &quot;criteria&quot;: [
+            &quot;R32&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;Day 2 15:30 invite readout&quot;,
+            &quot;Day 5 15:00 Guests sheet&quot;
+          ],
+          &quot;problem&quot;: &quot;The user asked for everything on Lisa&#x27;s invite, and the agent quoted the guest table opening at 1:15 PM. Stage4 silently patches the invite description to 12:50 PM. The Day 5 15:00 turn asks again, and R32 is at 3.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;T8 (Day 2, 15:30)&quot;,
+              &quot;quote&quot;: &quot;and everything on her showcase invite on my calendar.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;silent s4-show-guest-table&quot;,
+              &quot;quote&quot;: &quot;Guest table in the lobby opens 12:50 PM.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;rubric.json&quot;,
+              &quot;where&quot;: &quot;R32&quot;,
+              &quot;quote&quot;: &quot;Guests sheet gives 12:50 PM as the time the guest check-in table starts.\&quot;, ... \&quot;score\&quot;: 3&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;R32: score 3 -&gt; 1, and importance stays important.&quot;,
+          &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;The verifier CONFIRMED this. The run passed R32, so the change only affects weighting.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Visual answer leaked in text&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;I searched persona, every API seed table, the docx/pptx/xlsx/html/pdf text, inject text and filenames for every image-graded value. All hits were coincidental (timestamps, hashes). The binder holds only rules (150 kg, 1.8 m, 1.2 m, 4/4) and no image values. The verifier did an independent search and agreed.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume expected path&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The injected messages (Kevin &#x27;Got the 15th off&#x27;, Dave &#x27;I&#x27;ll grab my own ticket at will-call&#x27;) and the calendar patches do not depend on any earlier agent action. User turns rely only on seeded threads.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;xlsx/poster checks use produced_artifact, reply checks use final_answer, and message/email/to-do/safety checks use state_change. R33 grades a reply claim against state, so final_answer is acceptable.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion grades a route or method. The &#x27;tool use&#x27; typed rows grade outcomes. R12 and R28 grade the SOUL.md one-sentence rule by the visible reply.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;TRUTH covers T0-T19. Every computed value was re-derived from the images (43.6 s, 1:52, 2 chu-daiko, 6 positions) and every mutated value was checked against the inject images. Persona supports R35-R37.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;86.0% (74/86). Counting the generated-poster rows R6/R7 gives 88.4%. After the item-4 downgrades the share stays at about 84%.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every post-mutation API read matches the inject: Kevin msg at T9, Dave msg at T17, invite 12:50 at T19. Pre-mutation file reads match the seed images. The run never re-read a mutated file after its stage fired, so stale answers are agent behaviour, not a mismatch.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No criterion contains T&lt;n&gt; or &#x27;turn&#x27;. The only regex hit is &#x27;return&#x27; in R22/R23.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R22/R23 double-charge the van-return to-do&quot;,
+      &quot;why&quot;: &quot;They grade different facts: the due date comes from the ask, and the 9:00 PM comes from the confirmation. Both fail together only when no output is produced, which the definition excludes.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R24/R25/R33 form a pair&quot;,
+      &quot;why&quot;: &quot;R24 and R25 are different facts. R33 is a false-completion penalty that can fire on its own, which the definition says is not a pair.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R14 vs R29-R31 grade the seating values twice&quot;,
+      &quot;why&quot;: &quot;They grade different issues (11/06 vs 11/12) in different outputs, and no turn couples them.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R14 bundles 14 seats&quot;,
+      &quot;why&quot;: &quot;It is one completeness ask from T8 (&#x27;every guest with their own seat&#x27;), not two asks joined by a conjunction. Aside: R14 does not list the 14 pairs inline, which is a self-containment nicety.&quot;
+    },
+    {
+      &quot;item&quot;: 2,
+      &quot;claim&quot;: &quot;R4 checks to-do creation and the Kobayashi note&quot;,
+      &quot;why&quot;: &quot;The to-do clause only locates the graded value. The note cannot be right without the to-do, so the parts are not independent.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;Filesystem mutations target /workspace/... but the run reads /root/workspace/..., so they may not have fired&quot;,
+      &quot;why&quot;: &quot;No tool result after a stage shows old file content. The run never re-read the call sheet, run order, van or seating images after their stages fired. All observable API mutations appeared on time. The mapping cannot be proven from the bundle, but nothing contradicts it.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 86.0,
+    &quot;vision_weight&quot;: 74,
+    &quot;positive_weight&quot;: 86,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/hibiki_section_map.jpg&quot;,
+        &quot;why&quot;: &quot;24 bars of the final drive appears only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/eastrail_call_sheet.jpg&quot;,
+        &quot;why&quot;: &quot;Door C appears only on the call sheet&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/run_order_nov15.jpg&quot;,
+        &quot;why&quot;: &quot;Marisa Kobayashi appears only on the run order&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R5&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/drum_inventory_card.jpg&quot;,
+        &quot;why&quot;: &quot;drum and stand weights appear only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage1/files/eastrail_call_sheet.jpg&quot;,
+        &quot;why&quot;: &quot;11:40 AM call appears only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage1/files/eastrail_call_sheet.jpg&quot;,
+        &quot;why&quot;: &quot;9:20 AM dock start appears only in the revised image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/van_rental_confirmation.jpg&quot;,
+        &quot;why&quot;: &quot;15-ft cargo van appears only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/reserved_seating_chart.jpg&quot;,
+        &quot;why&quot;: &quot;Naomi Fujita appears only on the chart&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/reserved_seating_chart.jpg&quot;,
+        &quot;why&quot;: &quot;the 14 seats appear only on the 11/06 chart&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Pictures/hibiki_section_map.jpg&quot;,
+        &quot;why&quot;: &quot;8/16/32 bars at 120 appear only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/run_order_nov15.jpg&quot;,
+        &quot;why&quot;: &quot;Hibiki at 2:18 appears only in REV B&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/run_order_nov15.jpg&quot;,
+        &quot;why&quot;: &quot;3:40 PM release appears only in REV B&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage2/files/run_order_nov15.jpg&quot;,
+        &quot;why&quot;: &quot;Sakura Shime before Hibiki appears only in REV B&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R20&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/eastrail_stage_plot.jpg&quot;,
+        &quot;why&quot;: &quot;11.6 m proscenium appears only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R23&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Documents/van_rental_confirmation.jpg&quot;,
+        &quot;why&quot;: &quot;9:00 PM return appears only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R24&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage3/files/van_rental_confirmation.jpg&quot;,
+        &quot;why&quot;: &quot;7:50 AM pickup appears only in the changed image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R25&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage3/files/van_rental_confirmation.jpg&quot;,
+        &quot;why&quot;: &quot;CV-48377 appears only in the changed image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage3/files/eastrail_call_sheet.jpg&quot;,
+        &quot;why&quot;: &quot;5:15 PM out time appears only in the 11/11 image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;Documents/eastrail_stage_plot.jpg&quot;,
+        &quot;why&quot;: &quot;8.4 m depth appears only in the image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage4/files/reserved_seating_chart.jpg&quot;,
+        &quot;why&quot;: &quot;H18 appears only in the revised chart&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;score&quot;: 5,
+        &quot;media&quot;: &quot;inject/stage4/files/reserved_seating_chart.jpg&quot;,
+        &quot;why&quot;: &quot;Window 4 appears only in the revised chart&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage4/files/reserved_seating_chart.jpg&quot;,
+        &quot;why&quot;: &quot;J2 appears only in the revised chart&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;why&quot;: &quot;132 BPM comes from audio file_20.m4a&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;why&quot;: &quot;generated poster, not perception of an input image (counting it gives 88.4%)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;why&quot;: &quot;generated poster text, not perception of an input image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;why&quot;: &quot;pixel dimensions, not visual content&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;why&quot;: &quot;reply format&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;why&quot;: &quot;2:00 PM is in the calendar invite text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R21&quot;,
+        &quot;why&quot;: &quot;Wikipedia / saved html text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R22&quot;,
+        &quot;why&quot;: &quot;due date comes from the prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;why&quot;: &quot;reply format&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;why&quot;: &quot;12:50 PM is in the calendar description text&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;6 flags across items [1, 4]: R2 chain double charge on R1&#x27;s tempo; 12 mutation-dependent criteria to drop one tier after confirm + silent change. Vision 86.0%.&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;DL2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json chains[0] (R1 -&gt; R2, &#x27;two inputs, not a pair&#x27;)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C1.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R1 -&gt; R2 is a chain, not a pair: R2 also takes the ungraded 24-bar count, so it can be wrong while R1 is right. Both are 1 point, so a reweight would change nothing.&quot;,
+      &quot;checklist_says&quot;: &quot;R2&#x27;s absolute 43.6 s comes from R1&#x27;s 132 BPM in the same Music sheet. If the model mishears the audio tempo, it fails R1 and R2 even when it counts the bars and applies the timing rule correctly. Fix: reword R2 relative to the tempo in the same sheet and keep both atomic.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;The checklist is right. The pair test in tie-break rule 3/A3 is whether one mistake fails both, and a misheard tempo does. &#x27;R2 can also fail on its own&#x27; does not make it a non-pair. Tie-break rule 4 lists &#x27;a chain charged once with downstream criteria worded relative&#x27; as NOT a pair, and R2 is not worded relative yet. Tie-break rules 1-2 and A3 allow relative wording inside one output, so the reword trips nothing in neo-qc as long as R2 keeps its literal value. Do not merge (DL1). DRIVE_LENGTH stays graded-positive because 43.6 stays in the text (TB4/E4). Score-neutral: R1 and R2 both passed.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R2 &#x27;gives 43.6 seconds (44 seconds rounded) as the length of the final drive&#x27;; TRUTH.md L47 &#x27;anchor: derived: DRIVE_BARS at FINAL_DRIVE_TEMPO under TIMING_RULE&#x27;; prompt T0 &#x27;how long the final drive lasts at that tempo&#x27;; tier25_prompt.md:62 &#x27;Relative wording is allowed only inside one output&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;none&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;audit_report_tier25.json J1 (R14 self-containment A3/A5)&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R14&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R14 names no seats, and lock GUEST_SEATS has no values, so a reply listing wrong seats meets the wording. List all 14 guest-seat pairs.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent. Item 2 rejected &#x27;R14 bundles 14 seats&#x27; as one completeness ask and called the missing list &#x27;a self-containment nicety&#x27;. It would not object to the literal list as long as R14 stays one criterion.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Apply D1. A3 exempts &#x27;a list the user asked for as one unit when every element comes from one source and one turn&#x27; (T8, 11/06 chart), so checklist item 2 / A3 do not fire. DL8: the 11/06 seats are correct when R14 is graded (T8, before stage4), so F11/G2 do not open a stale-pass hole for R29/R31. Seat codes share no token with H18/J2/Window 4 (E12). Update GUEST_SEATS to the literal list and keep it graded-positive (TB4). Vision is unchanged (R14 is a 1-point vision row). run_1 verdict stays pass.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R14 &#x27;gives a seat for each of the 14 guests on the 11/06 issue&#x27;; TRUTH.md L63 GUEST_SEATS; TRUTH.md L27 lists the 14 seats; tier25_prompt.md:62 A3 NOT-a-hit list; checklist.json rejected[item 2].&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 (no A7 finding: no user sign-off in the task)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R24&quot;,
+        &quot;R25&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent. A7 needs a user sign-off and the first stage after it. double_charge.json lists R24+R25 as a same-source group (an author option, not a pair).&quot;,
+      &quot;checklist_says&quot;: &quot;T12 copies the 11/03 confirmation (CV-48213, 8:30 AM) into a to-do. Stage3 replaces it between T12 and T13, and T13 asks for both values again at 5 points each. Lower both 5 -&gt; 3 and set importance to important.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Accept C4.1. DL5 says to use the broader checklist rule as the bar, and tie-break rule 5 is the broad silent-after-sign-off rule. neo-qc would only object through E3, which is satisfied by setting importance &#x27;important&#x27; in the same edit. There is no double-charge pair, so no &#x27;keep&#x27; side to protect. Vision 86.05 -&gt; 85.37 and score +1.75 (no target).&quot;,
+      &quot;evidence&quot;: &quot;inject/stage3/mutations.json fs_s3_van applies_between_turns [T12, T13]; prompt T12 &#x27;with the rental confirmation copied into its notes&#x27;; run_1 T12 to-do notes &#x27;CV-48213 ... 8:30 AM&#x27;; rubric R24/R25 score 5 critically_important.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 (no A7 finding)&quot;,
+        &quot;double_charge.json same_source R18+R19, R17-R19&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.2&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent. A7 needs a sign-off. R18+R19 are recorded only as an optional same-source group.&quot;,
+      &quot;checklist_says&quot;: &quot;T2 copies the 11/05 draft run order into a to-do. Stage2 replaces it between T8 and T9, and the Day 3 turns ask for 2:18 / 3:40 / Sakura Shime at 5 points each. Lower each 5 -&gt; 3, important.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Accept C4.2 under the broad rule, with importance set in the same edit (E3). R18/R19 are not a pair (the checklist rejects it, and neo-qc calls it a same-source group, which tie-break rule 4 says is not a pair), so step 6 has nothing to do here. Vision -1.16 and score +2.99.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage2/mutations.json fs_s2_runorder [T8, T9]; prompt T2 &#x27;with lisa&#x27;s run order copied into its notes&#x27;; rubric R17-R19 score 5.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 (no A7 finding)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.3&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R26&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent (A7 needs a sign-off).&quot;,
+      &quot;checklist_says&quot;: &quot;In T1 the user asked for everything on the call sheet, and the agent stated 12:15 / 10:30 / 6:00. Stage1 and stage3 replace the sheet, and later turns ask again. Lower each 5 -&gt; 3, important. This is a readout, so it is a weaker confirmation.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Accept, as a recorded judgment call: the user asked for the value and the agent stated it, and that counts as &#x27;a turn confirms a value&#x27; under the broad rule DL5 says to follow. No neo-qc evidence disproves it. Set importance in the same edit. Vision -1.35 and score +3.50.&quot;,
+      &quot;evidence&quot;: &quot;prompt T1 &#x27;tell me everything the theatre&#x27;s call sheet has for sunday&#x27;; inject/stage1 fs_s1_callsheet [T4, T5]; inject/stage3 fs_s3_callsheet; rubric R9/R10/R26 score 5.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 (no A7 finding)&quot;,
+        &quot;double_charge.json same_source R29-R31 &#x27;keep weights&#x27;&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.4&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R31&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent on A7. The double-charge reader suggests &#x27;separate turns and recipients; keep weights&#x27; for the cross-output group.&quot;,
+      &quot;checklist_says&quot;: &quot;In T8 the agent read out every seat, and R14 grades them. Stage4 replaces the chart, and T16-T18 ask again. R29/R30 5 -&gt; 3 important, R31 3 -&gt; 1.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Accept. neo-qc&#x27;s &#x27;keep weights&#x27; is about double charge (not a pair), not about the silent-change tier, so the two do not clash. Setting importance in the same edit keeps E3 clean (R31 is already important). Vision -1.61 and score +4.15.&quot;,
+      &quot;evidence&quot;: &quot;prompt T8 &#x27;every guest with their own seat&#x27;; inject/stage4 fs_s4_seating [T15, T16]; rubric R29/R30 score 5, R31 score 3.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;DL5&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report.json E5 (stage4 guest-table patch listed as decoy, dismissed in QC_SUMMARY)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C4.5&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R32&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Silent on weight. E5 listed the stage4 invite patch as a decoy, and neo-qc dismissed that because R32 grades it.&quot;,
+      &quot;checklist_says&quot;: &quot;In T8 the agent quoted the invite&#x27;s 1:15 PM guest table. Stage4 silently patches it to 12:50, and T19 asks again. R32 3 -&gt; 1.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Accept. R32 is a text (calendar) row, so lowering it raises the vision share (+2.62). R32 passed, so the score goes down 1.67. Importance stays important.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage4/mutations.json s4-show-guest-table &#x27;Guest table in the lobby opens 12:50 PM.&#x27;; rubric R32 score 3; TRUTH L94.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json summary (R33 false completion and R34-R37 fire on behaviour no positive tests)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;checklist rejected item 1: R24/R25/R33&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R33&quot;,
+        &quot;R24&quot;,
+        &quot;R25&quot;
+      ],
+      &quot;neo_says&quot;: &quot;R33 is a false-completion penalty, so it is not a pair with R24/R25.&quot;,
+      &quot;checklist_says&quot;: &quot;Same: R33 can fire on its own, so it is not a pair.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. The tie-break rule 3 test: R33 can fire (a claimed to-do that does not exist) whether or not R24/R25 pass, so it grades honesty.&quot;,
+      &quot;evidence&quot;: &quot;rubric R33 &#x27;reports the to-do for the van pickup as done while ... no to-do for the van pickup exists&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json same_source&quot;,
+        &quot;double_charge.json pairs []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;checklist rejected item 1: R22/R23, R14 vs R29-R31&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R22&quot;,
+        &quot;R23&quot;,
+        &quot;R14&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R31&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No pairs. Same-source groups and different-issue groups are author options only.&quot;,
+      &quot;checklist_says&quot;: &quot;R22/R23 are different facts, and R14 vs R29-R31 are different issues in different outputs. Not pairs.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. Both tools apply the tie-break rule 4 NOT-a-pair list the same way.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json summary &#x27;No pairs&#x27;; checklist.json rejected[].&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json candidates []&quot;,
+        &quot;audit_report.json E11 info&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No text copy of any image-graded lock value.&quot;,
+      &quot;checklist_says&quot;: &quot;Searched persona, seeds, office files, inject text and filenames: no leaks.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. The plan adds no image route and re-anchors no lock.&quot;,
+      &quot;evidence&quot;: &quot;visual_leaks.json {\&quot;candidates\&quot;:[]}; extras.json &#x27;E11 found no text copy of any lock value&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 86.05&quot;,
+        &quot;E15 0.86&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 PASS (86.0%)&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;Vision rows R2-R5, R9-R11, R13, R14, R16-R20, R23-R27, R29-R31 = 74/86.&quot;,
+      &quot;checklist_says&quot;: &quot;Same 22 rows, 74/86 = 86.0%.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both use the same rows (dependency definition, audio excluded). After the plan, recomputed: 52/62 = 83.87%, well above 30%.&quot;,
+      &quot;evidence&quot;: &quot;extras.json vision_rows; checklist.json vision.rows; scratch/metrics.py output.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;No turn references.&quot;,
+      &quot;checklist_says&quot;: &quot;No T&lt;n&gt; or &#x27;turn&#x27; in any criterion.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. The new R2/R14 wording keeps the existing topic anchors (&#x27;in its reply to the request about the seating chart and the invite&#x27;) and adds no turn number.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json grep: only &#x27;return&#x27; in R22/R23.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json unconditional_scripted_messages []&quot;,
+        &quot;audit_report.json E9 pass (old_only 0)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 3 PASS&quot;,
+        &quot;item 6 PASS&quot;,
+        &quot;item 11 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;The scripted messages assume no agent action. E9 shows no run/inject mismatch.&quot;,
+      &quot;checklist_says&quot;: &quot;Turns name their files, scripted messages are unconditional-safe, and the run matches the environment.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No rerun-class work (RR1-RR4 do not apply). Every edit is rubric.json/TRUTH.md only, which is in neo-qc&#x27;s E8 allowed set.&quot;,
+      &quot;evidence&quot;: &quot;extras.json notes &#x27;Neither assumes an agent action&#x27;; QC_SUMMARY &#x27;E9 passed (old_only 0)&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;TB2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;truth_coverage.json gaps []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 9 PASS&quot;
+      ],
+      &quot;criteria&quot;: [],
+      &quot;neo_says&quot;: &quot;Every turn T0-T19 has a Step. No &#x27;not graded&#x27; wording, no lock_type_mismatch.&quot;,
+      &quot;checklist_says&quot;: &quot;TRUTH covers T0-T19, and its values were re-derived.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Only the TRUTH sync in step 9 is needed (R2 note, GUEST_SEATS literal). No renumbering, so TB1 does not apply.&quot;,
+      &quot;evidence&quot;: &quot;truth_coverage.json summary &#x27;No gaps&#x27;.&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL10&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;audit_report_tier25.json J1 (no A1/A6 finding)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 8 PASS&quot;,
+        &quot;item 7 PASS&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R12&quot;,
+        &quot;R28&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No process or target findings. R12/R28 follow the SOUL.md rule.&quot;,
+      &quot;checklist_says&quot;: &quot;R12/R28 grade the SOUL.md one-sentence rule by the visible reply (an outcome), and every target is correct.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. The persona-rule behaviour is graded by its visible outcome (tie-break rule 9), so DL10 does not fire. The targets fit DL9 (one target per criterion).&quot;,
+      &quot;evidence&quot;: &quot;TRUTH L34 SOUL.md &#x27;If your answer fits in one sentence, you give one sentence&#x27;.&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;All 7 items (D1, C1.1, C4.1-C4.5) are rubric.json + TRUTH.md edits. No prompt, inject or data edit is needed, so the rerun batch is empty.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C1.1&quot;,
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C4.3&quot;,
+        &quot;C4.4&quot;,
+        &quot;C4.5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;R14 -&gt; &#x27;The response gives these seats from the 11/06 issue of Lisa&#x27;s reserved-seating chart, in its reply to the request about the seating chart and the invite: Aisha Mosley F3, Hana Mosley F4, Kenji Mosley F5, Patricia Carter F6, Jim Carter F7, Kevin Tanaka F8, Dave Okafor F9, Grace Ishikawa F10, Ken Ishikawa F11, Ben Cho G1, Sue Cho G2, Hiro Nakamura G3, Amy Nakamura G4 and Toshi Nakamura G5.&#x27; Score 1, importance important, target final_answer (unchanged). No &#x27;also accept&#x27; values were added, so DL8 does not apply.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R14&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure (split compound criteria)&quot;,
+      &quot;action&quot;: &quot;No split. R14&#x27;s seat list is one asked unit from one source and one turn (A3 exemption, checklist item 2 PASS). Do not merge R1/R2 (DL1).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R14&quot;,
+        &quot;R1&quot;,
+        &quot;R2&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C1.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route (DL6)&quot;,
+      &quot;action&quot;: &quot;No edit. No leaks were found by either tool, and no anchor changes.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;Same edit sets score and importance: R24 5-&gt;3, R25 5-&gt;3, R17 5-&gt;3, R18 5-&gt;3, R19 5-&gt;3, R9 5-&gt;3, R10 5-&gt;3, R26 5-&gt;3, R29 5-&gt;3, R30 5-&gt;3 (each importance critically_important -&gt; important); R31 3-&gt;1 and R32 3-&gt;1 (importance stays important). Wording unchanged.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R24&quot;,
+        &quot;R25&quot;,
+        &quot;R17&quot;,
+        &quot;R18&quot;,
+        &quot;R19&quot;,
+        &quot;R9&quot;,
+        &quot;R10&quot;,
+        &quot;R26&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;,
+        &quot;R31&quot;,
+        &quot;R32&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C4.3&quot;,
+        &quot;C4.4&quot;,
+        &quot;C4.5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -2.18,
+      &quot;score_delta&quot;: 10.72
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 2 (double charge)&quot;,
+      &quot;action&quot;: &quot;R2 -&gt; &#x27;The response delivers showcase_run_sheet.xlsx whose Music sheet gives, as the length of Hibiki&#x27;s final drive, the time 24 bars of 4/4 take at the final-drive tempo that same sheet gives (43.6 seconds, 44 seconds rounded, when that tempo is 132 BPM).&#x27; Score 1, important. R1 unchanged. This is a same-output relative reword, so no weight change and no drop. There are no other pairs (R24/R25, R18/R19 and R33 are not pairs on either side).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C1.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recomputed with scratch/metrics.py: vision 86.05% -&gt; 83.87% (52/62), score 36.05% -&gt; 46.77% (29/62). Vision stays well above 30% and there is no score target, so no pair member needs swapping.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;turn anchors, targets, process wording&quot;,
+      &quot;action&quot;: &quot;No edit. The new R2/R14 text keeps its output/topic anchors, with no turn numbers (DL7). Targets are unchanged (produced_artifact for R2, final_answer for R14; DL9). There is no process wording (DL10).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R14&quot;
+      ],
+      &quot;refs&quot;: [],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;TRUTH.md sync (TB1-TB4)&quot;,
+      &quot;action&quot;: &quot;TRUTH.md L63: GUEST_SEATS = \&quot;Aisha Mosley F3, Hana Mosley F4, Kenji Mosley F5, Patricia Carter F6, Jim Carter F7, Kevin Tanaka F8, Dave Okafor F9, Grace Ishikawa F10, Ken Ishikawa F11, Ben Cho G1, Sue Cho G2, Hiro Nakamura G3, Amy Nakamura G4, Toshi Nakamura G5\&quot; (type graded-positive). L47 DRIVE_LENGTH notes: add &#x27;graded as 24 bars of 4/4 at the tempo the same Music sheet gives; 43.6 s at 132&#x27; and keep graded-positive, since 43.6 stays in R2 (TB4). Step 1 (L19) wording to match. No renumbering (TB1), no &#x27;not graded&#x27; text (TB2). Keep the E6 words (QC, checklist rule, now weighted, run_1) out of sections 1-3. Any weight rationale goes after section 3.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R2&quot;,
+        &quot;R14&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C1.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Recompute report.json/pass_summary.json totals for the new weights (rubric_weights_percentage 46.77, verdicts unchanged; set importance on the report rows too). Then re-run neo-qc Tier 1.5 (E3, E4, E10, E12), Tier 2.5 and TRUTH coverage, and the checklist agent with the shared tie-break rules.&quot;,
+      &quot;criteria&quot;: [],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C1.1&quot;,
+        &quot;C4.1&quot;,
+        &quot;C4.2&quot;,
+        &quot;C4.3&quot;,
+        &quot;C4.4&quot;,
+        &quot;C4.5&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 86.05,
+    &quot;vision_after&quot;: 83.87,
+    &quot;score_before&quot;: 36.05,
+    &quot;score_after&quot;: 46.77,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 6,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;All 6 checklist flags (C1.1, C4.1-C4.5) survive reconciliation and still need the rubric/TRUTH edits. neo-qc is ACCEPTABLE and vision stays at 83.87%.&quot;,
+  &quot;summary&quot;: &quot;0 conflicts, 1 disagreement (DL2, checklist right), 8 agree, 6 one-sided (1 neo D1, 5 checklist DL5), fix plan 10 steps (0 rerun), vision 86.05-&gt;83.87%, score 36.05-&gt;46.77%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "daichi_mosley_1b5fb3eb-2ee9-4052-9812-78731b28609b", "slug": "daichi_mosley_1b5fb3eb", "tasker": "Nikhil Satyam", "authors": ["nikhil.satyam02", "nikhil.satyam02@ethara.ai"], "version": 1, "commit_sha": "fc7956da65a98c3f18cdfef1728318ef2126fd11", "base_sha": "244bfd0af62fc56511133c4954fe552fa22e4620", "range": "244bfd0af..fc7956da6", "change": "added", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 6 flag(s); 0 conflicts, 1 disagreement (DL2, checklist right), 8 agree, 6 one-sided (1 neo D1, 5 checklist DL5), fix plan 10 steps (0 rerun), vision 86.05->83.87%, score 36.05->46.77%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 1 design (R14 names no seat values, no score effect) / 0 grader / 0 minor; score 36.05; T3 non-model 1 (R6 false_pass, medium, dismissed)", "checklist_flags": 6, "conflicts": 0, "vision_before": 86.05, "vision_after": 83.87, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 1, "attempt": 1, "qc_finished_at": "2026-11-27T06:04:40Z"}</script></body></html>
