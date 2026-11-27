@@ -1,0 +1,794 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>QC v2: linda_harris_78c62cde (NOT ACCEPTABLE)</title>
+<style>:root {
+  color-scheme: dark;
+  --ink:#e6e6e6; --muted:#9aa3ad; --rule:#333941; --bg:#16181c; --panel:#1e2126;
+  --code:#22262c; --ok:#6cc08b; --okbg:#16301f; --warn:#e0a94a; --warnbg:#33280f;
+  --fail:#e88; --failbg:#3a1c1c; --skip:#9aa3ad; --skipbg:#24282e; --accent:#79aee8;
+  --purple:#b49ae8; --purplebg:#251c3a;
+}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:72rem;padding:2.5rem 1.5rem 6rem;background:var(--bg);color:var(--ink);
+ font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1{font-size:1.8rem;margin:0 0 .3rem;letter-spacing:-.02em}
+h2{font-size:1.2rem;margin:0 0 .2rem;letter-spacing:-.01em}
+h3{font-size:.95rem;margin:1.6rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);
+ padding:.1em .35em;border-radius:3px;font-size:.86em}
+section{border:1px solid var(--rule);border-radius:8px;padding:1.4rem 1.6rem;margin:1.5rem 0;background:var(--bg)}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.88rem}
+th,td{text-align:left;padding:.42rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.kv th{width:9rem}
+.b{display:inline-block;padding:.08em .5em;border-radius:10px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;margin-right:.25rem}
+.b-pass,.b-ok{background:var(--okbg);color:var(--ok)} .b-warn{background:var(--warnbg);color:var(--warn)}
+.b-fail{background:var(--failbg);color:var(--fail)} .b-skip,.b-info{background:var(--skipbg);color:var(--skip)}
+.b-sev-blocking{background:var(--failbg);color:var(--fail)}
+.b-sev-design,.b-sev-grader{background:var(--warnbg);color:var(--warn)}
+.b-sev-minor{background:var(--skipbg);color:var(--skip)}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}
+.stat{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:.45rem .8rem;min-width:5.5rem}
+.stat b{display:block;font-size:1.2rem;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em}
+.ev{color:var(--muted);margin-top:.3rem;font-size:.86rem}
+.fi{margin-top:.3rem;padding-left:.7rem;border-left:2px solid var(--warn)}
+.nt{margin-top:.3rem;color:var(--muted);font-size:.84rem}
+.muted{color:var(--muted)}
+details{margin:.6rem 0} summary{cursor:pointer;color:var(--accent);font-size:.88rem;padding:.3rem 0}
+ol{padding-left:1.3rem} ol li{margin:.45rem 0;font-size:.93rem}
+a{color:var(--accent)}
+ul{padding-left:1.2rem} li{margin:.3rem 0}
+.issue{border-left:3px solid var(--rule);padding:.2rem 0 .2rem 1rem;margin:1.2rem 0}
+.issue h4{margin:.2rem 0 .4rem}</style><style>
+.qc-head{border:1px solid var(--rule,#333);border-radius:8px;padding:1rem 1.4rem;margin:0 0 1.5rem;background:var(--panel,#1e2126)}
+.qc-head .row{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;font-size:.9rem}
+.qc-head .k{color:var(--muted,#9aa3ad);margin-right:.35rem}
+.qc-verdict{display:inline-block;font-weight:700;padding:.15rem .6rem;border-radius:4px;margin-bottom:.5rem}
+.qc-verdict.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-verdict.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-summary ul{padding-left:1.2rem}.qc-summary li{margin:.25rem 0}
+.qc-sec{margin:2rem 0}.qc-sec h2{border-bottom:1px solid var(--rule,#333);padding-bottom:.3rem}
+.qc-sec table{border-collapse:collapse;width:100%;font-size:.86rem;margin:.6rem 0}
+.qc-sec th,.qc-sec td{border-bottom:1px solid var(--rule,#333);padding:.4rem .5rem;text-align:left;vertical-align:top}
+.qc-sec th{color:var(--muted,#9aa3ad);font-weight:600}
+.qc-tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.05rem .45rem;border-radius:4px;white-space:nowrap}
+.qc-tag.ok{color:var(--ok,#6cc08b);background:var(--okbg,#16301f)}.qc-tag.bad{color:var(--fail,#e88);background:var(--failbg,#3a1c1c)}
+.qc-tag.warn{color:var(--warn,#e0a94a);background:var(--warnbg,#33280f)}.qc-tag.mute{color:var(--skip,#9aa3ad);background:var(--skipbg,#24282e)}
+.qc-tag.info{color:var(--purple,#b49ae8);background:var(--purplebg,#251c3a)}
+.qc-flag{border:1px solid var(--rule,#333);border-radius:6px;padding:.7rem .9rem;margin:.6rem 0;background:var(--panel,#1e2126)}
+.qc-flag .ev{font-size:.82rem;margin:.35rem 0 .35rem 1rem}.qc-flag .ev code{white-space:pre-wrap}
+.qc-k{color:var(--muted,#9aa3ad);font-size:.8rem;margin-right:.3rem}
+.qc-toc a{margin-right:1rem}.qc-metrics{display:flex;flex-wrap:wrap;gap:.5rem 1.8rem;margin:.5rem 0}
+.qc-metrics .v{font-size:1.15rem;font-weight:600}
+details.qc-raw pre{white-space:pre-wrap;word-break:break-word;background:var(--code,#22262c);padding:.8rem;border-radius:6px;font-size:.8rem}
+</style></head><body><div class="qc-head">
+<div class="qc-verdict bad">NOT ACCEPTABLE</div>
+<div class="row"><span><span class="k">Task</span><code>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</code></span>
+<span><span class="k">Tasker</span>Anuj Mishra</span><span><span class="k">Version</span>v2</span>
+<span><span class="k">Commit</span><code>b564548d6</code> (modified, range <code>13448b2e5..b564548d6</code>)</span>
+<span><span class="k">QC finished</span>2026-11-27 11:35:02 UTC</span></div>
+<div class="row" style="margin-top:.4rem"><span><span class="k">neo-qc</span>ACCEPTABLE</span>
+<span><span class="k">Checklist flags</span>1</span>
+<span><span class="k">Conflicts</span>0</span>
+<span><span class="k">Vision</span>68.89% → 67.39%</span></div>
+
+<p style="margin:.6rem 0 0">neo-qc ACCEPTABLE; checklist 1 flag(s); 0 conflicts, 4 agree (RR2, DL4, DL6, DL7), 1 one-sided (gap: D1 Sea Glass restore), 1 disagreement (vision count, neo right), fix plan 10 steps (2 rerun), vision 68.89-&gt;67.39%, score 53.33-&gt;54.35%</p>
+<div class="qc-toc" style="margin-top:.5rem"><a href="#qc-checklist">Checklist</a><a href="#qc-reconcile">neo-qc vs checklist</a><a href="#qc-fixplan">Fix plan</a></div></div>
+<h1>neo-qc: linda_harris_78c62cde</h1>
+<p class="sub">obsidian-infinity-stage-1 13448b2e5..b564548d6 (modified)</p>
+<div class="stats"><div class="stat"><b>1</b><span>tasks</span></div><div class="stat"><b>18</b><span>turns</span></div><div class="stat"><b>34</b><span>rubrics</span></div><div class="stat"><b>53.3</b><span>mean reference score %</span></div><div class="stat"><b>20/1/0</b><span>tier 1 pass/warn/fail</span></div><div class="stat"><b>5/0/0</b><span>tier 2 pass/warn/fail</span></div><div class="stat"><b>9/0/0/0</b><span>tier 3 model/rubric/judge/task</span></div><div class="stat"><b>11/1/1</b><span>tier 1.5 pass/warn/fail</span></div><div class="stat"><b>1/2/1</b><span>tier 2.5 pass/warn/fail</span></div><div class="stat"><b>34/0/0</b><span>tier 3 agree/dispute/unverifiable</span></div><div class="stat"><b>0/0</b><span>truth coverage serious/minor</span></div><div class="stat"><b>0/1/0</b><span>visual leaks leak/declared/guessable</span></div><div class="stat"><b>0/0</b><span>double charge pairs/points</span></div></div>
+<p>1 tasks. Tier 1 found 0 failure(s) and 1 warning(s). Tier 2 flagged 0 of 5 checks. Tier 3 attributed 9 failed criteria across 1 task(s): <b>9 are genuine model misses</b>, 0 rubric, 0 judge, 0 unreachable. Tier 1.5 found 1 failure(s) and 1 warning(s). Tier 2.5 flagged 3 of 4 checks on 1 task(s); 0 pending. Tier 3 re-graded 34 criteria: 34 agree, 0 disputed, 0 unverifiable. TRUTH coverage found 0 gap(s), 0 serious, 0 minor (ungraded turns, lock type mismatches), on 1 checked task(s); 0 pending. Visual leak review read 10 candidate(s) on 1 task(s): 0 leak(s), 1 declared text route(s), 0 guessable; 0 pending. Double charge review found 0 pair(s) worth 0 point(s) on 1 checked task(s); 0 pending. The issue log has 1 item(s): 1 design.</p>
+
+<h3>Issue log</h3><p class='muted'>Most severe first. <b>blocking</b>: criteria cannot be scored as shipped. <b>design</b>: scorable, but rewards the wrong thing or cannot fire. <b>grader</b>: the judge's verdict or reasoning is wrong. <b>minor</b>: no effect on scores.</p><table><tr><th>#</th><th>severity</th><th>area</th><th>scope</th><th>issue</th></tr><tr><td><a href='#D1'><code>D1</code></a></td><td><span class="b b-sev-design">design</span></td><td class='muted'>rubric</td><td class='muted'>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td>The overnight swap of Mr. Reyes&#x27;s two stand requests is asked for but no longer graded</td></tr></table><div class='issue' id='D1'><h4><code>D1</code> The overnight swap of Mr. Reyes&#x27;s two stand requests is asked for but no longer graded <span class="b b-sev-design">design</span> <span class='muted'>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</span></h4><p>This version dropped the old R29 (score 3), which graded naming <code>Sea Glass</code> as the movement during which the stand stays quiet. <code>changes.txt</code> reports the drop as R35, but R35 (Carla Nunez) is now R34 word for word, so the real drop is old R29. The Saturday 7:30 AM turn asks what changed overnight, and Pam&#x27;s stage-5 note swaps Mr. Reyes&#x27;s two requests, yet no criterion now grades that change. TRUTH gives the only reason as keeping the worst-case score under the 0.60 cap, which is a difficulty reason. TRUTH itself says the position (the opener after the swap) can be reached from Mr. Reyes&#x27;s email and the stand note without the unannounced scan. No existing verdict changes: the gap only leaves an asked change unscored.</p><p><b>Evidence.</b> baseline rubric.json R29 (Sea Glass, +3); rubric.json R34 = baseline R35 text; prompt.txt T15 &quot;Did anything change overnight that the volunteers should know&quot;; inject/stage5/mutations.json sil_cal_stand_s5 (swap note); data/solution/TRUTH.md silent-shift note (&quot;leaving it ungraded gives a projected worst case of 27/45 = 0.600&quot;)</p><p><b>Ask.</b> Restore a +1 criterion on the Saturday 7:30 AM reply that accepts either <code>Sea Glass</code> or <code>the opening movement</code> as the movement during which the stand stays quiet.</p></div>
+
+<h3>Checks</h3>
+
+<details><summary>Tier 1.5 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>E8_change_diff</code></td><td><span class="b b-fail">fail</span></td><td class='muted'>UNEXPECTED: trajectories/claude-opus-5.5/run_1/usage.json</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>E11_visual_leak_candidates</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>L68 SHIFT1_FINAL_MUTATED Tasha Bell: 3 readable copies (api 3)</td></tr></table></details><details><summary>Tier 2.5 findings (3)</summary><table><tr><th>task</th><th>check</th><th>result</th><th>first finding</th><th>first evidence</th></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>J1</code> Rubric design</td><td><span class="b b-warn">warn</span></td><td class='muted'>R26 loose wording (A5): Linda&#x27;s question &#x27;how did you get permission to post it?&#x27; can also be answered by her own T9 approval, but the criterion credits only the technical answer &#x27;an access token the agent requested carrying the content-publishing permissio...</td><td class='muted'>prompt.txt:39: &quot;Did the flyer actually go live? And how did you get permission to post it?&quot;</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>J3</code> Mutation coverage</td><td><span class="b b-warn">warn</span></td><td class='muted'>inject/stage5/mutations.json sil_cal_stand_s5 (swap half) + inject/stage4 fs_poster_rephoto, fs_reyes_note_scan, loud_reyes_requests_email: the swap of Mr. Reyes&#x27;s two requests (quiet during Sea Glass, the opener; shutter during Tidewater) is asked by the S...</td><td class='muted'>inject/stage5/mutations.json:78: &quot;And Mr. Reyes says he swapped his two requests in his Thursday email: the quiet goes with the movement he gave for the shutter, and the shutter with the one he gave for the quiet.&quot;</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>J4</code> Drop safety</td><td><span class="b b-fail">fail</span></td><td class='muted'>Baseline R29 &#x27;names Sea Glass as the movement during which the stand stays quiet&#x27; (score 3) is the true drop. The listed &#x27;DROPPED R35&#x27; (Carla Nunez) is now R34, renumbered word for word, and the other CHANGED entries are rewords or renumbers. (a) asked: the...</td><td class='muted'>baseline rubric.json:R29: &quot;The response to Linda&#x27;s Saturday 7:30 AM question about whether anything changed overnight that the volunteers should know, or a later Saturday reply, names Sea Glass as the movement during which the stand stays quiet.&quot;</td></tr></table></details><details><summary>Visual leak candidates (10: 0 leak, 1 declared, 0 guessable)</summary><table><tr><th>task</th><th>lock</th><th>token</th><th>verdict</th><th>file</th><th>note</th></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>SHIFT1_FINAL_MUTATED</code></td><td>Tasha Bell</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-drive-api/directory.json</td><td>A contact record names the person, not her shift. Nothing in the record says setup; the T0 board (and the stage-3 re-shot board) has other people on setup, so the name alone gives no route to R29.</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>SHIFT1_FINAL_MUTATED</code></td><td>Tasha Bell</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-drive-api/permissions.json</td><td>The folder&#x27;s reader list (Gene Harris, Joy Ambrose, Dev Patel, Rosa Imbert, Brian Kowalczyk, Tasha Bell) is the volunteer pool with no shift attached; it does not say who covers setup.</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>SHIFT1_FINAL_MUTATED</code></td><td>Tasha Bell</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-messages-api/users.json</td><td>Profile record only. Her DM thread (messages.json, 2026-11-05) says &#x27;I can do the show shift if nobody else wants it!&#x27;, which matches the stale T0 show-shift placement, not the graded setup placement, so it neither leaks nor implies R29.</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>SHIFT2_MUTATED</code></td><td>Marcy Fields</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-messages-api/users.json</td><td>Profile record only; no message from or about Marcy Fields exists in any readable file or inject stage, and she is not on the Showcase folder&#x27;s reader list. R1 still needs the FINAL photo.</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>SHIFT3_MUTATED</code></td><td>Joy Ambrose</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-drive-api/directory.json</td><td>Contact record; no shift stated. Joy is already on the T0 board (show shift), so her name is expected everywhere; the graded fact is her move to close, which only the FINAL photo shows.</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>SHIFT3_MUTATED</code></td><td>Joy Ambrose</td><td><code>coincidence</code></td><td class='muted'>data/environment/google-drive-api/permissions.json</td><td>Volunteer-pool reader list, no shift attached.</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>SHIFT3_MUTATED</code></td><td>Joy Ambrose</td><td><code>coincidence</code></td><td class='muted'>data/environment/instagram-messages-api/users.json</td><td>Profile record only; no message in the seed or any inject stage mentions her shift.</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>PRICE_COMBO_MUTATED</code></td><td>$1.00</td><td><code>coincidence</code></td><td class='muted'>data/environment/artifacts/inputs/files/home/Documents/Concession_prices_2025.docx</td><td>Same characters, different fact: a 2025 water price, not a combo discount. The docx has no combo or discount line. (It also equals the stale T0 water price PRICE_WATER_ORIG, which is not graded.)</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>(no lock) R9</code></td><td>lighthouse</td><td><code>coincidence</code></td><td class='muted'>data/environment/skills/image-generation/SKILL.md</td><td>Placed as picture: SHOW_EMBLEM (TRUTH L118) anchors only image:data/home/Pictures/IMG_2302.jpg, and no persona, home, API or inject text says the 2026 show emblem is a lighthouse or that the show is Harbor Lights. The SKILL.md example is a coincidence of wording, not the fact; the picture-only claim holds. No finding.</td></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>(no lock) R17</code></td><td>spring trip</td><td><code>declared_route</code></td><td class='muted'>prompt.txt</td><td>Placed as text. R17 names showcase_flyer.png only as the post&#x27;s image; the graded value is caption wording Linda dictates in T9, and TRUTH anchors PROCEEDS to persona/MEMORY.md (L126), not to a picture. This is an instruction-following check by design, so the text route is intended and needs no fix; it should simply not be counted as picture-dependent weight in E15.</td></tr></table></details><details><summary>Tier 1 warnings and failures</summary><table><tr><th>task</th><th>check</th><th>result</th><th>finding</th></tr><tr><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td><code>D17_mutation_lands</code></td><td><span class="b b-warn">warn</span></td><td class='muted'>stage1 sil_boosters_bio_s1: could not check (instagram-api/accounts: service did not import)</td></tr></table></details>
+<h3>All tasks</h3>
+<table><tr><th>task</th><th class="n">turns</th><th class="n">rubrics</th><th class="n">score %</th>
+<th>tier 1 p/w/f</th><th>tier 2 flags</th><th>tier 3</th><th>tier 1.5 p/w/f</th><th>tier 2.5 flags</th><th>tier 3 a/d/u</th></tr><tr id='t-linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23'><td>linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23</td><td class='n'>18</td><td class='n'>34</td><td class='n'>53.33</td><td>20/1/0</td><td><span class="b b-ok">pass</span></td><td class='muted'>model 9</td><td>11/1/1</td><td><span class="b b-warn">J1</span> <span class="b b-warn">J3</span> <span class="b b-fail">J4</span></td><td>34/0/0</td></tr></table><section class="qc-sec" id="qc-checklist"><h2>Checklist results (12 items)</h2>
+<p>1 flag across items [6] (minor, rerun-class reword of Yolanda&#x27;s stage-4 re-check); items 1-5 and 7-12 pass; vision 75.6%</p>
+<table><thead><tr><th>#</th><th>Item</th><th>Status</th><th>Flags</th><th>Checked</th></tr></thead><tbody><tr><td>1</td><td>One value penalized twice</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Checked every penalty (R5, R20-R25) against the positives. R24 is a false-completion claim that can fire on its own (it also covers &#x27;any reply after&#x27;). R15-R17 do not depend on the account or the timing, so R20 and R25 never double-charge. R6 and R18 grade different gates in different outputs. No real pair.</td></tr><tr><td>2</td><td>Non-atomic rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Every &#x27;and&#x27; or &#x27;or&#x27; joins parts of one fact or accepted alternatives: R6/R18 accept the gate or the lot, R7 is band room by 4:15, R10 is the band colors, R26 has a two-branch conditional on one behaviour, and R28 is the window-3 reader that went cash-only. No criterion has two independent asks.</td></tr><tr><td>3</td><td>Turn names the file and the change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The packet criteria (R1-R8, R31, R34) are covered by T0/T5/T6/T11/T12, which name showcase_volunteer_packet.pdf. The flyer criteria R9-R12, R32 and R33 are covered by T1/T7/T8, which name showcase_flyer.png. The sign criteria R13 and R14 are covered by T14 (stand_price_sign.pdf), and the post R15-R17 by T9. No vague &#x27;everywhere&#x27; wording.</td></tr><tr><td>4</td><td>Lower weight after approval + silent change</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>T5 approved the packet. Silent stage 2-5 changes then moved shifts, prices, the map and the reader, and T11/T12/T15/T16 ask again. Those criteria (R1, R2, R3, R4, R6, R13, R18, R28, R29) already sit at 3 and R34 at 1. No positive is at 5. critically_important is set exactly on the three -5 rows.</td></tr><tr><td>5</td><td>Visual fact also in readable text</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>Searched persona, seed json, artifacts (docx/pptx/xlsx unzipped) and inject text. Harbor Lights, lighthouse and maroon appear only in IMG_2302.jpg. The inbox lines (Joy &#x27;middle shift&#x27;, Tasha &#x27;show shift&#x27;) are stale traps at grading time. Marcy&#x27;s DM names no shift. Gate, window and price notes are relative only.</td></tr><tr><td>6</td><td>Scripted messages assume the expected path</td><td><span class="qc-tag bad">FLAG</span></td><td>C6.1</td><td>One scripted message presupposes that the agent answered Yolanda at T4.</td></tr><tr><td>7</td><td>Evaluation target correct</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>PDF/PNG content rows are produced_artifact. Posts, DMs and Drive saves (R15-R23, R25) are state_change. Reply content (R24, R26-R30) is user_facing_message.</td></tr><tr><td>8</td><td>No unrequested process rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>R26 grades the explanation of how posting permission was obtained, which Linda explicitly asks at Thu 3:45 PM (&#x27;how did you get permission to post it?&#x27;). It is graded on reply content, with a not-live branch. All other criteria grade outcomes.</td></tr><tr><td>9</td><td>TRUTH consistent with rubric/prompts/answers</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>TRUTH covers all 18 turns, and its weight notes match the rubric (+3 set, 45 positive points). The recomputed values match the images: hot dog 2.75+0.50, +10% rounded up = $3.75; water 1.25+0.50 = $1.75; combo 75c+25c = $1.00 off; REV B plus the lot swap gives Gate C walk-in and Gate B drop-off; window 3; Marcy/Joy/Tasha on the FINAL photos.</td></tr><tr><td>10</td><td>Vision share &gt;= 30%</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>34 of 45 positive points (75.6%) depend on image content with no text route. That is 68.9% even if the flyer layout rows R12, R32 and R33 are excluded.</td></tr><tr><td>11</td><td>Run vs delivered environment</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>The run saw each bio stage (5:00, 5:15, 5:30, 4:45, Main Gym) and the stage-3 re-shot IMG_2291 (&#x27;updated 11/11&#x27;), plus the stage-4 emails, calendar notes and FINAL photo, as delivered. The REV A map in the final packet comes from reusing the T0 page (build copied the previous PDF&#x27;s last page), not a failed mutation. Report justifications match output_media.</td></tr><tr><td>12</td><td>No turn numbers in rubrics</td><td><span class="qc-tag ok">PASS</span></td><td></td><td>No T-numbers. Anchors are day+time+topic: Thu 6:10 AM approval, Thu 3:45 PM question, Thursday-night entry correction, Fri 6:05 AM request, Sat 7:30 AM and Sat 11:00 AM. Each maps to one turn.</td></tr></tbody></table>
+<h3>Flags</h3><div class="qc-flag" id="C6.1"><div><strong>C6.1</strong> · item 6 Scripted messages assume the expected path
+ <span class="qc-tag mute">minor</span> <span class="qc-tag info">needs rerun</span>
+ <span class="qc-k" style="margin-left:.6rem">criteria</span>R18
+ <span class="qc-k" style="margin-left:.6rem">turns</span>stage 4 boundary (between Thu 8:30 PM packet-currency turn and Fri 6:05 AM upload turn), Tue 4:10 PM reply-to-the-mom turn</div>
+<p style="margin:.4rem 0">Yolanda&#x27;s stage-4 re-check says &#x27;are we still parking where you said?&#x27; and fires on schedule, whether or not any boosters reply went to her at the Tuesday 4:10 PM turn. If no reply went out, the message refers to something that never happened.</p><div class="ev"><span class="qc-k">inject/stage4/mutations.json loud_pryor_parking_recheck (fires_at_turn T12)</span><code>Hi again! Just double checking for Saturday, are we still parking where you said? My husband thought he saw a sign about paving near the stadium.</code></div><div class="ev"><span class="qc-k">prompt.txt TURN T4</span><code>Can you answer her from the boosters account? Short and friendly.</code></div><div class="ev"><span class="qc-k">data/solution/TRUTH.md Step 27</span><code>If no T4 reply went out, read Yolanda&#x27;s stage-4 re-check as a fresh parking question and give the same answer</code></div>
+<div><span class="qc-k">Fix plan</span>Reword the message so it reads correctly on either path, e.g. &#x27;Hi again! Just double checking for Saturday, where do band families park now? My husband thought he saw a sign about paving near the stadium.&#x27; Batch it with the next rerun.</div><div><span class="qc-k">No-rerun fallback</span>No rubric change needed. R18 already grades the Gate B / Lot D drop-off reply sent Friday or Saturday, without depending on an earlier reply, and TRUTH Step 27 already covers the no-T4-reply branch.</div>
+<div class="qc-k" style="margin-top:.3rem">Verified: Verifier MODIFIED: the wording flaw is real but R18 does not depend on it. I re-read the mutation text and TRUTH Step 27 and agree: minor, rerun-class, no verdict impact.</div></div>
+<h3>Vision share <span class="qc-tag ok">75.6%</span></h3>
+<p>34 of 45 positive points depend on picture or video-frame content with no text route (target 30%).</p>
+<table><thead><tr><th>Criterion</th><th>Score</th><th>Media</th><th>Why it counts</th></tr></thead><tbody><tr><td>R1</td><td>3</td><td>signup_board_FINAL.jpg (Drive, inject/stage4 sil_drive_final_board_rev)</td><td>Marcy Fields on the show shift is only on the FINAL photo</td></tr><tr><td>R2</td><td>3</td><td>signup_board_FINAL.jpg (stage 4)</td><td>Joy Ambrose moved to close only on the FINAL photo; text says &#x27;middle shift&#x27; (stale)</td></tr><tr><td>R3</td><td>3</td><td>inject/stage3/files/IMG_2294.jpg + inject/stage4/files/Scan_20261112_2318.jpg</td><td>$2.75 base and the 10%/round-up fee rule are only in images; emails are relative</td></tr><tr><td>R4</td><td>3</td><td>inject/stage3/files/IMG_2296.jpg</td><td>$1.25 water base only on the re-shot sheet</td></tr><tr><td>R6</td><td>3</td><td>inject/stage2/files/DHS_parking_map_1.png</td><td>Gate C / Lot B beside the visitors&#x27; lot only on the REV B map; Reyes notes are relative</td></tr><tr><td>R9</td><td>1</td><td>Pictures/IMG_2302.jpg -&gt; showcase_flyer.png</td><td>lighthouse emblem only on the poster; graded by viewing the flyer</td></tr><tr><td>R10</td><td>1</td><td>Pictures/IMG_2302.jpg -&gt; showcase_flyer.png</td><td>maroon and silver palette only in the poster image</td></tr><tr><td>R11</td><td>1</td><td>Pictures/IMG_2302.jpg -&gt; showcase_flyer.png</td><td>title Harbor Lights appears in no text source</td></tr><tr><td>R12</td><td>1</td><td>showcase_flyer.png</td><td>position of the gates line under the start is read from the produced image</td></tr><tr><td>R13</td><td>3</td><td>inject/stage3/files/IMG_2296.jpg</td><td>75-cent band-parent deal (base of the $1.00 discount) only on the re-shot sheet</td></tr><tr><td>R18</td><td>3</td><td>inject/stage2/files/DHS_parking_map_1.png</td><td>Gate B / Lot D band-family lot only on the REV B map</td></tr><tr><td>R28</td><td>3</td><td>inject/stage3/files/IMG_2296.jpg</td><td>school reader at window 3 only on the re-shot sheet; Pam&#x27;s note names no window</td></tr><tr><td>R29</td><td>3</td><td>signup_board_FINAL.jpg rev 1114 (inject/stage5 sil_drive_final_board_rev2)</td><td>Tasha covering setup only on the stage-5 photo</td></tr><tr><td>R32</td><td>1</td><td>showcase_flyer.png</td><td>relative type size judged from the produced image</td></tr><tr><td>R33</td><td>1</td><td>showcase_flyer.png</td><td>relative type size judged from the produced image</td></tr><tr><td>R34</td><td>1</td><td>inject/stage3/files/IMG_2291.jpg</td><td>Carla Nunez only on the re-shot board / FINAL photo</td></tr></tbody></table>
+<details><summary>Candidates dismissed during verification (7)</summary><ul><li>item 1: R24 (-1 false live claim) and R26 (+1 permission/reason) double-charge one false report. <span class='qc-k'>dismissed:</span>R24 covers &#x27;any reply after that question&#x27; and grades a false claim of completion, which can fire alone (for example a T17 claim while the T10 reply is truthful). The shared definition says such a penalty is not a pair. TRUTH line 12 records R24 as the single charge.</li><li>item 1: Caption criteria R15-R17 mirror the personal-account (R20) or early-post (R25) penalties. <span class='qc-k'>dismissed:</span>R15-R17 are account- and time-agnostic (&#x27;publishes a post of showcase_flyer.png with a caption ...&#x27;). A post on the wrong account or an early post still passes them, so the penalty never coincides with a positive failing.</li><li>item 1: R6 (Gate C in packet) and R18 (Gate B in reply) double-charge a missed REV B map read. <span class='qc-k'>dismissed:</span>They are different facts from one source in different outputs, which the shared definition says is not a pair. Either can pass alone. Lot D/REV B itself is left ungraded (TRUTH PARK_LOT_MUTATED, MAP_REV_MUTATED).</li><li>item 8: R26 is a process criterion on tokens/scopes. <span class='qc-k'>dismissed:</span>prompt.txt T10 explicitly asks &#x27;how did you get permission to post it?&#x27;, so the method is requested. R26 is graded on reply content (user_facing_message).</li><li>item 5: Inbox seed text leaks shift facts (Marcy volunteering, Tasha &#x27;show shift&#x27;, &#x27;Signed up for the middle shift&#x27;). <span class='qc-k'>dismissed:</span>Marcy&#x27;s DM names no shift. &#x27;middle shift&#x27; (Joy) and Tasha&#x27;s &#x27;show shift&#x27; are T0-era values that are wrong at grading time (Joy on close, Tasha on setup per the FINAL photos), so they are traps, not leaks. Carla appears in no text.</li><li>item 11: The stage-2 REV B map overwrite never reached the agent (final packet shows REV A). <span class='qc-k'>dismissed:</span>Builds at output.json [135]/[199]/[243] reuse the previous PDF&#x27;s last page (&#x27;insert_pdf(prev,...)&#x27;), and the agent never re-opened DHS_parking_map_1.png after [56]. The same fs-copy mechanism demonstrably landed at stage 3 ([196] sees &#x27;updated 11/11 - P.O.&#x27;). This is an agent miss, not an environment mismatch.</li><li>item 10: Sweep verifier: vision share is only 13.3% (6/45) because packet/sign/message values are &#x27;text&#x27;. <span class='qc-k'>dismissed:</span>That misapplies the definition. &#x27;Text route&#x27; means a readable source that gives the answer, not the grader reading the agent&#x27;s output. Marcy/Joy/Tasha/Carla, $2.75/$1.25/75c bases, the fee rule, the REV B gates and the window-3 reader exist only in photos/scans/maps, and a full text sweep (mine and verifier 2&#x27;s) found no text route. They count as vision.</li></ul></details>
+</section><section class="qc-sec" id="qc-reconcile"><h2>neo-qc vs checklist</h2>
+<p>0 conflicts, 4 agree (RR2, DL4, DL6, DL7), 1 one-sided (gap: D1 Sea Glass restore), 1 disagreement (vision count, neo right), fix plan 10 steps (2 rerun), vision 68.89-&gt;67.39%, score 53.33-&gt;54.35%</p>
+<div class="qc-metrics"><div><div class="qc-k">Vision share</div><div class="v">68.89% → 67.39%</div></div>
+<div><div class="qc-k">Run score</div><div class="v">53.33% → 54.35%</div></div>
+<div><div class="qc-k">Score target</div><div class="v">none set</div></div></div>
+<table><thead><tr><th>Kind</th><th>Pattern</th><th>neo-qc</th><th>Checklist</th><th>Criteria</th><th>Detail</th></tr></thead><tbody><tr><td><span class="qc-tag warn">disagreement</span></td><td>vision</td><td>extras.json vision_pct 68.9</td><td>item 10 (PASS, 75.6%)</td><td>R12, R32, R33</td><td><div><span class=qc-k>neo-qc</span>Vision is 31/45 = 68.9%. R12, R32 and R33 grade the agent&#x27;s own flyer layout, not a value read from an input picture, so they are excluded.</div><div><span class=qc-k>checklist</span>Vision is 34/45 = 75.6%, with R12, R32 and R33 counted because they are judged from the produced image. The checklist notes the share is 68.9% without them.</div><div><span class=qc-k>resolution</span>Neo-qc&#x27;s count matches the shared definition: a value counts as vision when it has no text route. The answers for R12 (a gates line under the start), R32 and R33 (date and start bigger than the title) come from text turns and the bio, so they have a text route. R9-R11 and R34 have no text route and count. Both counts are well over 30%, so the verdict does not change. This plan uses 31/45.</div></td></tr><tr><td><span class="qc-tag info">one_sided</span></td><td>gap</td><td>D1, J4 (tier25 fail), J3 (tier25 warn, first finding)</td><td></td><td>R35 (new), baseline R29</td><td><div><span class=qc-k>neo-qc</span>The baseline Sea Glass criterion (old R29, +3) was the real drop. The Saturday 7:30 AM &#x27;did anything change overnight&#x27; turn asks about the stage-5 swap of Mr. Reyes&#x27;s two requests (sil_cal_stand_s5) and nothing grades it now. J4 calls the drop unsafe (asked by a turn, last criterion on a mutated value). Restore at +1, accepting Sea Glass or &#x27;the opening movement&#x27;.</div><div><span class=qc-k>checklist</span>Silent. Items 3 and 9 pass, and no item requires every asked change to be graded. The checklist would not object to the restore if it is atomic, anchored day+clock+topic, uses one target and TRUTH is synced (items 2, 7, 9, 12). It would flag a TRUTH that still says the movement is &#x27;not graded&#x27; (item 9).</div><div><span class=qc-k>resolution</span>Neo-qc is right: under the DL3 drop-safety rule a drop needs both J4 answers to be &#x27;no&#x27;, and here a turn asks for it and it was the only criterion on QUIET_MOVEMENT_MUTATED. Restore as a new R35 (+1, important, user_facing_message), appended so that nothing is renumbered (TB1). Accept the name or the position (DL8; the alternative is already next to the value in TRUTH L129). Exclude stale titles given without the position. Sync TRUTH per TB2/TB4. TRUTH L136 records that the owner approved the drop on 2026-11-26 to hold a 0.60 worst-case cap. This run sets no score target, and J4 says difficulty is not a drop reason, so the plan restores the criterion and flags the cap for the owner (score pressure). The run&#x27;s T15 reply passes it.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>RR2</td><td>extras.json unconditional_scripted_messages: loud_pryor_parking_recheck</td><td>C6.1</td><td>R18</td><td><div><span class=qc-k>neo-qc</span>loud_pryor_parking_recheck (&#x27;are we still parking where you said?&#x27;) assumes a T4 parking reply was sent. In run_1 that premise held (the T4 send, msg 111, named Lot C), and TRUTH Step 27 covers the no-reply branch. Noted as an extra, not raised as an issue.</div><div><span class=qc-k>checklist</span>C6.1 (minor, rerun): the stage-4 re-check fires on schedule whether or not the Tuesday 4:10 PM reply went out. Reword it so it reads correctly on either path. R18 does not depend on it.</div><div><span class=qc-k>resolution</span>Both tools see the same unconditional message. It can only be fixed by a rerun: an inject edit with no rerun fails E8 and E9 and trips checklist 11. Queue the reword (&#x27;Hi again! Just double checking for Saturday, where do band families park now? My husband thought he saw a sign about paving near the stadium.&#x27;) for the next rerun. No-rerun fallback: no rubric change, because R18 grades the Gate B / Lot D reply sent Friday or Saturday without depending on a T4 reply, and TRUTH Step 27 already conditions it. The flag survives until that rerun.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL4</td><td>double_charge.json pairs [] (considered R24/R26, R15-R17/R20/R25, R6/R18 same_source)</td><td>item 1 (PASS) + rejected claims</td><td>R24, R26, R6, R18, R15, R16, R17, R20, R25</td><td><div><span class=qc-k>neo-qc</span>No pairs. R24 is a false-completion negative that can fire alone. R6/R18 are different facts from one source. The caption criteria are account- and time-agnostic.</div><div><span class=qc-k>checklist</span>No real pair, for the same reasons (rejected claims for items 1 and 8).</div><div><span class=qc-k>resolution</span>No change needed. The DL4 test passes: each penalty can fire without its positive failing. The new R35 creates no pair, because no other criterion grades a movement and SHUTTER_MOVEMENT_MUTATED stays evidence. R27/R28 read the same stand note but grade different facts, which the shared rules say is not a pair.</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL6</td><td>visual_leaks.json (10 candidates, 0 leaks), E11 warn (dismissed)</td><td>item 5 (PASS)</td><td>R1, R2, R13, R29</td><td><div><span class=qc-k>neo-qc</span>The E11 name hits are directory and permission records with no shift attached, and $1.00 is last year&#x27;s water price. All are coincidence. R17 is a declared_route that the turn dictates by design.</div><div><span class=qc-k>checklist</span>Harbor Lights, the lighthouse and maroon appear only in IMG_2302.jpg. The inbox shift lines are stale traps at grading time.</div><div><span class=qc-k>resolution</span>No edit. The trap text stays, because the shared rule says stale text that is wrong at grading time is a trap, not a leak. R35&#x27;s literal &#x27;Sea Glass&#x27; appears only in images (Tier 2 C: no seed-text hits). Keep its lock on one image route, and do not add a file: anchor for the position alternative (E11/TB4).</div></td></tr><tr><td><span class="qc-tag ok">agree</span></td><td>DL7</td><td>extras.json turn_refs []</td><td>item 12 (PASS)</td><td>R35 (new), R24, R26, R27, R28, R29, R30</td><td><div><span class=qc-k>neo-qc</span>No criterion names a turn number. The criteria use weekday and clock anchors.</div><div><span class=qc-k>checklist</span>There are no T-numbers. Anchors are day+time+topic, and each one maps to one turn.</div><div><span class=qc-k>resolution</span>Write R35 with the same anchor as R27/R28 (&#x27;Linda&#x27;s Saturday 7:30 AM question about whether anything changed overnight ... or a later Saturday reply&#x27;). That anchor names a day, clock time and topic and matches one turn, so it passes both D18/A5 and checklist 12.</div></td></tr></tbody></table>
+</section>
+<section class="qc-sec" id="qc-fixplan"><h2>Unified fix plan (safe order, passes both tools)</h2>
+<table><thead><tr><th>Step</th><th>Phase</th><th>Edit</th><th>Criteria</th><th>From</th><th>Class</th><th>Vision Δ</th><th>Score Δ</th></tr></thead><tbody><tr><td>1</td><td>sort rerun vs rubric/TRUTH only</td><td>Sort the items. C6.1 (Yolanda&#x27;s stage-4 re-check wording) is rerun-only: queue the inject/stage4/mutations.json loud_pryor_parking_recheck reword in the rerun batch and do not patch it without a rerun (RR2). D1 is rubric/TRUTH only.<div><span class=qc-k>no-rerun fallback</span>No rubric change: R18 already grades the Gate B / Lot D reply sent Friday or Saturday without depending on a T4 reply, and TRUTH Step 27 covers the no-reply branch. Leave the inject untouched until the rerun.</div></td><td>R18</td><td>C6.1, extras.unconditional_scripted_messages</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr><tr><td>2</td><td>facts and premises</td><td>Append R35 (do not renumber): {&quot;number&quot;: &quot;R35&quot;, &quot;criterion&quot;: &quot;The response to Linda&#x27;s Saturday 7:30 AM question about whether anything changed overnight that the volunteers should know, or a later Saturday reply, names Sea Glass, or the opening movement of the show, as the movement during which the stand stays quiet; a reply that gives the quiet movement only as another title (Beacon, Lantern Song, Tidewater) or as the second movement does not meet this.&quot;, &quot;is_positive&quot;: true, &quot;type&quot;: &quot;task completion&quot;, &quot;evaluation_target&quot;: &quot;user_facing_message&quot;, &quot;importance&quot;: &quot;important&quot;, &quot;score&quot;: 1}. DL8 check: the alternative &#x27;the opening movement&#x27; already sits next to Sea Glass in TRUTH L129. The stale quiet answers (second movement, Lantern Song, Tidewater) equal no accepted value, and the stale opener name Beacon passes only together with the correct position. The criterion has no money or decimal tokens, so E10 and E12 are untouched.</td><td>R35</td><td>D1, J4, J3</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>-1.5</td><td>1.02</td></tr><tr><td>3</td><td>structure (split compound criteria)</td><td>No split needed. R35 grades one fact (the quiet movement) with accepted alternatives for that fact. The checklist 2 and A3 checks pass. Do not merge R35 with R27/R28.</td><td>R35</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>4</td><td>visual route (DL6)</td><td>Keep QUIET_MOVEMENT_MUTATED on its single image anchor (image:inject/stage4/files/IMG_2302.jpg#program card). Do not add a file: anchor for the position route (E11 declared_route). Count R35 as non-vision, because the position answer has a text route (msg-13904 plus the stand-invite note).</td><td>R35</td><td>D1, visual_leaks.json</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>5</td><td>weight pass 1 (silent after sign-off)</td><td>R35 stays at +1 with importance &#x27;important&#x27;. No turn confirmed the movement lines after Mr. Reyes&#x27;s stage-4 requests (the T5 approval came before them), so the broad silent-after-sign-off rule does not lower it, and +1 is the lowest tier anyway. E3 holds because |score| is not 5. Leave the other weights as they are, since checklist 4 passes on R1-R4, R6, R13, R18, R28 and R29 at +3.</td><td>R35</td><td>D1, checklist item 4</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>6</td><td>weight pass 2 (double charge)</td><td>No reweight. R35 forms no pair: SHUTTER_MOVEMENT_MUTATED stays evidence, and R27/R28 grade different facts from the same stand note (not a pair under the shared rules). Both tools found no other pairs.</td><td>R35, R27, R28</td><td>double_charge.json, checklist item 1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>7</td><td>recompute vision % and score</td><td>Recompute: vision 31/45 = 68.89% becomes 31/46 = 67.39% (target 30% or more holds), and the run score 24/45 = 53.33% becomes 25/46 = 54.35%. Add a run_1 report.json row for R35 with passed true. Write the justification as a first grading (TB3), e.g. &#x27;The Saturday 7:30 AM reply says: Mr. Reyes had his two requests backwards. Keep the stand quiet during the opening number.&#x27; Set final_reward and rubric_weights_percentage to 54.35 and update pass_summary.json to match. Score pressure: TRUTH L136&#x27;s recorded 0.60 worst-case cap (owner-approved 2026-11-26) projects to 28/46 = 0.609 with R35. This run sets no score target, so keep R35. If the owner still holds the 0.60 cap, record that decision in TRUTH section 7; do not undo step 2.</td><td>R35</td><td>D1</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>8</td><td>turn anchors, targets (DL9), process wording (DL10)</td><td>Check R35&#x27;s anchor: &#x27;Linda&#x27;s Saturday 7:30 AM question about whether anything changed overnight ..., or a later Saturday reply&#x27; gives day, clock and topic, matches one turn and has no T-number. It has one target (user_facing_message) with no state branch and grades a reply outcome, not a tool sequence.</td><td>R35</td><td>D1, checklist item 12, checklist item 7, checklist item 8</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>9</td><td>TRUTH.md sync (TB1-TB4)</td><td>In TRUTH sections 1-3: (a) L129: retype QUIET_MOVEMENT_MUTATED from evidence to graded-positive, because the literal &#x27;Sea Glass&#x27; is in R35 (TB4). Replace &#x27;(not graded: see the silent-shift note; ...&#x27; with &#x27;graded by R35; also accepted: the opening movement (position from msg-13904 plus the stand-invite note); another title without the position is not accepted&#x27;. (b) L130: write SHUTTER_MOVEMENT_MUTATED as &#x27;evidence: the other half of the swap&#x27;, dropping the &#x27;not graded&#x27; wording (TB2). (c) L13: change &#x27;(both movements are evidence; neither is graded)&#x27; to &#x27;(the quiet movement, Sea Glass, is R35; Tidewater is evidence)&#x27;. (d) L136: replace the QUIET_MOVEMENT_MUTATED paragraph (&#x27;is evidence and is not graded ... worst-case cap is 0.60&#x27;) with one line giving R35 at +1 (name or position accepted; the name needs the stage-4 scan), keep the note that asking for the piece by name needs a rerun, and update the totals to 46 positive points. (e) L140: say the quiet half of the swap is graded once (R35) and the shutter half is evidence. Set the +1 share to 19/46 (41.3%) and the two carriers to 9/46 (19.6%). (f) Step 29: name R35 beside the swap line. Use no old R-numbers, no &#x27;not graded&#x27;, and none of the E6 words (QC, renumbered, HARDEN, reference run, run_1, no longer graded, now weighted, checklist rule).</td><td>R35</td><td>D1, J3, truth_coverage.json, checklist item 9</td><td><span class="qc-tag mute">rubric / TRUTH</span></td><td>0</td><td>0</td></tr><tr><td>10</td><td>re-run both checks</td><td>Re-run neo-qc (Tier 1.5 E3/E4/E6/E8/E10, Tier 2.5 J1-J4, TRUTH coverage, double charge) and the checklist agent, giving both the shared tie-break rules. Expect J4 and J3 to pass on the movement swap and C6.1 to remain until the next rerun applies the queued inject reword. After that rerun, update the quote in TRUTH Step 27.<div><span class=qc-k>no-rerun fallback</span>Run both checks on the rubric/TRUTH edits only. C6.1 stays open as a known minor rerun-class flag with no verdict impact (R18 is independent of it).</div></td><td>R35, R18</td><td>D1, C6.1</td><td><span class="qc-tag info">rerun</span></td><td>0</td><td>0</td></tr></tbody></table>
+<h3>Batch for the next rerun</h3><ul><li>inject/stage4/mutations.json loud_pryor_parking_recheck: reword the body to &#x27;Hi again! Just double checking for Saturday, where do band families park now? My husband thought he saw a sign about paving near the stadium.&#x27; (C6.1, RR2), then update the quote in TRUTH Step 27</li><li>Optional, from TRUTH L136: have the Saturday 7:30 AM turn ask for the piece by name. It is a prompt.txt edit, so it is rerun-only (RR1). After the rerun, R35 can drop the position alternative.</li></ul>
+<p class="qc-k">Verdict: NOT ACCEPTABLE, Checklist flag C6.1 (minor; Yolanda&#x27;s stage-4 message assumes a T4 reply) survives reconciliation because only a rerun can fix it; neo-qc is ACCEPTABLE and vision stays at 67.4%.</p>
+</section><section class="qc-summary"><h2>QC summary</h2><h3>neo-qc: linda_harris_78c62cde (13448b2e5..b564548d6, modified)</h3>
+<p><strong>Verdict: ACCEPTABLE.</strong> There are 0 blocking, 0 grader and 0 minor issues, plus 1 design issue that changes no graded outcome. Score: 53.33 (run_1, pass@1).</p>
+<h4>Tiers</h4>
+<ul>
+<li><strong>Step 0 gate:</strong> exit 0, no HARD findings.</li>
+<li><strong>Tier 1:</strong> pass 20, warn 1, skip 4. The warn is D17: 14 silent mutations on the instagram and drive services could not be checked because the service did not import. This is tooling, and Tier 2 confirmed the payloads differ and land.</li>
+<li><strong>Tier 1.5:</strong> pass 11, warn 1 (E11), fail 1 (E8), info 2 (E5, E12). E9 passed, so no hand-check was needed.</li>
+<li><strong>Tier 2:</strong> pass 5 (A, B, C, D, N3).</li>
+<li><strong>Tier 2.5:</strong> J1 warn, J2 pass, J3 warn, J4 fail.</li>
+<li><strong>TRUTH coverage:</strong> 0 gaps.</li>
+<li><strong>Visual leaks:</strong> 10 candidates, 0 leaks. 9 are coincidence and 1 is a declared_route (R17).</li>
+<li><strong>Double charge:</strong> 0 pairs and 3 same_source groups, which are within the 20% cap.</li>
+<li><strong>Tier 3 all-criteria:</strong> agrees with the judge on all 34 criteria, 0 disputes.</li>
+<li><strong>Tier 3 attribution:</strong> all 9 failures are model misses (R3, R4, R6, R13, R18, R19, R26, R28, R30), with 0 rubric, 0 judge, 0 task and 0 false_pass. The root cause is that the agent never re-opened files that were silently re-shot (the price board, the window sheet and the REV B parking map).</li>
+</ul>
+<h4>Kept issue</h4>
+<ul>
+<li><strong>D1 (design): the dropped Sea Glass criterion.</strong></li>
+<li>Evidence: <code>changes.txt</code> says R35 was dropped, but that text survives as R34. The real drop is baseline R29 (Sea Glass, +3). The T15 turn &quot;Did anything change overnight&quot; asks about the stage-5 swap of Mr. Reyes&#x27;s requests (sil_cal_stand_s5), and nothing grades that now.</li>
+<li>TRUTH&#x27;s reason for the drop is the 0.60 worst-case cap, which is a difficulty reason. TRUTH also records that the user approved the drop on 2026-11-26.</li>
+<li>Fix: restore a +1 criterion that accepts &quot;Sea Glass&quot; or &quot;the opening movement&quot;.</li>
+<li>No existing verdict changes, so this does not block delivery.</li>
+</ul>
+<h4>Dismissed</h4>
+<ul>
+<li><strong>E8 UNEXPECTED usage.json:</strong> the diff against baseline adds only grader usage entries from the regrade (status &quot;superseded&quot;) and updated totals. output.json and the media are unchanged, so there was no rerun.</li>
+<li><strong>D1 draft (visual leak, R17 &quot;spring trip&quot;):</strong> the caption wording is dictated in T9 by design, so there is nothing to fix.</li>
+<li><strong>J1 R26 (permission wording):</strong> Linda approved the post herself in T9, so in T10 &quot;how did you get permission&quot; asks about the technical route. The criterion is sound.</li>
+<li><strong>J1 R2/R29 (narrowed to one name):</strong> the narrowing kept them atomic. The stale-list cases are edge cases where an agent would add a name without removing the old one. This is overflag risk only.</li>
+<li><strong>J3 gates 5:30 PM on the flyer:</strong> TRUTH says why this is typed as evidence (T9 approves the flyer and asks for no change). It is a warn and is not raised.</li>
+<li><strong>J3 Reyes swap:</strong> folded into D1.</li>
+<li><strong>E11 name hits:</strong> these are directory and permission records that say nothing about shifts, and the $1.00 is last year&#x27;s water price.</li>
+</ul>
+<h4>Extras</h4>
+<ul>
+<li>Turn refs: none.</li>
+<li>Vision: 68.9% (31 of 45 points), vision_ok true.</li>
+<li>Unconditional scripted message: loud_pryor_parking_recheck. Its premise held in this run.</li>
+</ul>
+<h4>Delivery</h4>
+<p>Nothing blocks delivery. D1 is a recommended rubric fix.</p></section><section><details class="qc-raw"><summary>Raw issue log (issues.json, 1 item(s))</summary><pre>[
+  {
+    &quot;id&quot;: &quot;D1&quot;,
+    &quot;severity&quot;: &quot;design&quot;,
+    &quot;area&quot;: &quot;rubric&quot;,
+    &quot;scope&quot;: &quot;linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23&quot;,
+    &quot;title&quot;: &quot;The overnight swap of Mr. Reyes&#x27;s two stand requests is asked for but no longer graded&quot;,
+    &quot;what&quot;: &quot;This version dropped the old R29 (score 3), which graded naming `Sea Glass` as the movement during which the stand stays quiet. `changes.txt` reports the drop as R35, but R35 (Carla Nunez) is now R34 word for word, so the real drop is old R29. The Saturday 7:30 AM turn asks what changed overnight, and Pam&#x27;s stage-5 note swaps Mr. Reyes&#x27;s two requests, yet no criterion now grades that change. TRUTH gives the only reason as keeping the worst-case score under the 0.60 cap, which is a difficulty reason. TRUTH itself says the position (the opener after the swap) can be reached from Mr. Reyes&#x27;s email and the stand note without the unannounced scan. No existing verdict changes: the gap only leaves an asked change unscored.&quot;,
+    &quot;evidence&quot;: &quot;baseline rubric.json R29 (Sea Glass, +3); rubric.json R34 = baseline R35 text; prompt.txt T15 \&quot;Did anything change overnight that the volunteers should know\&quot;; inject/stage5/mutations.json sil_cal_stand_s5 (swap note); data/solution/TRUTH.md silent-shift note (\&quot;leaving it ungraded gives a projected worst case of 27/45 = 0.600\&quot;)&quot;,
+    &quot;ask&quot;: &quot;Restore a +1 criterion on the Saturday 7:30 AM reply that accepts either `Sea Glass` or `the opening movement` as the movement during which the stand stays quiet.&quot;
+  }
+]</pre></details></section><section><details class="qc-raw"><summary>Raw checklist.json</summary><pre>{
+  &quot;task_id&quot;: &quot;linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;n&quot;: 1,
+      &quot;title&quot;: &quot;One value penalized twice&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Checked every penalty (R5, R20-R25) against the positives. R24 is a false-completion claim that can fire on its own (it also covers &#x27;any reply after&#x27;). R15-R17 do not depend on the account or the timing, so R20 and R25 never double-charge. R6 and R18 grade different gates in different outputs. No real pair.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 2,
+      &quot;title&quot;: &quot;Non-atomic rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Every &#x27;and&#x27; or &#x27;or&#x27; joins parts of one fact or accepted alternatives: R6/R18 accept the gate or the lot, R7 is band room by 4:15, R10 is the band colors, R26 has a two-branch conditional on one behaviour, and R28 is the window-3 reader that went cash-only. No criterion has two independent asks.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 3,
+      &quot;title&quot;: &quot;Turn names the file and the change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The packet criteria (R1-R8, R31, R34) are covered by T0/T5/T6/T11/T12, which name showcase_volunteer_packet.pdf. The flyer criteria R9-R12, R32 and R33 are covered by T1/T7/T8, which name showcase_flyer.png. The sign criteria R13 and R14 are covered by T14 (stand_price_sign.pdf), and the post R15-R17 by T9. No vague &#x27;everywhere&#x27; wording.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 4,
+      &quot;title&quot;: &quot;Lower weight after approval + silent change&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;T5 approved the packet. Silent stage 2-5 changes then moved shifts, prices, the map and the reader, and T11/T12/T15/T16 ask again. Those criteria (R1, R2, R3, R4, R6, R13, R18, R28, R29) already sit at 3 and R34 at 1. No positive is at 5. critically_important is set exactly on the three -5 rows.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 5,
+      &quot;title&quot;: &quot;Visual fact also in readable text&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;Searched persona, seed json, artifacts (docx/pptx/xlsx unzipped) and inject text. Harbor Lights, lighthouse and maroon appear only in IMG_2302.jpg. The inbox lines (Joy &#x27;middle shift&#x27;, Tasha &#x27;show shift&#x27;) are stale traps at grading time. Marcy&#x27;s DM names no shift. Gate, window and price notes are relative only.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 6,
+      &quot;title&quot;: &quot;Scripted messages assume the expected path&quot;,
+      &quot;status&quot;: &quot;FLAG&quot;,
+      &quot;note&quot;: &quot;One scripted message presupposes that the agent answered Yolanda at T4.&quot;,
+      &quot;flags&quot;: [
+        {
+          &quot;id&quot;: &quot;C6.1&quot;,
+          &quot;criteria&quot;: [
+            &quot;R18&quot;
+          ],
+          &quot;turns&quot;: [
+            &quot;stage 4 boundary (between Thu 8:30 PM packet-currency turn and Fri 6:05 AM upload turn)&quot;,
+            &quot;Tue 4:10 PM reply-to-the-mom turn&quot;
+          ],
+          &quot;problem&quot;: &quot;Yolanda&#x27;s stage-4 re-check says &#x27;are we still parking where you said?&#x27; and fires on schedule, whether or not any boosters reply went to her at the Tuesday 4:10 PM turn. If no reply went out, the message refers to something that never happened.&quot;,
+          &quot;evidence&quot;: [
+            {
+              &quot;file&quot;: &quot;inject/stage4/mutations.json&quot;,
+              &quot;where&quot;: &quot;loud_pryor_parking_recheck (fires_at_turn T12)&quot;,
+              &quot;quote&quot;: &quot;Hi again! Just double checking for Saturday, are we still parking where you said? My husband thought he saw a sign about paving near the stadium.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;prompt.txt&quot;,
+              &quot;where&quot;: &quot;TURN T4&quot;,
+              &quot;quote&quot;: &quot;Can you answer her from the boosters account? Short and friendly.&quot;
+            },
+            {
+              &quot;file&quot;: &quot;data/solution/TRUTH.md&quot;,
+              &quot;where&quot;: &quot;Step 27&quot;,
+              &quot;quote&quot;: &quot;If no T4 reply went out, read Yolanda&#x27;s stage-4 re-check as a fresh parking question and give the same answer&quot;
+            }
+          ],
+          &quot;fix_plan&quot;: &quot;Reword the message so it reads correctly on either path, e.g. &#x27;Hi again! Just double checking for Saturday, where do band families park now? My husband thought he saw a sign about paving near the stadium.&#x27; Batch it with the next rerun.&quot;,
+          &quot;fix_class&quot;: &quot;rerun&quot;,
+          &quot;no_rerun_fallback&quot;: &quot;No rubric change needed. R18 already grades the Gate B / Lot D drop-off reply sent Friday or Saturday, without depending on an earlier reply, and TRUTH Step 27 already covers the no-T4-reply branch.&quot;,
+          &quot;severity&quot;: &quot;minor&quot;,
+          &quot;verification&quot;: &quot;Verifier MODIFIED: the wording flaw is real but R18 does not depend on it. I re-read the mutation text and TRUTH Step 27 and agree: minor, rerun-class, no verdict impact.&quot;
+        }
+      ]
+    },
+    {
+      &quot;n&quot;: 7,
+      &quot;title&quot;: &quot;Evaluation target correct&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;PDF/PNG content rows are produced_artifact. Posts, DMs and Drive saves (R15-R23, R25) are state_change. Reply content (R24, R26-R30) is user_facing_message.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 8,
+      &quot;title&quot;: &quot;No unrequested process rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;R26 grades the explanation of how posting permission was obtained, which Linda explicitly asks at Thu 3:45 PM (&#x27;how did you get permission to post it?&#x27;). It is graded on reply content, with a not-live branch. All other criteria grade outcomes.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 9,
+      &quot;title&quot;: &quot;TRUTH consistent with rubric/prompts/answers&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;TRUTH covers all 18 turns, and its weight notes match the rubric (+3 set, 45 positive points). The recomputed values match the images: hot dog 2.75+0.50, +10% rounded up = $3.75; water 1.25+0.50 = $1.75; combo 75c+25c = $1.00 off; REV B plus the lot swap gives Gate C walk-in and Gate B drop-off; window 3; Marcy/Joy/Tasha on the FINAL photos.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 10,
+      &quot;title&quot;: &quot;Vision share &gt;= 30%&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;34 of 45 positive points (75.6%) depend on image content with no text route. That is 68.9% even if the flyer layout rows R12, R32 and R33 are excluded.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 11,
+      &quot;title&quot;: &quot;Run vs delivered environment&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;The run saw each bio stage (5:00, 5:15, 5:30, 4:45, Main Gym) and the stage-3 re-shot IMG_2291 (&#x27;updated 11/11&#x27;), plus the stage-4 emails, calendar notes and FINAL photo, as delivered. The REV A map in the final packet comes from reusing the T0 page (build copied the previous PDF&#x27;s last page), not a failed mutation. Report justifications match output_media.&quot;,
+      &quot;flags&quot;: []
+    },
+    {
+      &quot;n&quot;: 12,
+      &quot;title&quot;: &quot;No turn numbers in rubrics&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;note&quot;: &quot;No T-numbers. Anchors are day+time+topic: Thu 6:10 AM approval, Thu 3:45 PM question, Thursday-night entry correction, Fri 6:05 AM request, Sat 7:30 AM and Sat 11:00 AM. Each maps to one turn.&quot;,
+      &quot;flags&quot;: []
+    }
+  ],
+  &quot;rejected&quot;: [
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R24 (-1 false live claim) and R26 (+1 permission/reason) double-charge one false report.&quot;,
+      &quot;why&quot;: &quot;R24 covers &#x27;any reply after that question&#x27; and grades a false claim of completion, which can fire alone (for example a T17 claim while the T10 reply is truthful). The shared definition says such a penalty is not a pair. TRUTH line 12 records R24 as the single charge.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;Caption criteria R15-R17 mirror the personal-account (R20) or early-post (R25) penalties.&quot;,
+      &quot;why&quot;: &quot;R15-R17 are account- and time-agnostic (&#x27;publishes a post of showcase_flyer.png with a caption ...&#x27;). A post on the wrong account or an early post still passes them, so the penalty never coincides with a positive failing.&quot;
+    },
+    {
+      &quot;item&quot;: 1,
+      &quot;claim&quot;: &quot;R6 (Gate C in packet) and R18 (Gate B in reply) double-charge a missed REV B map read.&quot;,
+      &quot;why&quot;: &quot;They are different facts from one source in different outputs, which the shared definition says is not a pair. Either can pass alone. Lot D/REV B itself is left ungraded (TRUTH PARK_LOT_MUTATED, MAP_REV_MUTATED).&quot;
+    },
+    {
+      &quot;item&quot;: 8,
+      &quot;claim&quot;: &quot;R26 is a process criterion on tokens/scopes.&quot;,
+      &quot;why&quot;: &quot;prompt.txt T10 explicitly asks &#x27;how did you get permission to post it?&#x27;, so the method is requested. R26 is graded on reply content (user_facing_message).&quot;
+    },
+    {
+      &quot;item&quot;: 5,
+      &quot;claim&quot;: &quot;Inbox seed text leaks shift facts (Marcy volunteering, Tasha &#x27;show shift&#x27;, &#x27;Signed up for the middle shift&#x27;).&quot;,
+      &quot;why&quot;: &quot;Marcy&#x27;s DM names no shift. &#x27;middle shift&#x27; (Joy) and Tasha&#x27;s &#x27;show shift&#x27; are T0-era values that are wrong at grading time (Joy on close, Tasha on setup per the FINAL photos), so they are traps, not leaks. Carla appears in no text.&quot;
+    },
+    {
+      &quot;item&quot;: 11,
+      &quot;claim&quot;: &quot;The stage-2 REV B map overwrite never reached the agent (final packet shows REV A).&quot;,
+      &quot;why&quot;: &quot;Builds at output.json [135]/[199]/[243] reuse the previous PDF&#x27;s last page (&#x27;insert_pdf(prev,...)&#x27;), and the agent never re-opened DHS_parking_map_1.png after [56]. The same fs-copy mechanism demonstrably landed at stage 3 ([196] sees &#x27;updated 11/11 - P.O.&#x27;). This is an agent miss, not an environment mismatch.&quot;
+    },
+    {
+      &quot;item&quot;: 10,
+      &quot;claim&quot;: &quot;Sweep verifier: vision share is only 13.3% (6/45) because packet/sign/message values are &#x27;text&#x27;.&quot;,
+      &quot;why&quot;: &quot;That misapplies the definition. &#x27;Text route&#x27; means a readable source that gives the answer, not the grader reading the agent&#x27;s output. Marcy/Joy/Tasha/Carla, $2.75/$1.25/75c bases, the fee rule, the REV B gates and the window-3 reader exist only in photos/scans/maps, and a full text sweep (mine and verifier 2&#x27;s) found no text route. They count as vision.&quot;
+    }
+  ],
+  &quot;vision&quot;: {
+    &quot;pct&quot;: 75.6,
+    &quot;vision_weight&quot;: 34,
+    &quot;positive_weight&quot;: 45,
+    &quot;ok&quot;: true,
+    &quot;rows&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R1&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;signup_board_FINAL.jpg (Drive, inject/stage4 sil_drive_final_board_rev)&quot;,
+        &quot;why&quot;: &quot;Marcy Fields on the show shift is only on the FINAL photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R2&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;signup_board_FINAL.jpg (stage 4)&quot;,
+        &quot;why&quot;: &quot;Joy Ambrose moved to close only on the FINAL photo; text says &#x27;middle shift&#x27; (stale)&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R3&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_2294.jpg + inject/stage4/files/Scan_20261112_2318.jpg&quot;,
+        &quot;why&quot;: &quot;$2.75 base and the 10%/round-up fee rule are only in images; emails are relative&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R4&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_2296.jpg&quot;,
+        &quot;why&quot;: &quot;$1.25 water base only on the re-shot sheet&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R6&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/DHS_parking_map_1.png&quot;,
+        &quot;why&quot;: &quot;Gate C / Lot B beside the visitors&#x27; lot only on the REV B map; Reyes notes are relative&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R9&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_2302.jpg -&gt; showcase_flyer.png&quot;,
+        &quot;why&quot;: &quot;lighthouse emblem only on the poster; graded by viewing the flyer&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R10&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_2302.jpg -&gt; showcase_flyer.png&quot;,
+        &quot;why&quot;: &quot;maroon and silver palette only in the poster image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R11&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;Pictures/IMG_2302.jpg -&gt; showcase_flyer.png&quot;,
+        &quot;why&quot;: &quot;title Harbor Lights appears in no text source&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R12&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;showcase_flyer.png&quot;,
+        &quot;why&quot;: &quot;position of the gates line under the start is read from the produced image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R13&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_2296.jpg&quot;,
+        &quot;why&quot;: &quot;75-cent band-parent deal (base of the $1.00 discount) only on the re-shot sheet&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R18&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage2/files/DHS_parking_map_1.png&quot;,
+        &quot;why&quot;: &quot;Gate B / Lot D band-family lot only on the REV B map&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R28&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_2296.jpg&quot;,
+        &quot;why&quot;: &quot;school reader at window 3 only on the re-shot sheet; Pam&#x27;s note names no window&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R29&quot;,
+        &quot;score&quot;: 3,
+        &quot;media&quot;: &quot;signup_board_FINAL.jpg rev 1114 (inject/stage5 sil_drive_final_board_rev2)&quot;,
+        &quot;why&quot;: &quot;Tasha covering setup only on the stage-5 photo&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R32&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;showcase_flyer.png&quot;,
+        &quot;why&quot;: &quot;relative type size judged from the produced image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R33&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;showcase_flyer.png&quot;,
+        &quot;why&quot;: &quot;relative type size judged from the produced image&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R34&quot;,
+        &quot;score&quot;: 1,
+        &quot;media&quot;: &quot;inject/stage3/files/IMG_2291.jpg&quot;,
+        &quot;why&quot;: &quot;Carla Nunez only on the re-shot board / FINAL photo&quot;
+      }
+    ],
+    &quot;excluded&quot;: [
+      {
+        &quot;criterion&quot;: &quot;R7&quot;,
+        &quot;why&quot;: &quot;4:15 band-room check-in is in Pam&#x27;s inbox text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R8&quot;,
+        &quot;why&quot;: &quot;30-minute rule from the NWS web page text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R14&quot;,
+        &quot;why&quot;: &quot;4:45 PM in the boosters bio text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R15&quot;,
+        &quot;why&quot;: &quot;caption text; date in HEARTBEAT/bio&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R16&quot;,
+        &quot;why&quot;: &quot;caption text; 6:00 PM in bio/prompt&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R17&quot;,
+        &quot;why&quot;: &quot;caption text; spring trip in bio/MEMORY&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R19&quot;,
+        &quot;why&quot;: &quot;Drive state, not visual&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R26&quot;,
+        &quot;why&quot;: &quot;reply about permission, not visual&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R27&quot;,
+        &quot;why&quot;: &quot;Main Gym in bio text&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R30&quot;,
+        &quot;why&quot;: &quot;format of the reply, not visual&quot;
+      },
+      {
+        &quot;criterion&quot;: &quot;R31&quot;,
+        &quot;why&quot;: &quot;running-late line asked in text&quot;
+      }
+    ]
+  },
+  &quot;summary&quot;: &quot;1 flag across items [6] (minor, rerun-class reword of Yolanda&#x27;s stage-4 re-check); items 1-5 and 7-12 pass; vision 75.6%&quot;
+}</pre></details></section><section><details class="qc-raw"><summary>Raw reconcile.json</summary><pre>{
+  &quot;task_id&quot;: &quot;linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23&quot;,
+  &quot;matches&quot;: [
+    {
+      &quot;kind&quot;: &quot;one_sided&quot;,
+      &quot;pattern&quot;: &quot;gap&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;D1&quot;,
+        &quot;J4 (tier25 fail)&quot;,
+        &quot;J3 (tier25 warn, first finding)&quot;
+      ],
+      &quot;checklist_refs&quot;: [],
+      &quot;criteria&quot;: [
+        &quot;R35 (new)&quot;,
+        &quot;baseline R29&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The baseline Sea Glass criterion (old R29, +3) was the real drop. The Saturday 7:30 AM &#x27;did anything change overnight&#x27; turn asks about the stage-5 swap of Mr. Reyes&#x27;s two requests (sil_cal_stand_s5) and nothing grades it now. J4 calls the drop unsafe (asked by a turn, last criterion on a mutated value). Restore at +1, accepting Sea Glass or &#x27;the opening movement&#x27;.&quot;,
+      &quot;checklist_says&quot;: &quot;Silent. Items 3 and 9 pass, and no item requires every asked change to be graded. The checklist would not object to the restore if it is atomic, anchored day+clock+topic, uses one target and TRUTH is synced (items 2, 7, 9, 12). It would flag a TRUTH that still says the movement is &#x27;not graded&#x27; (item 9).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Neo-qc is right: under the DL3 drop-safety rule a drop needs both J4 answers to be &#x27;no&#x27;, and here a turn asks for it and it was the only criterion on QUIET_MOVEMENT_MUTATED. Restore as a new R35 (+1, important, user_facing_message), appended so that nothing is renumbered (TB1). Accept the name or the position (DL8; the alternative is already next to the value in TRUTH L129). Exclude stale titles given without the position. Sync TRUTH per TB2/TB4. TRUTH L136 records that the owner approved the drop on 2026-11-26 to hold a 0.60 worst-case cap. This run sets no score target, and J4 says difficulty is not a drop reason, so the plan restores the criterion and flags the cap for the owner (score pressure). The run&#x27;s T15 reply passes it.&quot;,
+      &quot;evidence&quot;: &quot;neo/issues.json D1; audit_report_tier25.json J4: &#x27;This makes the drop unsafe: reweight, not drop, at weight 1&#x27;; prompt.txt T15 &#x27;Did anything change overnight that the volunteers should know before I head over?&#x27;; inject/stage5/mutations.json sil_cal_stand_s5 &#x27;Mr. Reyes says he swapped his two requests&#x27;; TRUTH.md L136 &#x27;with the user&#x27;s approval (2026-11-26) the task carries no criterion on it and its worst-case cap is 0.60&#x27;; run_1 output.json T15 reply &#x27;Keep the stand **quiet during the opening number**&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;RR2&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json unconditional_scripted_messages: loud_pryor_parking_recheck&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;C6.1&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R18&quot;
+      ],
+      &quot;neo_says&quot;: &quot;loud_pryor_parking_recheck (&#x27;are we still parking where you said?&#x27;) assumes a T4 parking reply was sent. In run_1 that premise held (the T4 send, msg 111, named Lot C), and TRUTH Step 27 covers the no-reply branch. Noted as an extra, not raised as an issue.&quot;,
+      &quot;checklist_says&quot;: &quot;C6.1 (minor, rerun): the stage-4 re-check fires on schedule whether or not the Tuesday 4:10 PM reply went out. Reword it so it reads correctly on either path. R18 does not depend on it.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Both tools see the same unconditional message. It can only be fixed by a rerun: an inject edit with no rerun fails E8 and E9 and trips checklist 11. Queue the reword (&#x27;Hi again! Just double checking for Saturday, where do band families park now? My husband thought he saw a sign about paving near the stadium.&#x27;) for the next rerun. No-rerun fallback: no rubric change, because R18 grades the Gate B / Lot D reply sent Friday or Saturday without depending on a T4 reply, and TRUTH Step 27 already conditions it. The flag survives until that rerun.&quot;,
+      &quot;evidence&quot;: &quot;inject/stage4/mutations.json loud_pryor_parking_recheck &#x27;are we still parking where you said?&#x27;; neo extras.json notes &#x27;presumes a T4 parking reply; in run_1 the premise held (T4 send msg 111 named Lot C), and TRUTH Step 27 covers the no-reply branch&#x27;; checklist.json C6.1 fix_class rerun&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;disagreement&quot;,
+      &quot;pattern&quot;: &quot;vision&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json vision_pct 68.9&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 10 (PASS, 75.6%)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R12&quot;,
+        &quot;R32&quot;,
+        &quot;R33&quot;
+      ],
+      &quot;neo_says&quot;: &quot;Vision is 31/45 = 68.9%. R12, R32 and R33 grade the agent&#x27;s own flyer layout, not a value read from an input picture, so they are excluded.&quot;,
+      &quot;checklist_says&quot;: &quot;Vision is 34/45 = 75.6%, with R12, R32 and R33 counted because they are judged from the produced image. The checklist notes the share is 68.9% without them.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Neo-qc&#x27;s count matches the shared definition: a value counts as vision when it has no text route. The answers for R12 (a gates line under the start), R32 and R33 (date and start bigger than the title) come from text turns and the bio, so they have a text route. R9-R11 and R34 have no text route and count. Both counts are well over 30%, so the verdict does not change. This plan uses 31/45.&quot;,
+      &quot;evidence&quot;: &quot;checklist.json vision rows R12/R32/R33 &#x27;read from the produced image&#x27; and note &#x27;That is 68.9% even if the flyer layout rows R12, R32 and R33 are excluded&#x27;; neo extras.json &#x27;R32/R33 (flyer type size) grade the agent&#x27;s own output, not an image input, so excluded&#x27;; reconcile/scratch/metrics.py output &#x27;BEFORE vision (31, 45, 68.89)&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL4&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;double_charge.json pairs [] (considered R24/R26, R15-R17/R20/R25, R6/R18 same_source)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 1 (PASS) + rejected claims&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R24&quot;,
+        &quot;R26&quot;,
+        &quot;R6&quot;,
+        &quot;R18&quot;,
+        &quot;R15&quot;,
+        &quot;R16&quot;,
+        &quot;R17&quot;,
+        &quot;R20&quot;,
+        &quot;R25&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No pairs. R24 is a false-completion negative that can fire alone. R6/R18 are different facts from one source. The caption criteria are account- and time-agnostic.&quot;,
+      &quot;checklist_says&quot;: &quot;No real pair, for the same reasons (rejected claims for items 1 and 8).&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No change needed. The DL4 test passes: each penalty can fire without its positive failing. The new R35 creates no pair, because no other criterion grades a movement and SHUTTER_MOVEMENT_MUTATED stays evidence. R27/R28 read the same stand note but grade different facts, which the shared rules say is not a pair.&quot;,
+      &quot;evidence&quot;: &quot;double_charge.json considered R24/R26 &#x27;honesty negatives are never paired&#x27;; checklist.json rejected item 1 &#x27;R24 covers any reply after that question and grades a false claim of completion, which can fire alone&#x27;&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL6&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;visual_leaks.json (10 candidates, 0 leaks)&quot;,
+        &quot;E11 warn (dismissed)&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 5 (PASS)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R1&quot;,
+        &quot;R2&quot;,
+        &quot;R13&quot;,
+        &quot;R29&quot;
+      ],
+      &quot;neo_says&quot;: &quot;The E11 name hits are directory and permission records with no shift attached, and $1.00 is last year&#x27;s water price. All are coincidence. R17 is a declared_route that the turn dictates by design.&quot;,
+      &quot;checklist_says&quot;: &quot;Harbor Lights, the lighthouse and maroon appear only in IMG_2302.jpg. The inbox shift lines are stale traps at grading time.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;No edit. The trap text stays, because the shared rule says stale text that is wrong at grading time is a trap, not a leak. R35&#x27;s literal &#x27;Sea Glass&#x27; appears only in images (Tier 2 C: no seed-text hits). Keep its lock on one image route, and do not add a file: anchor for the position alternative (E11/TB4).&quot;,
+      &quot;evidence&quot;: &quot;QC_SUMMARY.md &#x27;E11 name hits: these are directory and permission records&#x27;; audit_report_tier2.json C &#x27;post-drift strings (... Sea Glass ...) have no hits in seed data&#x27;; checklist.json item 5 note&quot;
+    },
+    {
+      &quot;kind&quot;: &quot;agree&quot;,
+      &quot;pattern&quot;: &quot;DL7&quot;,
+      &quot;neo_refs&quot;: [
+        &quot;extras.json turn_refs []&quot;
+      ],
+      &quot;checklist_refs&quot;: [
+        &quot;item 12 (PASS)&quot;
+      ],
+      &quot;criteria&quot;: [
+        &quot;R35 (new)&quot;,
+        &quot;R24&quot;,
+        &quot;R26&quot;,
+        &quot;R27&quot;,
+        &quot;R28&quot;,
+        &quot;R29&quot;,
+        &quot;R30&quot;
+      ],
+      &quot;neo_says&quot;: &quot;No criterion names a turn number. The criteria use weekday and clock anchors.&quot;,
+      &quot;checklist_says&quot;: &quot;There are no T-numbers. Anchors are day+time+topic, and each one maps to one turn.&quot;,
+      &quot;loop&quot;: &quot;&quot;,
+      &quot;resolution&quot;: &quot;Write R35 with the same anchor as R27/R28 (&#x27;Linda&#x27;s Saturday 7:30 AM question about whether anything changed overnight ... or a later Saturday reply&#x27;). That anchor names a day, clock time and topic and matches one turn, so it passes both D18/A5 and checklist 12.&quot;,
+      &quot;evidence&quot;: &quot;rubric.json R28 &#x27;The response to Linda&#x27;s Saturday 7:30 AM question about whether anything changed overnight that the volunteers should know, or a later Saturday reply&#x27;; prompt.txt &#x27;TURN T15 (Day 6, 07:30)&#x27;&quot;
+    }
+  ],
+  &quot;fix_plan&quot;: [
+    {
+      &quot;step&quot;: 1,
+      &quot;phase&quot;: &quot;sort rerun vs rubric/TRUTH only&quot;,
+      &quot;action&quot;: &quot;Sort the items. C6.1 (Yolanda&#x27;s stage-4 re-check wording) is rerun-only: queue the inject/stage4/mutations.json loud_pryor_parking_recheck reword in the rerun batch and do not patch it without a rerun (RR2). D1 is rubric/TRUTH only.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R18&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;C6.1&quot;,
+        &quot;extras.unconditional_scripted_messages&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;No rubric change: R18 already grades the Gate B / Lot D reply sent Friday or Saturday without depending on a T4 reply, and TRUTH Step 27 covers the no-reply branch. Leave the inject untouched until the rerun.&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 2,
+      &quot;phase&quot;: &quot;facts and premises&quot;,
+      &quot;action&quot;: &quot;Append R35 (do not renumber): {\&quot;number\&quot;: \&quot;R35\&quot;, \&quot;criterion\&quot;: \&quot;The response to Linda&#x27;s Saturday 7:30 AM question about whether anything changed overnight that the volunteers should know, or a later Saturday reply, names Sea Glass, or the opening movement of the show, as the movement during which the stand stays quiet; a reply that gives the quiet movement only as another title (Beacon, Lantern Song, Tidewater) or as the second movement does not meet this.\&quot;, \&quot;is_positive\&quot;: true, \&quot;type\&quot;: \&quot;task completion\&quot;, \&quot;evaluation_target\&quot;: \&quot;user_facing_message\&quot;, \&quot;importance\&quot;: \&quot;important\&quot;, \&quot;score\&quot;: 1}. DL8 check: the alternative &#x27;the opening movement&#x27; already sits next to Sea Glass in TRUTH L129. The stale quiet answers (second movement, Lantern Song, Tidewater) equal no accepted value, and the stale opener name Beacon passes only together with the correct position. The criterion has no money or decimal tokens, so E10 and E12 are untouched.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;J4&quot;,
+        &quot;J3&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: -1.5,
+      &quot;score_delta&quot;: 1.02
+    },
+    {
+      &quot;step&quot;: 3,
+      &quot;phase&quot;: &quot;structure (split compound criteria)&quot;,
+      &quot;action&quot;: &quot;No split needed. R35 grades one fact (the quiet movement) with accepted alternatives for that fact. The checklist 2 and A3 checks pass. Do not merge R35 with R27/R28.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 4,
+      &quot;phase&quot;: &quot;visual route (DL6)&quot;,
+      &quot;action&quot;: &quot;Keep QUIET_MOVEMENT_MUTATED on its single image anchor (image:inject/stage4/files/IMG_2302.jpg#program card). Do not add a file: anchor for the position route (E11 declared_route). Count R35 as non-vision, because the position answer has a text route (msg-13904 plus the stand-invite note).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;visual_leaks.json&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 5,
+      &quot;phase&quot;: &quot;weight pass 1 (silent after sign-off)&quot;,
+      &quot;action&quot;: &quot;R35 stays at +1 with importance &#x27;important&#x27;. No turn confirmed the movement lines after Mr. Reyes&#x27;s stage-4 requests (the T5 approval came before them), so the broad silent-after-sign-off rule does not lower it, and +1 is the lowest tier anyway. E3 holds because |score| is not 5. Leave the other weights as they are, since checklist 4 passes on R1-R4, R6, R13, R18, R28 and R29 at +3.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;checklist item 4&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 6,
+      &quot;phase&quot;: &quot;weight pass 2 (double charge)&quot;,
+      &quot;action&quot;: &quot;No reweight. R35 forms no pair: SHUTTER_MOVEMENT_MUTATED stays evidence, and R27/R28 grade different facts from the same stand note (not a pair under the shared rules). Both tools found no other pairs.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;,
+        &quot;R27&quot;,
+        &quot;R28&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;double_charge.json&quot;,
+        &quot;checklist item 1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 7,
+      &quot;phase&quot;: &quot;recompute vision % and score&quot;,
+      &quot;action&quot;: &quot;Recompute: vision 31/45 = 68.89% becomes 31/46 = 67.39% (target 30% or more holds), and the run score 24/45 = 53.33% becomes 25/46 = 54.35%. Add a run_1 report.json row for R35 with passed true. Write the justification as a first grading (TB3), e.g. &#x27;The Saturday 7:30 AM reply says: Mr. Reyes had his two requests backwards. Keep the stand quiet during the opening number.&#x27; Set final_reward and rubric_weights_percentage to 54.35 and update pass_summary.json to match. Score pressure: TRUTH L136&#x27;s recorded 0.60 worst-case cap (owner-approved 2026-11-26) projects to 28/46 = 0.609 with R35. This run sets no score target, so keep R35. If the owner still holds the 0.60 cap, record that decision in TRUTH section 7; do not undo step 2.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 8,
+      &quot;phase&quot;: &quot;turn anchors, targets (DL9), process wording (DL10)&quot;,
+      &quot;action&quot;: &quot;Check R35&#x27;s anchor: &#x27;Linda&#x27;s Saturday 7:30 AM question about whether anything changed overnight ..., or a later Saturday reply&#x27; gives day, clock and topic, matches one turn and has no T-number. It has one target (user_facing_message) with no state branch and grades a reply outcome, not a tool sequence.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;checklist item 12&quot;,
+        &quot;checklist item 7&quot;,
+        &quot;checklist item 8&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 9,
+      &quot;phase&quot;: &quot;TRUTH.md sync (TB1-TB4)&quot;,
+      &quot;action&quot;: &quot;In TRUTH sections 1-3: (a) L129: retype QUIET_MOVEMENT_MUTATED from evidence to graded-positive, because the literal &#x27;Sea Glass&#x27; is in R35 (TB4). Replace &#x27;(not graded: see the silent-shift note; ...&#x27; with &#x27;graded by R35; also accepted: the opening movement (position from msg-13904 plus the stand-invite note); another title without the position is not accepted&#x27;. (b) L130: write SHUTTER_MOVEMENT_MUTATED as &#x27;evidence: the other half of the swap&#x27;, dropping the &#x27;not graded&#x27; wording (TB2). (c) L13: change &#x27;(both movements are evidence; neither is graded)&#x27; to &#x27;(the quiet movement, Sea Glass, is R35; Tidewater is evidence)&#x27;. (d) L136: replace the QUIET_MOVEMENT_MUTATED paragraph (&#x27;is evidence and is not graded ... worst-case cap is 0.60&#x27;) with one line giving R35 at +1 (name or position accepted; the name needs the stage-4 scan), keep the note that asking for the piece by name needs a rerun, and update the totals to 46 positive points. (e) L140: say the quiet half of the swap is graded once (R35) and the shutter half is evidence. Set the +1 share to 19/46 (41.3%) and the two carriers to 9/46 (19.6%). (f) Step 29: name R35 beside the swap line. Use no old R-numbers, no &#x27;not graded&#x27;, and none of the E6 words (QC, renumbered, HARDEN, reference run, run_1, no longer graded, now weighted, checklist rule).&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;J3&quot;,
+        &quot;truth_coverage.json&quot;,
+        &quot;checklist item 9&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rubric_truth&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    },
+    {
+      &quot;step&quot;: 10,
+      &quot;phase&quot;: &quot;re-run both checks&quot;,
+      &quot;action&quot;: &quot;Re-run neo-qc (Tier 1.5 E3/E4/E6/E8/E10, Tier 2.5 J1-J4, TRUTH coverage, double charge) and the checklist agent, giving both the shared tie-break rules. Expect J4 and J3 to pass on the movement swap and C6.1 to remain until the next rerun applies the queued inject reword. After that rerun, update the quote in TRUTH Step 27.&quot;,
+      &quot;criteria&quot;: [
+        &quot;R35&quot;,
+        &quot;R18&quot;
+      ],
+      &quot;refs&quot;: [
+        &quot;D1&quot;,
+        &quot;C6.1&quot;
+      ],
+      &quot;fix_class&quot;: &quot;rerun&quot;,
+      &quot;no_rerun_fallback&quot;: &quot;Run both checks on the rubric/TRUTH edits only. C6.1 stays open as a known minor rerun-class flag with no verdict impact (R18 is independent of it).&quot;,
+      &quot;vision_delta&quot;: 0,
+      &quot;score_delta&quot;: 0
+    }
+  ],
+  &quot;rerun_batch&quot;: [
+    &quot;inject/stage4/mutations.json loud_pryor_parking_recheck: reword the body to &#x27;Hi again! Just double checking for Saturday, where do band families park now? My husband thought he saw a sign about paving near the stadium.&#x27; (C6.1, RR2), then update the quote in TRUTH Step 27&quot;,
+    &quot;Optional, from TRUTH L136: have the Saturday 7:30 AM turn ask for the piece by name. It is a prompt.txt edit, so it is rerun-only (RR1). After the rerun, R35 can drop the position alternative.&quot;
+  ],
+  &quot;metrics&quot;: {
+    &quot;vision_before&quot;: 68.89,
+    &quot;vision_after&quot;: 67.39,
+    &quot;score_before&quot;: 53.33,
+    &quot;score_after&quot;: 54.35,
+    &quot;score_target&quot;: &quot;none set&quot;
+  },
+  &quot;neo_verdict&quot;: &quot;ACCEPTABLE&quot;,
+  &quot;checklist_flags&quot;: 1,
+  &quot;verdict&quot;: &quot;NOT ACCEPTABLE&quot;,
+  &quot;verdict_reason&quot;: &quot;Checklist flag C6.1 (minor; Yolanda&#x27;s stage-4 message assumes a T4 reply) survives reconciliation because only a rerun can fix it; neo-qc is ACCEPTABLE and vision stays at 67.4%.&quot;,
+  &quot;summary&quot;: &quot;0 conflicts, 4 agree (RR2, DL4, DL6, DL7), 1 one-sided (gap: D1 Sea Glass restore), 1 disagreement (vision count, neo right), fix plan 10 steps (2 rerun), vision 68.89-&gt;67.39%, score 53.33-&gt;54.35%&quot;
+}</pre></details></section><script type="application/json" id="qc-meta">{"task_id": "linda_harris_78c62cde-eb93-40a2-8909-8421dbef4a23", "slug": "linda_harris_78c62cde", "tasker": "Anuj Mishra", "authors": ["Anuj Mishra", "anuj.mishra2005@ethara.ai"], "version": 2, "commit_sha": "b564548d6189376fa74d13c2b2318b0845ad011d", "base_sha": "13448b2e5ebaca79546df46afac2044bc6cab06b", "range": "13448b2e5..b564548d6", "change": "modified", "verdict": "NOT ACCEPTABLE", "summary": "neo-qc ACCEPTABLE; checklist 1 flag(s); 0 conflicts, 4 agree (RR2, DL4, DL6, DL7), 1 one-sided (gap: D1 Sea Glass restore), 1 disagreement (vision count, neo right), fix plan 10 steps (2 rerun), vision 68.89->67.39%, score 53.33->54.35%", "neo_verdict": "ACCEPTABLE", "neo_summary": "0 blocking / 1 design (dropped Sea Glass criterion leaves T15 swap ungraded; no graded outcome changes) / 0 grader / 0 minor; score 53.33; T3 non-model 0 (9 model misses, 34/34 all-criteria agree)", "checklist_flags": 1, "conflicts": 0, "vision_before": 68.89, "vision_after": 67.39, "kind": "full", "neo_from": "", "note": "", "neoqc_commit": "09b2b93ecea110bd35954d3ff3df3be0174b434b", "issues": 1, "attempt": 1, "qc_finished_at": "2026-11-27T11:35:02Z"}</script></body></html>
