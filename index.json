@@ -120,6 +120,14 @@
     "started": "2026-11-26 11:30",
     "v": 1,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1233_a1",
+    "score": 32.39,
+    "started": "2026-11-27 07:03",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "ayush/ada_nakamura-jones_8fc10382-39cf-400f-b804-e50ce6ca9ad1": [
@@ -1983,5 +1991,5 @@
    }
   ]
  },
- "updated": "2026-11-27 07:13 UTC"
+ "updated": "2026-11-27 07:14 UTC"
 }
