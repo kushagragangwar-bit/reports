@@ -8,6 +8,16 @@
     "verdict": "NOT ACCEPTABLE"
    }
   ],
+  "ashmi/ada_moreno_6e2ec104-bcf2-41b4-8e1c-7206faab6656": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1511_a1",
+    "score": 25.0,
+    "started": "2026-11-27 09:41",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
   "ashmi/adrienne_thibault_70a4abdf-00bb-4039-8258-8b65fdefd31b": [
    {
     "score": 46.24,
@@ -2267,5 +2277,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:41 UTC"
+ "updated": "2026-11-27 09:50 UTC"
 }
