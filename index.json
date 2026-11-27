@@ -1590,6 +1590,14 @@
     "started": "2026-11-26 06:49",
     "v": 5,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1433_a1",
+    "score": 46.51,
+    "started": "2026-11-27 09:03",
+    "v": 6,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "mohit/klaus_irwin_1cb23f8d-f673-47e2-b879-36d4417804cb": [
@@ -2211,5 +2219,5 @@
    }
   ]
  },
- "updated": "2026-11-27 09:14 UTC"
+ "updated": "2026-11-27 09:17 UTC"
 }
