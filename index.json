@@ -984,6 +984,14 @@
     "started": "2026-11-25 12:32",
     "v": 4,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1410_a1",
+    "score": 41.84,
+    "started": "2026-11-27 08:40",
+    "v": 5,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "mohit/ashley_flores_d99e266b-f5a8-4c61-adf1-4e3f0fbdfe35": [
@@ -2139,5 +2147,5 @@
    }
   ]
  },
- "updated": "2026-11-27 08:49 UTC"
+ "updated": "2026-11-27 08:51 UTC"
 }
