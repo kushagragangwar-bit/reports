@@ -564,6 +564,14 @@
     "started": "2026-11-23 16:13",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1342_a1",
+    "score": 14.75,
+    "started": "2026-11-27 08:12",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/kavita_york_bb2263f2-00e9-4468-b460-875f5d0be709": [
@@ -2083,5 +2091,5 @@
    }
   ]
  },
- "updated": "2026-11-27 08:21 UTC"
+ "updated": "2026-11-27 08:24 UTC"
 }
