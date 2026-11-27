@@ -620,6 +620,14 @@
     "started": "2026-11-23 16:26",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1312_a1",
+    "score": 27.42,
+    "started": "2026-11-27 07:42",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/lynn_robbins_a12f3797-4a13-45af-8d3c-8626050541aa": [
@@ -2019,5 +2027,5 @@
    }
   ]
  },
- "updated": "2026-11-27 07:52 UTC"
+ "updated": "2026-11-27 07:53 UTC"
 }
