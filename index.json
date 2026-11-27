@@ -924,6 +924,14 @@
     "started": "2026-11-26 07:01",
     "v": 2,
     "verdict": "NOT ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1401_a1",
+    "score": 46.67,
+    "started": "2026-11-27 08:31",
+    "v": 3,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "mohit/anthony_rawlings_2f633bd2-287a-4c56-adbf-3efd3c737e17": [
@@ -2091,5 +2099,5 @@
    }
   ]
  },
- "updated": "2026-11-27 08:24 UTC"
+ "updated": "2026-11-27 08:39 UTC"
 }
