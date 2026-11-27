@@ -316,6 +316,14 @@
     "started": "2026-11-23 16:05",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1312_a1",
+    "score": 23.53,
+    "started": "2026-11-27 07:42",
+    "v": 2,
+    "verdict": "ACCEPTABLE"
    }
   ],
   "ayush/brian_campbell_3d3ec0c3-be30-4725-b6bd-ab15e85f1ff0": [
@@ -2011,5 +2019,5 @@
    }
   ]
  },
- "updated": "2026-11-27 07:40 UTC"
+ "updated": "2026-11-27 07:52 UTC"
 }
