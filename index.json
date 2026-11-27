@@ -1984,6 +1984,16 @@
     "verdict": "NOT ACCEPTABLE"
    }
   ],
+  "varun/ravi_mckinney_1f77a348-e7d9-45de-9160-3f7e4bf6b881": [
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1245_a1",
+    "score": 47.92,
+    "started": "2026-11-27 07:15",
+    "v": 1,
+    "verdict": "ACCEPTABLE"
+   }
+  ],
   "varun/sandra_buckley_1f163157-2900-436b-a430-2bfd50e26dac": [
    {
     "score": 63.08,
@@ -2001,5 +2011,5 @@
    }
   ]
  },
- "updated": "2026-11-27 07:39 UTC"
+ "updated": "2026-11-27 07:40 UTC"
 }
