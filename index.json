@@ -364,6 +364,14 @@
     "started": "2026-11-23 16:05",
     "v": 1,
     "verdict": "ACCEPTABLE"
+   },
+   {
+    "host": "apples-MacBook-Pro.local",
+    "run": "20261127-1330_a1",
+    "score": 21.55,
+    "started": "2026-11-27 08:00",
+    "v": 2,
+    "verdict": "NOT ACCEPTABLE"
    }
   ],
   "ayush/carlton_mcgee_fe526037-ce14-4b98-901e-0e29024b0ae3": [
